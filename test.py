@@ -2,7 +2,9 @@ import majorization as mj
 import entropy as en
 
 a = mj.ProbVector([0.6, 0.15, 0.15, 0.1])
-b = mj.ProbVector([0.5, 0.25, 0.25])
+b = mj.ProbVector([0.5, 0.25, 0.2, 0.05])
+
+print("\nMajorization calculations:\n")
 
 print(a)
 print(b)
@@ -24,7 +26,7 @@ print(join > b)
 print(join < a)
 print(join < b)
 
-print("Entropy calculations:")
+print("\nEntropy calculations:\n")
 
 H_a = en.shannon_entropy(a)
 H_b = en.shannon_entropy(b)

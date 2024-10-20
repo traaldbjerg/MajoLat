@@ -15,6 +15,9 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
     def __str__(self):
         return "ProbVector({})".format(self.probs)
     
+    def __len__(self):
+        return self.dim
+    
     def __iter__(self):
         return iter(self.probs)
     
@@ -24,7 +27,7 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
     def majorizes(self, other):
         p = self
         q = other
-        dim_diff = self.dim - other.dim
+        dim_diff = len(self) - len(other)
         if dim_diff > 0:
             q = ProbVector(np.append(other.probs, [0]*dim_diff))
         elif dim_diff < 0:
@@ -46,25 +49,39 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
 
     def __add__(self, other): # meet of two probability vectors, notations + algorithm from Cicalese and Vaccaro 2002
         a = np.array([]) # coefficients of alpha(p, q) in the text
+        p = self
+        q = other
+        dim_diff = len(self) - len(other)
+        if dim_diff > 0:
+            q = ProbVector(np.append(other.probs, [0]*dim_diff))
+        elif dim_diff < 0:
+            p = ProbVector(np.append(self.probs, [0]*-dim_diff))        
         p_sum = 0
         q_sum = 0
         a_sum = 0
         for i in range(self.dim):
-            p_sum += self.probs[i]
-            q_sum += other.probs[i]
+            p_sum += p.probs[i]
+            q_sum += q.probs[i]
             a_i = min(p_sum, q_sum) - a_sum # where a_i is the ith element of the meet of p and q
             a = np.append(a, a_i) # not very clean but numpy allocates its arrays in a contiguous block of memory so no real alternative
             a_sum += a_i
         return ProbVector(a)
     
-    def __mul__(self, other):
+    def __mul__(self, other): # join of two probability vectors, notations + algorithm from Cicalese and Vaccaro 2002
         b = np.array([]) # coefficients of beta(p, q) in the text
+        p = self
+        q = other
+        dim_diff = len(self) - len(other)
+        if dim_diff > 0:
+            q = ProbVector(np.append(other.probs, [0]*dim_diff))
+        elif dim_diff < 0:
+            p = ProbVector(np.append(self.probs, [0]*-dim_diff))        
         p_sum = 0
         q_sum = 0
         b_sum = 0
         for i in range(self.dim):
-            p_sum += self.probs[i]
-            q_sum += other.probs[i]
+            p_sum += p.probs[i]
+            q_sum += q.probs[i]
             b_i = max(p_sum, q_sum) - b_sum
             b = np.append(b, b_i)
             b_sum += b_i
