@@ -2,13 +2,14 @@ import numpy as np
 
 class ProbVector(): # notations from Cicalese and Vaccaro 2002
     
-    tolerance = 1e-25
+    tolerance = 1e-12
     
     __slots__ = ('dim', 'probs') # avoids overhead of dictionary
     
     def __init__(self, probs):
         #if sum(probs) != 1: # does floating point error mess this up ?
         #    raise ValueError("Probabilities must sum to 1")
+        norm_1 = np.linalg.norm(probs, ord=1)
         for i in range(len(probs)):
             if probs[i] < 0:
                 if probs[i] > -ProbVector.tolerance: # might mess with fringe cases which might be interesting :(
@@ -16,7 +17,8 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
                 else:
                     raise ValueError("Probabilities must be nonnegative")
         self.dim = len(probs)
-        self.probs = np.array(np.sort(probs)[::-1]) # decreasing order
+        # normalize probabilities
+        self.probs = np.array(np.sort(probs)[::-1])/norm_1 # decreasing order
     
     def __repr__(self):
         return "ProbVector({})".format(self.probs)
@@ -44,9 +46,39 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
             q = ProbVector(np.append(other.getProbs(), [0]*dim_diff))
         elif dim_diff < 0:
             p = ProbVector(np.append(self.getProbs(), [0]*-dim_diff))
-        return all([p.getProbs()[:i+1].sum() >= q.getProbs()[:i+1].sum() # +1 because end index is exclusive
-                    for i in range(p.dim)]) # true only if p majorizes q
-        
+        switch = True
+        sum_p = 0
+        sum_q = 0
+        for i in range(p.dim):
+            sum_p += p.getProbs()[i]
+            sum_q += q.getProbs()[i]
+            #print(sum_p, sum_q) # debug
+            if sum_p - sum_q < -ProbVector.tolerance: # this sucks
+                switch = False
+                break
+        return switch
+    
+    def majorizes_debug(self, other):
+        p = self
+        q = other
+        dim_diff = len(self) - len(other)
+        if dim_diff > 0:
+            q = ProbVector(np.append(other.getProbs(), [0]*dim_diff))
+        elif dim_diff < 0:
+            p = ProbVector(np.append(self.getProbs(), [0]*-dim_diff))
+        print(p)
+        print(q)
+        switch = True
+        sum_p = 0
+        sum_q = 0
+        for i in range(p.dim):
+            sum_p += p.getProbs()[i]
+            sum_q += q.getProbs()[i]
+            print(sum_p, sum_q)
+            if sum_p < sum_q:
+                switch = False
+        return switch
+            
     def __eq__(self, other):
         return all(self.getProbs() == other.getProbs())
     
