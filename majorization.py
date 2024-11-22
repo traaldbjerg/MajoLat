@@ -148,5 +148,33 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
     
     def join(self, other):
         return self * other
-    
-    
+     
+    def __sub__(self, other): # entropic distance as defined in Cicalese and Vaccaro 2013
+        return self.entropy() + other.entropy() - 2*(self * other).entropy() # d(x, y) in the paper
+
+def entropy(v):
+    return -sum([p*np.log(p) for p in v.getProbs() if p != 0]) # ln instead of log2
+
+def mutual_information(p, q):
+    return entropy(p) + entropy(q) - entropy(p + q) # as defined in Cicalese and Vaccaro 2002
+
+def relative_entropy(p, q): # as defined in Thomas and Cover 2006
+    dim_diff = len(p) - len(q)
+    p_new = p
+    q_new = q
+    if dim_diff > 0:
+        q_new = ProbVector(np.append(q.getProbs(), [0]*dim_diff))
+    elif dim_diff < 0:
+        p_new = ProbVector(np.append(p.getProbs(), [0]*-dim_diff))        
+
+    res = 0
+    for i in range(len(p_new)):
+        if p_new.getProbs()[i] > 0 and q_new.getProbs()[i] == 0:
+            return np.inf
+        elif p_new.getProbs()[i] == 0 and q_new.getProbs()[i] == 0:
+            pass
+        elif p_new.getProbs()[i] == 0 and q_new.getProbs()[i] > 0:
+            pass
+        else:
+            res += p_new.getProbs()[i]*np.log(p_new.getProbs()[i]/q_new.getProbs()[i])
+    return res

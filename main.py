@@ -1,7 +1,6 @@
 import qutip as q
 import numpy as np
 import majorization as mj
-import entropy as en
 
 def random_mixed_state(dim):
     """
@@ -40,8 +39,7 @@ def random_separable_mixed_state(dim1, dim2, num_terms=5):
 
     return state
 
-# Example usage
-num_states = 10000  # Number of random separable states to generate
+num_states = 1  # Number of random separable states to generate
 dim1, dim2 = 7,7  # Dimensions for two qubits (change as needed)
 
 separable_mixed_states = [random_separable_mixed_state(dim1, dim2) for _ in range(num_states)] # state generation is the costly part of the program
@@ -62,8 +60,6 @@ for i, state in enumerate(separable_mixed_states):
         #print("This should always happen in dim 2")
         #a.majorizes_debug(b)
     else: # interesting case where meet and join is not trivial
-        #print("This should never happen in dim 2")
-        #a.majorizes_debug(b)
         # check if the state is majorized by the reduced states
         if (a > ab and b > ab):
             true_count += 1
@@ -76,15 +72,35 @@ for i, state in enumerate(separable_mixed_states):
             print(ab)
             print(a)
             print(b)
-            a.majorizes_debug(ab)
-            b.majorizes_debug(ab)
+            #a.majorizes_debug(ab)
+            #b.majorizes_debug(ab)
             break
         # create meet
-        meet = a + b
-        if (meet > ab):
-            majo_by_meet_count += 1
+        meet = a + b # analoguous to joint entropy of X and Y
+        join = a * b
+        # trying to find an analogy for p join q
+        print("Entropy of A: {}".format(mj.entropy(a)))
+        print("Entropy of B: {}".format(mj.entropy(b)))
+        print("Entropy of AB: {}".format(mj.entropy(ab)))
+        print("Entropy of meet: {}".format(mj.entropy(a + b)))
+        print("Entropy of join: {}".format(mj.entropy(a * b)))
+        print("Mutual information of A and B: {}".format(mj.mutual_information(a, b))) # necessarily lower than entropy of join by supermodularity
+        print("Mutual information of A and AB: {}".format(mj.mutual_information(a, ab)))
+        print("Mutual information of B and AB: {}".format(mj.mutual_information(b, ab)))
+        #print("Relative entropy of A with respect to B: {}".format(mj.relative_entropy(a, b)))
+        #print("Relative entropy of B with respect to A: {}".format(mj.relative_entropy(b, a)))
+        #print("Relative entropy of A with respect to AB: {}".format(mj.relative_entropy(a, ab)))
+        #print("Relative entropy of B with respect to AB: {}".format(mj.relative_entropy(b, ab)))
+        #print("Relative entropy of AB with respect to A: {}".format(mj.relative_entropy(ab, a)))
+        #print("Relative entropy of AB with respect to B: {}".format(mj.relative_entropy(ab, b)))
+        #print("Relative entropy of AB with respect to meet: {}".format(mj.relative_entropy(ab, meet)))
+        #print("Relative entropy of AB with respect to join: {}".format(mj.relative_entropy(ab, join)))
+    #print("Distance difference: {}".format(min((a - ab), (b - ab)) + (a - b)))
 
-print("Number of comparable states: {}".format(comparable_count))
-print("Number of bugs: {}".format(false_count))
-print("Number that verify conjecture: {}".format(majo_by_meet_count + comparable_count))
+#print("Number of comparable states: {}".format(comparable_count))
+#print("Number of bugs: {}".format(false_count))
+#print("Number that verify conjecture: {}".format(majo_by_meet_count + comparable_count))
+
+# Information theory by Cover and Thomas
+# Faut vraiment lire l'article d'Hiroshima
 
