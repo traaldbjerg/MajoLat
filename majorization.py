@@ -103,7 +103,7 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         p_sum = 0
         q_sum = 0
         a_sum = 0
-        for i in range(self.dim):
+        for i in range(p.dim):
             p_sum += p.getProbs()[i]
             q_sum += q.getProbs()[i]
             a_i = min(p_sum, q_sum) - a_sum # where a_i is the ith element of the meet of p and q
@@ -123,7 +123,7 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         p_sum = 0
         q_sum = 0
         b_sum = 0
-        for i in range(self.dim):
+        for i in range(p.dim):
             p_sum += p.getProbs()[i]
             q_sum += q.getProbs()[i]
             b_i = max(p_sum, q_sum) - b_sum
@@ -151,9 +151,22 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
      
     def __sub__(self, other): # entropic distance as defined in Cicalese and Vaccaro 2013
         return self.entropy() + other.entropy() - 2*(self * other).entropy() # d(x, y) in the paper
-
+    
 def entropy(v):
     return -sum([p*np.log(p) for p in v.getProbs() if p != 0]) # ln instead of log2
+
+def guessing_entropy(v):
+    return sum((i+1)* v.getProbs()[i] for i in range(len(v))) # + 1 because of 0-indexing
+
+def renyi_entropy(v, alpha):
+    if alpha == 0: # hartley entropy
+        return np.log(len(v))
+    elif alpha == 1: # shannon entropy
+        return entropy(v)
+    elif alpha == np.inf: # min-entropy
+        return -np.log(max(v.getProbs()))
+    else: # general renyi entropy
+        return 1/(1-alpha)*np.log(sum([p**alpha for p in v.getProbs()])) # ln instead of log2
 
 def mutual_information(p, q):
     return entropy(p) + entropy(q) - entropy(p + q) # as defined in Cicalese and Vaccaro 2002
@@ -178,3 +191,16 @@ def relative_entropy(p, q): # as defined in Thomas and Cover 2006
         else:
             res += p_new.getProbs()[i]*np.log(p_new.getProbs()[i]/q_new.getProbs()[i])
     return res
+
+def d(p,q): # as defined in Cicalese and Vaccaro 2013
+    return entropy(p) + entropy(q) - 2*entropy(p * q)
+
+def D(p, q): # as defined in Cicalese and Vaccaro 2013
+    n = max(len(p), len(q))
+    return 2/n * (2 * guessing_entropy(p + q) - guessing_entropy(p) - guessing_entropy(q))
+
+def d_comp(p, q, alpha = 1):
+    return (- renyi_entropy(p, alpha) - renyi_entropy(q, alpha) + renyi_entropy(p * q, alpha) + renyi_entropy(p + q, alpha))
+
+def d_subadd(p, q, alpha = 1):
+    return - renyi_entropy(p + q, alpha) + renyi_entropy(p, alpha) + renyi_entropy(q, alpha)
