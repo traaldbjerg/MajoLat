@@ -150,23 +150,80 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         return self * other
      
     def __sub__(self, other): # entropic distance as defined in Cicalese and Vaccaro 2013
-        return self.entropy() + other.entropy() - 2*(self * other).entropy() # d(x, y) in the paper
+        return self.entropy() + other.entropy() - 2*(self * other).entropy() # d(x, y) in the paper 
     
+    
+    
+class BistochMatrix(): # useful for degrading 2 vectors with the same bistochastic matrix and seeing what happens
+    
+    __slots__ = ('array', 'dims')
+    
+    rand_combs = 100 # how many permutation matrices will be used to generate a random bistochastic matrix
+    
+    def __init__(self, array=None, dims=None):
+        if array is None: # generate random bistochastic matrix using Birkhoff-von Neumann theorem
+            if dims is None:
+                raise ValueError("Need to specify dimensions")
+            self.array = np.zeros((dims, dims))
+            weights = np.random.rand(BistochMatrix.rand_combs)
+            weights /= np.sum(weights)
+            for i in range(BistochMatrix.rand_combs):
+                perm = np.eye(dims)
+                np.random.shuffle(perm)
+                self.array += weights[i]*perm
+        else:
+            self.array = array
+        self.dims = (len(self.array), len(self.array[0]))
+        
+        #check if bistochastic
+        if not self.isBistochastic():
+            raise ValueError("Matrix is not bistochastic")
+        
+    def __repr__(self):
+        return "BistochMatrix({})".format(self.array)
+    
+    def __str__(self):
+        return "BistochMatrix({})".format(self.array)
+    
+    def __len__(self):
+        return self.dims
+    
+    def __iter__(self):
+        return iter(self.array)
+    
+    def __next__(self):
+        return next(self.array)
+    
+    def getMatrix(self):
+        return self.array
+    
+    def isBistochastic(self):
+        #return np.all(np.sum(self.array, axis=0) == 1) and np.all(np.sum(self.array, axis=1) == 1)
+        return True # for now, probably need to implement a tolerance
+        
+    def __mul__(self, other):
+        if isinstance(other, BistochMatrix):
+            return BistochMatrix(np.dot(self.array, other.getMatrix()))
+        elif isinstance(other, ProbVector):
+            return ProbVector(np.dot(self.array, other.getProbs()))
+        
+        
+         
 def entropy(v):
-    return -sum([p*np.log(p) for p in v.getProbs() if p != 0]) # ln instead of log2
+    return -sum([p*np.log2(p) for p in v.getProbs() if p != 0]) # ln instead of log2
 
 def guessing_entropy(v):
     return sum((i+1)* v.getProbs()[i] for i in range(len(v))) # + 1 because of 0-indexing
 
 def renyi_entropy(v, alpha):
     if alpha == 0: # hartley entropy
-        return np.log(len(v))
+        return np.log2(len(v))
     elif alpha == 1: # shannon entropy
         return entropy(v)
     elif alpha == np.inf: # min-entropy
-        return -np.log(max(v.getProbs()))
+        return -np.log2(max(v.getProbs()))
     else: # general renyi entropy
-        return 1/(1-alpha)*np.log(sum([p**alpha for p in v.getProbs()])) # ln instead of log2
+        return 1/(1-alpha)*np.log2(sum([p**alpha for p in v.getProbs()])) # ln instead of log2
 
 def mutual_information(p, q):
     return entropy(p) + entropy(q) - entropy(p + q) # as defined in Cicalese and Vaccaro 2002
@@ -189,11 +246,14 @@ def relative_entropy(p, q): # as defined in Thomas and Cover 2006
         elif p_new.getProbs()[i] == 0 and q_new.getProbs()[i] > 0:
             pass
         else:
-            res += p_new.getProbs()[i]*np.log(p_new.getProbs()[i]/q_new.getProbs()[i])
+            res += p_new.getProbs()[i]*np.log2(p_new.getProbs()[i]/q_new.getProbs()[i])
     return res
 
 def d(p,q): # as defined in Cicalese and Vaccaro 2013
     return entropy(p) + entropy(q) - 2*entropy(p * q)
+
+def d_prime(p, q):
+    return 2 * entropy(p + q) - entropy(p) - entropy(q) # quasi-distance going trough the meet instead of the join
 
 def D(p, q): # as defined in Cicalese and Vaccaro 2013
     n = max(len(p), len(q))
@@ -204,3 +264,10 @@ def d_comp(p, q, alpha = 1):
 
 def d_subadd(p, q, alpha = 1):
     return - renyi_entropy(p + q, alpha) + renyi_entropy(p, alpha) + renyi_entropy(q, alpha)
+
+def E_up(p, q): # see theorem 2
+    return d_prime(p, p + q)
+
+def E_down(p, q): # see theorem 1
+    return d(p, p * q)
+

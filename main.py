@@ -48,7 +48,6 @@ def random_entangled_state(dim1, dim2):
     Parameters:
     dim1: Dimension of subsystem 1 (e.g., qubit = 2)
     dim2: Dimension of subsystem 2 (e.g., qubit = 2)
-    num_terms: Number of product states to sum over
     
     Returns:
     An entangled density matrix as a Qobj object.
@@ -67,57 +66,62 @@ def random_entangled_state(dim1, dim2):
 
     return state
 
-num_states = 10  # Number of random separable states to generate
+num_states = 1000 # Number of random separable states to generate
 dim1, dim2 = 2,3  # Dimensions for two qubits (change as needed)
 
+# very dumb way to generate states, hogs a ton of memory for no reason, just generate the states one at a time
 #states = [random_separable_mixed_state(dim1, dim2) for _ in range(num_states)] # state generation is the costly part of the program
-states = [random_entangled_state(dim1, dim2) for _ in range(num_states)]
+#states = [random_entangled_state(dim1, dim2) for _ in range(num_states)]
 
 true_count = 0
 false_count = 0
 comparable_count = 0
 majo_by_meet_count = 0
 alpha = 1
+max_alpha = 100
 
 # Printing out some details about the generated states
-for i, state in enumerate(states):
+for i in range(num_states):
     # create P_n objects
+    state = random_entangled_state(dim1, dim2)
     a = mj.ProbVector(state.ptrace(0).eigenenergies())
     b = mj.ProbVector(state.ptrace(1).eigenenergies())
     ab = mj.ProbVector(state.eigenenergies())
-    if (a > b or b > a): # if the 2 are comparable the rest is not interesting
+    if (mj.d_comp(a, b) > 0): # if the 2 are comparable the rest is not interesting
         comparable_count += 1
-        #print("This should always happen in dim 2")
-        #a.majorizes_debug(b)
-    else: # interesting case where meet and join is not trivial
-        # check if the state is majorized by the reduced states
-        #true_count += 1
-        # create meet
+        #if (mj.d_comp(ab, a) > 10**-12 and mj.d_comp(ab, b) > 10**-12):
+            #print("State: {}".format(i))
         meet = a + b # analoguous to joint entropy of X and Y
         join = a * b
-        #print(state)
-        #print(state.ptrace(0))
-        #print(state.ptrace(1))
-        #print(a)
-        #print(b)
-        #print(ab)
-        #print(meet)
-        #print(join)
-        print(mj.d_comp(ab, meet))
-        print(mj.d_comp(ab, a))
-        print(mj.d_comp(ab, b))
-        print(mj.d_comp(a, b))
+            #print(state)
+            #print(state.ptrace(0))
+            #print(state.ptrace(1))
+        print(a)
+        print(b)
+            #print(ab)
+            #print(meet)
+            #print(join)
+            #print(mj.d_comp(ab, meet))
+            #print("Distance to comparability for A and B:")
+            #print(mj.d_comp(ab, a))
+            #print(mj.d_comp(ab, b))
+        #print(mj.d_comp(a, b))
         
         # check renyi entropies
         #if mj.renyi_entropy(ab, alpha) >= mj.renyi_entropy(meet, alpha):
-        majo_by_meet_count += 1
-        print("Renyi entropy of meet: {}".format(mj.renyi_entropy(meet, alpha)))
-        print("Renyi entropy of A: {}".format(mj.renyi_entropy(a, alpha)))
-        print("Renyi entropy of B: {}".format(mj.renyi_entropy(b, alpha)))
-        print("Renyi entropy of AB: {}".format(mj.renyi_entropy(ab, alpha)))
-        print("Renyi entanglement entropy of A: {}".format(qentropy.quantum_renyi_entropy(state.ptrace(0), alpha=alpha)))
-        print("Renyi entanglement entropy of B: {}".format(qentropy.quantum_renyi_entropy(state.ptrace(1), alpha=alpha)))
-        print("Renyi entanglement entropy of AB: {}".format(qentropy.quantum_renyi_entropy(state, alpha=alpha)))
+        for i in range(max_alpha):
+            if mj.d_subadd(a, b, i) < 0:
+                print("Subadditivity does not hold for alpha = {}, ".format(i))
+            if mj.d_comp(a, b, i) < 0:
+                print("Supermodularity does not hold for alpha = {}".format(i))
+                #false_count += 1
+        #print("Renyi entropy of meet: {}".format(mj.renyi_entropy(meet, alpha)))
+        #print("Renyi entropy of A: {}".format(mj.renyi_entropy(a, alpha)))
+        #print("Renyi entropy of B: {}".format(mj.renyi_entropy(b, alpha)))
+        #print("Renyi entropy of AB: {}".format(mj.renyi_entropy(ab, alpha)))
+        #print("Renyi entanglement entropy of A: {}".format(qentropy.quantum_renyi_entropy(state.ptrace(0), alpha=alpha)))
+        #print("Renyi entanglement entropy of B: {}".format(qentropy.quantum_renyi_entropy(state.ptrace(1), alpha=alpha)))
+        #print("Renyi entanglement entropy of AB: {}".format(qentropy.quantum_renyi_entropy(state, alpha=alpha)))
         #else:
         #    false_count += 1
             

@@ -1,2 +1,11 @@
 __pycache__
 *.pyc
+*.pdf
+*.aux
+*.bbl
+*.bcf
+*.fdb_latexmk
+*.fls
+*.log
+*.xml
+*.synctex.gz

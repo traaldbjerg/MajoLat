@@ -1,0 +1,55 @@
+\begin{lemma} \label{lem:monotone_down_bis}
+    $p \vee q \succ p \vee q' \; \; \; \forall \: q' \prec q$.
+\end{lemma}
+
+\begin{proof}
+    Let $q'$ be any probability vector majorized by $q$ and let $p$ be some probability vector.
+    \begin{align*}
+        p \vee q = p \vee (q \vee q') = p \vee (q' \vee q) = (p \vee q') \vee q \succ p \vee q'.
+    \end{align*} \phantom{\qedhere}
+\end{proof}
+
+\begin{result} \label{res:monotone_down_bis}
+    There exists no bistochastic matrix $D$ such that $E^- (p \parallel Dq) > E^- (p \parallel q)$.
+\end{result}
+
+\begin{proof}
+    Let $q'$ be a vector majorized by $q$, i.e. there exists a bistochastic matrix $D$ such that $q' = Dq$.
+    \begin{align*}
+        \max_{q' \prec q} E^- (p \parallel q') &= \max_{q' \prec q} d(p, p \vee q')\\
+        &= \max_{q' \prec q} H(p) - H(p \vee q')\\
+        \overset{\text{Lemma \ref{lem:monotone_down_bis}}}&{=} H(p) - H(p \vee q)\\
+        &= d(p, p \vee q)\\
+        &= E^- (p \parallel q). \qedhere
+    \end{align*}
+\end{proof}
+
+\begin{lemma} \label{lem:monotone_up_bis}
+    $p \wedge q \succ p \wedge q' \; \; \; \forall \: q' \prec q$.
+\end{lemma}
+
+\begin{proof}
+    Let $q'$ be any probability vector majorized by $q$ and let $p$ be some probability vector.
+    \begin{align*}
+        p \wedge q' = p \wedge (q \wedge q') = (p \wedge q) \wedge q' \prec p \wedge q.
+    \end{align*} \phantom{\qedhere}
+\end{proof}
+
+\begin{result} \label{res:monotone_up_bis}
+    There exists no bistochastic matrix $D$ such that $E^+ (p \parallel Dq) < E^+ (p \parallel q)$.
+\end{result}
+
+\begin{proof}
+    Let $q'$ be a vector majorized by $q$, i.e. there exists a bistochastic matrix $D$ such that $q' = Dq$.
+    \begin{align*}
+        \min_{q' \prec q} E^+ (p \parallel q') &= \min_{q' \prec q} d(p, p \wedge q')\\
+        &= \min_{q' \prec q} H(p \wedge q') - H(p)\\
+        \overset{\text{Lemma \ref{lem:monotone_up_bis}}}&{=} H(p \wedge q) - H(p)\\
+        &= d(p, p \wedge q)\\
+        &= E^+ (p \parallel q). \qedhere
+    \end{align*}
+\end{proof}
+
+~
+
+\noindent Results \ref{res:monotone_down_bis} and \ref{res:monotone_up_bis} have corollaries analoguous to those of result \ref{res:monotone_down}.

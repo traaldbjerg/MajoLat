@@ -1,0 +1,38 @@
+\begin{lemma} \label{lem:comp_up}
+    $d'(p, q) = d'(p, p \wedge q) + d'(p \wedge q, q)$ for the quasi-distance defined as $d'(p, q) \coloneqq 2H(p \wedge q) - H(p) - H(q)$.
+\end{lemma}
+
+\begin{proof}
+
+\begin{align*}
+    d'(p, p \wedge q) + d'(p \wedge q, q) &= 2H(p \wedge (p \wedge q)) - H(p) - H(p \wedge q) + 2H((p \wedge q) \wedge q) - H(p \wedge q) - H(q)\\
+    &= 2H(p \wedge q) - H(p \wedge q) - H(p) + 2H(p \wedge q) - H(p \wedge q) - H(q) \\
+    &= 2H(p \wedge q) - H(p) - H(q) \\
+    &= d'(p, q).
+\end{align*} \phantom{\qedhere}
+
+\end{proof}
+
+\begin{result}
+    The measure of preceding incomparability of a vector $p$ to a vector $q$ defined as $E_q^{\text{prec}} (p) \coloneqq \displaystyle{\min_{s \prec q} d'(p, s)}$ is equal to the quasi-distance $d'(p, p \wedge q)$.
+\end{result}
+
+\begin{proof}
+
+\begin{align}
+    E_q^{\text{prec}} (p) &= \min_{s \prec q} d'(p, s) \nonumber \\
+    \overset{\text{Lemma \ref{lem:comp_up}}}&{=} \min_{s \prec q} d'(p, p \wedge s) + d'(p \wedge s, s) \nonumber \\
+    &\implies \min_{s \prec q} d'(p, s) \geq \min_{s \prec q} d'(p, p \wedge s) \label{eq:1}
+\end{align}
+
+\noindent Let $s' = p \wedge s$. Because $s$ is majorized by $q$, $s'$ is majorized by $q$ as well. Moreover, to be the meet of $p$ with another vector, $s'$ must be majorized by $p$ as well.
+
+\begin{align*}
+    \implies \min_{s \prec q} d'(p, p \wedge s) &= \min_{s' \prec q, p} d'(p, s')\\
+    &= \min_{s' \prec q, p} 2H(p \wedge s') - H(p) - H(s')\\
+    &= \min_{s' \prec q, p} H(s') - H(p).
+\end{align*}
+
+\noindent The Schur-concavity of the Shannon entropy implies that the minimum value of $H(s')$ in the subset of $P^n$ $\{v \mid v \prec p, q\}$ is reached for a vector $s'$ that majorizes all other vectors in the subset. By definition, that vector is the meet $p \wedge q$, and so $\min_{s' \prec q, p} H(s') - H(p) = H(p \wedge q) - H(p)$. The vector $p \wedge q$ is also part of the original subset $\{v \mid v \prec q\}$, and so plugging $s = p \wedge q$ into (\ref{eq:1}) shows that the LHS realizes the value $H(p \wedge q) - H(p)$ as well, and the 2 minima must therefore be equal. \qedhere
+
+\end{proof}
