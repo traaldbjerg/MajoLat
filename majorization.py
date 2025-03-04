@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 class ProbVector(): # notations from Cicalese and Vaccaro 2002
     
@@ -157,20 +158,21 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
 class BistochMatrix(): # useful for degrading 2 vectors with the same bistochastic matrix and seeing what happens
     
     __slots__ = ('array', 'dims')
-    
-    rand_combs = 100 # how many permutation matrices will be used to generate a random bistochastic matrix
-    
-    def __init__(self, array=None, dims=None):
+     
+    def __init__(self, array=None, dims=None, rand_combs=None):
         if array is None: # generate random bistochastic matrix using Birkhoff-von Neumann theorem
             if dims is None:
                 raise ValueError("Need to specify dimensions")
+            if rand_combs is None:
+                rand_combs = math.ceil(dims/2) # default value, mixing but not too mixing
             self.array = np.zeros((dims, dims))
-            weights = np.random.rand(BistochMatrix.rand_combs)
+            weights = np.random.rand(rand_combs) # rand_combs is a very important parameter because it allows to control how mixing the final matrix will be
             weights /= np.sum(weights)
-            for i in range(BistochMatrix.rand_combs):
+            for i in range(rand_combs):
                 perm = np.eye(dims)
                 np.random.shuffle(perm)
                 self.array += weights[i]*perm
+            #print(self.array)
         else:
             self.array = array
         self.dims = (len(self.array), len(self.array[0]))
@@ -265,9 +267,11 @@ def d_comp(p, q, alpha = 1):
 def d_subadd(p, q, alpha = 1):
     return - renyi_entropy(p + q, alpha) + renyi_entropy(p, alpha) + renyi_entropy(q, alpha)
 
-def E_up(p, q): # see theorem 2
+def E_plus(p, q): # see theorem 2
     return d_prime(p, p + q)
 
-def E_down(p, q): # see theorem 1
+def E_minus(p, q): # see theorem 1
     return d(p, p * q)
 
+def S(p, q):
+    return E_plus(p, q) - E_minus(p, q)
