@@ -136,10 +136,17 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
                 i = j - 1 # initialization
                 s = b[j] + b[j-1]
                 a = s/(j-i+1)
-                while i > 0 and a > b[i-1]: # should stop correctly for i = 0 because the second condition would not be evaluated
-                    s += b[i-1]
-                    a = s/(j-i+1)
-                    i -= 1
+                while i > 0:
+                    if a > b[i-1]: # should stop correctly for i = 0 because the second condition would not be evaluated
+                        s += b[i-1]
+                        i -= 1 # if later then messes with the formula below and the renormalization screws the whole vector up
+                        a = s/(j-i+1)
+                    else:
+                        #print(j)
+                        #print(i)
+                        #print(s)
+                        #print(a)
+                        break
                 for k in range(i, j+1):
                     b[k] = a
         return ProbVector(b) # returns the lub
@@ -149,7 +156,7 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
     
     def join(self, other):
         return self * other
-     
+    
     def __sub__(self, other): # entropic distance as defined in Cicalese and Vaccaro 2013
         return self.entropy() + other.entropy() - 2*(self * other).entropy() # d(x, y) in the paper 
     
