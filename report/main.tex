@@ -1,13 +1,65 @@
-\documentclass{article}
 
-\usepackage{amsmath}
-%\DeclareMathOperator{\Tr}{Tr}
-\usepackage{physics}
+\documentclass[a4paper,12pt]{report}
+\usepackage{preamble}
+
+\usepackage{biblatex}
+\addbibresource{Majorization.bib}
+
+\author{Alexander Stévins}
+\title{Majorization Lattice in the Theory of Quantum Entanglement}
+
+% Promotor, co-promotor, advisors, 
+\promotor{Pr. Nicolas Cerf}
+\advisors{Ir. Serge Deside}
+\reason{Physics Engineering}
+\AcademicYear{2024-2025}
+
 
 \begin{document}
+\frontmatter
+
+% Title page
+\maketitlepage
+
+%\include{autorisation}
+
+\include{abstract}
+
+\include{acronyms}
 
 
-\input{abstract}
-\input{intro}
+\setcounter{tocdepth}{2}
+\tableofcontents
+
+\newpage
+%reset the page counter and use numerical index
+\mainmatter
+
+
+
+\include{intro}
+
+\include{chapter1}
+
+\include{chapter2}
+
+
+\include{conclusion}
+
+
+
+%reset the page counter and use alphabet index
+\backmatter
+
+
+\addcontentsline{toc}{chapter}{Bibliography}
+%\printbibliography
+
+
+\include{appendix}  
+
+
+
+
 
 \end{document}

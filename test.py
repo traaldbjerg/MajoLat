@@ -4,24 +4,24 @@ import numpy as np
 #generate lots of probability vectors and check whether S(p || q) >= S(Dp || q) for all D, p, q
 
 dimensions = 8
-tries = 100000
+tries = 10000
 ratio = 0
 comp = 0
 
 for i in range(tries):
     p = mj.ProbVector(np.random.rand(dimensions))
     q = mj.ProbVector(np.random.rand(dimensions))
-    if not (p > q or p < q):
+    if (p > q or p < q):
         comp += 1
-        mat = mj.BistochMatrix(dims=dimensions)
-        if not mj.S(p, q) <= (mj.S(p, mat*q) - 1e-12): # this should work but I don't get why not
+        mat = mj.BistochMatrix(dims=dimensions, rand_combs=2)
+        if not mj.S(p, q) >= (mj.S(mat * p, q) - 1e-12):
             print(p)
             print(q)
             print(p * q)
-            print(mat*q)
+            print(mat*p)
             print(mat)
-            print(mj.E_minus(p, q))
-            print(mj.E_minus(p, mat*q))
+            print(mj.S(p, q))
+            print(mj.S(mat*p, q))
             print("")
             ratio += 1
             

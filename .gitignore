@@ -1,5 +1,7 @@
 __pycache__
 *.pyc
+scratch.py
+#latex files
 *.pdf
 *.aux
 *.bbl
@@ -8,5 +10,12 @@ __pycache__
 *.fls
 *.log
 *.xml
+*.acn
+*.blg
+*.glo
+*.ist
+*.glsdefs
+*.out
 *.synctex.gz
-scratch.py
+*.toc
+*.zip

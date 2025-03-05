@@ -139,14 +139,10 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
                 while i > 0:
                     if a > b[i-1]: # should stop correctly for i = 0 because the second condition would not be evaluated
                         s += b[i-1]
-                        i -= 1 # if later then messes with the formula below and the renormalization screws the whole vector up
+                        i -= 1 # could also do this at the end but then need to change the formula for a
                         a = s/(j-i+1)
                     else:
-                        #print(j)
-                        #print(i)
-                        #print(s)
-                        #print(a)
-                        break
+                        break # not super clean but this way I'm sure the conditions are executed correctly
                 for k in range(i, j+1):
                     b[k] = a
         return ProbVector(b) # returns the lub
