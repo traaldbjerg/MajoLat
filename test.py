@@ -11,20 +11,20 @@ comp = 0
 for i in range(tries):
     p = mj.ProbVector(np.random.rand(dimensions))
     q = mj.ProbVector(np.random.rand(dimensions))
-    if (p > q or p < q):
+    if not (p > q or p < q):
         comp += 1
-        mat = mj.BistochMatrix(dims=dimensions, rand_combs=2)
-        if not mj.S(p, q) >= (mj.S(mat * p, q) - 1e-12):
-            print(p)
-            print(q)
-            print(p * q)
-            print(mat*p)
-            print(mat)
-            print(mj.S(p, q))
-            print(mj.S(mat*p, q))
-            print("")
-            ratio += 1
-            
+    mat = mj.BistochMatrix(dims=dimensions)
+    if not mj.S(p, q) <= (mj.S(mat * p, q) + 1e-12):
+        print(p)
+        print(q)
+        print(p * q)
+        print(mat*p)
+        print(mat)
+        print(mj.S(p, q))
+        print(mj.S(mat*p, mat*q))
+        print("")
+        ratio += 1
+        
 print("RATIO: {}".format(ratio/tries))
 print("INCOMPARABILITY RATIO: {}".format(comp/tries))
 

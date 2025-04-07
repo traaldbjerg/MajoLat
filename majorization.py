@@ -212,8 +212,10 @@ class BistochMatrix(): # useful for degrading 2 vectors with the same bistochast
         elif isinstance(other, ProbVector):
             return ProbVector(np.dot(self.array, other.getProbs()))
         
-        
-         
+
+
+### GENERAL PURPOSE FUNCTIONS ###
+  
 def entropy(v):
     return -sum([p*np.log2(p) for p in v.getProbs() if p != 0]) # ln instead of log2
 
@@ -264,7 +266,7 @@ def D(p, q): # as defined in Cicalese and Vaccaro 2013
     n = max(len(p), len(q))
     return 2/n * (2 * guessing_entropy(p + q) - guessing_entropy(p) - guessing_entropy(q))
 
-def d_comp(p, q, alpha = 1):
+def S(p, q, alpha = 1): # basically just supermodularity
     return (- renyi_entropy(p, alpha) - renyi_entropy(q, alpha) + renyi_entropy(p * q, alpha) + renyi_entropy(p + q, alpha))
 
 def d_subadd(p, q, alpha = 1):
@@ -276,5 +278,6 @@ def E_plus(p, q): # see theorem 2
 def E_minus(p, q): # see theorem 1
     return d(p, p * q)
 
-def S(p, q):
+def E_t(p, q):
     return E_plus(p, q) - E_minus(p, q)
+
