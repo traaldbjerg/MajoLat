@@ -26,7 +26,7 @@
 \usepackage{emptypage}
 \usepackage{gensymb}
 \usepackage{lmodern}
-\renewcommand*{\familydefault}{\sfdefault}
+\renewcommand*{\familydefault}{lmr}
 \usepackage[english]{babel}
 \usepackage[colorlinks,urlcolor=black,linkcolor=black]{hyperref}
 \usepackage{url}
@@ -35,9 +35,15 @@
 \usepackage{amssymb}
 \usepackage{amsfonts}
 \usepackage{amsmath}
+\usepackage{aligned-overset}
 \usepackage{tabu}
 \usepackage{colortbl}
 \usepackage{wrapfig}
+\usepackage[top=2.5cm, bottom=1.5cm, left=2.5cm, right=1cm]{geometry}
+\usepackage[pdftex]{graphicx}
+\usepackage{tikz}
+%\geometry{lmargin=2.5cm, tmargin=2.5cm}
+
 
 \usepackage{graphicx,caption}
 \usepackage{subcaption}
@@ -51,7 +57,7 @@
 \usepackage[normalem]{ulem}
 \usepackage[acronym, nopostdot, nogroupskip, style=list, toc, nonumberlist]{glossaries}
 % Load the Bruface standard
-\usepackage{BrufaceTitlepageStyle}
+%\usepackage{BrufaceTitlepageStyle} % utiliser la page non bruface a la place
 
 \usepackage[
 backend=biber,

@@ -1,0 +1,153 @@
+\chapter{Majorization Theory}
+
+
+
+\section{The majorization relation}
+
+\subsection{Cumulative sum definition}
+
+The theory of majorization gives a framework for what it means for a probability distribution (or more general objects) to be more disordered, more random than another one. A rigorous notion of disorder such as the one that majorization suggests is interesting because it should be linkable to other objects that attempt to quantify randomness in information theory, and most notably Shannon entropy. In order to see that this is the case, we first need to rigorously define the majorization relation.
+
+Let $p$ be a probability vector, \textit{i.e.} a vector such that $\sum_{i}^{d} p_i = 1$ for a vector of dimension $d$. Let $p^\downarrow$ be the non-increasing reordering of $p$, meaning that the entries of $p^\downarrow$ are the same as those of $p$, but sorted such that $p^\downarrow_1 \geq p^\downarrow_2 \geq ... \geq p^\downarrow_d$. We will always be considering reordered vectors in this thesis.
+
+\begin{definition}[Cumulative sum] % ressemble beaucoup a ce que Serge a ecrit dans son memoire, a reformuler
+    Let $p$ be a vector in $\mathbb{R}^d$. The $j^{\text{th}}$ decreasing\footnote{We could also use increasing cumulative sums $S^\uparrow_i (p)$ instead and get an equivalent description of majorization. The only effect would be reversed inequalities in (\ref{eq:majorization}).} cumulative sum of $p$ is the sum of the $j$ biggest components of $p$, which can be written as
+    \begin{equation}
+        S^\downarrow_j (p) \coloneqq \sum_{i = 1}^{j} p^\downarrow_i
+    \end{equation}
+    where $p^\downarrow_i$ is the $i^{\text{th}}$ largest entry of $p$. 
+\end{definition}
+
+\begin{definition}[Majorization relation] \label{def:majorization}
+    Let $p, q \in \mathbb{R}^d$ be two vectors of dimension $d$. We say that $p$ majorizes $q$, written $p \succ q$, if and only if
+    \begin{equation} \label{eq:majorization}
+        \begin{system}
+            S^\downarrow_j (p) \geq S^\downarrow_j (q) \quad \forall j = 1,...,d - 1 \\
+            S^\downarrow_d (p) = S^\downarrow_d (q)
+        \end{system}
+    \end{equation}
+If the dimensions of the vectors do not match, one can always append zeroes to the one of lower dimension and apply the definition on the enlarged vector.
+\end{definition}
+
+\begin{remark}
+    If $p$ and $q$ are probability vectors, then the last equality is automatically verified because $S^\downarrow_d (p) = S^\downarrow_d (q) = 1$.
+\end{remark}
+
+This definition encapsulates the idea of disorder : if $p \succ q$, then the largest probability of $p$ ($p_1^\downarrow)$ is larger than the largest probability of $q$ ($q_1^\downarrow$), and the rest of the distribution in $p$ is lowered for the sum of probabilities to give one, whereas $q$ has a distribution that is more spread out. As an example, consider $p = (0.9, 0.1)$ and $q = (0.6, 0.4)$, and applying definition \ref{def:majorization} we see that $p \succ q$. This feels fairly intuitive : $p$ is not as uncertain as $q$, because a process described by probability distribution $p$ sees one of the 2 events happen most of the time, whereas the outcome of a process with probability distribution $q$ is almost equally likely to be one or the other. It is clear from this example that the \textit{majorizer} is more ordered than the \textit{majorized}.
+
+\begin{remark}
+    For any probability vector $p \in \mathbb{R}^d$, we have
+    \begin{equation} \label{eq:top_bottom}
+        (\frac{1}{d}, ..., \frac{1}{d}) \prec p \prec (1, 0, ..., 0)
+    \end{equation}
+    which is fairly intuitive, considering that $(\frac{1}{d}, ..., \frac{1}{d})$ is the most uncertain distribution and $(1, 0, ..., 0)$ is the most certain distribution. % ca ressemble beaucoup a ce que Serge a ecrit dans son memoire, a reformuler
+\end{remark}
+
+The majorization relation creates a preorder on probability vectors. When either $p \succ q$ or $p \prec q$ is verified, we will say that $p$ and $q$ are \textit{comparable} (sometimes written $p \sim q$). However, there also exist cases where both $p \nsucc q$ and $p \nprec q$ are true, and we will then say that $p$ and $q$ are \textit{incomparable} (sometimes written $p \nsim q$). For example, $(0.5, 0.25, 0.25) \nsim (0.4, 0.4, 0.2)$.
+
+\begin{remark}
+    Two vectors of dimension 2 are always comparable. Incomparability is only possible from dimension 3 and above.
+\end{remark}
+
+
+
+\subsection{Link with bistochastic matrices}
+
+A second equivalent definition for majorization can be obtained by a different intuition involving bistochastic matrices. The idea is the following : if the probability vector $q$ can be obtained by randomly mixing the components of $p$ together, then $p$ is more ordered than $q$. It turns out, this simple idea is equivalent to the majorization relation. Let us express this rigorously.
+
+\begin{definition}[Bistochastic matrix]
+    A bistochastic matrix $D$ is a matrix in $\mathbb{R}^{d \times d}$ such that
+    \begin{equation}
+        \begin{system}
+            D_{i,j} \geq 0 \quad \forall i,j = 1, ..., d \\
+            \sum_{i = 1}^{d} D_{i, j} = 1 \quad \forall j = 1, ..., d \\
+            \sum_{j = 1}^{d} D_{i, j} = 1 \quad \forall i = 1, ..., d
+        \end{system}
+    \end{equation}
+\end{definition}
+
+A bistochastic matrix (also called doubly stochastic matrix) is basically a matrix with nonnegative entries such that the columns and rows each sum to one. The following theorem formalizes the way that bistochastic matrices mix entries of vectors together.
+
+\begin{theorem}[Birkhoff's theorem] \label{th:birkhoff}
+    If $D$ is a $d$-dimensional bistochastic matrix, then there exists a probability distribution $\{p_j\}$ and a set of $d$-dimensional permutation matrices $P_j$ such that
+    \begin{equation} \label{eq:birkhoff}
+        D = \sum_{j} p_j P_j
+    \end{equation}
+\end{theorem}
+
+From this theorem, we can see that the effect of a bistochastic matrix on a vector is essentially to perform a convex mixture of the vector's entries, producing a vector that is more smoothed out, and thus more disordered.
+
+\begin{theorem}[Hardy, Littlewood and Pólya] \label{th:bistochastic_majorization}
+    Let $p, q \in \mathbb{R}^d$ be probability vectors of size $d$. Then, $p$ majorizes $q$ if and only if there exists a $d$-dimensional bistochastic matrix $D$ such that
+    \begin{equation} \label{eq:bistochastic_majorization}
+        q = Dp
+    \end{equation}
+\end{theorem}
+
+One could take theorem \ref{th:bistochastic_majorization} as a definition of the majorization relation, as the notion of a vector being more disordered is perhaps clearer in the bistochastic matrix picture. Then, the nature of the convex combination of entries would have given us the series of inequalities (\ref{eq:majorization}). Let's take the same example as above, $p = (0.9, 0.1)$ and $q = (0.6, 0.4)$. Then, $p \succ q$ because there exists a bistochastic matrix $D$ such that $q = Dp$. In this case, $D = \big(\begin{smallmatrix}
+    5/8 & 3/8 \\
+    3/8 & 5/8
+\end{smallmatrix}\big)$.
+
+\begin{remark}
+    The bistochastic matrix $\begin{pmatrix} \frac{1}{d} & ... & \frac{1}{d} \\
+    \vdots & & \vdots \\
+    \frac{1}{d} & ... & \frac{1}{d}
+    \end{pmatrix}$ produces the probability vector $(\frac{1}{d}, ..., \frac{1}{d})$ regardless of the probability vector on which it is applied, hence $(\frac{1}{d}, ..., \frac{1}{d})$ is majorized by every probability vector.
+\end{remark}
+
+Whichever picture one prefers intuitively, the fact that there is a full equivalence between the two is quite powerful when working on proofs, as sometimes one picture is easier to work with than the other depending on the context.
+
+
+
+\subsection{Lorenz curves}
+
+Lorenz curves were first introduced in 1905 by economist Max Lorenz as a way to represent income inequality. The idea is the following : given a distribution, plot the cumulative sum of its largest entries. Doing this for two distributions, we can then say that if one curve is above the other at all times, then it is more unequal (more disordered) than the second. By normalizing the distributions for total income, this graphical tool could then be used to quickly compare income inequality between different regions or countries.
+
+It turns out that this notion of unequality is precisely the same as majorization, as at each coordinate the plotted curves explicitely show one of the inequalities of definition \ref{def:majorization}. More formally, the Lorenz curve of a vector $p \in \mathbb{R}^d$ is obtained by linear interpolation between the points of the set $\{(i, S^\downarrow_i(p)) | i \in \mathbb{N}, i \leq d\}$. % il y a d'office une notation moins moche pour ca
+The alias $L^\downarrow_p (x) \coloneqq S^\downarrow_x (p)$ is an alternative notation used for Lorenz curves, where the abscissa goes in the argument of the function.
+
+A few examples of Lorenz curves are given in figure X. FAIRE DES EXEMPLES
+
+% CREER DES FIGURES ET DES EXEMPLES SYMPAS
+
+
+
+\section{Schur-convex and Schur-concave functions}
+
+Some functions preserve the ordering defined by the majorization relation and are therefore interesting to study because a majorization relation directly implies an inequality on these functions.
+
+\begin{definition}[Schur-convex function]
+    A function $f \in C(\mathbb{R}^d \to \mathbb{R})$ is Schur-convex if and only if
+    \begin{equation}
+        p \prec q \implies f(p) \leq f(q)
+    \end{equation}
+\end{definition}
+
+\begin{definition}[Schur-concave function]
+    A function $f \in C(\mathbb{R}^d \to \mathbb{R})$ is Schur-concave if $-f$ is Schur-convex.
+\end{definition}
+
+
+
+\subsection{Shannon entropy}
+
+
+
+
+
+\section{The majorization lattice} \label{sec:majorization_lattice}
+
+\subsection{The lattice structure}
+
+
+
+\subsection{The meet}
+
+
+
+\subsection{The join}
+
+
+
+\subsection{Properties of the Shannon entropy on the lattice}

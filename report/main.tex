@@ -1,25 +1,53 @@
+\documentclass[a4paper, 11pt]{report}
 
-\documentclass[a4paper,12pt]{report}
 \usepackage{preamble}
 
 \usepackage{biblatex}
-\addbibresource{Majorization.bib}
 
-\author{Alexander Stévins}
-\title{Majorization Lattice in the Theory of Quantum Entanglement}
+%\author{Alexander Stévins}
+%\title{Majorization Lattice in the Theory of Quantum Entanglement}
 
 % Promotor, co-promotor, advisors, 
-\promotor{Pr. Nicolas Cerf}
-\advisors{Ir. Serge Deside}
-\reason{Physics Engineering}
-\AcademicYear{2024-2025}
+%\promotor{Pr. Nicolas Cerf}
+%\advisors{Ir. Serge Deside}
+%\reason{Physics Engineering}
+%\AcademicYear{2024-2025}
+
+
+
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{result}{Result}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}[result]
+
+\newenvironment{system}%
+{\left\lbrace
+\everymath={\displaystyle}
+\begin{array}{@{}l@{}}}%
+{\end{array}\right.}
+
 
 
 \begin{document}
+
+
+\renewcommand*{\familydefault}{lmss}
+\renewcommand*{\rmdefault}{lmss}
+
 \frontmatter
 
 % Title page
-\maketitlepage
+
+%\maketitlepage
+
+\include{PageDeGarde_MFE/PageDeGarde}
+
+\newgeometry{lmargin = 2.5cm, tmargin = 2.5cm}
+
+\renewcommand*{\familydefault}{lmr}
+\renewcommand*{\rmdefault}{lmr}
 
 %\include{autorisation}
 
@@ -35,13 +63,21 @@
 %reset the page counter and use numerical index
 \mainmatter
 
+\part{Theoretical Background}
+
+\include{information_theory}
+
+\include{majorization_theory}
+
+\include{quantum_information}
+
+\part{Results}
+
+\chapter{Entropic boost}
+
+\chapter{Volume of entaglement cones}
 
 
-\include{intro}
-
-\include{chapter1}
-
-\include{chapter2}
 
 
 \include{conclusion}

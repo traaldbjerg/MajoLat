@@ -2,7 +2,7 @@ __pycache__
 *.pyc
 scratch.py
 #latex files
-*.pdf
+#*.pdf
 *.aux
 *.bbl
 *.bcf
