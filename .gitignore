@@ -1,6 +1,7 @@
 __pycache__
 *.pyc
 scratch.py
+
 #latex files
 #*.pdf
 *.aux
@@ -19,3 +20,4 @@ scratch.py
 *.synctex.gz
 *.toc
 *.zip
+*.bbl-SAVE-ERROR

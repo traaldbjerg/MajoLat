@@ -16,5 +16,218 @@
   {}
 \endgroup
 
+
+\refsection{0}
+  \datalist[entry]{nyt/global//global/global}
+    \entry{cicalese_supermodularity_2002}{article}{}
+      \name{author}{2}{}{%
+        {{hash=958820eef715c260ceac68a6fb9cc001}{%
+           family={Cicalese},
+           familyi={C\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod}}}%
+        {{hash=1cb2d6ba99941a597be6d439b276ad55}{%
+           family={Vaccaro},
+           familyi={V\bibinitperiod},
+           given={U.},
+           giveni={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{9e01cf76f3b7206a5f4d8d545c3b33aa}
+      \strng{fullhash}{9e01cf76f3b7206a5f4d8d545c3b33aa}
+      \strng{bibnamehash}{9e01cf76f3b7206a5f4d8d545c3b33aa}
+      \strng{authorbibnamehash}{9e01cf76f3b7206a5f4d8d545c3b33aa}
+      \strng{authornamehash}{9e01cf76f3b7206a5f4d8d545c3b33aa}
+      \strng{authorfullhash}{9e01cf76f3b7206a5f4d8d545c3b33aa}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{We prove that the entropy is a supermodular and subadditive function on the lattice of all n-dimensional probability distributions, ordered according to the partial order relation defined by majorization among vectors.}
+      \field{issn}{00189448}
+      \field{journaltitle}{IEEE Transactions on Information Theory}
+      \field{month}{4}
+      \field{number}{4}
+      \field{title}{Supermodularity and subadditivity properties of the entropy on the majorization lattice}
+      \field{urlday}{16}
+      \field{urlmonth}{12}
+      \field{urlyear}{2024}
+      \field{volume}{48}
+      \field{year}{2002}
+      \field{urldateera}{ce}
+      \field{pages}{933\bibrangedash 938}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1109/18.992785
+      \endverb
+      \verb{urlraw}
+      \verb http://ieeexplore.ieee.org/document/992785/
+      \endverb
+      \verb{url}
+      \verb http://ieeexplore.ieee.org/document/992785/
+      \endverb
+    \endentry
+    \entry{junior_geometric_2022}{article}{}
+      \name{author}{4}{}{%
+        {{hash=e6a55ff14b64d9101564d08c7e5386d1}{%
+           family={Junior},
+           familyi={J\bibinitperiod},
+           given={A.\bibnamedelimi de\bibnamedelima Oliveira},
+           giveni={A\bibinitperiod\bibinitdelim d\bibinitperiod\bibinitdelim O\bibinitperiod}}}%
+        {{hash=93c31a93ea6e84b9aab4da5f88cb52f2}{%
+           family={Czartowski},
+           familyi={C\bibinitperiod},
+           given={Jakub},
+           giveni={J\bibinitperiod}}}%
+        {{hash=b0f2cba45f2963de24c72f86c5acf97e}{%
+           family={Życzkowski},
+           familyi={Ż\bibinitperiod},
+           given={Karol},
+           giveni={K\bibinitperiod}}}%
+        {{hash=b8ac4b51a4281e50f12780bfaa39e92a}{%
+           family={Korzekwa},
+           familyi={K\bibinitperiod},
+           given={Kamil},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{4076e9dac56e80c8a8a1133491503b5a}
+      \strng{fullhash}{31f28f12dcf7389dabda01c45af76ca4}
+      \strng{bibnamehash}{4076e9dac56e80c8a8a1133491503b5a}
+      \strng{authorbibnamehash}{4076e9dac56e80c8a8a1133491503b5a}
+      \strng{authornamehash}{4076e9dac56e80c8a8a1133491503b5a}
+      \strng{authorfullhash}{31f28f12dcf7389dabda01c45af76ca4}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{The second law of thermodynamics imposes a fundamental asymmetry in the flow of events. The so-called thermodynamic arrow of time introduces an ordering that divides the system's state space into past, future, and incomparable regions. In this work, we analyze the structure of the resulting thermal cones, i.e., sets of states that a given state can thermodynamically evolve to (the future thermal cone) or evolve from (the past thermal cone). Specifically, for a 𝑑-dimensional classical state of a system interacting with a heat bath, we find explicit construction of the past thermal cone and the incomparable region. Moreover, we provide a detailed analysis of their behavior based on thermodynamic monotones given by the volumes of thermal cones. Results obtained apply also to other majorization-based resource theories (such as that of entanglement and coherence), since the partial ordering describing allowed state transformations is then the opposite of the thermodynamic order in the infinite temperature limit. Finally, we also generalize the construction of thermal cones to account for probabilistic transformations.}
+      \field{journaltitle}{Physical Review E}
+      \field{month}{12}
+      \field{note}{Publisher: American Physical Society}
+      \field{number}{6}
+      \field{title}{Geometric structure of thermal cones}
+      \field{urlday}{5}
+      \field{urlmonth}{12}
+      \field{urlyear}{2024}
+      \field{volume}{106}
+      \field{year}{2022}
+      \field{urldateera}{ce}
+      \field{pages}{064109}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PhysRevE.106.064109
+      \endverb
+      \verb{file}
+      \verb APS Snapshot:C\:\\Users\\alexa\\Zotero\\storage\\7DC7IBMV\\PhysRevE.106.html:text/html;Full Text PDF:C\:\\Users\\alexa\\Zotero\\storage\\W2H7LP4E\\Junior et al. - 2022 - Geometric structure of thermal cones.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://link.aps.org/doi/10.1103/PhysRevE.106.064109
+      \endverb
+      \verb{url}
+      \verb https://link.aps.org/doi/10.1103/PhysRevE.106.064109
+      \endverb
+    \endentry
+    \entry{korzekwa_structure_2017}{article}{}
+      \name{author}{1}{}{%
+        {{hash=b8ac4b51a4281e50f12780bfaa39e92a}{%
+           family={Korzekwa},
+           familyi={K\bibinitperiod},
+           given={Kamil},
+           giveni={K\bibinitperiod}}}%
+      }
+      \strng{namehash}{b8ac4b51a4281e50f12780bfaa39e92a}
+      \strng{fullhash}{b8ac4b51a4281e50f12780bfaa39e92a}
+      \strng{bibnamehash}{b8ac4b51a4281e50f12780bfaa39e92a}
+      \strng{authorbibnamehash}{b8ac4b51a4281e50f12780bfaa39e92a}
+      \strng{authornamehash}{b8ac4b51a4281e50f12780bfaa39e92a}
+      \strng{authorfullhash}{b8ac4b51a4281e50f12780bfaa39e92a}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{abstract}{In this work we analyze the structure of the thermodynamic arrow of time, defined by transformations that leave the thermal equilibrium state unchanged, in classical (incoherent) and quantum (coherent) regimes. We note that in the infinite-temperature limit, the thermodynamic ordering of states in both regimes exhibits a lattice structure. This means that when energy does not matter and the only thermodynamic resource is given by information, the thermodynamic arrow of time has a very specific structure. Namely, for any two states at present there exists a unique state in the past consistent with them and with all possible joint pasts. Similarly, there also exists a unique state in the future consistent with those states and with all possible joint futures. We also show that the lattice structure in the classical regime is broken at finite temperatures, i.e., when energy is a relevant thermodynamic resource. Surprisingly, however, we prove that in the simplest quantum scenario of a two-dimensional system, this structure is preserved at finite temperatures. We provide the physical interpretation of these results by introducing and analyzing the history erasure process, and point out that quantum coherence may be a necessary resource for the existence of an optimal erasure process.}
+      \field{journaltitle}{Physical Review A}
+      \field{month}{5}
+      \field{note}{Publisher: American Physical Society}
+      \field{number}{5}
+      \field{title}{Structure of the thermodynamic arrow of time in classical and quantum theories}
+      \field{urlday}{9}
+      \field{urlmonth}{9}
+      \field{urlyear}{2024}
+      \field{volume}{95}
+      \field{year}{2017}
+      \field{urldateera}{ce}
+      \field{pages}{052318}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.1103/PhysRevA.95.052318
+      \endverb
+      \verb{file}
+      \verb APS Snapshot:C\:\\Users\\alexa\\Zotero\\storage\\AMQ5X9V8\\PhysRevA.95.html:text/html;Full Text PDF:C\:\\Users\\alexa\\Zotero\\storage\\4XCXD832\\Korzekwa - 2017 - Structure of the thermodynamic arrow of time in cl.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb https://link.aps.org/doi/10.1103/PhysRevA.95.052318
+      \endverb
+      \verb{url}
+      \verb https://link.aps.org/doi/10.1103/PhysRevA.95.052318
+      \endverb
+    \endentry
+    \entry{marshall_inequalities_2011}{book}{}
+      \name{author}{3}{}{%
+        {{hash=143236dea0c1da1237dc87023ef83ea3}{%
+           family={Marshall},
+           familyi={M\bibinitperiod},
+           given={Albert\bibnamedelima W.},
+           giveni={A\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+        {{hash=08b4c6e1a47a160b5dcf1c147bb99855}{%
+           family={Olkin},
+           familyi={O\bibinitperiod},
+           given={Ingram},
+           giveni={I\bibinitperiod}}}%
+        {{hash=b465943d5d718e7a93392c409d8c7f2c}{%
+           family={Arnold},
+           familyi={A\bibinitperiod},
+           given={Barry\bibnamedelima C.},
+           giveni={B\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{4af2e138c6be340942cf7b3647601cb4}
+      \strng{fullhash}{4af2e138c6be340942cf7b3647601cb4}
+      \strng{bibnamehash}{4af2e138c6be340942cf7b3647601cb4}
+      \strng{authorbibnamehash}{4af2e138c6be340942cf7b3647601cb4}
+      \strng{authornamehash}{4af2e138c6be340942cf7b3647601cb4}
+      \strng{authorfullhash}{4af2e138c6be340942cf7b3647601cb4}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{shorttitle}
+      \field{isbn}{978-0-387-40087-7 978-0-387-68276-1}
+      \field{series}{Springer {Series} in {Statistics}}
+      \field{shorttitle}{Inequalities}
+      \field{title}{Inequalities: {Theory} of {Majorization} and {Its} {Applications}}
+      \field{urlday}{25}
+      \field{urlmonth}{4}
+      \field{urlyear}{2025}
+      \field{year}{2011}
+      \field{urldateera}{ce}
+      \verb{doi}
+      \verb 10.1007/978-0-387-68276-1
+      \endverb
+      \verb{file}
+      \verb Full Text PDF:C\:\\Users\\alexa\\Zotero\\storage\\NA8PU6AI\\Marshall et al. - 2011 - Inequalities Theory of Majorization and Its Applications.pdf:application/pdf
+      \endverb
+      \verb{urlraw}
+      \verb http://link.springer.com/10.1007/978-0-387-68276-1
+      \endverb
+      \verb{url}
+      \verb http://link.springer.com/10.1007/978-0-387-68276-1
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
 \endinput
 

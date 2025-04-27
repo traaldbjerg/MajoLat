@@ -8,16 +8,16 @@
 
 The theory of majorization gives a framework for what it means for a probability distribution (or more general objects) to be more disordered, more random than another one. A rigorous notion of disorder such as the one that majorization suggests is interesting because it should be linkable to other objects that attempt to quantify randomness in information theory, and most notably Shannon entropy. In order to see that this is the case, we first need to rigorously define the majorization relation.
 
-Let $p$ be a probability vector, \textit{i.e.} a vector such that $\sum_{i}^{d} p_i = 1$ for a vector of dimension $d$. Let $p^\downarrow$ be the non-increasing reordering of $p$, meaning that the entries of $p^\downarrow$ are the same as those of $p$, but sorted such that $p^\downarrow_1 \geq p^\downarrow_2 \geq ... \geq p^\downarrow_d$. We will always be considering reordered vectors in this thesis.
+Let $p$ be a probability vector, \textit{i.e.} a vector such that $\sum_{i}^{d} p_i = 1$ for a vector of dimension $d$. Let $p^\downarrow$ be the non-increasing reordering of $p$, meaning that the entries of $p^\downarrow$ are the same as those of $p$, but sorted such that $p^\downarrow_1 \geq p^\downarrow_2 \geq ... \geq p^\downarrow_d$. We will always be considering reordered vectors in this Ms thesis, and we will therefore denote the set of $n$-dimesional probability vectors sorted in nonincreasing order $\mathcal{P}^n$. Formally, $\mathcal{P}^n = \{p \in \mathbb{R}^n | \sum_{i}^{n} p_i = 1, p_i \geq p_{i+1}\}$.
 
 \begin{definition}[Cumulative sum] % ressemble beaucoup a ce que Serge a ecrit dans son memoire, a reformuler
-    Let $p$ be a vector in $\mathbb{R}^d$. The $j^{\text{th}}$ decreasing\footnote{We could also use increasing cumulative sums $S^\uparrow_i (p)$ instead and get an equivalent description of majorization. The only effect would be reversed inequalities in (\ref{eq:majorization}).} cumulative sum of $p$ is the sum of the $j$ biggest components of $p$, which can be written as
+    Let $p$ be a vector in $\mathcal{P}^d$. The $j^{\text{th}}$ decreasing\footnote{We could also use increasing cumulative sums $S^\uparrow_i (p)$ instead and get an equivalent description of majorization. The only effect would be reversed inequalities in (\ref{eq:majorization}).} cumulative sum of $p$ is the sum of the $j$ biggest components of $p$, which can be written as
     \begin{equation}
         S^\downarrow_j (p) \coloneqq \sum_{i = 1}^{j} p^\downarrow_i
     \end{equation}
     where $p^\downarrow_i$ is the $i^{\text{th}}$ largest entry of $p$. 
-\end{definition}
 
+\end{definition}
 \begin{definition}[Majorization relation] \label{def:majorization}
     Let $p, q \in \mathbb{R}^d$ be two vectors of dimension $d$. We say that $p$ majorizes $q$, written $p \succ q$, if and only if
     \begin{equation} \label{eq:majorization}
@@ -36,7 +36,7 @@ If the dimensions of the vectors do not match, one can always append zeroes to t
 This definition encapsulates the idea of disorder : if $p \succ q$, then the largest probability of $p$ ($p_1^\downarrow)$ is larger than the largest probability of $q$ ($q_1^\downarrow$), and the rest of the distribution in $p$ is lowered for the sum of probabilities to give one, whereas $q$ has a distribution that is more spread out. As an example, consider $p = (0.9, 0.1)$ and $q = (0.6, 0.4)$, and applying definition \ref{def:majorization} we see that $p \succ q$. This feels fairly intuitive : $p$ is not as uncertain as $q$, because a process described by probability distribution $p$ sees one of the 2 events happen most of the time, whereas the outcome of a process with probability distribution $q$ is almost equally likely to be one or the other. It is clear from this example that the \textit{majorizer} is more ordered than the \textit{majorized}.
 
 \begin{remark}
-    For any probability vector $p \in \mathbb{R}^d$, we have
+    For any $p \in \mathcal{P}^d$, we have
     \begin{equation} \label{eq:top_bottom}
         (\frac{1}{d}, ..., \frac{1}{d}) \prec p \prec (1, 0, ..., 0)
     \end{equation}
@@ -78,25 +78,27 @@ A bistochastic matrix (also called doubly stochastic matrix) is basically a matr
 From this theorem, we can see that the effect of a bistochastic matrix on a vector is essentially to perform a convex mixture of the vector's entries, producing a vector that is more smoothed out, and thus more disordered.
 
 \begin{theorem}[Hardy, Littlewood and Pólya] \label{th:bistochastic_majorization}
-    Let $p, q \in \mathbb{R}^d$ be probability vectors of size $d$. Then, $p$ majorizes $q$ if and only if there exists a $d$-dimensional bistochastic matrix $D$ such that
+    Let $p, q \in \mathcal{P}^d$. Then, $p \succ q$ if and only if there exists a $d$-dimensional bistochastic matrix $D$ such that
     \begin{equation} \label{eq:bistochastic_majorization}
         q = Dp
     \end{equation}
 \end{theorem}
 
-One could take theorem \ref{th:bistochastic_majorization} as a definition of the majorization relation, as the notion of a vector being more disordered is perhaps clearer in the bistochastic matrix picture. Then, the nature of the convex combination of entries would have given us the series of inequalities (\ref{eq:majorization}). Let's take the same example as above, $p = (0.9, 0.1)$ and $q = (0.6, 0.4)$. Then, $p \succ q$ because there exists a bistochastic matrix $D$ such that $q = Dp$. In this case, $D = \big(\begin{smallmatrix}
-    5/8 & 3/8 \\
-    3/8 & 5/8
-\end{smallmatrix}\big)$.
+One could take theorem \ref{th:bistochastic_majorization} as a definition of the majorization relation, as the notion of a vector being more disordered is perhaps clearer in the bistochastic matrix picture. Then, the nature of the convex combination of entries would have given us the set of inequalities (\ref{eq:majorization}). Let's take the same example as earlier, $p = (0.9, 0.1)$ and $q = (0.6, 0.4)$. Then we can find that $D = \big(\begin{smallmatrix}
+                                                                                                    5/8 & 3/8 \\
+                                                                                                    3/8 & 5/8
+                                                                                                \end{smallmatrix}\big)$
+gives us $q = Dp$, and therefore $p \succ q$.
+
+Whichever picture one prefers intuitively, the fact that there is a full equivalence between the two is quite powerful when working on proofs, as sometimes one picture is easier to work with than the other depending on the context.
 
 \begin{remark}
     The bistochastic matrix $\begin{pmatrix} \frac{1}{d} & ... & \frac{1}{d} \\
-    \vdots & & \vdots \\
-    \frac{1}{d} & ... & \frac{1}{d}
-    \end{pmatrix}$ produces the probability vector $(\frac{1}{d}, ..., \frac{1}{d})$ regardless of the probability vector on which it is applied, hence $(\frac{1}{d}, ..., \frac{1}{d})$ is majorized by every probability vector.
+                                                      \vdots & & \vdots \\
+                                                      \frac{1}{d} & ... & \frac{1}{d}
+                             \end{pmatrix}$ 
+    produces the probability vector $(\frac{1}{d}, ..., \frac{1}{d})$ regardless of the probability vector on which it is applied, hence $(\frac{1}{d}, ..., \frac{1}{d})$ is majorized by every probability vector.
 \end{remark}
-
-Whichever picture one prefers intuitively, the fact that there is a full equivalence between the two is quite powerful when working on proofs, as sometimes one picture is easier to work with than the other depending on the context.
 
 
 
@@ -105,7 +107,7 @@ Whichever picture one prefers intuitively, the fact that there is a full equival
 Lorenz curves were first introduced in 1905 by economist Max Lorenz as a way to represent income inequality. The idea is the following : given a distribution, plot the cumulative sum of its largest entries. Doing this for two distributions, we can then say that if one curve is above the other at all times, then it is more unequal (more disordered) than the second. By normalizing the distributions for total income, this graphical tool could then be used to quickly compare income inequality between different regions or countries.
 
 It turns out that this notion of unequality is precisely the same as majorization, as at each coordinate the plotted curves explicitely show one of the inequalities of definition \ref{def:majorization}. More formally, the Lorenz curve of a vector $p \in \mathbb{R}^d$ is obtained by linear interpolation between the points of the set $\{(i, S^\downarrow_i(p)) | i \in \mathbb{N}, i \leq d\}$. % il y a d'office une notation moins moche pour ca
-The alias $L^\downarrow_p (x) \coloneqq S^\downarrow_x (p)$ is an alternative notation used for Lorenz curves, where the abscissa goes in the argument of the function.
+The alias $L^\downarrow_p (x) \coloneqq S^\downarrow_x (p)$ is an alternative notation used for Lorenz curves, where the abscissa goes in the argument of the function. In this report, Lorenz curves will mostly be useful in sections \ref{sec:meet} and \ref{sec:join} to understand how the algorithm for constructing key vectors in the lattice work.
 
 A few examples of Lorenz curves are given in figure X. FAIRE DES EXEMPLES
 
@@ -116,6 +118,8 @@ A few examples of Lorenz curves are given in figure X. FAIRE DES EXEMPLES
 \section{Schur-convex and Schur-concave functions}
 
 Some functions preserve the ordering defined by the majorization relation and are therefore interesting to study because a majorization relation directly implies an inequality on these functions.
+
+\subsection{Definition}
 
 \begin{definition}[Schur-convex function]
     A function $f \in C(\mathbb{R}^d \to \mathbb{R})$ is Schur-convex if and only if
@@ -134,20 +138,178 @@ Some functions preserve the ordering defined by the majorization relation and ar
 
 
 
-
-
 \section{The majorization lattice} \label{sec:majorization_lattice}
 
 \subsection{The lattice structure}
 
+The majorization relation creates a preorder on probability vectors. When restricted to \textit{ordered} probability vectors, the majorization relation creates a proper partial order. With the ordering induced by the majorization relation, the set of ordered vectors $\{z | z_1 \geq z_2 \geq ... \geq z_d\}$ becomes a lattice.
+
+\begin{definition}[Lattice] % copie colle de l'article de Cicalese and Vaccaro, c'est ok ou pas ? pour les definitions mathematiques pas beaucoup de liberte imo
+    A lattice is a quadruple $\langle \mathcal{L}, \sqsubseteq, \wedge, \vee \rangle$ where $\mathcal{L}$ is a set, $\sqsubseteq$ is a partial ordering $\mathcal{L}$, and for all $a, b \in \mathcal{L}$ there is a unique greatest lower bound (glb) $a \wedge b$ and a unique least upper bound (lub) $a \vee b$. That is, $a \wedge b \sqsubseteq a$, $a \wedge b \sqsubseteq b$, $a \sqsubseteq a \vee b$, $b \sqsubseteq a \vee b$, and for each $c$, $d$ such that $c \sqsubseteq a$, $c \sqsubseteq b$, $a \sqsubseteq d$, $b \sqsubseteq d$ we have that
+    \begin{equation}
+        c \sqsubseteq a \wedge b \quad \text{and} \quad a \vee b \sqsubseteq d.
+    \end{equation}
+\end{definition}
+
+It was shown that the set $\mathcal{P}^d$ endowed with the partial ordering $\prec$ is a lattice \cite{cicalese_supermodularity_2002}. As the lattice is a central part of this Ms thesis, we will go through the main ideas behind the proof, which hinges on defining the correct greatest lower bound (glb) $p \wedge q$, which we will call the \textit{meet} of $p$ and $q$, and the correct least upper bound (lub) $p \vee q$, which we will call the \textit{join}.
+
+Let us first go through what it means for a vector to be the greatest lower bound, the meet, of two vectors $p, q \in \mathcal{P}^d$. Intuitively, the glb of $p$ and $q$ in terms of majorization is the least disordered vector that is majorized by both $p$ and $q$. While this may not seem very interesting at a first glance, recall that two vectors may be incomparable, meaning that both $p \nprec q$ and $p \nsucc q$ are true. Even if they are incomparable, the subset of vectors that are majorized by both $p$ and $q$ is nonempty\footnote{It is guaranteed to at least contain the uniform distribution $(\frac{1}{d}, ..., \frac{1}{d})$ since it is majorized by every other distribution.} and has a supremum, $p \wedge q$, \textit{which majorizes every other vector in the subset}. Note that an equivalent definition of a lattice is to require that every partially ordered subset has a supremum and infimum \cite[p. 19]{marshall_inequalities_2011}. Since the two are equivalent, we can consider this to be a property of the lattice, guaranteeing the existence of the supremum $p \wedge q$.
+
+In similar fashion, the lub, the join, of two vectors $p, q \in \mathcal{P}^d$ is the least ordered vector that majorizes both $p$ and $q$. The subset of vectors that majorize both $p$ and $q$ is nonempty\footnote{It is guaranteed to at least contain the certain distribution $(1, 0, ..., 0)$ since it majorizes every other distribution.} and has an infimum, $p \vee q$, \textit{which is majorized by every other vector in the subset}. Moreover, the same property as before guarantees the existence of the infimum.
+
+If the two vectors are comparable, say $p \prec q$ (the $p \succ q$ case being symmetric), then the question becomes trivial as the least ordered vector that majorizes both $p$ and $q$ is $q$ and the least disordered vector that is majorized by both $p$ and $q$ is $p$, i.e. $p \wedge q = p$ and $p \vee q = q$.
 
 
-\subsection{The meet}
+
+\subsection{Geometric intuition}
+
+Before going further with the proof, let us first give a 2D visual representation of the lattice, which is very helpful in building intuition for using the lattice, first proposed in the field of thermomajorization \cite{korzekwa_structure_2017}. More accurate representations exist but are much more complicated, living in the canonical Weyl chamber of a $\Delta_{d-1}$ simplex \cite{junior_geometric_2022}. Nevertheless, the simple 2D depiction is very useful to think about, even if one has to be careful not to draw hasty conclusions from it. Figure \ref{fig:maj_cones_example} shows an example of the 2D representation of a vector $p \in \mathcal{P}^d$ in the lattice, along with some definitions we introduce now, and figure \ref{fig:meet_join_example} shows the intersections of the majorization cones of two vectors $p, q \in \mathcal{P}^d$ and their meet and join.
+
+\begin{definition}[Majorization cones]
+    The set of states that majorize $p$ is called the \textit{future cone}\footnote{It is important to note that our conventions are for the most part entirely opposite to the thermomajorization conventions for reasons that will be made clear in section \ref{sec:nielsen}. Most notably, our future cone corresponds to their past cone and vice versa.}  $\mathcal{T}_+ (p)$. The set of states that are majorized by $p$ is called the \textit{past cone} $\mathcal{T}_- (p)$. The set of states that are neither in the past nor the future cone of $p$ is called the \textit{incomparable region} $\mathcal{T}_\emptyset (p)$.
+\end{definition}
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+        % draw cone of p
+        \coordinate (A) at (-2,3);
+        \coordinate (B) at (2, -3);
+        \draw [name path=A--B] (A) -- (B);
+        \coordinate (C) at (-2,-3);
+        \coordinate (D) at (2,3);
+        \draw [name path=C--D] (C) -- (D);
+        \path [name intersections={of=A--B and C--D,by=E}];
+        \node [fill=black,inner sep=2pt,label=0:$p$] at (E) {};
+        % fill draw the future cone of p + notation
+        \fill[fill=red, opacity=0.2] (C) -- (E) -- (B) -- cycle;
+        \node [inner sep=0pt, label=-90:$\mathcal{T}_+ (p)$] at (0, -2) {};
+        % fill draw the past cone of p + notation
+        \fill[fill=blue, opacity=0.2] (A) -- (E) -- (D) -- cycle;
+        \node [inner sep=0pt, label=90:$\mathcal{T}_- (p)$] at (0, 2) {};
+        % fill draw the incomparable region of p mais pas hyper clair
+        %\filldraw[draw=black, fill=gray, opacity=0.2] (A) -- (E) -- (C) -- cycle;
+        %\filldraw[draw=black, fill=gray, opacity=0.2] (D) -- (E) -- (B) -- cycle;
+        \node [inner sep=0pt, label=0:$\mathcal{T}_\emptyset (p)$] at (1.5, 0) {};
+        % create the entropy arrow
+        \coordinate (F) at (-3, -2);
+        \coordinate (G) at (-3, 2);
+        \draw[->] (F) -- (G);
+        \node [inner sep=0pt, label=0:Entropy] at (-3, 0) {};
+        
+    \end{tikzpicture}
+    \caption{Depiction of the majorization cones of a nondescript vector $p \in \mathcal{P}^d$.}
+    \label{fig:maj_cones_example}
+\end{figure}
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}
+        % draw cone of p
+        \coordinate (A) at (-2,3);
+        \coordinate (B) at (2, -3);
+        \draw [name path=A--B] (A) -- (B);
+        \coordinate (C) at (-2,-3);
+        \coordinate (D) at (2,3);
+        \draw [name path=C--D] (C) -- (D);
+        \path [name intersections={of=A--B and C--D,by=E}];
+        \node [fill=black,inner sep=2pt,label=0:$p$] at (E) {};
+        % draw cone of q
+        \coordinate (F) at (-0.666,3);
+        \coordinate (G) at (3.333, -3);
+        \draw [name path=F--G] (F) -- (G);
+        \coordinate (H) at (0.666,-3);
+        \coordinate (I) at (4.666,3);
+        \draw [name path=H--I] (H) -- (I);
+        \path [name intersections={of=F--G and H--I,by=J}];
+        \node [fill=black,inner sep=2pt,label=0:$q$] at (J) {};
+        %intersections of the 2 cones
+        \path [name intersections={of=F--G and C--D,by=K}];
+        \path [name intersections={of=H--I and A--B,by=L}];
+        \node [fill=black,inner sep=2pt,label=0:$p \wedge q$] at (K) {};
+        \node [fill=black,inner sep=2pt,label=0:$p \vee q$] at (L) {};
+        %fill the two cones
+        \fill[fill=blue, opacity=0.2] (F) -- (K) -- (D) -- cycle;
+        \node [inner sep=0pt] at ($ (F) !.3333! (K) !.3333! (D) $) {$\mathcal{T}_- (p \wedge q)$};
+        \fill[fill=red, opacity=0.2] (H) -- (L) -- (B) -- cycle;
+        \node [inner sep=5pt, label=-90:$\mathcal{T}_+ (p \vee q)$] at ($ (H) !.3333! (L) !.3333! (B) $) {};
+        
+    \end{tikzpicture}
+    \caption{Depiction of the intersection of the majorization cones of incomparable vectors $p, q \in \mathcal{P}^d$. Note that by definition of the meet and join, $\mathcal{T}_+ (p) \cap \mathcal{T}_+ (q) = \mathcal{T}_+ (p \vee q)$ and $\mathcal{T}_- (p) \cap \mathcal{T}_- (q) = \mathcal{T}_- (p \wedge q)$.}
+    \label{fig:meet_join_example}
+\end{figure}
+
+In quantum information, the lattice is usually drawn with more disordered vectors at the top and more ordered vectors at the bottom because the entropy of a state is considered a resource (cf. section \ref{sec:QRT}). This means that the uniform distribution sits at the very top of the diagram, and the certain distribution at the very bottom. One should therefore be careful, because the majorization relation runs from top to bottom, which is the opposite of what one would picture at first (a greatest lower bound looks like a least upper bound and vice-versa). While this is inconvenient for this chapter, this convention will make more sense later down the road.
 
 
 
-\subsection{The join}
+\subsection{Constructing the meet} \label{sec:meet}
+
+In order to show that the quadruple $\langle \mathcal{P}^d, \prec, \wedge, \vee \rangle$ is indeed a lattice, we need to find an appropriate definition for the glb $p \wedge q$ and lub $p \vee q$ of two arbitrary elements $p$ and $q$ in $\mathcal{P}^d$. Let us start with the meet $p \wedge q$. Thinking in terms of Lorenz curves is actually very helpful here and can lead us very intuitively to the correct algorithm for constructing the meet. Figure X shows the vectors $p = (0.6, 0.2, 0.2)$ and $q = (0.45, 0.45, 0.1)$, both in $\mathcal{P}^3$.
+
+Intuitively, the most ordered state that is majorized by both $p$ and $q$ should have a Lorenz curve that hugs the curves of $p$ and $q$ from below. Let $\alpha(p, q) = (a_1, ..., a_d)$ be this state. We can construct it the following way:
+
+\begin{align}
+    a_i &= \min \Big\{ \sum_{j=1}^{i} p_j , \sum_{j=1}^{i} q_j \Big\} - \sum_{j=1}^{i-1} a_j \\
+    &= \min \Big\{ \sum_{j=1}^{i} p_j , \sum_{j=1}^{i} q_j \Big\} - \min \Big\{ \sum_{j=1}^{i-1} p_j , \sum_{j=1}^{i-1} q_j \Big\}.
+\end{align}
+
+\begin{lemma}[Cicalese and Vaccaro, 2002 \cite{cicalese_supermodularity_2002}]
+    For all $p, q \in \mathcal{P}^d$ we have $\alpha(p, q) = p \wedge q$.
+\end{lemma}
+
+
+
+\subsection{Constructing the join} \label{sec:join}
+
+We can proceed in a similar way for the join of two vectors $p \vee q$, and thinking in terms of Lorenz curves will once again give us the right idea to move forward. Figure X shows the same vectors $p = (0.6, 0.2, 0.2)$ and $q = (0.45, 0.45, 0.1)$, both in $\mathcal{P}^3$. This time, the least ordered vector that still majorizes both $p$ and $q$ should have a Lorenz curve that hugs their curves from above. Let us define the vector $\beta(p, q) = (b_1, ..., b_d)$ as 
+
+\begin{align}
+    b_i &= \max \Big\{ \sum_{j=1}^{i} p_j , \sum_{j=1}^{i} q_j \Big\} - \sum_{j=1}^{i-1} b_j \\
+    &= \max \Big\{ \sum_{j=1}^{i} p_j , \sum_{j=1}^{i} q_j \Big\} - \max \Big\{ \sum_{j=1}^{i-1} p_j , \sum_{j=1}^{i-1} q_j \Big\}.
+\end{align}
+
+While this is a step in the right direction, things are unfortunately more complicated than for the meet, as this vector is not guaranteed to be sorted in nonincreasing order and is thus not necessarily in $\mathcal{P}^d$. Let us define $\beta'(p, q) = (\beta(p, q))^\downarrow \in \mathcal{P}^d$. Let us take $p = (0.6, 0.15, 0.15, 0.1)$ and $q = (0.5, 0.25, 0.20, 0.05)$ and then
+
+\begin{align}
+    \beta(p, q) = (0.6, 0.15, 0.2, 0.05) \notin \mathcal{P}^4 \\
+    \beta'(p, q) = (0.6, 0.2, 0.15, 0.05) \in \mathcal{P}^4
+\end{align}. 
+
+Figure X shows the Lorenz curves of $p, q, \beta(p, q)$ and $\beta'(p, q)$. It is immediate to see that $p, q \prec \beta'(p, q)$, but while $\beta'(p, q)$  is indeed an upper bound on $p$ and $q$ it does not necessarily majorize all of the vectors in $\mathcal{T}_-(p) \cap \mathcal{T}_-(q)$. Intuitively, we can still find a Lorenz curve below $\beta'(p, q)$ by choosing the shortest chord (a straight line) between $b'_1$ and $b'_3$, i.e. by smoothing over the concave dent in $\beta(p, q)$. This idea yields the vector $(0.6, 0.175, 0.175, 0.05)$ which clearly majorizes $\beta'(p, q)$, as shown in figure X. We have the following statement:
+
+\begin{equation}
+    p, q \prec (0.6, 0.175, 0.175, 0.05) \prec \beta'(p, q).
+\end{equation}
+
+The following definition provides the smoothing algorithm to apply to $\beta(p, q)$ to obtain the join of $p$ and $q$.
+
+\begin{definition}[Concave dent smoothing algorithm] \label{def:smoothing_algorithm}
+    Let $b = (b_1, ..., b_d)$, and let $j$ be the smallest integer in $\{2,...,d\}$ such that $b_j > b_{j-1}$. Moreover, let $i$ be the greatest integer in $\{1, 2, ..., j-1\}$ such that
+    \begin{equation}
+        b_{i-1} \geq \frac{\sum_{r=1}^{j}b_r}{j-i+1} \eqqcolon a.
+    \end{equation}
+    Let the probability distribution $c = (c_1, ..., c_d)$ be defined as
+    \begin{equation}
+        c_r = \begin{system}
+                a, \quad \text{for} \; r = i, i+1, ..., j \\ % bon mon workaround pour avoir du displaystyle dans system nique \text lol
+                b_r \quad \text{otherwise}.
+              \end{system}
+    \end{equation}
+    This vector is the same as the original vector, but where the first concave dent found in the curve has been smoothed out.
+\end{definition}
+
+\begin{lemma}[Cicalese and Vaccaro, 2002 \cite{cicalese_supermodularity_2002}]
+    In at most $d-1$ iterations\footnote{Smoothing a concave dent can lead to a concave dent with the following point, so there is at most $d-1$ concave dents to smoothe.} of the algorithm described in definition \ref{def:smoothing_algorithm} applied to the vector $\beta(p, q)$, we obtain $p \vee q$.
+\end{lemma}
+
+This concludes the proof sketch for the set $\mathcal{P}^d$ endowed with the majorization relation being a lattice. Working implementations of the join and meet algorithms in Python are available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}, which consists of a small library for majorization-related tasks such as plotting Lorenz curves or applying bistochastic matrices to probability vectors.
 
 
 
 \subsection{Properties of the Shannon entropy on the lattice}
+
+
+
+\subsection{Entropic distances on the lattice}
+

@@ -1,34 +1,6 @@
 \documentclass[a4paper, 11pt]{report}
 
-\usepackage{preamble}
-
-\usepackage{biblatex}
-
-%\author{Alexander Stévins}
-%\title{Majorization Lattice in the Theory of Quantum Entanglement}
-
-% Promotor, co-promotor, advisors, 
-%\promotor{Pr. Nicolas Cerf}
-%\advisors{Ir. Serge Deside}
-%\reason{Physics Engineering}
-%\AcademicYear{2024-2025}
-
-
-
-\newtheorem{definition}{Definition}
-\newtheorem{remark}{Remark}
-\newtheorem{lemma}{Lemma}
-\newtheorem{result}{Result}
-\newtheorem{theorem}{Theorem}
-\newtheorem{corollary}{Corollary}[result]
-
-\newenvironment{system}%
-{\left\lbrace
-\everymath={\displaystyle}
-\begin{array}{@{}l@{}}}%
-{\end{array}\right.}
-
-
+\usepackage{preamble} % contains all of the packages to use + custom theorems + custom environments
 
 \begin{document}
 
@@ -73,9 +45,11 @@
 
 \part{Results}
 
-\chapter{Entropic boost}
+\chapter{Entropic Boost}
 
-\chapter{Volume of entaglement cones}
+\chapter{Resource Theory of Incomparability}
+
+\chapter{Volume of Entaglement Cones}
 
 
 
@@ -89,7 +63,7 @@
 
 
 \addcontentsline{toc}{chapter}{Bibliography}
-%\printbibliography
+\printbibliography
 
 
 \include{appendix}  

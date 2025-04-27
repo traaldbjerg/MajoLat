@@ -30,11 +30,20 @@
 \usepackage[english]{babel}
 \usepackage[colorlinks,urlcolor=black,linkcolor=black]{hyperref}
 \usepackage{url}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
 \usepackage{color}
 \definecolor{darkblue}{RGB}{,71,140}
 \usepackage{amssymb}
 \usepackage{amsfonts}
 \usepackage{amsmath}
+\usepackage{amsthm}
 \usepackage{aligned-overset}
 \usepackage{tabu}
 \usepackage{colortbl}
@@ -42,7 +51,10 @@
 \usepackage[top=2.5cm, bottom=1.5cm, left=2.5cm, right=1cm]{geometry}
 \usepackage[pdftex]{graphicx}
 \usepackage{tikz}
-%\geometry{lmargin=2.5cm, tmargin=2.5cm}
+
+%tikz packages
+\usetikzlibrary{intersections}
+\usetikzlibrary{calc}
 
 
 \usepackage{graphicx,caption}
@@ -58,6 +70,31 @@
 \usepackage[acronym, nopostdot, nogroupskip, style=list, toc, nonumberlist]{glossaries}
 % Load the Bruface standard
 %\usepackage{BrufaceTitlepageStyle} % utiliser la page non bruface a la place
+
+
+
+% environnements custom + theoremes
+
+\theoremstyle{plain}
+\newtheorem{lemma}{Lemma}
+\newtheorem{result}{Result}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}[result]
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+
+\newenvironment{system}%
+{\left\lbrace
+\everymath={\displaystyle}
+\begin{array}{@{}l@{}}}%
+{\end{array}\right.}
+
+% alias pour meet et join
+\newcommand{\meet}{\wedge}
+\newcommand{\join}{\vee}
 
 \usepackage[
 backend=biber,
