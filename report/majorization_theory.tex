@@ -11,7 +11,7 @@ The theory of majorization gives a framework for what it means for a probability
 Let $p$ be a probability vector, \textit{i.e.} a vector such that $\sum_{i}^{d} p_i = 1$ for a vector of dimension $d$. Let $p^\downarrow$ be the non-increasing reordering of $p$, meaning that the entries of $p^\downarrow$ are the same as those of $p$, but sorted such that $p^\downarrow_1 \geq p^\downarrow_2 \geq ... \geq p^\downarrow_d$. We will always be considering reordered vectors in this Ms thesis, and we will therefore denote the set of $n$-dimesional probability vectors sorted in nonincreasing order $\mathcal{P}^n$. Formally, $\mathcal{P}^n = \{p \in \mathbb{R}^n | \sum_{i}^{n} p_i = 1, p_i \geq p_{i+1}\}$.
 
 \begin{definition}[Cumulative sum] % ressemble beaucoup a ce que Serge a ecrit dans son memoire, a reformuler
-    Let $p$ be a vector in $\mathcal{P}^d$. The $j^{\text{th}}$ decreasing\footnote{We could also use increasing cumulative sums $S^\uparrow_i (p)$ instead and get an equivalent description of majorization. The only effect would be reversed inequalities in (\ref{eq:majorization}).} cumulative sum of $p$ is the sum of the $j$ biggest components of $p$, which can be written as
+    Let $p$ be a vector in $\mathcal{P}^d$. The $j^{\text{th}}$ decreasing\footnote{We could also have defined $\mathcal{P}^d$ to be increasing vectors and use increasing cumulative sums $S^\uparrow_i (p)$ instead. We would get an equivalent description of majorization, the only effect being reversed inequalities in (\ref{eq:majorization}).} cumulative sum of $p$ is the sum of the $j$ biggest components of $p$, which can be written as
     \begin{equation}
         S^\downarrow_j (p) \coloneqq \sum_{i = 1}^{j} p^\downarrow_i
     \end{equation}
@@ -134,7 +134,7 @@ Some functions preserve the ordering defined by the majorization relation and ar
 
 
 
-\subsection{Shannon entropy}
+\subsection{Shannon entropy} \label{sec:schur_shannon}
 
 
 
@@ -144,20 +144,24 @@ Some functions preserve the ordering defined by the majorization relation and ar
 
 The majorization relation creates a preorder on probability vectors. When restricted to \textit{ordered} probability vectors, the majorization relation creates a proper partial order. With the ordering induced by the majorization relation, the set of ordered vectors $\{z | z_1 \geq z_2 \geq ... \geq z_d\}$ becomes a lattice.
 
-\begin{definition}[Lattice] % copie colle de l'article de Cicalese and Vaccaro, c'est ok ou pas ? pour les definitions mathematiques pas beaucoup de liberte imo
+\begin{definition}[Lattice] \label{def:lattice} % copie colle de l'article de Cicalese and Vaccaro, c'est ok ou pas ?
     A lattice is a quadruple $\langle \mathcal{L}, \sqsubseteq, \wedge, \vee \rangle$ where $\mathcal{L}$ is a set, $\sqsubseteq$ is a partial ordering $\mathcal{L}$, and for all $a, b \in \mathcal{L}$ there is a unique greatest lower bound (glb) $a \wedge b$ and a unique least upper bound (lub) $a \vee b$. That is, $a \wedge b \sqsubseteq a$, $a \wedge b \sqsubseteq b$, $a \sqsubseteq a \vee b$, $b \sqsubseteq a \vee b$, and for each $c$, $d$ such that $c \sqsubseteq a$, $c \sqsubseteq b$, $a \sqsubseteq d$, $b \sqsubseteq d$ we have that
     \begin{equation}
         c \sqsubseteq a \wedge b \quad \text{and} \quad a \vee b \sqsubseteq d.
     \end{equation}
 \end{definition}
 
+A simple example of a lattice is the set $\mathbb{N}$ of natural numbers ordered by the relation “divides”. Then for $a, b \in \mathbb{N}$ the lub is l.c.m.$(a, b)$ and the glb is g.c.d.$(a, b)$, where l.c.m. = least common multiple and g.c.d. = greatest common divisor. % example from Dominich, 2008, Elements of Lattice Theory
+
 It was shown that the set $\mathcal{P}^d$ endowed with the partial ordering $\prec$ is a lattice \cite{cicalese_supermodularity_2002}. As the lattice is a central part of this Ms thesis, we will go through the main ideas behind the proof, which hinges on defining the correct greatest lower bound (glb) $p \wedge q$, which we will call the \textit{meet} of $p$ and $q$, and the correct least upper bound (lub) $p \vee q$, which we will call the \textit{join}.
 
-Let us first go through what it means for a vector to be the greatest lower bound, the meet, of two vectors $p, q \in \mathcal{P}^d$. Intuitively, the glb of $p$ and $q$ in terms of majorization is the least disordered vector that is majorized by both $p$ and $q$. While this may not seem very interesting at a first glance, recall that two vectors may be incomparable, meaning that both $p \nprec q$ and $p \nsucc q$ are true. Even if they are incomparable, the subset of vectors that are majorized by both $p$ and $q$ is nonempty\footnote{It is guaranteed to at least contain the uniform distribution $(\frac{1}{d}, ..., \frac{1}{d})$ since it is majorized by every other distribution.} and has a supremum, $p \wedge q$, \textit{which majorizes every other vector in the subset}. Note that an equivalent definition of a lattice is to require that every partially ordered subset has a supremum and infimum \cite[p. 19]{marshall_inequalities_2011}. Since the two are equivalent, we can consider this to be a property of the lattice, guaranteeing the existence of the supremum $p \wedge q$.
+Let us first go through what it means for a vector to be the greatest lower bound, the meet, of two vectors $p, q \in \mathcal{P}^d$. Intuitively, the glb of $p$ and $q$ in terms of majorization is the least disordered vector that is majorized by both $p$ and $q$. While this may not seem very interesting at a first glance, recall that two vectors may be incomparable, meaning that both $p \nprec q$ and $p \nsucc q$ are true. Even if they are incomparable, the subset of vectors that are majorized by both $p$ and $q$ is nonempty\footnote{It is guaranteed to at least contain the uniform distribution $(\frac{1}{d}, ..., \frac{1}{d})$ since it is majorized by every other distribution.} and has a supremum, $p \wedge q$, \textit{which majorizes every other vector in the subset}. Note that an equivalent definition of a lattice is to require that every partially ordered subset has a supremum and infimum \cite[p. 19]{marshall_inequalities_2011}. Since the two definitions are equivalent, we can consider this to be a property of the lattice, guaranteeing the existence of the supremum $p \wedge q$.
 
 In similar fashion, the lub, the join, of two vectors $p, q \in \mathcal{P}^d$ is the least ordered vector that majorizes both $p$ and $q$. The subset of vectors that majorize both $p$ and $q$ is nonempty\footnote{It is guaranteed to at least contain the certain distribution $(1, 0, ..., 0)$ since it majorizes every other distribution.} and has an infimum, $p \vee q$, \textit{which is majorized by every other vector in the subset}. Moreover, the same property as before guarantees the existence of the infimum.
 
-If the two vectors are comparable, say $p \prec q$ (the $p \succ q$ case being symmetric), then the question becomes trivial as the least ordered vector that majorizes both $p$ and $q$ is $q$ and the least disordered vector that is majorized by both $p$ and $q$ is $p$, i.e. $p \wedge q = p$ and $p \vee q = q$.
+\begin{remark} \label{rem:comp_meet_join}
+    If two vectors are comparable, say $p \prec q$ (the $p \succ q$ case being symmetric), then the question becomes trivial as the least ordered vector that majorizes both $p$ and $q$ is $q$ and the least disordered vector that is majorized by both $p$ and $q$ is $p$, i.e. $p \wedge q = p$ and $p \vee q = q$.
+\end{remark}
 
 
 
@@ -171,7 +175,7 @@ Before going further with the proof, let us first give a 2D visual representatio
 
 \begin{figure}[h!]
     \centering
-    \begin{tikzpicture}
+    \begin{tikzpicture}[scale=0.8]
         % draw cone of p
         \coordinate (A) at (-2,3);
         \coordinate (B) at (2, -3);
@@ -204,7 +208,7 @@ Before going further with the proof, let us first give a 2D visual representatio
 
 \begin{figure}[h!]
     \centering
-    \begin{tikzpicture}
+    \begin{tikzpicture}[scale=0.9]
         % draw cone of p
         \coordinate (A) at (-2,3);
         \coordinate (B) at (2, -3);
@@ -272,9 +276,9 @@ We can proceed in a similar way for the join of two vectors $p \vee q$, and thin
 While this is a step in the right direction, things are unfortunately more complicated than for the meet, as this vector is not guaranteed to be sorted in nonincreasing order and is thus not necessarily in $\mathcal{P}^d$. Let us define $\beta'(p, q) = (\beta(p, q))^\downarrow \in \mathcal{P}^d$. Let us take $p = (0.6, 0.15, 0.15, 0.1)$ and $q = (0.5, 0.25, 0.20, 0.05)$ and then
 
 \begin{align}
-    \beta(p, q) = (0.6, 0.15, 0.2, 0.05) \notin \mathcal{P}^4 \\
-    \beta'(p, q) = (0.6, 0.2, 0.15, 0.05) \in \mathcal{P}^4
-\end{align}. 
+    \beta(p, q) &= (0.6, 0.15, 0.2, 0.05) \notin \mathcal{P}^4 \\
+    \beta'(p, q) &= (0.6, 0.2, 0.15, 0.05) \in \mathcal{P}^4.
+\end{align}
 
 Figure X shows the Lorenz curves of $p, q, \beta(p, q)$ and $\beta'(p, q)$. It is immediate to see that $p, q \prec \beta'(p, q)$, but while $\beta'(p, q)$  is indeed an upper bound on $p$ and $q$ it does not necessarily majorize all of the vectors in $\mathcal{T}_-(p) \cap \mathcal{T}_-(q)$. Intuitively, we can still find a Lorenz curve below $\beta'(p, q)$ by choosing the shortest chord (a straight line) between $b'_1$ and $b'_3$, i.e. by smoothing over the concave dent in $\beta(p, q)$. This idea yields the vector $(0.6, 0.175, 0.175, 0.05)$ which clearly majorizes $\beta'(p, q)$, as shown in figure X. We have the following statement:
 
@@ -309,15 +313,33 @@ Lemmas \ref{lem:meet} and \ref{lem:join} conclude the proof sketch for the set $
  
 \subsection{Properties of the meet and join}
 
+In any lattice, the meet and the join can also be seen as two operations\footnote{This is actually another alternative definition of a lattice, which can be defined as a triple $\langle \mathcal{L}, \wedge, \vee \rangle$ with operations $\wedge, \vee$ acting on elements of $\mathcal{L}$. If they satisfy the properties listed above, an ordering $\sqsubseteq$ can then be derived from the triple. \cite[p. 47]{dominich_elements_2008}}
+acting on elements of a set $\mathcal{L}$, which enjoy some useful properties \cite[p. 46]{dominich_elements_2008}.
+
+\begin{itemize}
+    \item Commutativity: $a \wedge b = b \wedge a, \; a \vee b = b \vee a \quad \forall a, b \in \mathcal{L}$.
+    \item Associativity: $a \wedge (b \wedge c) = (a \wedge b) \wedge c, \;
+                            a \vee (b \vee c) = (a \vee b) \vee c \quad \forall a, b, c \in \mathcal{L}$.
+    \item Absorption: $a \wedge (a \vee b) = a, \; a \vee (a \wedge b) = a \quad \forall a, b \in \mathcal{L}$.
+\end{itemize}
+
+While it is fairly clear how the algorithms from sections \ref{sec:meet} and \ref{sec:join} lead to commutativity and associativity, it might not be as clear why they lead to the absorption rule. Recall definition \ref{def:lattice} and the interpretation of glb and lub of the meet and join respectively. Then it becomes clearer that the first absorption rule for the majorization lattice states that \textit{the most ordered vector that is majorized by both $a$ and some vector that majorizes $a$ (and $b$) is none other than $a$}. Similarly, the second absorption rules states that \textit{the least ordered vector that majorizes both $a$ and some vector that is majorized by $a$ (and $b$) is $a$}. Yet another way to understand it is that this boils down to remark \ref{rem:comp_meet_join}: $a$ is necessarily comparable to $a \vee b$ (resp. $a \wedge b$) since by definition $a \prec a \vee b$ (resp. $a \succ a \wedge b$), and when two vectors are comparable their meet (resp. join) is simply the least ordered (resp. most ordered) of the two vectors, being $a$ in this case.
+
+% parler du fait que les proprietes sont logiques dans la vision geometrique aussi ?
+
+These properties are extremely helpful when working on proofs on the lattice, and will appear quite a bit in the second part of this Ms thesis.
+
 
 
 \section{Properties of the Shannon entropy on the lattice}
 
-\subsection{Subadditivity}
+The Schur-concavity of the Shannon entropy, which preserves the ordering of the majorization relation, has already been discussed in section \ref{sec:schur_shannon}. However, the Shannon entropy enjoys additional properties on the lattice which will be discussed in this section.
+
+\subsection{Subadditivity} \label{sec:subadditivity}
 
 
 
-\subsection{Supermodularity}
+\subsection{Supermodularity} \label{sec:supermodularity}
 
 
 
