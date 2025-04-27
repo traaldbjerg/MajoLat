@@ -254,7 +254,7 @@ Intuitively, the most ordered state that is majorized by both $p$ and $q$ should
     &= \min \Big\{ \sum_{j=1}^{i} p_j , \sum_{j=1}^{i} q_j \Big\} - \min \Big\{ \sum_{j=1}^{i-1} p_j , \sum_{j=1}^{i-1} q_j \Big\}.
 \end{align}
 
-\begin{lemma}[Cicalese and Vaccaro, 2002 \cite{cicalese_supermodularity_2002}]
+\begin{lemma}[Cicalese and Vaccaro, 2002 \cite{cicalese_supermodularity_2002}] \label{lem:meet}
     For all $p, q \in \mathcal{P}^d$ we have $\alpha(p, q) = p \wedge q$.
 \end{lemma}
 
@@ -296,18 +296,28 @@ The following definition provides the smoothing algorithm to apply to $\beta(p, 
                 b_r \quad \text{otherwise}.
               \end{system}
     \end{equation}
-    This vector is the same as the original vector, but where the first concave dent found in the curve has been smoothed out.
+    This vector is the same as the original vector, but where the \textit{first} concave dent found in the Lorenz curve has been smoothed out.
 \end{definition}
 
-\begin{lemma}[Cicalese and Vaccaro, 2002 \cite{cicalese_supermodularity_2002}]
-    In at most $d-1$ iterations\footnote{Smoothing a concave dent can lead to a concave dent with the following point, so there is at most $d-1$ concave dents to smoothe.} of the algorithm described in definition \ref{def:smoothing_algorithm} applied to the vector $\beta(p, q)$, we obtain $p \vee q$.
+\begin{lemma}[Cicalese and Vaccaro, 2002 \cite{cicalese_supermodularity_2002}] \label{lem:join}
+    For any $p, q \in \mathcal{P}^d$ we obtain $p \vee q$ in at most $d-1$ iterations\footnote{Smoothing a concave dent can lead to a concave dent with the following point, so there is at most $d-1$ concave dents to smoothe.} of the algorithm described in definition \ref{def:smoothing_algorithm} applied to the vector $\beta(p, q)$.
 \end{lemma}
 
-This concludes the proof sketch for the set $\mathcal{P}^d$ endowed with the majorization relation being a lattice. Working implementations of the join and meet algorithms in Python are available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}, which consists of a small library for majorization-related tasks such as plotting Lorenz curves or applying bistochastic matrices to probability vectors.
+Lemmas \ref{lem:meet} and \ref{lem:join} conclude the proof sketch for the set $\mathcal{P}^d$ endowed with the majorization relation being a lattice, as we have found the lub and glb of any two vectors in $\mathcal{P}^d$. Working implementations of the join and meet algorithms in Python are available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}, which consists of a small library for majorization-related tasks such as plotting Lorenz curves or applying bistochastic matrices on probability vectors. 
+
+
+ 
+\subsection{Properties of the meet and join}
 
 
 
-\subsection{Properties of the Shannon entropy on the lattice}
+\section{Properties of the Shannon entropy on the lattice}
+
+\subsection{Subadditivity}
+
+
+
+\subsection{Supermodularity}
 
 
 
