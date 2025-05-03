@@ -1,5 +1,7 @@
-import numpy as np
 import math
+import numpy as np
+import matplotlib.pyplot as plt
+
 
 class ProbVector(): # notations from Cicalese and Vaccaro 2002
     
@@ -36,7 +38,7 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
     def __next__(self):
         return next(self.probs)
     
-    def getProbs(self):
+    def getArray(self):
         return self.probs
 
     def majorizes(self, other):
@@ -44,15 +46,15 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         q = other
         dim_diff = len(self) - len(other)
         if dim_diff > 0:
-            q = ProbVector(np.append(other.getProbs(), [0]*dim_diff))
+            q = ProbVector(np.append(other.getArray(), [0]*dim_diff))
         elif dim_diff < 0:
-            p = ProbVector(np.append(self.getProbs(), [0]*-dim_diff))
+            p = ProbVector(np.append(self.getArray(), [0]*-dim_diff))
         switch = True
         sum_p = 0
         sum_q = 0
         for i in range(p.dim):
-            sum_p += p.getProbs()[i]
-            sum_q += q.getProbs()[i]
+            sum_p += p.getArray()[i]
+            sum_q += q.getArray()[i]
             #print(sum_p, sum_q) # debug
             if sum_p - sum_q < -ProbVector.tolerance: # this sucks
                 switch = False
@@ -64,24 +66,24 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         q = other
         dim_diff = len(self) - len(other)
         if dim_diff > 0:
-            q = ProbVector(np.append(other.getProbs(), [0]*dim_diff))
+            q = ProbVector(np.append(other.getArray(), [0]*dim_diff))
         elif dim_diff < 0:
-            p = ProbVector(np.append(self.getProbs(), [0]*-dim_diff))
+            p = ProbVector(np.append(self.getArray(), [0]*-dim_diff))
         print(p)
         print(q)
         switch = True
         sum_p = 0
         sum_q = 0
         for i in range(p.dim):
-            sum_p += p.getProbs()[i]
-            sum_q += q.getProbs()[i]
+            sum_p += p.getArray()[i]
+            sum_q += q.getArray()[i]
             print(sum_p, sum_q)
             if sum_p < sum_q:
                 switch = False
         return switch
             
     def __eq__(self, other):
-        return all(self.getProbs() == other.getProbs())
+        return all(self.getArray() == other.getArray())
     
     def __ne__(self, other):
         return not self == other
@@ -98,15 +100,15 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         q = other
         dim_diff = len(self) - len(other)
         if dim_diff > 0:
-            q = ProbVector(np.append(other.getProbs(), [0]*dim_diff))
+            q = ProbVector(np.append(other.getArray(), [0]*dim_diff))
         elif dim_diff < 0:
-            p = ProbVector(np.append(self.getProbs(), [0]*-dim_diff))        
+            p = ProbVector(np.append(self.getArray(), [0]*-dim_diff))        
         p_sum = 0
         q_sum = 0
         a_sum = 0
         for i in range(p.dim):
-            p_sum += p.getProbs()[i]
-            q_sum += q.getProbs()[i]
+            p_sum += p.getArray()[i]
+            q_sum += q.getArray()[i]
             a_i = min(p_sum, q_sum) - a_sum # where a_i is the ith element of the meet of p and q
             a = np.append(a, a_i) # not very clean but numpy allocates its arrays in a contiguous block of memory so no real alternative
             a_sum += a_i
@@ -118,15 +120,15 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         q = other
         dim_diff = len(self) - len(other)
         if dim_diff > 0:
-            q = ProbVector(np.append(other.getProbs(), [0]*dim_diff))
+            q = ProbVector(np.append(other.getArray(), [0]*dim_diff))
         elif dim_diff < 0:
-            p = ProbVector(np.append(self.getProbs(), [0]*-dim_diff))        
+            p = ProbVector(np.append(self.getArray(), [0]*-dim_diff))        
         p_sum = 0
         q_sum = 0
         b_sum = 0
         for i in range(p.dim):
-            p_sum += p.getProbs()[i]
-            q_sum += q.getProbs()[i]
+            p_sum += p.getArray()[i]
+            q_sum += q.getArray()[i]
             b_i = max(p_sum, q_sum) - b_sum
             b = np.append(b, b_i)
             b_sum += b_i
@@ -199,7 +201,7 @@ class BistochMatrix(): # useful for degrading 2 vectors with the same bistochast
     def __next__(self):
         return next(self.array)
     
-    def getMatrix(self):
+    def getArray(self):
         return self.array
     
     def isBistochastic(self):
@@ -208,19 +210,19 @@ class BistochMatrix(): # useful for degrading 2 vectors with the same bistochast
         
     def __mul__(self, other):
         if isinstance(other, BistochMatrix):
-            return BistochMatrix(np.dot(self.array, other.getMatrix()))
+            return BistochMatrix(np.dot(self.array, other.getArray()))
         elif isinstance(other, ProbVector):
-            return ProbVector(np.dot(self.array, other.getProbs()))
+            return ProbVector(np.dot(self.array, other.getArray()))
         
 
 
 ### GENERAL PURPOSE FUNCTIONS ###
   
 def entropy(v):
-    return -sum([p*np.log2(p) for p in v.getProbs() if p != 0]) # ln instead of log2
+    return -sum([p*np.log2(p) for p in v.getArray() if p != 0]) # ln instead of log2
 
 def guessing_entropy(v):
-    return sum((i+1)* v.getProbs()[i] for i in range(len(v))) # + 1 because of 0-indexing
+    return sum((i+1)* v.getArray()[i] for i in range(len(v))) # + 1 because of 0-indexing
 
 def renyi_entropy(v, alpha):
     if alpha == 0: # hartley entropy
@@ -228,9 +230,9 @@ def renyi_entropy(v, alpha):
     elif alpha == 1: # shannon entropy
         return entropy(v)
     elif alpha == np.inf: # min-entropy
-        return -np.log2(max(v.getProbs()))
+        return -np.log2(max(v.getArray()))
     else: # general renyi entropy
-        return 1/(1-alpha)*np.log2(sum([p**alpha for p in v.getProbs()])) # ln instead of log2
+        return 1/(1-alpha)*np.log2(sum([p**alpha for p in v.getArray()])) # ln instead of log2
 
 def mutual_information(p, q):
     return entropy(p) + entropy(q) - entropy(p + q) # as defined in Cicalese and Vaccaro 2002
@@ -240,20 +242,20 @@ def relative_entropy(p, q): # as defined in Thomas and Cover 2006
     p_new = p
     q_new = q
     if dim_diff > 0:
-        q_new = ProbVector(np.append(q.getProbs(), [0]*dim_diff))
+        q_new = ProbVector(np.append(q.getArray(), [0]*dim_diff))
     elif dim_diff < 0:
-        p_new = ProbVector(np.append(p.getProbs(), [0]*-dim_diff))        
+        p_new = ProbVector(np.append(p.getArray(), [0]*-dim_diff))        
 
     res = 0
     for i in range(len(p_new)):
-        if p_new.getProbs()[i] > 0 and q_new.getProbs()[i] == 0:
+        if p_new.getArray()[i] > 0 and q_new.getArray()[i] == 0:
             return np.inf
-        elif p_new.getProbs()[i] == 0 and q_new.getProbs()[i] == 0:
+        elif p_new.getArray()[i] == 0 and q_new.getArray()[i] == 0:
             pass
-        elif p_new.getProbs()[i] == 0 and q_new.getProbs()[i] > 0:
+        elif p_new.getArray()[i] == 0 and q_new.getArray()[i] > 0:
             pass
         else:
-            res += p_new.getProbs()[i]*np.log2(p_new.getProbs()[i]/q_new.getProbs()[i])
+            res += p_new.getArray()[i]*np.log2(p_new.getArray()[i]/q_new.getArray()[i])
     return res
 
 def d(p,q): # as defined in Cicalese and Vaccaro 2013
@@ -281,3 +283,47 @@ def E_minus(p, q): # see theorem 1
 def E_t(p, q):
     return E_plus(p, q) - E_minus(p, q)
 
+
+# display tools
+def plot_lorenz_curves(*prob_vectors, labels=None, colors=None, markers=None, title="Lorenz Curves", figsize=(6,6)):
+    """
+    Plot the Lorenz curves for one or more ProbVector instances.
+
+    Parameters:
+        *prob_vectors: Variable number of ProbVector instances.
+        labels (list of str, optional): labels for the probability vectors.
+        colors (list of str, optional): colors for the probability vectors.
+        markers (list of str, optional): markers for the probability vector
+        title (str, optional): title of the plot.
+        figsize (tuple, optional): Size of the plot.
+    """
+
+    if labels is None:
+        labels = [f"Vector {i+1}" for i in range(len(prob_vectors))]
+    
+    if colors is None:
+        colors = ['b'] * len(prob_vectors)
+
+    if markers is None:
+        markers = ['o'] * len(prob_vectors)
+
+    plt.figure(figsize=figsize)
+    
+    for pv, label, color, marker in zip(prob_vectors, labels, colors, markers):
+        p = np.array(pv.getArray())
+        #p_sorted = np.sort(p)[::-1]
+        cumulative = np.insert(np.cumsum(p), 0, 0)  # prepend 0
+        n = len(p)
+        x = np.linspace(0, n, n+1)  # normalized x-axis
+        plt.plot(x, cumulative, marker=marker, label=label, color=color)
+
+    #plt.plot([0, 1], [0, 1], 'k--', label="Perfect equality")  # 45-degree line
+    plt.xlabel("Component")
+    plt.ylabel("Cumulative probability")
+    plt.title(title)
+    plt.legend()
+    plt.xticks(x)
+    plt.grid(True)
+    plt.xlim(0, n)
+    plt.ylim(0, 1)
+    plt.show()

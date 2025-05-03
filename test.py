@@ -1,32 +1,38 @@
+import os
+os.environ['LIBGL_ALWAYS_SOFTWARE'] = '1'
+
 import majorization as mj
 import numpy as np
+import matplotlib
+
+matplotlib.use('TkAgg')
 
 #generate lots of probability vectors and check whether S(p || q) >= S(Dp || q) for all D, p, q
 
-dimensions = 8
-tries = 10000
-ratio = 0
-comp = 0
+#dimensions = 8
+#tries = 10000
+#ratio = 0
+#comp = 0
 
-for i in range(tries):
-    p = mj.ProbVector(np.random.rand(dimensions))
-    q = mj.ProbVector(np.random.rand(dimensions))
-    if not (p > q or p < q):
-        comp += 1
-    mat = mj.BistochMatrix(dims=dimensions)
-    if not mj.S(p, q) <= (mj.S(mat * p, q) + 1e-12):
-        print(p)
-        print(q)
-        print(p * q)
-        print(mat*p)
-        print(mat)
-        print(mj.S(p, q))
-        print(mj.S(mat*p, mat*q))
-        print("")
-        ratio += 1
+#for i in range(tries):
+#    p = mj.ProbVector(np.random.rand(dimensions))
+#    q = mj.ProbVector(np.random.rand(dimensions))
+#    if not (p > q or p < q):
+#        comp += 1
+#    mat = mj.BistochMatrix(dims=dimensions)
+#    if not mj.S(p, q) <= (mj.S(mat * p, q) + 1e-12):
+#        print(p)
+#        print(q)
+#        print(p * q)
+#        print(mat*p)
+#        print(mat)
+#        print(mj.S(p, q))
+#        print(mj.S(mat*p, mat*q))
+#        print("")
+#        ratio += 1
         
-print("RATIO: {}".format(ratio/tries))
-print("INCOMPARABILITY RATIO: {}".format(comp/tries))
+#print("RATIO: {}".format(ratio/tries))
+#print("INCOMPARABILITY RATIO: {}".format(comp/tries))
 
 #A = mj.BistochMatrix(dims=4)
 #
@@ -34,8 +40,8 @@ print("INCOMPARABILITY RATIO: {}".format(comp/tries))
 #
 #
 #
-#v = mj.ProbVector([0.1, 0.2, 0.3, 0.4])
-#u = mj.ProbVector([0.5, 0.2, 0.15, 0.15])
+p = mj.ProbVector([0.5, 0.25, 0.25])
+q = mj.ProbVector([0.4, 0.4, 0.2])
 #w = A*v
 #x = A*u
 #
@@ -43,3 +49,4 @@ print("INCOMPARABILITY RATIO: {}".format(comp/tries))
 #print(mj.S(x, v))
 ##print(mj.S(w, x))
 
+mj.plot_lorenz_curves(p, q, labels=['p', 'q'], colors=['blue', 'orange'], figsize=(6, 4))

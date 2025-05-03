@@ -184,7 +184,7 @@ cython_debug/
 .python-version
 
 #LaTeX files
-#*.pdf
+*.pdf
 *.aux
 *.bbl
 *.bcf
