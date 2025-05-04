@@ -104,11 +104,10 @@ Whichever picture one prefers intuitively, the fact that there is a full equival
 
 \subsection{Lorenz curves}
 
-Lorenz curves were first introduced in 1905 by economist Max Lorenz as a way to represent income inequality. The idea is the following : given a distribution, plot the cumulative sum of its largest entries. Doing this for two distributions, we can then say that if one curve is above the other at all times, then it is more unequal (more disordered) than the second. By normalizing the distributions for total income, this graphical tool could then be used to quickly compare income inequality between different regions or countries.
+Lorenz curves were first introduced in 1905 by economist Max Lorenz as a way to represent income inequality. By plotting the cumulative sums of two distributions, we can then say that if one curve is above the other at all times, then it is more unequal (more disordered) than the second. By normalizing the distributions for total income, this graphical tool could then be used to quickly compare income inequality between different regions or countries.
 
-It turns out that this notion of unequality is precisely the same as majorization, as at each coordinate the plotted curves explicitely show one of the inequalities of definition \ref{def:majorization}. More formally, the Lorenz curve of a vector $p \in \mathbb{R}^d$ is obtained by linear interpolation between the points of the set $\{(i, S^\downarrow_i(p)) | i \in \mathbb{N}, i \leq d\}$. % il y a d'office une notation moins moche pour ca
-The alias $L^\downarrow_p (x) \coloneqq S^\downarrow_x (p)$ is an alternative notation used for Lorenz curves, where the abscissa goes in the argument of the function. In this report, Lorenz curves will mostly be useful in sections \ref{sec:meet} and \ref{sec:join} to understand how the algorithm for constructing key vectors in the lattice work.
-
+More formally, the Lorenz curve of a vector $p \in \mathbb{R}^d$ is obtained by linear interpolation between the points of the set $\{(i, S^\downarrow_i(p)) | i \in \mathbb{N}, i \leq d\}$. % il y a d'office une notation moins moche pour ca
+We will be using the convention that $S^\downarrow_0 (v) = 0$ for any vector $v$. %The alias $L^\downarrow_p (x) \coloneqq S^\downarrow_x (p)$ is an alternative notation used for Lorenz curves, where the abscissa goes in the argument of the function.
 A few examples of Lorenz curves are given in figures \ref{fig:lorenz_comparable_example} and \ref{fig:lorenz_incomparable_example}.
 
 \begin{figure}[h!]
@@ -116,19 +115,19 @@ A few examples of Lorenz curves are given in figures \ref{fig:lorenz_comparable_
     \begin{minipage}{.48\textwidth}
         \centering
         \includegraphics[scale=0.45]{images/lorenz_comp.png}
-        \caption{Lorenz curve for an example with comparable vectors $p = (0.5, 0.4, 0.1)$, $q = (0.4, 0.4, 0.2)$ example. Notice that comparable vectors must have Lorenz curves that do not cross each other.}
+        \caption{Lorenz curve for an example with comparable vectors $p = (0.5, 0.4, 0.1)$, $q = (0.4, 0.4, 0.2)$.}
         \label{fig:lorenz_comparable_example}
     \end{minipage}
     \hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[scale=0.45]{images/lorenz_incomp.png}
-        \caption{Lorenz curve for the incomparable vector $p = (0.5, 0.25, 0.25)$, $q = (0.4, 0.4, 0.2)$ example. Notice that incomparable vectors must have Lorenz curves that cross each other at least once.}
+        \caption{Lorenz curve for the incomparable vector $p = (0.5, 0.25, 0.25)$, $q = (0.4, 0.4, 0.2)$ example.}
         \label{fig:lorenz_incomparable_example}
     \end{minipage}
 \end{figure}
 
-
+These figures are fairly easy to interpret: if a curve is above another at all points, then at each coordinate point its cumulative sum is larger than the cumulative sum of the other vector. At each integer abscissa we see one of the inequalities from definition \ref{def:majorization} ! From these figures, we quite quickly get the intuition that if one vector majorizes another (and so they are comparable), then all of the inequalities must be satisfied and the majorizer's curve must be above the majorized's curve at all points. If the two vectors are incomparable, then at least one inequality must fail, and so there must be a reversal in the largest cumulative sum, and the Lorenz curves must cross at least once.
 
 \section{Schur-convex and Schur-concave functions}
 
@@ -465,12 +464,12 @@ The Schur-concavity of the Shannon entropy, which preserves the ordering of the 
         &\leq S^\downarrow_m (p) + S^\downarrow_{k-m} (q) \\
         &\leq \max_{l\leq k} (S^\downarrow_l (p) +S^\downarrow_{k-l} (q)) = S^\downarrow_k (A),
     \end{align}
-    which is precisely the majorization relation. The $S^\downarrow_m (p) \leq S^\downarrow_m (q)$ case being symmetric, and this being true for all $k \leq 2d$, we have shown that $A \succ B$.
-    Finally, let $\phi(x) = -x \log(x)$, which is concave on $[0, 1]$. Using Lemma \ref{lem:karamata} on $\phi$ ($-\phi$ being convex on the same interval), we get
+    which is precisely one inequality of the majorization relation for a specific $k$. The $S^\downarrow_m (p) \leq S^\downarrow_m (q)$ case being symmetric, and this being true for all $k \leq 2d$, we have shown that $A \succ B$.
+    Finally, let $\varphi(x) = -x \log(x)$, which is concave on $[0, 1]$. Using Lemma \ref{lem:karamata} on $\varphi$ ($-\varphi$ being convex on the same interval), we get
     \begin{equation} \label{eq:supermodularity_karamata_step}
-        \sum_{i=1}^{2d} \phi(A_i) \leq \sum_{i=1}^{2d} \phi(B_i).
+        \sum_{i=1}^{2d} \varphi(A_i) \leq \sum_{i=1}^{2d} \varphi(B_i).
     \end{equation}
-    But the LHS of (\ref{eq:supermodularity_karamata_step}) is precisely $H(p) + H(q)$, and the RHS is precisely $H(p \wedge q) + H(\beta(p, q))$, so we have proven (\ref{eq:beta_supermodularity}). \qedhere
+    But the LHS of (\ref{eq:supermodularity_karamata_step}) is precisely $H(p) + H(q)$, and the RHS is precisely $H(p \wedge q) + H(\beta(p, q))$, so we have proven (\ref{eq:beta_supermodularity}) which implies (\ref{eq:supermodularity}). \qedhere
 \end{proof}
 
 
@@ -497,14 +496,14 @@ The Schur-concavity of the Shannon entropy, which preserves the ordering of the 
 
 To conclude this chapter, we will take a look at a definition for an entropic distance on the lattice, which allows us to quantify how far away two probability vectors are from each other on the lattice.
 
-\begin{definition}
+\begin{definition}[Entropic distance]
     For all $p, q \in \mathcal{P}^d$, we define
     \begin{equation}
         d(p, q) = H(p) + H(q) - 2H(p \vee q).
     \end{equation}
 \end{definition}
 
-\begin{theorem}[Entropic distance \cite{cicalese_information_2013}]
+\begin{theorem}[Cicalese, Gargano and Vaccaro, 2013 \cite{cicalese_information_2013}]
     $d$ is a distance on $\mathcal{P}^d$, meaning that it satisfies the following properties:
     \begin{itemize}
         \item Symmetry: $d(p, q) = d(q, p)$,
