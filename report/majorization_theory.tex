@@ -297,7 +297,13 @@ In quantum information, the lattice is usually drawn with more disordered vector
 
 \subsection{Constructing the meet} \label{sec:meet}
 
-In order to show that the quadruple $\langle \mathcal{P}^d, \prec, \wedge, \vee \rangle$ is indeed a lattice, we need to find an appropriate definition for the glb $p \wedge q$ and lub $p \vee q$ of two arbitrary elements $p$ and $q$ in $\mathcal{P}^d$. Let us start with the meet $p \wedge q$. Thinking in terms of Lorenz curves is actually very helpful here and can lead us very intuitively to the correct algorithm for constructing the meet. Figure X shows the vectors $p = (0.6, 0.2, 0.2)$ and $q = (0.45, 0.45, 0.1)$, both in $\mathcal{P}^3$.
+In order to show that the quadruple $\langle \mathcal{P}^d, \prec, \wedge, \vee \rangle$ is indeed a lattice, we need to find an appropriate definition for the glb $p \wedge q$ and lub $p \vee q$ of two arbitrary elements $p$ and $q$ in $\mathcal{P}^d$. Let us start with the meet $p \wedge q$. Thinking in terms of Lorenz curves is actually very helpful here and can lead us very intuitively to the correct algorithm for constructing the meet. Figure \ref{fig:meet_attempt} shows the vectors $p = (0.6, 0.2, 0.2)$ and $q = (0.45, 0.45, 0.1)$, both in $\mathcal{P}^3$.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.6]{images/meet_intuition.png}
+    \caption{Representation of the $p = (0.6, 0.2, 0.2)$ and $q = (0.45, 0.45, 0.1)$ example, along with the proposed $\alpha(p, q)$ lub vector.} \label{fig:meet_attempt}
+\end{figure}
 
 Intuitively, the most ordered state that is majorized by both $p$ and $q$ should have a Lorenz curve that hugs the curves of $p$ and $q$ from below. Let $\alpha(p, q) = (a_1, ..., a_d)$ be this state. We can construct it the following way:
 
@@ -328,7 +334,26 @@ While this is a step in the right direction, things are unfortunately more compl
     \beta'(p, q) &= (0.6, 0.2, 0.15, 0.05) \in \mathcal{P}^4.
 \end{align}
 
-Figure X shows the Lorenz curves of $p, q, \beta(p, q)$ and $\beta'(p, q)$. It is immediate to see that $p, q \prec \beta'(p, q)$, but while $\beta'(p, q)$  is indeed an upper bound on $p$ and $q$ it does not necessarily majorize all of the vectors in $\mathcal{T}_-(p) \cap \mathcal{T}_-(q)$. Intuitively, we can still find a Lorenz curve below $\beta'(p, q)$ by choosing the shortest chord (a straight line) between $b'_1$ and $b'_3$, i.e. by smoothing over the concave dent in $\beta(p, q)$. This idea yields the vector $(0.6, 0.175, 0.175, 0.05)$ which clearly majorizes $\beta'(p, q)$, as shown in figure X. We have the following statement:
+Figure \ref{fig:first_join_attempt} shows the Lorenz curves of $p, q, \beta(p, q)$ and $\beta'(p, q)$. It is immediate to see that $p, q \prec \beta'(p, q)$, but while $\beta'(p, q)$  is indeed an upper bound on $p$ and $q$ it does not necessarily majorize all of the vectors in $\mathcal{T}_-(p) \cap \mathcal{T}_-(q)$. Intuitively, we can still find a Lorenz curve below $\beta'(p, q)$ by choosing the shortest chord (a straight line) between $b'_1$ and $b'_3$, i.e. by smoothing over the concave dent in $\beta(p, q)$. This idea yields the vector $\beta''(p, q) = (0.6, 0.175, 0.175, 0.05)$ which clearly majorizes $\beta'(p, q)$, as shown in figure \ref{fig:second_join_attempt}.
+
+\begin{figure}[h!]
+    \centering
+    \begin{minipage}{.48\textwidth}
+        \centering
+        \includegraphics[scale=0.45]{images/join_first_attempt.png}
+        \caption{Lorenz curves for the vector $p = (0.6, 0.15, 0.15, 0.1)$ and the vector $q = (0.5, 0.25, 0.20, 0.05)$, along with the join prototypes $\beta(p, q)$ and $\beta'(p, q)$.}
+        \label{fig:first_join_attempt}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth} 
+        \centering
+        \includegraphics[scale=0.5]{images/join_second_attempt.png}
+        \caption{Zoom on the region that visually shows that the $\beta'(p, q)$ vector is not the join, as there exist vectors such as $\beta''(p, q)$ that are majorized by it but still majorize both $p$ and $q$.} 
+        \label{fig:second_join_attempt}
+    \end{minipage}
+\end{figure}
+
+\noindent We have the following statement:
 
 \begin{equation}
     p, q \prec (0.6, 0.175, 0.175, 0.05) \prec \beta'(p, q).

@@ -40,8 +40,10 @@ matplotlib.use('TkAgg')
 #
 #
 #
-p = mj.ProbVector([0.5, 0.25, 0.25])
-q = mj.ProbVector([0.4, 0.4, 0.2])
+p = mj.ProbVector([0.6, 0.15, 0.15, 0.1])
+q = mj.ProbVector([0.5, 0.25, 0.20, 0.05])
+beta = [0.6, 0.175, 0.175, 0.05]
+beta_prime = mj.ProbVector([0.6, 0.2, 0.15, 0.05])
 #w = A*v
 #x = A*u
 #
@@ -49,4 +51,6 @@ q = mj.ProbVector([0.4, 0.4, 0.2])
 #print(mj.S(x, v))
 ##print(mj.S(w, x))
 
-mj.plot_lorenz_curves(p, q, labels=['p', 'q'], colors=['blue', 'orange'], figsize=(6, 4))
+mj.plot_lorenz_curves(p, q, beta_prime, beta, labels=['p', 'q', "beta'(p, q)", "beta''(p, q)"], markers=['o', 'x', '', ''],
+                       colors=['blue', 'orange', 'red', 'gray',], linestyles=['solid', 'solid', 'dashed', 'dashed'],
+                       figsize=(6, 4))

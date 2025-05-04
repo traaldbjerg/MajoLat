@@ -285,7 +285,8 @@ def E_t(p, q):
 
 
 # display tools
-def plot_lorenz_curves(*prob_vectors, labels=None, colors=None, markers=None, title="Lorenz Curves", figsize=(6,6)):
+def plot_lorenz_curves(*prob_vectors, labels=None, colors=None, markers=None, title="Lorenz Curves",
+                       linestyles=None, figsize=(6,6)):
     """
     Plot the Lorenz curves for one or more ProbVector instances.
 
@@ -307,15 +308,21 @@ def plot_lorenz_curves(*prob_vectors, labels=None, colors=None, markers=None, ti
     if markers is None:
         markers = ['o'] * len(prob_vectors)
 
+    if linestyles is None:
+        linestyles = ['solid'] * len(prob_vectors)
+
     plt.figure(figsize=figsize)
     
-    for pv, label, color, marker in zip(prob_vectors, labels, colors, markers):
-        p = np.array(pv.getArray())
+    for pv, label, color, marker, linestyle in zip(prob_vectors, labels, colors, markers, linestyles):
+        if type(pv) == ProbVector: # in case we want to plot something that is not in non-increasing order
+            p = np.array(pv.getArray())
+        else:
+            p = pv
         #p_sorted = np.sort(p)[::-1]
         cumulative = np.insert(np.cumsum(p), 0, 0)  # prepend 0
         n = len(p)
         x = np.linspace(0, n, n+1)  # normalized x-axis
-        plt.plot(x, cumulative, marker=marker, label=label, color=color)
+        plt.plot(x, cumulative, marker=marker, label=label, color=color, linestyle=linestyle)
 
     #plt.plot([0, 1], [0, 1], 'k--', label="Perfect equality")  # 45-degree line
     plt.xlabel("Component")
