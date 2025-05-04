@@ -104,11 +104,11 @@ Whichever picture one prefers intuitively, the fact that there is a full equival
 
 \subsection{Lorenz curves}
 
-Lorenz curves were first introduced in 1905 by economist Max Lorenz as a way to represent income inequality. By plotting the cumulative sums of two distributions, we can then say that if one curve is above the other at all times, then it is more unequal (more disordered) than the second. By normalizing the distributions for total income, this graphical tool could then be used to quickly compare income inequality between different regions or countries.
+Lorenz curves were first introduced in 1905 by economist Max Lorenz as a way to represent income inequality. By plotting the cumulative sums of two distributions, we can say that if one curve is above the other at all times, then it is more unequal (more disordered) than the second. By normalizing the distributions for total income, this graphical tool could then be used to quickly compare income inequality between different regions or countries.
 
 More formally, the Lorenz curve of a vector $p \in \mathbb{R}^d$ is obtained by linear interpolation between the points of the set $\{(i, S^\downarrow_i(p)) | i \in \mathbb{N}, i \leq d\}$. % il y a d'office une notation moins moche pour ca
 We will be using the convention that $S^\downarrow_0 (v) = 0$ for any vector $v$. %The alias $L^\downarrow_p (x) \coloneqq S^\downarrow_x (p)$ is an alternative notation used for Lorenz curves, where the abscissa goes in the argument of the function.
-A few examples of Lorenz curves are given in figures \ref{fig:lorenz_comparable_example} and \ref{fig:lorenz_incomparable_example}.
+A couple examples of Lorenz curves are given in figures \ref{fig:lorenz_comparable_example} and \ref{fig:lorenz_incomparable_example}.
 
 \begin{figure}[h!]
     \centering
@@ -127,7 +127,9 @@ A few examples of Lorenz curves are given in figures \ref{fig:lorenz_comparable_
     \end{minipage}
 \end{figure}
 
-These figures are fairly easy to interpret: if a curve is above another at all points, then at each coordinate point its cumulative sum is larger than the cumulative sum of the other vector. At each integer abscissa we see one of the inequalities from definition \ref{def:majorization} ! From these figures, we quite quickly get the intuition that if one vector majorizes another (and so they are comparable), then all of the inequalities must be satisfied and the majorizer's curve must be above the majorized's curve at all points. If the two vectors are incomparable, then at least one inequality must fail, and so there must be a reversal in the largest cumulative sum, and the Lorenz curves must cross at least once.
+If a curve is above another at all points, then at each coordinate point its cumulative sum is larger than the cumulative sum of the other vector, and so at each integer abscissa we see one of the inequalities from definition \ref{def:majorization} ! From these figures, we quite quickly get the intuition that if one vector majorizes another (and so they are comparable), then all of the inequalities must be satisfied and the majorizer's curve must be above the majorized's curve at all points. If the two vectors are incomparable, then at least one inequality must fail, and so there must be a reversal in the largest cumulative sum, and the Lorenz curves must cross at least once.
+
+
 
 \section{Schur-convex and Schur-concave functions}
 
@@ -160,7 +162,7 @@ Some functions preserve the ordering defined by the majorization relation and ar
     A function $f \in C(\mathbb{R}^d \to \mathbb{R})$ is Schur-concave iff $-f$ is Schur-convex.
 \end{definition}
 
-Additional properties links with convex and concave functions exist, such as inequality (C.1) from Ref. \cite[p. 92]{marshall_inequalities_2011}, often called Karamata's inequality.
+Additional properties linking convex and concave functions to majorization exist, such as inequality (C.1) from Ref. \cite[p. 92]{marshall_inequalities_2011}, often called Karamata's inequality.
 
 \begin{lemma}[Karamata's inequality] \label{lem:karamata}
     If $f \in C(\mathcal{I} \to \mathbb{R})$ is convex on $\mathcal{I}$, and if $p \succ q$, then
@@ -168,6 +170,10 @@ Additional properties links with convex and concave functions exist, such as ine
         \sum_{i=1}^{d} f(p_i) \geq \sum_{i=1}^{d} f(q_i).
     \end{equation}
 \end{lemma}
+
+Essentially, this inequality states that if $b = Da$ with $D$ a bistochastic matrix, then $a$ has entries that are more spread out, whereas $b$ has entries closer to the middle of the interval, and so by definition of a convex (resp. concave) function on average $f(b_i)$ is less (resp. more) than $f(a_i)$.
+
+
 
 \subsection{Shannon entropy} \label{sec:schur_shannon}
 
@@ -303,7 +309,7 @@ In order to show that the quadruple $\langle \mathcal{P}^d, \prec, \wedge, \vee 
 \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.6]{images/meet_intuition.png}
-    \caption{Representation of the $p = (0.6, 0.2, 0.2)$ and $q = (0.45, 0.45, 0.1)$ example, along with the proposed $\alpha(p, q)$ lub vector.} \label{fig:meet_attempt}
+    \caption{Representation of the $p = (0.6, 0.2, 0.2)$ and $q = (0.45, 0.45, 0.1)$ example, along with the proposed $\alpha(p, q)$ glb vector.} \label{fig:meet_attempt}
 \end{figure}
 
 \noindent More formally, we can define the vector $\alpha(p, q) = (a_1, ..., a_d)$ as
@@ -326,7 +332,7 @@ We can proceed in a similar way for the join of two vectors $p \vee q$, and thin
 \begin{figure}[h!]
     \centering
     \includegraphics[scale=0.6]{images/join_naive_attempt.png}
-    \caption{Representation of the $p = (0.6, 0.2, 0.2)$ and $q = (0.45, 0.45, 0.1)$ example, along with the prototype $\beta(p, q)$ glb vector.} \label{fig:join_naive_attempt}
+    \caption{Representation of the $p = (0.6, 0.2, 0.2)$ and $q = (0.45, 0.45, 0.1)$ example, along with the prototype $\beta(p, q)$ lub vector.} \label{fig:join_naive_attempt}
 \end{figure}
 
 \noindent More formally, we can define the vector $\beta(p, q) = (b_1, ..., b_d)$ as 
