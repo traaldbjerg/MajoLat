@@ -102,7 +102,7 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         if dim_diff > 0:
             q = ProbVector(np.append(other.getArray(), [0]*dim_diff))
         elif dim_diff < 0:
-            p = ProbVector(np.append(self.getArray(), [0]*-dim_diff))        
+            p = ProbVector(np.append(self.getArray(), [0]*-dim_diff))
         p_sum = 0
         q_sum = 0
         a_sum = 0
