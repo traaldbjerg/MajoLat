@@ -1,6 +1,7 @@
 import math
 import numpy as np
 import matplotlib.pyplot as plt
+import itertools
 
 
 class ProbVector(): # notations from Cicalese and Vaccaro 2002
@@ -155,8 +156,9 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
     def join(self, other):
         return self * other
     
-    def __sub__(self, other): # entropic distance as defined in Cicalese and Vaccaro 2013
+    def __sub__(self, other): # entropic distance as defined in Cicalese, Gargano and Vaccaro 2013
         return self.entropy() + other.entropy() - 2*(self * other).entropy() # d(x, y) in the paper 
+    
     
     
     
@@ -210,9 +212,9 @@ class BistochMatrix(): # useful for degrading 2 vectors with the same bistochast
         
     def __mul__(self, other):
         if isinstance(other, BistochMatrix):
-            return BistochMatrix(np.dot(self.array, other.getArray()))
+            return BistochMatrix(np.matmul(self.array, other.getArray()))
         elif isinstance(other, ProbVector):
-            return ProbVector(np.dot(self.array, other.getArray()))
+            return ProbVector(np.matmul(self.array, other.getArray()))
         
 
 
@@ -268,7 +270,7 @@ def D(p, q): # as defined in Cicalese and Vaccaro 2013
     n = max(len(p), len(q))
     return 2/n * (2 * guessing_entropy(p + q) - guessing_entropy(p) - guessing_entropy(q))
 
-def S(p, q, alpha = 1): # basically just supermodularity
+def S(p, q, alpha = 1): # basically just supermodularity but with renyi entropies
     return (- renyi_entropy(p, alpha) - renyi_entropy(q, alpha) + renyi_entropy(p * q, alpha) + renyi_entropy(p + q, alpha))
 
 def d_subadd(p, q, alpha = 1):
@@ -282,6 +284,38 @@ def E_minus(p, q): # see theorem 1
 
 def E_t(p, q):
     return E_plus(p, q) - E_minus(p, q)
+
+def remove_majorized(bank): # remove states that add nothing but unnecessary terms in the sums for majorization cone calculations
+    b = bank
+    index_record = []
+    for i in range(1,len(b)):
+        for j in range(i-1): # avoid comparing index i to index i or we would delete all states
+            if b[i] > b[j]:
+                index_record.append(i) # ith state majorizes and so is below on the lattice
+            elif b[i] < b[j]:
+                index_record.append(j)
+    index_record = sorted(set(index_record), reverse=True) # removes duplicates indexes and reverse order to avoid indexerror on pops
+    for i in index_record:
+        #print(i)
+        b.pop(i)
+    return b
+
+def E_u_future(p, bank, reduce=True): # unique accessible future volume from p and not from the rest of the state bank, using ansatz H(p) instead of convex polytope volume computations
+    for state in bank:
+        if state < p: # save unnecessary computation time
+            return 0
+    entropy_sum = entropy(p)
+    if reduce:
+        b = remove_majorized(bank)
+    else: # mostly debug purposes
+        b = bank
+    for i in range(len(b)): # number of combinations
+        for combination in itertools.combinations(b, i + 1): # generate all the combinations of length i+1 (0-indexing)
+            joined_state = combination[0] # initialization
+            for state in combination: # generate the joined_state
+                joined_state = joined_state * state
+            entropy_sum += ((-1) ** (i+1)) * entropy(p * joined_state)
+    return entropy_sum
 
 
 # display tools
