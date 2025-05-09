@@ -10,7 +10,7 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
     
     __slots__ = ('dim', 'probs') # avoids overhead of dictionary
     
-    def __init__(self, probs):
+    def __init__(self, probs, rearrange=True, normalize=True):
         #if sum(probs) != 1: # does floating point error mess this up ?
         #    raise ValueError("Probabilities must sum to 1")
         norm_1 = np.linalg.norm(probs, ord=1)
@@ -21,8 +21,13 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
                 else:
                     raise ValueError("Probabilities must be nonnegative")
         self.dim = len(probs)
-        # normalize probabilities
-        self.probs = np.array(np.sort(probs)[::-1])/norm_1 # decreasing order
+        # normalize and rearrange probabilities
+        if rearrange:
+            probs = np.sort(probs)[::-1]
+        self.probs = np.array(probs)
+        if normalize:
+            self.probs = self.probs/norm_1
+
     
     def __repr__(self):
         return "ProbVector({})".format(self.probs)
@@ -316,6 +321,25 @@ def E_u_future(p, bank, reduce=True): # unique accessible future volume from p a
                 joined_state = joined_state * state
             entropy_sum += ((-1) ** (i+1)) * entropy(p * joined_state)
     return entropy_sum
+
+def construct_concatenated(p, q):
+    b = np.array([]) # coefficients of beta(p, q) in the text
+    self = p
+    other = q
+    dim_diff = len(self) - len(other)
+    if dim_diff > 0:
+        q = ProbVector(np.append(other.getArray(), [0]*dim_diff))
+    elif dim_diff < 0:
+        p = ProbVector(np.append(self.getArray(), [0]*-dim_diff))        
+    p_sum = 0
+    q_sum = 0
+    b_sum = 0
+    for i in range(p.dim):
+        p_sum += p.getArray()[i]
+        q_sum += q.getArray()[i]
+        b_i = max(p_sum, q_sum) - b_sum
+        b = np.append(b, b_i)
+        b_sum += b_i
 
 
 # display tools
