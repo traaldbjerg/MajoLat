@@ -66,27 +66,6 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
                 switch = False
                 break
         return switch
-    
-    def majorizes_debug(self, other):
-        p = self
-        q = other
-        dim_diff = len(self) - len(other)
-        if dim_diff > 0:
-            q = ProbVector(np.append(other.getArray(), [0]*dim_diff))
-        elif dim_diff < 0:
-            p = ProbVector(np.append(self.getArray(), [0]*-dim_diff))
-        print(p)
-        print(q)
-        switch = True
-        sum_p = 0
-        sum_q = 0
-        for i in range(p.dim):
-            sum_p += p.getArray()[i]
-            sum_q += q.getArray()[i]
-            print(sum_p, sum_q)
-            if sum_p < sum_q:
-                switch = False
-        return switch
             
     def __eq__(self, other):
         return all(self.getArray() == other.getArray())
@@ -138,7 +117,7 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
             b_i = max(p_sum, q_sum) - b_sum
             b = np.append(b, b_i)
             b_sum += b_i
-        # the components of beta are not necessarily in decreasing order at this stage, so we need to smoothe out beta to find the lowest lorenz curve that majorizes it
+        # the components of beta are not necessarily in decreasing order at this stage, so we need to smoothe out beta to find the lowest lorenz curve that still majorizes both p and q
         for j in range(1, self.dim): # j+1 in {2, n} in the paper but 0-indexed
             if b[j] > b[j-1]: # in the case of a concave dent in the lorenz curve
                 i = j - 1 # initialization
@@ -165,7 +144,7 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         return self.entropy() + other.entropy() - 2*(self * other).entropy() # d(x, y) in the paper 
     
     
-    
+ 
     
 class BistochMatrix(): # useful for degrading 2 vectors with the same bistochastic matrix and seeing what happens
     
@@ -305,7 +284,7 @@ def remove_majorized(bank): # remove states that add nothing but unnecessary ter
         b.pop(i)
     return b
 
-def E_u_future(p, bank, reduce=True): # unique accessible future volume from p and not from the rest of the state bank, using ansatz H(p) instead of convex polytope volume computations
+def unique_entropy(p, bank, reduce=True): # unique accessible future volume from p and not from the rest of the state bank, using ansatz H(p) instead of convex polytope volume computations
     for state in bank:
         if state < p: # save unnecessary computation time
             return 0
@@ -322,24 +301,28 @@ def E_u_future(p, bank, reduce=True): # unique accessible future volume from p a
             entropy_sum += ((-1) ** (i+1)) * entropy(p * joined_state)
     return entropy_sum
 
-def construct_concatenated(p, q):
+def construct_concatenated(p, q): # hypothesis test for the alternative supermodularity proof
     b = np.array([]) # coefficients of beta(p, q) in the text
-    self = p
-    other = q
-    dim_diff = len(self) - len(other)
+    p_copy = p
+    q_copy = q
+    dim_diff = len(p_copy) - len(q_copy)
     if dim_diff > 0:
-        q = ProbVector(np.append(other.getArray(), [0]*dim_diff))
+        q_copy = ProbVector(np.append(q_copy.getArray(), [0]*dim_diff))
     elif dim_diff < 0:
-        p = ProbVector(np.append(self.getArray(), [0]*-dim_diff))        
+        p_copy = ProbVector(np.append(p_copy.getArray(), [0]*-dim_diff))        
     p_sum = 0
     q_sum = 0
     b_sum = 0
-    for i in range(p.dim):
-        p_sum += p.getArray()[i]
-        q_sum += q.getArray()[i]
+    for i in range(p_copy.dim):
+        p_sum += p_copy.getArray()[i]
+        q_sum += q_copy.getArray()[i]
         b_i = max(p_sum, q_sum) - b_sum
         b = np.append(b, b_i)
         b_sum += b_i
+    print(b)
+    A = ProbVector(np.hstack([p.getArray(), q.getArray()]), normalize=False) # sum is 2
+    B = ProbVector(np.hstack([(p+q).getArray(), b]), normalize=False) # b is already only an array
+    return A, B
 
 
 # display tools
