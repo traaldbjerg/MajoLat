@@ -8,11 +8,9 @@
 \renewcommand*{\familydefault}{lmss}
 \renewcommand*{\rmdefault}{lmss}
 
-\frontmatter
+
 
 % Title page
-
-%\maketitlepage
 
 \include{PageDeGarde_MFE/PageDeGarde}
 
@@ -22,6 +20,8 @@
 \renewcommand*{\rmdefault}{lmr}
 
 %\include{autorisation}
+
+\frontmatter
 
 \include{abstract}
 
@@ -35,7 +35,7 @@
 %reset the page counter and use numerical index
 \mainmatter
 
-\part{Theoretical Background}
+\part{State of the art}
 
 \include{majorization_theory}
 
@@ -43,14 +43,9 @@
 
 \part{Results}
 
-\chapter{Entropic Boost}
+\include{incomparability}
 
-\chapter{Resource Theory of Incomparability}
-
-\chapter{Volume of Entaglement Cones}
-
-
-
+\include{volume}
 
 \include{conclusion}
 
