@@ -1,4 +1,4 @@
-\chapter{Majorization Theory}
+\chapter{Majorization Theory} \label{chap:majorization}
 
 The theory of majorization gives a framework for what it means for a probability distribution (or vectors) to be more disordered, more random, than another one. A rigorous notion of disorder such as the one that majorization suggests is interesting because it is linkable to other objects that attempt to quantify randomness in information theory, and most notably Shannon entropy. In order to see that this is the case, we first need to rigorously define the majorization relation.
 
@@ -177,6 +177,10 @@ The Shannon entropy function $H(p) \coloneqq - \sum_{i = 1}^{d} p_i \log p_i$ is
 
 This property of Shannon entropy is fairly intuitive: the Shannon entropy captures the uncertainty content of a probability distribution, and $p \succ q$ means that $p$ is unequivocally\footnote{As opposed to incomparable distributions being more ordered than the other each in their own way.} more ordered (so more certain) than $q$, so we would expect Schur-concavity to hold. However a majorization relation is stronger than an entropic inequality, and so we should study majorization relations alongside Shannon entropy to gain a better understanding of information theory.
 % Il existe une version plus forte de ce lemme, p \succ q implique H(q) - H(p) \geq D(p^\downarrow || q^\downarrow) dans \cite{ho_interplay_2010}
+
+\subsection{Rényi entropies}
+
+
 
 
 

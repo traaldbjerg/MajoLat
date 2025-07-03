@@ -1,0 +1,59 @@
+\subsection{Entropy of two random variables} % en vrai nsm j'aurais pas du ecrire ca ptn
+
+In practice, we are often concerned with more than one process at a given time, and so defining the uncertainty of two variables $X$, $Y$ is interesting. Moreover, knowing how much measuring one variable reduces the uncertainty on the second one (and so how much information on the second process we gain) on average is valuable as well. These concepts are captured by \textit{joint entropy}, \textit{conditional entropy} and \textit{mutual information}.
+
+\begin{definition}[Joint entropy]
+    Let $X$ and $Y$ be random variables over alphabets $\mathcal{X}$ and $\mathcal{Y}$ with joint probability distribution $p(x, y)$. Then the joint entropy $H(X, Y)$ of $X$ and $Y$ is defined as
+    \begin{align}
+        H(X, Y) &= - \sum_{x \in \mathcal{X}, y \in \mathcal{Y}} p(x, y) \log p(x, y)\\
+                &= - E[\log p(x, y)].
+    \end{align}
+\end{definition}
+
+\begin{definition}[Conditional entropy]
+    Let $X$ and $Y$ be random variables over alphabets $\mathcal{X}$ and $\mathcal{Y}$ with marginal probability distributions $p(x)$ and $p(y)$. Then the conditional entropy $H(X|Y)$ of $X$ knowing $Y$ is defined as
+    \begin{align}
+        H(X|Y) &= \sum_{y \in \mathcal{Y}} p(y) H(X|Y = y)\\
+                 &= - \sum_{y \in \mathcal{Y}} p(y) \sum_{x \in \mathcal{X}} p(x|y) \log p(x|y)\\
+                 &= - \sum_{y \in \mathcal{Y}} \sum_{x \in \mathcal{X}} p(x, y) \log p(x|y)\\
+                 &= - E[\log p(x|y)].
+    \end{align}
+\end{definition}
+
+It is interesting to note that these definitions are all very consistent with each other, as the vision of entropy being the expected value of the random variable $\log \frac{1}{p(x)}$ holds even for compositions of random variables. Before defining mutual information, we introduce another mathematical tool, the Kullback-Leibler divergence $D(p||q)$ of two probability mass functions $p$ and $q$, sometimes called \textit{relative entropy}.
+
+\begin{definition}[Kullback-Leibler divergence]
+    Let $p$ and $q$ be two probability mass functions over an alphabet $\mathcal{X}$. Then the Kullback-Leibler divergence $D(p||q)$ of $p$ and $q$ is defined as
+    \begin{align}
+        D(p||q) &= \sum_{x \in \mathcal{X}} p(x) \frac{p(x)}{q(x)}\\
+                &= E_p\left[\log \frac{p(x)}{q(x)}\right],
+    \end{align}
+    with conventions $0 \log \frac{0}{0} = 0$, and $p \log \frac{p}{0} = \infty$ and $0 \log \frac{0}{q} = 0$ by continuity arguments.
+\end{definition}
+
+This quantity can be understood as measuring how far from each other the two distributions $p$ and $q$ are. If they are identical, i.e. $p(x) = q(x) \forall x \in \mathcal{X}$, then all of the terms in the sum are $\log \frac{p(x)}{p(x)} = \log 1 = 0$ and the relative entropy is simply 0. It is important to note however that this quantity is not a proper notion of distance, as it is not symmetric in its arguments, and fails the triangular inequality. % fort similaire a Cover and Thomas, faudrait reformuler un peu
+Nonetheless, this notion of distance is used to define mutual information between two random variables as the Kullback-Leibler divergence between the joint probability distribution and the product of the marginal probability distributions.
+
+\begin{definition}[Mutual information]
+    Let $X$ and $Y$ be random variables over alphabets $\mathcal{X}$ and $\mathcal{Y}$ with marginal probability distributions $p(x)$ and $p(y)$ and joint distribution $p(x, y)$. Then the mutual information $I(X, Y)$ of $X$ and $Y$ is defined as
+    \begin{align}
+        I(X, Y) &= D(p(x, y)||p(x)p(y))\\
+                &= \sum_{x \in \mathcal{X}} \sum_{y \in \mathcal{Y}} p(x, y) \log \frac{p(x, y)}{p(x)p(y)}\\
+                &= E_{p(x, y)}\left[\log \frac{p(x, y)}{p(x)p(y)}\right]\\
+                &= E_{p(x, y)}[- \log p(x)] + E_{p(x, y)}[- \log p(y)] - E_{p(x, y)}[- \log p(x, y)]\\
+                &= E_{p(x)}[- \log p(x)] + E_{p(y)}[- \log p(y)] - E_{p(x, y)}[- \log p(x, y)]\\
+                &= H(X) + H(Y) - H(X, Y).
+    \end{align}
+\end{definition}
+
+Again, this definition agrees with what we would expect intuitively from a notion of the information that two random variables contain about each other: if the variables are independent, and thus contain no information about each other whatsoever (as the outcome of one does not affect the other), then their joint distribution reduces to the product of the marginal distributions, and the relative entropy in the definition becomes 0. Then, the less independent the joint distribution becomes, the farther it becomes from the product distribution, and the more measuring the outcome of one variable can tell you about the outcome of the second. It is interesting to note that the mutual information is symmetric in its arguments.
+
+To finish this small incursion into classical information theory, it turns out that Shannon entropy is actually the only function that satisfies all the properties that one would expect from a measure of information, such as (non-exhaustive list):
+
+\begin{itemize}
+    \item $H(X) \geq 0$.
+    \item $H(X, Y) = H(Y, X)$.
+    \item $H(X, Y) = H(X) + H(Y|X)$.
+    \item \textbf{Subadditivity}\footnote{This subadditivity has nothing to do with the subadditivity on the lattice.}\textbf{:} $H(X, Y) \leq H(X) + H(Y)$ with equality iff $X$ and $Y$ are independent.
+    \item $H(X|Y) \leq H(X)$, which directly implies that $I(X, Y) \geq 0$, with equality iff $X$ and $Y$ are independent.
+\end{itemize}

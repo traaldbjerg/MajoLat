@@ -1,20 +1,113 @@
 \chapter{Quantum Information}
 
-\section{Classical information theory} \label{sec:classical_information}
+\section{From classical information to quantum information} \label{sec:classical_information}
+
+This section is based on chapter 2 of Ref. \cite{cover_elements_2006} and chapter 11 of Ref. \cite{nielsen_quantum_2010}. We will only deal with discrete random variables and probability mass functions, however these notions can be generalized to continous variables and probability density functions.
+
+\subsection{Information and Shannon entropy}
+
+Classical information theory is a field that studies information, its properties, and how it is best handled. For example, it provides bounds for the best possible lossless compression of information, as well as for the most amount of information that can be passed through a noisy channel without losses (asymptotically). Information, being a fairly abstract concept, can be hard to define. A generally accepted vision of information is to see it as the resolution of \textit{uncertainty} contained in a random variable $X$ \textit{before} measurement.
+
+Before delving a bit further, let us try to understand what is meant by uncertainty with a simple example. Say you have a friend who just finished taking a statistics exam, and the marking grid is very simple: you can either get 0, 10 or 20 out of 20. Having already passed statistics, you use data from the previous years to determine that the distribution for these marks is 70\%, 20\%, and 10\% respectively for teacher 1 (who isn't very nice). The question is the following: what is the most efficient way on average to ask your friend what mark they got? An efficient first question would be whether or not they got 0/20. There is then a 70\% chance that the answer is yes, and you would not need to ask a second question, which is quite efficient. If the answer is no, then a second efficient question would be whether they got 10/20, etc. Now, imagine that they took the exam with teacher 2 who is much nicer, and actually gives those same marks with an equal probability of 1/3 instead. In that case, you could once again start by asking whether they got 0, but this time the answer would be no 2/3 of the time, and you would be much more likely to have to ask follow-up questions, and so the mark of your friend is more uncertain under teacher 2 than under teacher 1.
+
+Similarly, uncertainty can also be thought of as the \textit{average} number of bits of the \textit{shortest} representation of the outcome of a random process. The idea this time is that it is efficient to assign a short description to an outcome that happens often. This notion of uncertainty can be formalized with the notion of Shannon entropy.
+
+\begin{definition}[Shannon entropy]
+    Let $X$ be a random variable over an alphabet $\mathcal{X}$, with outcome $x \in \mathcal{X}$ having probability $p(x)$. Then, the entropy $H(X)$ (also written $H(p)$) of $X$ is defined as
+    \begin{align}
+        H(X) &= - \sum_{x \in \mathcal{X}} p(x) \log(p(x)) \\
+             &= - E[\log p(x)],
+    \end{align}
+    with the convention that $0 \log 0 = 0$ (an event that never happens should not contribute).
+\end{definition}
+
+Usually, the logarithm is taken in base 2, and the entropy is said to be measured in bits. Less commonly, the logarithm can be taken in base $e$, and the entropy is then in units of nats. We will not use the fact that entropy also is the expected value of the variable $\log \frac{1}{p(x)}$ very much, apart from showing that the definitions in the next section are all very consistent. It is interesting to note that these definitions are all very consistent with each other, as the vision of entropy being the expected value of the random variable $\log \frac{1}{p(x)}$ holds even for compositions of random variables. Going back to our statistics exam example, the marks from teacher 1 and 2 are distributed along $p = (0.7, 0.2, 0.1)$ and $q = \left(\frac{1}{3}, \frac{1}{3}, \frac{1}{3}\right)$ respectively. We have $H(p) = - 3 \cdot \frac{1}{3} \log \frac{1}{3} = \log 3 = 1.585$ bits, and $H(q) = - \frac{7}{10} \log \frac{7}{10} - \frac{2}{10} \log \frac{2}{10} - \frac{1}{10} \log \frac{1}{10} = 1.157$ bits, and so a less certain process has higher entropy.
+
+\begin{remark}
+    This is consistent with the intuition that we built in chapter \ref{chap:majorization}: the first distribution is more uncertain than the second because $p \prec q$. By Schur-concavity of $H$ we directly get $H(p) \geq H(q)$.
+\end{remark}
+
+\begin{remark}
+    Let $X$ be a stochastic process with $d$ possible outcomes. Then, $H(X) \leq H\left(\left(\frac{1}{d}, ..., \frac{1}{d}\right)\right) = \log d$. Again, this well-known fact from information theory ties in nicely with the fact that the uniform distribution is majorized by every other distribution.
+\end{remark}
+
+\begin{remark}
+    The entropy of a stochastic process $X$ only depends on its probability distribution, and not on the actual values associated with specific outcomes.
+\end{remark}
+
+Recall the question that we asked above: what is the average length of the shortest description of a random process distributed along $p$ ? It turns out that the answer to this question is $H(p)$. A naive idea would be to assign the code 0 if our friend got 0/20, 1 if they got 10/20, and 01 if they got 20/20. Then, in the case of teacher 1, on average, we expect to use $7/10 + 2/10 + 2 \cdot 1/10 = 1.1$ bits $< H(p)$. The reason that we managed to beat Shannon entropy with this simple code is because our code is not uniquely decodable, and is thus not a very good code. Imagine we receive the string 0100 for the results of several students. Are the scores 20/20, 0/20, 0/20, or are they 0/20, 10/20, 0/20, 0/20 ? A better idea would be to use codes such that no code is a prefix for another code, such as 0 for 0/20, 10 for 10/20, and 11 for 20/20. This is called a Huffman code, which can be proven to be the optimal family of codes \cite{cover_elements_2006}[p. 123]. In this case, we expect to use $7/10 + 2 \cdot 2/10 + 2 \cdot 1/10 = 1.3$ bits on average, which is close to $H(p)$ with a small overhead due to the constraint of an integer representation. However, we can get arbitrarily close to $H(p)$ per symbol on average if we code larger strings \cite{cover_elements_2006}[p. 114]. As such, one should be careful with the fact that entropy is exact only in the asymptotic limit, and sometimes some of the underlying hypotheses can be brokem, even in practice\footnote{A famous example is the owqinfcoiwfc that broke the maximal bitrate thought possible for modems by cleverly bypassing some of Shannon's hypotheses.}. %redemander l'anecdote a papa
 
 
 
-\section{Mathematical preliminaries}
+\subsection{Entropy of two random variables} % en vrai nsm j'aurais pas du ecrire ca ptn
 
-\subsection{Density matrices}
+In practice, we are often concerned with more than one process at a given time, and so defining the uncertainty of two variables $X$, $Y$ is interesting. Moreover, knowing how much measuring one variable reduces the uncertainty on the second one (and so how much information on the second process we gain) on average is valuable as well. These concepts are captured by \textit{joint entropy}, \textit{conditional entropy} and \textit{mutual information}.
 
+\begin{definition}[Joint entropy]
+    Let $X$ and $Y$ be random variables over alphabets $\mathcal{X}$ and $\mathcal{Y}$ with joint probability distribution $p(x, y)$. Then the joint entropy $H(X, Y)$ of $X$ and $Y$ is defined as
+    \begin{align}
+        H(X, Y) &= - \sum_{x \in \mathcal{X}, y \in \mathcal{Y}} p(x, y) \log p(x, y)\\
+                &= - E[\log p(x, y)].
+    \end{align}
+\end{definition}
 
+\begin{definition}[Conditional entropy]
+    Let $X$ and $Y$ be random variables over alphabets $\mathcal{X}$ and $\mathcal{Y}$ with marginal probability distributions $p(x)$ and $p(y)$. Then the conditional entropy $H(X|Y)$ of $X$ knowing $Y$ is defined as
+    \begin{align}
+        H(X|Y) &= \sum_{y \in \mathcal{Y}} p(y) H(X|Y = y)\\
+                 &= - \sum_{y \in \mathcal{Y}} p(y) \sum_{x \in \mathcal{X}} p(x|y) \log p(x|y)\\
+                 &= - \sum_{y \in \mathcal{Y}} \sum_{x \in \mathcal{X}} p(x, y) \log p(x|y)\\
+                 &= - E[\log p(x|y)].
+    \end{align}
+\end{definition}
 
-\subsection{Schmidt decomposition}
+It is interesting to note that these definitions are all very consistent with each other, as the vision of entropy being the expected value of the random variable $\log \frac{1}{p(x)}$ holds even for compositions of random variables. Before defining mutual information, we introduce another mathematical tool, the Kullback-Leibler divergence $D(p||q)$ of two probability mass functions $p$ and $q$, sometimes called \textit{relative entropy}.
+
+\begin{definition}[Kullback-Leibler divergence]
+    Let $p$ and $q$ be two probability mass functions over an alphabet $\mathcal{X}$. Then the Kullback-Leibler divergence $D(p||q)$ of $p$ and $q$ is defined as
+    \begin{align}
+        D(p||q) &= \sum_{x \in \mathcal{X}} p(x) \frac{p(x)}{q(x)}\\
+                &= E_p\left[\log \frac{p(x)}{q(x)}\right],
+    \end{align}
+    with conventions $0 \log \frac{0}{0} = 0$, and $p \log \frac{p}{0} = \infty$ and $0 \log \frac{0}{q} = 0$ by continuity arguments.
+\end{definition}
+
+This quantity can be understood as measuring how far from each other the two distributions $p$ and $q$ are. If they are identical, i.e. $p(x) = q(x) \forall x \in \mathcal{X}$, then all of the terms in the sum are $\log \frac{p(x)}{p(x)} = \log 1 = 0$ and the relative entropy is simply 0. It is important to note however that this quantity is not a proper notion of distance, as it is not symmetric in its arguments, and fails the triangular inequality. % fort similaire a Cover and Thomas, faudrait reformuler un peu
+Nonetheless, this notion of distance is used to define mutual information between two random variables as the Kullback-Leibler divergence between the joint probability distribution and the product of the marginal probability distributions.
+
+\begin{definition}[Mutual information]
+    Let $X$ and $Y$ be random variables over alphabets $\mathcal{X}$ and $\mathcal{Y}$ with marginal probability distributions $p(x)$ and $p(y)$ and joint distribution $p(x, y)$. Then the mutual information $I(X, Y)$ of $X$ and $Y$ is defined as
+    \begin{align}
+        I(X, Y) &= D(p(x, y)||p(x)p(y))\\
+                &= \sum_{x \in \mathcal{X}} \sum_{y \in \mathcal{Y}} p(x, y) \log \frac{p(x, y)}{p(x)p(y)}\\
+                &= E_{p(x, y)}\left[\log \frac{p(x, y)}{p(x)p(y)}\right]\\
+                &= E_{p(x, y)}[- \log p(x)] + E_{p(x, y)}[- \log p(y)] - E_{p(x, y)}[- \log p(x, y)]\\
+                &= E_{p(x)}[- \log p(x)] + E_{p(y)}[- \log p(y)] - E_{p(x, y)}[- \log p(x, y)]\\
+                &= H(X) + H(Y) - H(X, Y).
+    \end{align}
+\end{definition}
+
+Again, this definition agrees with what we would expect intuitively from a notion of the information that two random variables contain about each other: if the variables are independent, and thus contain no information about each other whatsoever (as the outcome of one does not affect the other), then their joint distribution reduces to the product of the marginal distributions, and the relative entropy in the definition becomes 0. Then, the less independent the joint distribution becomes, the farther it becomes from the product distribution, and the more measuring the outcome of one variable can tell you about the outcome of the second. It is interesting to note that the mutual information is symmetric in its arguments.
+
+To finish this small incursion into classical information theory, it turns out that Shannon entropy is actually the only function that satisfies all the properties that one would expect from a measure of information, such as (non-exhaustive list):
+
+\begin{itemize}
+    \item $H(X) \geq 0$.
+    \item $H(X, Y) = H(Y, X)$.
+    \item $H(X, Y) = H(X) + H(Y|X)$.
+    \item \textbf{Subadditivity}\footnote{This subadditivity has nothing to do with the subadditivity on the lattice.}\textbf{:} $H(X, Y) \leq H(X) + H(Y)$ with equality iff $X$ and $Y$ are independent.
+    \item $H(X|Y) \leq H(X)$, which directly implies that $I(X, Y) \geq 0$, with equality iff $X$ and $Y$ are independent.
+\end{itemize}
+
+% bon tout ceci est a remanier lol mais vsy il y a quelques bases, je pense faudrait donner un peu plus d'exemples et d'applications
+
+\subsection{Density matrices and Von Neumann entropy}
 
 
 
 \section{Theory of entanglement}
+
+\subsection{Schmidt decomposition}
 
 \subsection{Majorization separability criterion}
 
