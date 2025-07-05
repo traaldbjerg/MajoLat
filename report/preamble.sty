@@ -70,21 +70,24 @@
 \usepackage[acronym, nopostdot, nogroupskip, style=list, toc, nonumberlist]{glossaries}
 % Load the Bruface standard
 %\usepackage{BrufaceTitlepageStyle} % utiliser la page non bruface a la place
+\usepackage{braket}
 
 
 
 % environnements custom + theoremes
 
 \theoremstyle{plain}
-\newtheorem{lemma}{Lemma}
-\newtheorem{result}{Result}
-\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}[chapter]
+\newtheorem{result}{Result}[chapter]
+\newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{corollary}{Corollary}[result]
+\newtheorem{postulate}{Postulate}[chapter]
 \theoremstyle{definition}
-\newtheorem{definition}{Definition}
+\newtheorem{definition}{Definition}[chapter]
 \theoremstyle{remark}
-\newtheorem{remark}{Remark}
+\newtheorem{remark}{Remark}[chapter]
 
+\DeclareMathOperator{\tr}{tr}
 
 \newenvironment{system}%
 {\left\lbrace

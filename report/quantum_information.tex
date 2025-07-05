@@ -2,13 +2,13 @@
 
 \section{From classical information to quantum information} \label{sec:classical_information}
 
-This section is based on chapter 2 of Ref. \cite{cover_elements_2006} and chapter 11 of Ref. \cite{nielsen_quantum_2010}. We will only deal with discrete random variables and probability mass functions, however these notions can be generalized to continous variables and probability density functions.
+This section is based on Ref. \cite[pp. 1-56]{cover_elements_2006} and Ref. \cite[pp. 98-108, 500-527]{nielsen_quantum_2010}. We will only deal with discrete random variables and probability mass functions, however these notions can be generalized to continous variables and probability density functions. Moreover, we will also assume some familiarity with quantum mechanics, such as the elementary postulates, Hilbert spaces, Dirac notation, superpositions etc.
 
 \subsection{Information and Shannon entropy}
 
 Classical information theory is a field that studies information, its properties, and how it is best handled. For example, it provides bounds for the best possible lossless compression of information, as well as for the most amount of information that can be passed through a noisy channel without losses (asymptotically). Information, being a fairly abstract concept, can be hard to define. A generally accepted vision of information is to see it as the resolution of \textit{uncertainty} contained in a random variable $X$ \textit{before} measurement.
 
-Before delving a bit further, let us try to understand what is meant by uncertainty with a simple example. Say you have a friend who just finished taking a statistics exam, and the marking grid is very simple: you can either get 0, 10 or 20 out of 20. Having already passed statistics, you use data from the previous years to determine that the distribution for these marks is 70\%, 20\%, and 10\% respectively for teacher 1 (who isn't very nice). The question is the following: what is the most efficient way on average to ask your friend what mark they got? An efficient first question would be whether or not they got 0/20. There is then a 70\% chance that the answer is yes, and you would not need to ask a second question, which is quite efficient. If the answer is no, then a second efficient question would be whether they got 10/20, etc. Now, imagine that they took the exam with teacher 2 who is much nicer, and actually gives those same marks with an equal probability of 1/3 instead. In that case, you could once again start by asking whether they got 0, but this time the answer would be no 2/3 of the time, and you would be much more likely to have to ask follow-up questions, and so the mark of your friend is more uncertain under teacher 2 than under teacher 1.
+Before diving further, let us try to understand what is meant by uncertainty with a simple example. Say you have a friend who just finished taking a statistics exam with a very simple marking grid: you can either get 0, 10 or 20 out of 20. Having already passed statistics, you use data from the previous years to determine that the distribution for these marks is 70\%, 20\%, and 10\% respectively for teacher 1 (who isn't very nice). The question is the following: what is the most efficient way on average to ask your friend what mark they got? An efficient first question would be whether or not they got 0/20. There is then a 70\% chance that the answer is yes, and you would not need to ask a second question, which is quite efficient. If the answer is no, then a second efficient question would be whether they got 10/20, etc. Now, imagine that they took the exam with teacher 2 who is much nicer, and actually gives those same marks with an equal probability of 1/3 instead. In that case, you could once again start by asking whether they got 0, but this time the answer would be no 2/3 of the time, and you would be much more likely to have to ask follow-up questions, and so the mark of your friend is more uncertain from the start under teacher 2 than under teacher 1.
 
 Similarly, uncertainty can also be thought of as the \textit{average} number of bits of the \textit{shortest} representation of the outcome of a random process. The idea this time is that it is efficient to assign a short description to an outcome that happens often. This notion of uncertainty can be formalized with the notion of Shannon entropy.
 
@@ -35,89 +35,129 @@ Usually, the logarithm is taken in base 2, and the entropy is said to be measure
     The entropy of a stochastic process $X$ only depends on its probability distribution, and not on the actual values associated with specific outcomes.
 \end{remark}
 
-Recall the question that we asked above: what is the average length of the shortest description of a random process distributed along $p$ ? It turns out that the answer to this question is $H(p)$. A naive idea would be to assign the code 0 if our friend got 0/20, 1 if they got 10/20, and 01 if they got 20/20. Then, in the case of teacher 1, on average, we expect to use $7/10 + 2/10 + 2 \cdot 1/10 = 1.1$ bits $< H(p)$. The reason that we managed to beat Shannon entropy with this simple code is because our code is not uniquely decodable, and is thus not a very good code. Imagine we receive the string 0100 for the results of several students. Are the scores 20/20, 0/20, 0/20, or are they 0/20, 10/20, 0/20, 0/20 ? A better idea would be to use codes such that no code is a prefix for another code, such as 0 for 0/20, 10 for 10/20, and 11 for 20/20. This is called a Huffman code, which can be proven to be the optimal family of codes \cite{cover_elements_2006}[p. 123]. In this case, we expect to use $7/10 + 2 \cdot 2/10 + 2 \cdot 1/10 = 1.3$ bits on average, which is close to $H(p)$ with a small overhead due to the constraint of an integer representation. However, we can get arbitrarily close to $H(p)$ per symbol on average if we code larger strings \cite{cover_elements_2006}[p. 114]. As such, one should be careful with the fact that entropy is exact only in the asymptotic limit, and sometimes some of the underlying hypotheses can be brokem, even in practice\footnote{A famous example is the owqinfcoiwfc that broke the maximal bitrate thought possible for modems by cleverly bypassing some of Shannon's hypotheses.}. %redemander l'anecdote a papa
+Recall the question that we asked above: what is the average length of the shortest description of a random process distributed along $p$ ? It turns out that the answer to this question is $H(p)$. A naive idea would be to assign the code 0 if our friend got 0/20, 1 if they got 10/20, and 01 if they got 20/20. Then, in the case of teacher 1, on average, we expect to use $7/10 + 2/10 + 2 \cdot 1/10 = 1.1$ bits $< H(p)$. The reason that we managed to beat Shannon entropy with this simple code is because our code is not uniquely decodable, and is thus not a very good code. Imagine we receive the string 0100 for the results of several students. Are the scores 20/20, 0/20, 0/20, or are they 0/20, 10/20, 0/20, 0/20 ?
 
-
-
-\subsection{Entropy of two random variables} % en vrai nsm j'aurais pas du ecrire ca ptn
-
-In practice, we are often concerned with more than one process at a given time, and so defining the uncertainty of two variables $X$, $Y$ is interesting. Moreover, knowing how much measuring one variable reduces the uncertainty on the second one (and so how much information on the second process we gain) on average is valuable as well. These concepts are captured by \textit{joint entropy}, \textit{conditional entropy} and \textit{mutual information}.
-
-\begin{definition}[Joint entropy]
-    Let $X$ and $Y$ be random variables over alphabets $\mathcal{X}$ and $\mathcal{Y}$ with joint probability distribution $p(x, y)$. Then the joint entropy $H(X, Y)$ of $X$ and $Y$ is defined as
-    \begin{align}
-        H(X, Y) &= - \sum_{x \in \mathcal{X}, y \in \mathcal{Y}} p(x, y) \log p(x, y)\\
-                &= - E[\log p(x, y)].
-    \end{align}
-\end{definition}
-
-\begin{definition}[Conditional entropy]
-    Let $X$ and $Y$ be random variables over alphabets $\mathcal{X}$ and $\mathcal{Y}$ with marginal probability distributions $p(x)$ and $p(y)$. Then the conditional entropy $H(X|Y)$ of $X$ knowing $Y$ is defined as
-    \begin{align}
-        H(X|Y) &= \sum_{y \in \mathcal{Y}} p(y) H(X|Y = y)\\
-                 &= - \sum_{y \in \mathcal{Y}} p(y) \sum_{x \in \mathcal{X}} p(x|y) \log p(x|y)\\
-                 &= - \sum_{y \in \mathcal{Y}} \sum_{x \in \mathcal{X}} p(x, y) \log p(x|y)\\
-                 &= - E[\log p(x|y)].
-    \end{align}
-\end{definition}
-
-It is interesting to note that these definitions are all very consistent with each other, as the vision of entropy being the expected value of the random variable $\log \frac{1}{p(x)}$ holds even for compositions of random variables. Before defining mutual information, we introduce another mathematical tool, the Kullback-Leibler divergence $D(p||q)$ of two probability mass functions $p$ and $q$, sometimes called \textit{relative entropy}.
-
-\begin{definition}[Kullback-Leibler divergence]
-    Let $p$ and $q$ be two probability mass functions over an alphabet $\mathcal{X}$. Then the Kullback-Leibler divergence $D(p||q)$ of $p$ and $q$ is defined as
-    \begin{align}
-        D(p||q) &= \sum_{x \in \mathcal{X}} p(x) \frac{p(x)}{q(x)}\\
-                &= E_p\left[\log \frac{p(x)}{q(x)}\right],
-    \end{align}
-    with conventions $0 \log \frac{0}{0} = 0$, and $p \log \frac{p}{0} = \infty$ and $0 \log \frac{0}{q} = 0$ by continuity arguments.
-\end{definition}
-
-This quantity can be understood as measuring how far from each other the two distributions $p$ and $q$ are. If they are identical, i.e. $p(x) = q(x) \forall x \in \mathcal{X}$, then all of the terms in the sum are $\log \frac{p(x)}{p(x)} = \log 1 = 0$ and the relative entropy is simply 0. It is important to note however that this quantity is not a proper notion of distance, as it is not symmetric in its arguments, and fails the triangular inequality. % fort similaire a Cover and Thomas, faudrait reformuler un peu
-Nonetheless, this notion of distance is used to define mutual information between two random variables as the Kullback-Leibler divergence between the joint probability distribution and the product of the marginal probability distributions.
-
-\begin{definition}[Mutual information]
-    Let $X$ and $Y$ be random variables over alphabets $\mathcal{X}$ and $\mathcal{Y}$ with marginal probability distributions $p(x)$ and $p(y)$ and joint distribution $p(x, y)$. Then the mutual information $I(X, Y)$ of $X$ and $Y$ is defined as
-    \begin{align}
-        I(X, Y) &= D(p(x, y)||p(x)p(y))\\
-                &= \sum_{x \in \mathcal{X}} \sum_{y \in \mathcal{Y}} p(x, y) \log \frac{p(x, y)}{p(x)p(y)}\\
-                &= E_{p(x, y)}\left[\log \frac{p(x, y)}{p(x)p(y)}\right]\\
-                &= E_{p(x, y)}[- \log p(x)] + E_{p(x, y)}[- \log p(y)] - E_{p(x, y)}[- \log p(x, y)]\\
-                &= E_{p(x)}[- \log p(x)] + E_{p(y)}[- \log p(y)] - E_{p(x, y)}[- \log p(x, y)]\\
-                &= H(X) + H(Y) - H(X, Y).
-    \end{align}
-\end{definition}
-
-Again, this definition agrees with what we would expect intuitively from a notion of the information that two random variables contain about each other: if the variables are independent, and thus contain no information about each other whatsoever (as the outcome of one does not affect the other), then their joint distribution reduces to the product of the marginal distributions, and the relative entropy in the definition becomes 0. Then, the less independent the joint distribution becomes, the farther it becomes from the product distribution, and the more measuring the outcome of one variable can tell you about the outcome of the second. It is interesting to note that the mutual information is symmetric in its arguments.
-
-To finish this small incursion into classical information theory, it turns out that Shannon entropy is actually the only function that satisfies all the properties that one would expect from a measure of information, such as (non-exhaustive list):
-
-\begin{itemize}
-    \item $H(X) \geq 0$.
-    \item $H(X, Y) = H(Y, X)$.
-    \item $H(X, Y) = H(X) + H(Y|X)$.
-    \item \textbf{Subadditivity}\footnote{This subadditivity has nothing to do with the subadditivity on the lattice.}\textbf{:} $H(X, Y) \leq H(X) + H(Y)$ with equality iff $X$ and $Y$ are independent.
-    \item $H(X|Y) \leq H(X)$, which directly implies that $I(X, Y) \geq 0$, with equality iff $X$ and $Y$ are independent.
-\end{itemize}
+A better idea would be to use codes such that no code is a prefix for another code, such as 0 for 0/20, 10 for 10/20, and 11 for 20/20. This is called a Huffman code, which can be proven to be the optimal family of codes \cite[p. 123]{cover_elements_2006}. In this case, we expect to use $7/10 + 2 \cdot 2/10 + 2 \cdot 1/10 = 1.3$ bits on average, which is close to $H(p)$ with a small overhead due to the constraint of an integer representation. However, we can get arbitrarily close to $H(p)$ per symbol on average if we code larger strings \cite[p. 114]{cover_elements_2006}. As such, one should be careful with the fact that entropy is exact only in the asymptotic limit. Moreover, underlying hypotheses in the theory can sometimes be broken in practice\footnote{A famous example is the 56 kbit/s modem which broke the theoretical channel capacity for modems by cleverly bypassing some of Shannon's hypotheses.}. %redemander l'anecdote a papa
 
 % bon tout ceci est a remanier lol mais vsy il y a quelques bases, je pense faudrait donner un peu plus d'exemples et d'applications
 
-\subsection{Density matrices and Von Neumann entropy}
+\subsection{Density matrices and quantum coherence}
+
+Extending this notion of information to a quantum setting, where states can be in a superposition of other states depending on the basis, is not a trivial question. In order to do this, we first need to go through a few mathematical preliminaries. The most general notion of quantum state is the notion of density operator, which captures both superpositions and classical uncertainty.
+
+Imagine that we have a device that internally flips a fair coin and prepares the state $\ket{0}$ if the result is heads, and the state $\ket{1}$ otherwise. However, the device does not tell you the result of the coin flip, and so you do not know whether it prepared one state or the other. Let us call this state $\rho$. It is tempting to assign $\ket{\psi} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) = \ket{+}$ (the relative phase is set to 0 for simplicity's sake) to our unknown state, however it does not capture the physics of our state correctly: if we sent $\rho$ through an interferometer (assuming an optical implementation), the state would not interfere with itself (whereas $\ket{\psi}$ would), and so the state is not in a superposition. A description in terms of state vectors is therefore not sufficient, as we need to be capable of capturing the classical uncertainty introduced by the coin flip\footnote{It is actually still possible to capture this phenomenon correctly with state vectors by entangling the output state vector with the result of the coin flip. We will return to this in section \ref{sec:entanglement}.}.
+
+\begin{definition}[Density operator]
+    Suppose that a quantum system is in a state $\ket{\psi_i}$ with probability $p_i$. The set $\{p_i, \ket{\psi_i}\}$ is called an \textit{ensemble of pure states}. The density operator $\hat{\rho}$ (also called density matrix) for the system is defined as
+    \begin{equation}
+        \hat{\rho} = \sum_i p_i \ket{\psi_i}\bra{\psi_i}.
+    \end{equation}
+\end{definition}
+
+If the sum contains only one term, the state is said to be \textit{pure}, i.e. one can describe it with a single state vector. Otherwise, the state is said to be \textit{mixed}, because it can be seen as a \textit{classical mixture} of pure states. We will also use the convention that when we speak of nondescript mixed states, we simply mean states that are not necessarily pure (for some authors mixed states does not include pure states). The two states mentioned in our coin-flip example can be written
+
+\begin{align}
+    \hat{\rho} &= 1/2 \ket{0}\bra{0} + 1/2 \ket{1}\bra{1} = \left(\begin{matrix}
+        1/2 & 0\\
+        0 & 1/2
+    \end{matrix}\right),\\
+    \hat{\tilde{\rho}} &= \ket{\tilde{\psi}}\bra{\tilde{\psi}} = \ket{+}\bra{+} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})\frac{1}{\sqrt{2}}(\bra{0} + \bra{1}) = \left(\begin{matrix}
+        1/2 & 1/2\\
+        1/2 & 1/2
+    \end{matrix}\right).
+\end{align}
+
+Here, $\hat{\rho}$ is a mixed state, but $\hat{\tilde{\rho}}$ is a pure state. The fact that their density matrices are not the same is thus a first sign that we have captured the difference in their behavior.
+
+\begin{remark}
+    As one would expect intuitively, % expliquer que pur implique entropie nulle ?
+\end{remark}
+
+It is possible to fully forego the notion of state vectors in the definition of density operators. In doing so, it turns out that for an operator $\hat{O}$ to be a valid density operator, the only requirements are to be a positive operator, and to have $\tr \hat{O} = 1$. In order to use this new description for quantum states and to understand that it can correctly capture this new type of behavior, the postulates of quantum mechanics must be reformulated in the language of density operators, in order to define how measurements and unitaries act on such states.
+
+FLEMME ifnugoidug nofdug noeri
+
+\subsection{Von Neumann entropy}
+
+With the notion of density operator, we are ready to find quantum analogues for information-theoretic quantities. In classical information theory, Shannon entropy describes the uncertainty of a probability distribution. Instead of a probability distribution, however, we are working with a density operator, which contains the probabilities to be in each state. It is thus quite natural to attempt to use the same definition for these density operators.
+
+\begin{definition}[Von Neumann entropy]
+    Let $\hat{\rho}$ be a density operator. The von Neumann entropy $S(\hat{\rho})$ of this quantum state is defined as
+    \begin{equation}
+        S(\hat{\rho}) = - \tr(\hat{\rho} \log \hat{\rho}),
+    \end{equation}
+    where the logarithm of an operator $\hat{O}$ is another operator $\log \hat{O}$ such that its exponential $e^{\log \hat{O}} = \hat{O}$, and the exponential of an operator is defined with the usual power series.
+\end{definition}
+
+This definition is a direct translation of Shannon entropy to density matrices. We will not prove it here, but it turns out that it has all of the properties one would expect from a measure of uncertainty.
+
+\begin{itemize}
+    \item $S(\hat{\rho}) \geq 0$, with equality iff $\hat{\rho}$ is a pure state.
+    \item In a $d$-dimensional Hilbert space, $S(\hat{\rho}) \leq \log d$, with equality iff $\hat{\rho}$ is the fully mixed state $\frac{\hat{I}}{d}$.
+    \item If the states %bla bla page 513 NC
+\end{itemize}
 
 
 
-\section{Theory of entanglement}
+\section{Theory of entanglement} \label{sec:entanglement}
+
+For the rest of this master thesis, we will be considering computational states $\ket{0}$ and $\ket{1}$. The actual implementation of those states, be it an optical implementation with vertically and horizontally polarized photons, the spin of an ion vacancy in a crystalline lattice, phonon vibrations of ions in an ion trap, etc. matters little for our purposes.
+
+\subsection{Composite systems and partial traces}
+
+This section is based on Ref. \cite[pp. 71-75, 93-96, 105-109]{nielsen_quantum_2010}. In quantum mechanics, state vectors describe the state of a system. However, it is sometimes useful to describe composite systems, made of smaller subsystems in specific states. For example, say that we have two systems in states $\ket{\psi}_A$ and $\ket{\phi}_B$, where the indices $A$ and $B$ denote each subsystem, usually nicknamed Alice's system and Bob's system. Note that the 2 systems need not span the same Hilbert space, i.e. $\mathcal{H}^A = \mathcal{H}^B$ is not necessarily true, which means that the systems can be of different natures and different dimensions (e.g. Alice could hold a qubit and Bob a qutrit). The joint system $AB$ is a valid quantum system as well, and we would expect that it can be fully described by the states of the individual subsystems. This description is done using tensor products, which are a way of building larger vector spaces from smaller vector spaces in a way that still preserves the structure of the individual smaller vector spaces.
+
+\begin{definition}[Tensor product of vector spaces]
+    Let $V$ and $W$ be two vector spaces, of dimension $m$ and $n$ respectively. The tensor product of $V$ and $W$, written $V \otimes W$, is a $mn$-dimensional vector space, whose vectors are tensor products $\ket{v} \otimes \ket{w}$ (often abbreviated $\ket{v}\ket{w}, \ket{v, w}$ or $\ket{vw}$) of elements $\ket{v} \in V$ and $\ket{w} \in W$. If $\ket{i}$ and $\ket{j}$ are orthonormal bases of $V$ and $W$, then $\ket{i} \otimes \ket{j}$ forms an orthonormal basis for $V \otimes W$ too.
+\end{definition}
+
+\noindent This notion of tensor product is used for an additional postulate on composite systems.
+
+\begin{postulate}[Composite systems]
+    Let $\mathcal{H}^i$ be the Hilbert space of subsystem $i$, numbered 1 through $n$. Then, the Hilbert space of the composite system $\mathcal{H}^c$ is the tensor product of the Hilbert spaces of the individual subsystems, i.e. $\mathcal{H}^c = \mathcal{H}^1 \otimes \mathcal{H}^2 \otimes \dots \otimes \mathcal{H}^n$. Moreover, if each subsystem $i$ is prepared in state $\ket{\psi_i}$, then the joint system is in state $\ket{\psi_1} \otimes \ket{\psi_2} \otimes \dots \otimes \ket{\psi_n}$.
+\end{postulate}
+
+This formal definition and postulate are perhaps better understood with a simple example. Imagine Alice holds a qubit in the state $\ket{+}_A = \frac{1}{\sqrt{2}}(\ket{0}_A + \ket{1}_A)$, and Bob holds a qubit in the state $\ket{-}_B = \frac{1}{\sqrt{2}}(\ket{0}_B - \ket{1}_B)$, where the system indices are added for now to keep track of the systems. $\mathcal{H}^A$ and $\mathcal{H}^B$ can both be described in a computational basis $\ket{0}_i, \ket{1}_i$ with $i = A, B$. Then, the Hilbert space of the joint system $\mathcal{H}^{AB}$ has a basis $\ket{0}_A \otimes \ket{0}_B, \ket{0}_A \otimes \ket{1}_B, \ket{1}_A \otimes \ket{0}_B, \ket{1}_A \otimes \ket{1}_B$, or in shorthand notation $\ket{00}_{AB}, \ket{01}_{AB}, \ket{10}_{AB}, \ket{11}_{AB}$. The composite description is thus quite intuitive: the joint system is simply described by the state of each subsystem, and so a joint state $\ket{01}_{AB}$ simply means that system A is in state $\ket{0}_A$ and system B is in state $\ket{1}_B$. In our slightly more complicated example with the $\ket{+}$ and $\ket{-}$ states, the joint state becomes $\ket{+-}_{AB} = \frac{1}{2}(\ket{0}_A + \ket{1}_A) \otimes (\ket{0}_B - \ket{1}_B) = \frac{1}{2}(\ket{00}_{AB} - \ket{01}_{AB} + \ket{10}_{AB} - \ket{11}_{AB})$.
+
+From now on, we will fully omit subsystem indices, as they should be clear from context. Imagine now that we have the $AB$ system in the state $\frac{1}{2}(\ket{00} + \ket{11})$. What is an accurate description of Alice's qubit from her point of view, if she has no knowledge of Bob's qubit ? Will she have a coherent superposition $\ket{+}$, or will she have a fully mixed state $\frac{1}{2}\ket{0}\bra{0} + \frac{1}{2} \ket{1}\bra{1}$, which cannot interfere with itself?  In order to answer this question, we will have to go back to a density operator representation to make sure that we can capture both superpositions and classical mixtures. We are essentially looking to build a reduced density operator $\rho^A$ from the composite density operator $\rho^{AB}$, by discarding system $B$ which Alice has no knowledge over. This is done with an operation called the \textit{partial trace}.
+
+%j'ai pas vraiment defini ce que c'est un produit tensoriel sur des operateurs, faudrait le faire argh
+
+\begin{definition}[Partial trace] % tres similaire a NC, a reformuler !
+    The partial trace over a subsystem $B$ is a map of operators on a joint system $AB$, defined as
+    \begin{equation}
+        \tr_B (\ket{a_1}\bra{a_2} \otimes \ket{b_1}\bra{b_2}) \coloneqq \ket{a_1}\bra{a_2} \tr(\ket{b_1}\bra{b_2}),
+    \end{equation}
+    where $\ket{a_1}$ and $\ket{a_2}$ are any two elements of the state space of subsystem $A$, and $\ket{b_1}$ and $\ket{b_2}$ are any two elements of the state space of subsystem $B$, and where the trace operation on the RHS is the usual trace for system $B$. The system $B$ is said to be \textit{traced out}.
+\end{definition}
+
+Essentially, the partial trace maps the joint operator $\ket{a_1}\bra{a_2} \otimes \ket{b_1}\bra{b_2}$ acting on $\mathcal{H}^{AB}$ to a new operator $\ket{a_1}\bra{a_2} \tr(\ket{b_1}\bra{b_2})$, which only acts on the Hilbert space of the subsystem $A$, $\mathcal{H}^A$. Using this partial trace, the reduced density operators can be defined.
+
+\begin{definition}[Reduced density operator]
+    Let $AB$ be a joint system in state $\rho^{AB}$. The reduced density operator of subsystem $A$ is defined as
+    \begin{equation}
+        \rho^A = \tr_B(\rho^{AB}).
+    \end{equation}
+\end{definition}
+
+While it may not be obvious from the definition, the reduced density operator does lead to the correct measurement statistics on each subsystem, signalling that it is an accurate description of the subsystem.
+
+A simple example 
+
+
 
 \subsection{Schmidt decomposition}
+
+
 
 \subsection{Majorization separability criterion}
 
 
 
-\subsection{Distilability criterion}
-
-
 
 \section{Entanglement transformations}
+
+
 
 \subsection{Quantum Resource Theories} \label{sec:QRT}
 
