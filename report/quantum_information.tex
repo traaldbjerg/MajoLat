@@ -8,7 +8,9 @@ This section is based on Ref. \cite[pp. 1-56]{cover_elements_2006} and Ref. \cit
 
 Classical information theory is a field that studies information, its properties, and how it is best handled. For example, it provides bounds for the best possible lossless compression of information, as well as for the most amount of information that can be passed through a noisy channel without losses (asymptotically). Information, being a fairly abstract concept, can be hard to define. A generally accepted vision of information is to see it as the resolution of \textit{uncertainty} contained in a random variable $X$ \textit{before} measurement.
 
-Before diving further, let us try to understand what is meant by uncertainty with a simple example. Say you have a friend who just finished taking a statistics exam with a very simple marking grid: you can either get 0, 10 or 20 out of 20. Having already passed statistics, you use data from the previous years to determine that the distribution for these marks is 70\%, 20\%, and 10\% respectively for teacher 1 (who isn't very nice). The question is the following: what is the most efficient way on average to ask your friend what mark they got? An efficient first question would be whether or not they got 0/20. There is then a 70\% chance that the answer is yes, and you would not need to ask a second question, which is quite efficient. If the answer is no, then a second efficient question would be whether they got 10/20, etc. Now, imagine that they took the exam with teacher 2 who is much nicer, and actually gives those same marks with an equal probability of 1/3 instead. In that case, you could once again start by asking whether they got 0, but this time the answer would be no 2/3 of the time, and you would be much more likely to have to ask follow-up questions, and so the mark of your friend is more uncertain from the start under teacher 2 than under teacher 1.
+Before diving further, let us try to understand what is meant by uncertainty with a simple example. Say you have a friend who just finished taking a statistics exam with a very simple marking grid: you can either get 0, 10 or 20 out of 20. Having already passed statistics, you use data from the previous years to determine that the distribution for these marks is 70\%, 20\%, and 10\% respectively for teacher 1 (who isn't very nice). The question is the following: what is the most efficient way on average to ask your friend what mark they got? An efficient first question would be whether or not they got 0/20. There is then a 70\% chance that the answer is yes, and you would not need to ask a second question, which is quite efficient. If the answer is no, then a second efficient question would be whether they got 10/20, etc.
+
+Now, imagine that they took the exam with teacher 2 who is much nicer, and actually gives those same marks with an equal probability of 1/3 instead. In that case, you could once again start by asking whether they got 0, but this time the answer would be no 2/3 of the time, and you would be much more likely to have to ask follow-up questions, and so the mark of your friend is more uncertain from the start under teacher 2 than under teacher 1.
 
 Similarly, uncertainty can also be thought of as the \textit{average} number of bits of the \textit{shortest} representation of the outcome of a random process. The idea this time is that it is efficient to assign a short description to an outcome that happens often. This notion of uncertainty can be formalized with the notion of Shannon entropy.
 
@@ -45,7 +47,7 @@ A better idea would be to use codes such that no code is a prefix for another co
 
 Extending this notion of information to a quantum setting, where states can be in a superposition of other states depending on the basis, is not a trivial question. In order to do this, we first need to go through a few mathematical preliminaries. The most general notion of quantum state is the notion of density operator, which captures both superpositions and classical uncertainty.
 
-Imagine that we have a device that internally flips a fair coin and prepares the state $\ket{0}$ if the result is heads, and the state $\ket{1}$ otherwise. However, the device does not tell you the result of the coin flip, and so you do not know whether it prepared one state or the other. Let us call this state $\rho$. It is tempting to assign $\ket{\psi} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) = \ket{+}$ (the relative phase is set to 0 for simplicity's sake) to our unknown state, however it does not capture the physics of our state correctly: if we sent $\rho$ through an interferometer (assuming an optical implementation), the state would not interfere with itself (whereas $\ket{\psi}$ would), and so the state is not in a superposition. A description in terms of state vectors is therefore not sufficient, as we need to be capable of capturing the classical uncertainty introduced by the coin flip\footnote{It is actually still possible to capture this phenomenon correctly with state vectors by entangling the output state vector with the result of the coin flip. We will return to this in section \ref{sec:entanglement}.}.
+Imagine that we have a device that internally flips a fair coin and prepares the state $\ket{0}$ if the result is heads, and the state $\ket{1}$ otherwise. However, the device does not tell you the result of the coin flip, and so you do not know whether it prepared one state or the other. Let us call this state $\rho$. It is tempting to assign $\ket{\psi} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) = \ket{+}$ (the relative phase is set to 0 for simplicity's sake) to our unknown state, however it does not capture the physics of our state correctly: if we sent $\rho$ through an interferometer (assuming an optical implementation), the state would not interfere with itself, whereas a state in a superposition would (like $\ket{psi}$). A description in terms of state vectors is therefore not sufficient, as we need to be capable of capturing the classical uncertainty introduced by the coin flip\footnote{It is actually still possible to capture this phenomenon correctly with state vectors by entangling the output state vector with the environment, in a process called \textit{purification} (of the mixed state) \cite[p. 110]{nielsen_quantum_2010}.}.
 
 \begin{definition}[Density operator]
     Suppose that a quantum system is in a state $\ket{\psi_i}$ with probability $p_i$. The set $\{p_i, \ket{\psi_i}\}$ is called an \textit{ensemble of pure states}. The density operator $\hat{\rho}$ (also called density matrix) for the system is defined as
@@ -61,13 +63,13 @@ If the sum contains only one term, the state is said to be \textit{pure}, i.e. o
         1/2 & 0\\
         0 & 1/2
     \end{matrix}\right),\\
-    \hat{\tilde{\rho}} &= \ket{\tilde{\psi}}\bra{\tilde{\psi}} = \ket{+}\bra{+} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})\frac{1}{\sqrt{2}}(\bra{0} + \bra{1}) = \left(\begin{matrix}
+    \hat{\rho}' &= \ket{\psi}\bra{\psi} = \ket{+}\bra{+} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})\frac{1}{\sqrt{2}}(\bra{0} + \bra{1}) = \left(\begin{matrix}
         1/2 & 1/2\\
         1/2 & 1/2
     \end{matrix}\right).
 \end{align}
 
-Here, $\hat{\rho}$ is a mixed state, but $\hat{\tilde{\rho}}$ is a pure state. The fact that their density matrices are not the same is thus a first sign that we have captured the difference in their behavior.
+Here, $\hat{\rho}$ is a mixed state, but $\hat{\rho}'$ is a pure state. The fact that their density matrices are not the same is thus a first sign that we have captured the difference in their behavior.
 
 \begin{remark}
     As one would expect intuitively, % expliquer que pur implique entropie nulle ?
@@ -101,11 +103,16 @@ This definition is a direct translation of Shannon entropy to density matrices. 
 
 \section{Theory of entanglement} \label{sec:entanglement}
 
-For the rest of this master thesis, we will be considering computational states $\ket{0}$ and $\ket{1}$. The actual implementation of those states, be it an optical implementation with vertically and horizontally polarized photons, the spin of an ion vacancy in a crystalline lattice, phonon vibrations of ions in an ion trap, etc. matters little for our purposes.
+For the rest of this master thesis, we will be considering computational states of a qubit, $\ket{0}$ and $\ket{1}$. The actual implementation of those states, be it an optical implementation with vertically and horizontally polarized photons, the spin of an ion vacancy in a crystalline lattice, phonon vibrations of ions in an ion trap, etc. matters little for our purposes. It is useful to define the \textit{dual basis} of the computational states of a qubit. The basis vectors read
 
-\subsection{Composite systems and partial traces}
+\begin{align}
+    \ket{+} &= \frac{1}{\sqrt{2}} (\ket{0} + \ket{1})\\
+    \ket{-} &= \frac{1}{\sqrt{2}} (\ket{0} - \ket{1}).
+\end{align}
 
-This section is based on Ref. \cite[pp. 71-75, 93-96, 105-109]{nielsen_quantum_2010}. In quantum mechanics, state vectors describe the state of a system. However, it is sometimes useful to describe composite systems, made of smaller subsystems in specific states. For example, say that we have two systems in states $\ket{\psi}_A$ and $\ket{\phi}_B$, where the indices $A$ and $B$ denote each subsystem, usually nicknamed Alice's system and Bob's system. Note that the 2 systems need not span the same Hilbert space, i.e. $\mathcal{H}^A = \mathcal{H}^B$ is not necessarily true, which means that the systems can be of different natures and different dimensions (e.g. Alice could hold a qubit and Bob a qutrit). The joint system $AB$ is a valid quantum system as well, and we would expect that it can be fully described by the states of the individual subsystems. This description is done using tensor products, which are a way of building larger vector spaces from smaller vector spaces in a way that still preserves the structure of the individual smaller vector spaces.
+\subsection{Composite systems}
+
+This section is based on Ref. \cite[pp. 71-75, 93-96]{nielsen_quantum_2010}. In quantum mechanics, state vectors describe the state of a system. However, it is sometimes useful to describe composite systems made of smaller subsystems, each in their own specific states. For example, say that we have two systems in states $\ket{\psi}_A$ and $\ket{\phi}_B$, where the indices $A$ and $B$ denote each subsystem, usually nicknamed Alice's system and Bob's system. Note that the 2 systems need not span the same Hilbert space, i.e. $\mathcal{H}^A = \mathcal{H}^B$ is not necessarily true, which means that the systems can be of different natures and different dimensions (e.g. Alice could hold a qubit and Bob a qutrit). The joint system $AB$, called a \textit{bipartite system} because it is made up of two subsystems\footnote{We will mostly concern ourselves with bipartite systems, but of course one could also decide to consider that a system is made of more subsystems than 2. However, this  description is still fairly general because an $ABC$ tripartite system can also be considered a bipartite system with subsystems $A$ and $BC$ (which is itself a bipartite system), etc.}, is a valid quantum system as well, and so one would expect that it can be fully described by the states of the individual subsystems. This description is done using tensor products, which are a way of building larger vector spaces from smaller vector spaces in a way that still preserves the structure of the individual smaller vector spaces.
 
 \begin{definition}[Tensor product of vector spaces]
     Let $V$ and $W$ be two vector spaces, of dimension $m$ and $n$ respectively. The tensor product of $V$ and $W$, written $V \otimes W$, is a $mn$-dimensional vector space, whose vectors are tensor products $\ket{v} \otimes \ket{w}$ (often abbreviated $\ket{v}\ket{w}, \ket{v, w}$ or $\ket{vw}$) of elements $\ket{v} \in V$ and $\ket{w} \in W$. If $\ket{i}$ and $\ket{j}$ are orthonormal bases of $V$ and $W$, then $\ket{i} \otimes \ket{j}$ forms an orthonormal basis for $V \otimes W$ too.
@@ -117,9 +124,15 @@ This section is based on Ref. \cite[pp. 71-75, 93-96, 105-109]{nielsen_quantum_2
     Let $\mathcal{H}^i$ be the Hilbert space of subsystem $i$, numbered 1 through $n$. Then, the Hilbert space of the composite system $\mathcal{H}^c$ is the tensor product of the Hilbert spaces of the individual subsystems, i.e. $\mathcal{H}^c = \mathcal{H}^1 \otimes \mathcal{H}^2 \otimes \dots \otimes \mathcal{H}^n$. Moreover, if each subsystem $i$ is prepared in state $\ket{\psi_i}$, then the joint system is in state $\ket{\psi_1} \otimes \ket{\psi_2} \otimes \dots \otimes \ket{\psi_n}$.
 \end{postulate}
 
-This formal definition and postulate are perhaps better understood with a simple example. Imagine Alice holds a qubit in the state $\ket{+}_A = \frac{1}{\sqrt{2}}(\ket{0}_A + \ket{1}_A)$, and Bob holds a qubit in the state $\ket{-}_B = \frac{1}{\sqrt{2}}(\ket{0}_B - \ket{1}_B)$, where the system indices are added for now to keep track of the systems. $\mathcal{H}^A$ and $\mathcal{H}^B$ can both be described in a computational basis $\ket{0}_i, \ket{1}_i$ with $i = A, B$. Then, the Hilbert space of the joint system $\mathcal{H}^{AB}$ has a basis $\ket{0}_A \otimes \ket{0}_B, \ket{0}_A \otimes \ket{1}_B, \ket{1}_A \otimes \ket{0}_B, \ket{1}_A \otimes \ket{1}_B$, or in shorthand notation $\ket{00}_{AB}, \ket{01}_{AB}, \ket{10}_{AB}, \ket{11}_{AB}$. The composite description is thus quite intuitive: the joint system is simply described by the state of each subsystem, and so a joint state $\ket{01}_{AB}$ simply means that system A is in state $\ket{0}_A$ and system B is in state $\ket{1}_B$. In our slightly more complicated example with the $\ket{+}$ and $\ket{-}$ states, the joint state becomes $\ket{+-}_{AB} = \frac{1}{2}(\ket{0}_A + \ket{1}_A) \otimes (\ket{0}_B - \ket{1}_B) = \frac{1}{2}(\ket{00}_{AB} - \ket{01}_{AB} + \ket{10}_{AB} - \ket{11}_{AB})$.
+This formal definition and postulate are perhaps better understood with a simple example. Imagine Alice holds a qubit in the state $\ket{+}_A = \frac{1}{\sqrt{2}}(\ket{0}_A + \ket{1}_A)$, and Bob holds a qubit in the state $\ket{-}_B = \frac{1}{\sqrt{2}}(\ket{0}_B - \ket{1}_B)$, where the system indices are added for now to keep track of the systems. $\mathcal{H}^A$ and $\mathcal{H}^B$ can both be described in a computational basis $\ket{0}_i, \ket{1}_i$ with $i = A, B$. Then, the Hilbert space of the joint system $\mathcal{H}^{AB}$ has a basis $\ket{0}_A \otimes \ket{0}_B, \ket{0}_A \otimes \ket{1}_B, \ket{1}_A \otimes \ket{0}_B, \ket{1}_A \otimes \ket{1}_B$, or in shorthand notation $\ket{00}_{AB}, \ket{01}_{AB}, \ket{10}_{AB}, \ket{11}_{AB}$. The composite description is thus quite intuitive: the joint system is simply described by the state of each subsystem, e.g. a joint state $\ket{01}_{AB}$ simply means that system A is in state $\ket{0}_A$ and system B is in state $\ket{1}_B$. In our slightly more complicated example with the $\ket{+}$ and $\ket{-}$ states, the joint state becomes
 
-From now on, we will fully omit subsystem indices, as they should be clear from context. Imagine now that we have the $AB$ system in the state $\frac{1}{2}(\ket{00} + \ket{11})$. What is an accurate description of Alice's qubit from her point of view, if she has no knowledge of Bob's qubit ? Will she have a coherent superposition $\ket{+}$, or will she have a fully mixed state $\frac{1}{2}\ket{0}\bra{0} + \frac{1}{2} \ket{1}\bra{1}$, which cannot interfere with itself?  In order to answer this question, we will have to go back to a density operator representation to make sure that we can capture both superpositions and classical mixtures. We are essentially looking to build a reduced density operator $\rho^A$ from the composite density operator $\rho^{AB}$, by discarding system $B$ which Alice has no knowledge over. This is done with an operation called the \textit{partial trace}.
+\begin{equation}
+    \ket{+-}_{AB} = \frac{1}{2}(\ket{0}_A + \ket{1}_A) \otimes (\ket{0}_B - \ket{1}_B) = \frac{1}{2}(\ket{00}_{AB} - \ket{01}_{AB} + \ket{10}_{AB} - \ket{11}_{AB}).
+\end{equation}
+
+\subsection{Partial trace}
+
+This section is based on Ref. \cite[pp. 105-109]{nielsen_quantum_2010}. From now on, we will omit subsystem indices, as they should be clear from context. Imagine now that we have the $AB$ system in the state $\ket{\Phi^+} \coloneqq \frac{1}{\sqrt{2}}(\ket{00} + \ket{11})$. What is an accurate description of Alice's qubit from her point of view, if she has no knowledge of Bob's qubit? Will she have a coherent superposition $\ket{+}$, or will she have a fully mixed state $\frac{1}{2}\ket{0}\bra{0} + \frac{1}{2} \ket{1}\bra{1}$, which cannot interfere with itself?  In order to answer this question, we will have to go back to a density operator representation to make sure that we can capture both superpositions and classical mixtures. We are essentially looking to build a reduced density operator $\rho^A$ from the composite density operator $\rho^{AB}$, by discarding system $B$ which Alice has no knowledge over. This is done with an operation called the \textit{partial trace}.
 
 %j'ai pas vraiment defini ce que c'est un produit tensoriel sur des operateurs, faudrait le faire argh
 
@@ -140,26 +153,88 @@ Essentially, the partial trace maps the joint operator $\ket{a_1}\bra{a_2} \otim
     \end{equation}
 \end{definition}
 
-While it may not be obvious from the definition, the reduced density operator does lead to the correct measurement statistics on each subsystem, signalling that it is an accurate description of the subsystem.
+While it may not be obvious from the definition, the reduced density operator does lead to the correct measurement statistics on each subsystem, signalling that it is an accurate description.
 
-A simple example 
+We will not prove explicitly that the measurement statistics are accurate, which involves studying the effect of measurement operators on the joint and reduced density operators. However, we can convince ourselves with a simple example that the reduced density operators work as expected. Let $\rho^{AB} = \rho^A \otimes \rho^B$, then we have
 
+\begin{align}
+    \tr_B \rho^{AB} &= \tr_B (\rho^A \otimes \rho^B)\\
+                    &= \rho^A \tr(\rho^B)\\
+                    &= \rho^A,
+\end{align}
 
+\noindent which is the expected result. Similarly, tracing out $A$ gives $\rho^B$. While this may seem trivial, these notions become much more interesting when studying states that can not be described as the tensor product of subsystems. In fact, the previous example $\ket{\Phi^+} \coloneqq \frac{1}{2}(\ket{00} + \ket{11})$ was not chosen innocently: it is such a state. Even though it lives in the $\mathcal{H}^A \otimes \mathcal{H}^B$ Hilbert space, there is no basis choice for $\mathcal{H}^A$ and $\mathcal{H}^B$ which turns this state into a product state, i.e. a state such that $\rho^{AB} = \rho^A \otimes \rho^B$. In particular, tracing out system $B$, we get
+
+\begin{align}
+    \tr_B \ket{\Phi^+}\bra{\Phi^+} &= \frac{1}{2} \tr_B \big((\ket{00} + \ket{11})(\bra{00} + \bra{11})\big)\\
+                                   &= \frac{1}{2} \tr_B \Big[\ket{00}\bra{00} + \ket{00}\bra{11} + \ket{11}\bra{00} + \ket{11}\bra{11}\Big]\\
+                                   &= \frac{1}{2} \tr_B \Big[\ket{0}\bra{0} \otimes \ket{0}\bra{0} + \ket{0}\bra{1} \otimes \ket{0}\bra{1} + \ket{1}\bra{0} \otimes \ket{1}\bra{0}\nonumber\\
+                                   &\quad \quad + \ket{1}\bra{1} \otimes \ket{1}\bra{1}\Big]\\
+                                   &= \frac{1}{2} \Big[\ket{0}\bra{0}\tr(\ket{0}\bra{0}) + \ket{0}\bra{1}\tr(\ket{0}\bra{1}) + \ket{1}\bra{0}\tr(\ket{1}\bra{0}) \nonumber \\
+                                   &\quad \quad + \ket{1}\bra{1}\tr(\ket{1}\bra{1})\Big]\\
+                                   &= \frac{1}{2} \Big[\ket{0}\bra{0} + \ket{1}\bra{1}\Big]\\
+                                   &= \frac{\hat{I}}{2},
+\end{align}
+
+\noindent which is the maximally mixed state. Similarly, tracing out system $A$ also gives $\hat{I}/2$. This result is quite counterintuitive: the joint system is in a perfectly known state (a projective measurement of $AB$ on the state $\ket{\Phi^+}$ succeeds with probability 1), yet Alice's qubit is in an uncertain state from her point of view ! This surprising property is a sign of \textit{entanglement}.
+
+\subsection{Entangled states}
+
+An entangled state is a composite state that is not a product state, i.e. it can not be written $\rho^{AB} = \rho^A \otimes \rho^B$. The name stems from the idea that an entangled state can not be described without losing certainty on the state without looking at the joint system. Analogously, product states are also called \textit{separable} states, because separating subsystems (tracing one out) does not introduce uncertainty into the reduced state. It is useful to define the \textit{Bell basis} for the joint Hilbert space of two qubits. The basis vectors read
+
+\begin{align}
+    \ket{\Phi^+} &= \frac{1}{\sqrt{2}} (\ket{00} + \ket{11})\\
+    \ket{\Phi^-} &= \frac{1}{\sqrt{2}} (\ket{00} - \ket{11})\\
+    \ket{\Psi^+} &= \frac{1}{\sqrt{2}} (\ket{01} + \ket{10})\\
+    \ket{\Psi^-} &= \frac{1}{\sqrt{2}} (\ket{01} - \ket{10}),
+\end{align}
+
+\noindent which are all entangled states. 
+
+The state $\ket{\Phi^+}$ is often called an Einstein-Podolsky-Rosen (EPR) pair, because they famously used this state to argue that its predicted properties were so absurd that they deemed its existence impossible, indicating that quantum mechanics must then be an incomplete theory because it theoretically allows entangled states. Since then such states have been realized experimentally, disproving the EPR argument, but the name stuck, perhaps to honor their thought experiment which sparked so much debate and discoveries.
+
+Let us go through the properties of such entangled states to understand why they were deemed so shocking. Let us assume we are in possession of an EPR pair (the same conclusions can be reached from any of the Bell states).
+
+\begin{enumerate} % il me faut une reference qui parle rigoureusement de ceci, NC en parle pas beaucoup
+    \item \textbf{Nonlocality:} 
+\end{enumerate}
+
+These properties are counterintuitive. Thankfully, they do not break causality. Let us assume that Alice and Bob share an EPR pair. If Bob measures his half of the pair, can Alice immediately know the result of Bob's measurement, which would be faster-than-light communication ? Imagine that Bob measures his half of the entangled pair in the computational basis $\ket{0}, \ket{1}$, and measures his state to be $\ket{1}$. Then the joint state has been reduced to $\ket{11}$. Now, if Alice measures her qubit after Bob's measurement, she will also measure her qubit to be in the state $\ket{1}$. The key is that until Bob tells Alice that he has measured his qubit, if Alice measures her half of the pair she cannot know whether she was the one responsible for breaking the suposerposition with her measurement, or whether Bob was. Moreover, since the (classical) message from Bob is bound by the speed of light, no information can reach Alice faster than light, and causality is preserved.
+
+In the last decades, the properties of entangled states have been of great interest as they enable powerful applications, such as post-quantum cryptography, secure key distribution, ... TROUVER EXEMPLES. This master thesis does not focus on these specific applications, and mostly focuses on entangled state manipulation in general. It is however interesting to note that manipulating entangled states in clever ways is of very high interest for all of these applications.
 
 \subsection{Schmidt decomposition}
 
+A powerful tool to describe entangled states is the \textit{Schmidt decomposition}.
 
+\begin{theorem}[Schmidt decomposition]
+    Let $\ket{\psi}$ be the state of a composite system $AB$. Then, there exist orthonormal bases $\ket{i_A}$ and $\ket{i_B}$ for subsystems $A$ and $B$ respectively such that
+    \begin{equation}
+        \ket{\psi} = \sum_i \lambda_i \ket{i_A} \ket{i_B},
+    \end{equation}
+    where the $\lambda_i$ are real numbers called \textit{Schmidt coefficients} which satisfy $\sum_i \lambda_i^2 = 1$, and where the RHS is called the Schmidt decomposition of $\ket{\psi}$.
+\end{theorem}
+
+A related quantity is the \textit{Schmidt number} (or \textit{Schmidt rank}) of the decomposition of a joint state $\ket{\psi}$, defined as the number of non-zero Schmidt coefficients of the decomposition. We will also often put the non-zero Schmidt coefficients of a joint state $\ket{\psi}$ in a vector $p = (\lambda_1, \dots, \lambda_n) \in \mathcal{P}^n$ for a state of Schmidt rank $n$. We will call this vector the \textit{Schmidt vector} of $\ket{\psi}$.
+
+\begin{corollary}
+    If $\ket{\psi}$ is a product state, then its Schmidt rank is 1.
+\end{corollary}
+
+This corollary directly implies that entangled states all have non-trivial Schmidt vectors. Moreover, the Schmidt vector has an interesting interpretation in terms of information theory. As we have seen before, the reduced state of a perfectly known joint state can be mixed, meaning that the result of measuring it is uncertain. Let Alice and Bob share an entangled state $\ket{\psi}$ with Schmidt vector $p$. How much uncertainty does Alice resolve by assigning a local description to her half of the state, i.e. by measuring it ? The answer, perhaps unsurprisingly, turns out to be $H(p)$ (in the asymptotic limit). As discussed before, this means that Alice needs on average $H(p)$ yes/no measurements in her half of the Schmidt basis to determine the state she holds, with an additional overhead due to an integer constraint (which vanishes as the size of the system increases).
 
 \subsection{Majorization separability criterion}
 
-
+As discussed above, the fact that the state of a subsystem is more uncertain than the state of the joint system is a sign of entanglement, in the sense of entropy. This entropic separability criterion.
 
 
 \section{Entanglement transformations}
 
-
-
 \subsection{Quantum Resource Theories} \label{sec:QRT}
+
+
+
+\subsection{Local Operations and Classical Communications}
 
 
 
@@ -168,4 +243,3 @@ A simple example
 
 
 \subsection{Vidal's protocol}
-
