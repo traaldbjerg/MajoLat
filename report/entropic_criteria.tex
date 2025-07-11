@@ -1,6 +1,46 @@
 \chapter{Improvement of entropic criteria}
 
-\section{Upper bound based on meet}
+\section{Bounds based on meet}
+
+\subsection{Separability criterion}
+
+The first result of this master thesis is to improve some entropic criteria tied to majorization relations. As stated in theorem \ref{th:majorization_separability_criterion}, if a bipartite state $\rho^{AB}$ is separable, then
+
+\begin{equation}
+    \lambda^{AB} \prec \lambda^A \quad \text{and} \quad \lambda^{AB} \prec \lambda^{B},
+\end{equation}
+
+where $\lambda^X$ is the ordered vector of eigenvalues of the density matrix of system $X$. By Schur-concavity of $H$, this directly implies
+
+\begin{equation}
+    H(\lambda^{AB}) \geq H(\lambda^A) \quad \text{and} \quad H(\lambda^{AB}) \geq H(\lambda^B).
+\end{equation}
+
+These entropic inequalities\footnote{Historically, these entropic inequalities (expressed equivalently in von Neumann entropies) were known before the strengthening to a majorization relation.} are of course not as strong as the majorization relations we deduced them from, as illustrated in the example from section \ref{sec:majorization_separability_criterion}. Using the lattice, however, the entropic condition can be strengthened. The relations $\lambda^{AB} \prec \lambda^A$ and $\lambda^{AB} \prec \lambda^{B}$ mean that $\lambda^{AB}$ is majorized by both $\lambda^A$ and $\lambda^B$. By definition, the meet of $\lambda^A$ and $\lambda^B$ is the vector $\lambda^A \wedge \lambda^B$ that majorizes all the vectors that are majorized by both $\lambda^A$ and $\lambda^B$. This fact can also be restated as 
+
+\begin{equation}
+    \mathcal{T}_+(\lambda^A) \cap \mathcal{T}_+(\lambda^B) = \mathcal{T}_+(\lambda^A \wedge \lambda^B),
+\end{equation}
+
+\noindent using definition \ref{def:majorization_cones} of majorization cones. Applying this to the separability criterion, we get that if $\rho^{AB}$ is a separable state, then
+
+\begin{equation}
+    \lambda^{AB} \prec \lambda^A \; \text{and} \; \lambda^{AB} \prec \lambda^{B} \; \iff \; \lambda^{AB} \prec \lambda^A \wedge \lambda^B \; \implies \; H(\lambda^{AB}) \geq H(\lambda^A \wedge \lambda^B).
+\end{equation}
+
+This new formulation in terms of entropies is a strengthening of the initial entropic criterion, providing a better lower bound on the entropy of a separable state. However, it is still not as strong as the majorization criterion itself. Moreover, this new entropic criterion based on the meet is not very interesting for pure bipartite states because of corollary \ref{cor:reduced_schmidt}, which essentially states that $\lambda^A = \lambda^B$ if $\rho^{AB}$ is pure. In that case $\lambda^A \wedge \lambda^B = \lambda^A = \lambda^B$, and the new entropic criterion reduces to the original one. Unfortunately, pure bipartite states are the more interesting states for quantum computation: decoherence (i.e. losing purity by interacting with the environment) is never a desired feature for qubits as mixed states introduce uncertainty into computations, causing them to fail with a certain probability.
+
+% figure pour illustrer ici
+
+This means that our criterion is \textit{a priori} not particularly useful in the context of quantum information, however it could still be useful in experiments trying to assert whether a state is entangled or not. In such cases, the majorization relations can be hard to use because the vector of eigenvalues of the density operator can be hard to determine experimentally. However, the measurement statistics can be used to compute the Shannon entropy of the distributions easily. As such, if one could experimentally construct a state with the same eigenvalues as $\lambda^A \wedge \lambda^B$, one could measure its statistics and use the better lower bound to determine whether the joint state is separable. Unfortunately, no obvious way to construct this state, which we will note $\rho_{A \wedge B}$, was found. For example, constructing this state with an interferometer in quantum optics would require the construction of the meet (cf. section \ref{sec:meet}) to have a known formulation in terms of unitary operators. % enft ecrire ca comme ca me donne des idees lol, peut-etre pas impossible enft
+
+Moreover, this discussion is not unique to quantum information. Any other branch of physics working with coupled majorization relations but struggling to use them in practice might benefit from constructing the equivalent of a state $\rho_{A \wedge B}$ and computing the entropy of the resulting distribution. For example, another field that deals with majorization relations is the field of quantum thermodynamics, where allowed state transformations under thermal operations are bound to majorization cones (called thermal cones), analogously to entanglement cones in LOCC. On the flip-side, this kind of entropic criterion based on the meet could also be used as an experimental sign\footnote{Not evidence, however, as the improved entropic criterion is still weaker than the majorization relation.} of an underlying majorization relation, in cases where one suspects that there is something deeper going on than only the entropic inequalities.
+
+An important caveat to this criterion is that if $\lambda^A \sim \lambda^B$, then $\lambda^A \wedge \lambda^B = \lambda^A$ or $\lambda^B$ (whichever is majorized by the other), and the criterion reduces to the original one. As such, it seems that something interesting is happening when two vectors are incomparable, as incomparability enables us to improve entropic criteria. This very notion, of quantifying the amount of incomparability between two probability vectors and considering it a resource, is the idea that led to chapter \ref{chap:incomparability}.
+
+% figure pour illustrer ici
+
+\subsection{Other Renyi entropies}
 
 
 

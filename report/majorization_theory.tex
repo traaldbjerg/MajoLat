@@ -94,11 +94,11 @@ gives us $q = Dp$, and therefore $p \succ q$.
 Whichever picture one prefers intuitively, the fact that there is a full equivalence between the two is quite powerful when working on proofs, as sometimes one picture is easier to work with than the other depending on the context.
 
 \begin{remark}
-    The bistochastic matrix $\begin{pmatrix} \frac{1}{d} & ... & \frac{1}{d} \\
+    The bistochastic matrix $\begin{pmatrix} \frac{1}{d} & \dots & \frac{1}{d} \\
                                                       \vdots & & \vdots \\
-                                                      \frac{1}{d} & ... & \frac{1}{d}
+                                                      \frac{1}{d} & \dots & \frac{1}{d}
                              \end{pmatrix}$ 
-    produces the probability vector $(\frac{1}{d}, ..., \frac{1}{d})$ regardless of the probability vector on which it is applied, hence $(\frac{1}{d}, ..., \frac{1}{d})$ is majorized by every probability vector in $\mathcal{P}^d$.
+    produces the probability vector $(\frac{1}{d}, \dots, \frac{1}{d})$ regardless of the probability vector on which it is applied, hence $(\frac{1}{d}, \dots, \frac{1}{d})$ is majorized by every probability vector in $\mathcal{P}^d$.
 \end{remark}
 
 
@@ -215,7 +215,7 @@ In similar fashion, the lub, the join, of two vectors $p, q \in \mathcal{P}^d$ i
 
 Before going further with the proof, let us first give a 2D visual representation of the lattice, which is very helpful in building intuition for using the lattice, first proposed in the field of thermomajorization \cite{korzekwa_structure_2017}. More accurate representations exist but are much more complicated, living in the canonical Weyl chamber of a $\Delta_{d-1}$ simplex \cite{junior_geometric_2022}. Nevertheless, the simple 2D depiction is very useful to think about, even if one has to be careful not to draw hasty conclusions from it.
 
-\begin{definition}[Majorization cones]
+\begin{definition}[Majorization cones] \label{def:majorization_cones}
     The set of states that majorize $p$ is called the \textit{future cone}\footnote{Our naming conventions and notations are for the most part entirely opposite to the thermomajorization conventions for reasons that will be made clear in section \ref{sec:nielsen}. Most notably, our future cone corresponds to their past cone and vice versa.}  $\mathcal{T}_+ (p)$. The set of states that are majorized by $p$ is called the \textit{past cone} $\mathcal{T}_- (p)$. The set of states that are neither in the past nor the future cone of $p$ is called the \textit{incomparable region} $\mathcal{T}_\emptyset (p)$.
 \end{definition}
 
@@ -305,7 +305,7 @@ In order to show that the quadruple $\langle \mathcal{P}^d, \prec, \wedge, \vee 
     \caption{Representation of the $p = (0.6, 0.2, 0.2)$ and $q = (0.45, 0.45, 0.1)$ example, along with the proposed $\alpha(p, q)$ glb vector.} \label{fig:meet_attempt}
 \end{figure}
 
-\noindent More formally, we can define the vector $\alpha(p, q) = (a_1, ..., a_d)$ as
+\noindent More formally, we can define the vector $\alpha(p, q) = (a_1, \dots , a_d)$ as
 
 \begin{align}
     a_i &= \min \Big\{ \sum_{j=1}^{i} p_j , \sum_{j=1}^{i} q_j \Big\} - \sum_{j=1}^{i-1} a_j \label{eq:alpha_bis} \\
@@ -443,11 +443,11 @@ The Schur-concavity of the Shannon entropy, which preserves the ordering of the 
 
     By Schur-concavity of Shannon entropy we have $\beta^\downarrow(p, q) \succ p \vee q \implies H(\beta(p, q)) \leq H(p \vee q)$, so showing (\ref{eq:beta_supermodularity}) directly gives us the desired result (\ref{eq:supermodularity}). The original proof is quite long and hinges on unintuitive index tricks, however the first result of this master thesis is to show an alternative, shorter and stronger proof of eq. (\ref{eq:beta_supermodularity}). Define
     \begin{gather}
-        r = p \wedge q, s = \beta(p, q), \\
+        r = p \wedge q, \; s = \beta(p, q), \\
         A = (p_1, p_2, ..., p_d, q_1, q_2, ..., q_d)^\downarrow \in \mathbb{R}^{2d}, \\
         B = (r_1, r_2, ..., r_d, s_1, s_2, ..., s_d)^\downarrow \in \mathbb{R}^{2d}.
     \end{gather}
-    We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that $A \succ B$ (which is actually stronger than the original theorem). Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the biggest entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the biggest entries of $r$ and $s$. Let us additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ for any $d$-dimensional probability vector $v$. For all $k \leq 2d$, we have 
+    We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that $A \succ B$ (which is actually stronger than the original theorem). Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the biggest entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the biggest entries of $r$ and $s$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ for any $d$-dimensional probability vector $v$. For all $k \leq 2d$, we have 
     \begin{gather}
         S^\downarrow_k (A) = \max_{l\leq k} (S^\downarrow_l (p) + S^\downarrow_{k-l} (q)), \\
         S^\downarrow_k (B) = \max_{m\leq k} (S^\downarrow_{k-m} (r)+ S^\downarrow_m (s)).

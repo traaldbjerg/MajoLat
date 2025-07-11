@@ -1,4 +1,4 @@
-A and B uncomparable
+A and B incomparable
 
 State: 981
 Quantum object: dims = [[2, 3], [2, 3]], shape = (6, 6), type = oper, isherm = True

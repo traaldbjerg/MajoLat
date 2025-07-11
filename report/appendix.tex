@@ -3,9 +3,71 @@
 \addcontentsline{toc}{chapter}{Appendices}
 \renewcommand{\thesection}{\Alph{section}}
 
-\section{Appendix 1}
-\label{appendix:app_1}
+\section{Mixed state example}
+\label{app:mixed_example}
 
-\newpage
-\section{Appendix 2}
-\label{appendix:app_2}
+Let us take a qubit, and let us try to find the difference between the states $\rho$ and $\rho'$ from the coin-flip example in section \ref{sec:density_matrices}. In the computational basis, they are written
+
+\begin{align}
+    \hat{\rho} &= 1/2 \ket{0}\bra{0} + 1/2 \ket{1}\bra{1} = \left(\begin{matrix}
+        1/2 & 0\\
+        0 & 1/2
+    \end{matrix}\right),\\
+    \hat{\rho}' &= \ket{\psi}\bra{\psi} = \ket{+}\bra{+} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})\frac{1}{\sqrt{2}}(\bra{0} + \bra{1}) = \left(\begin{matrix}
+        1/2 & 1/2\\
+        1/2 & 1/2
+    \end{matrix}\right).
+\end{align}
+
+In both cases, let us measure if the qubit is in state $\ket{0}$ or $\ket{1}$. Those measurements are described by the operators $M_0 = \ket{0}\bra{0}$ and $M_1 = \ket{1}\bra{1}$, which are simple projective measurements. For $\rho$, we have
+
+\begin{align}
+    p(0) &= \tr\Big(\ket{0}\bra{0}\ket{0}\bra{0}\big(1/2 \ket{0}\bra{0} + 1/2 \ket{1}\bra{1}\big)\Big)\\
+         &= \tr\Big(1/2 \ket{0}\bra{0}\ket{0}\bra{0} + 1/2 \ket{0}\bra{0}\ket{1}\bra{1}\Big)\\
+         &= \tr(1/2 \ket{0}\bra{0}\ket{0}\bra{0})\\
+         &= 1/2,
+\end{align}
+\begin{align}
+    p(1) &= \tr\Big(\ket{1}\bra{1}\ket{1}\bra{1}\big(1/2 \ket{0}\bra{0} + 1/2 \ket{1}\bra{1}\big)\Big)\\
+         &= \tr\Big(1/2 \ket{1}\bra{1}\ket{0}\bra{0} + 1/2 \ket{1}\bra{1}\ket{1}\bra{1}\Big)\\
+         &= \tr(1/2 \ket{1}\bra{1}\ket{1}\bra{1})\\
+         &= 1/2.
+\end{align}
+
+\noindent For $\rho'$, we have
+
+\begin{align}
+    p(0) &= \tr\Big(\ket{0}\bra{0}\ket{0}\bra{0}\big(1/2 \ket{0}\bra{0} + 1/2 \ket{0}\bra{1} + 1/2 \ket{1}\bra{0} 1/2 \ket{1}\bra{1}\big)\Big)\\
+         &= \tr\Big(1/2 \ket{0}\bra{0}\ket{0}\bra{0} +1/2 \ket{0}\bra{0}\ket{0}\bra{1} + 1/2 \ket{0}\bra{0}\ket{1}\bra{0} + 1/2 \ket{0}\bra{0}\ket{1}\bra{1}\Big)\\
+         &= \tr(1/2 \ket{0}\bra{0} + 1/2 \ket{0}\bra{1})\\
+         &= 1/2,
+\end{align}
+\begin{align}
+    p(1) &= \tr\Big(\ket{1}\bra{1}\ket{1}\bra{1}\big(1/2 \ket{0}\bra{0} + 1/2 \ket{0}\bra{1} + 1/2 \ket{1}\bra{0} 1/2 \ket{1}\bra{1}\big)\Big)\\
+         &= \tr\Big(1/2 \ket{1}\bra{1}\ket{0}\bra{0} +1/2 \ket{1}\bra{1}\ket{0}\bra{1} + 1/2 \ket{1}\bra{1}\ket{1}\bra{0} + 1/2 \ket{1}\bra{1}\ket{1}\bra{1}\Big)\\
+         &= \tr(1/2 \ket{1}\bra{0} + 1/2 \ket{1}\bra{1})\\
+         &= 1/2.
+\end{align}
+
+These are the expected results, and the difference between the pure and the mixed state are not so clear in this case. However, something interesting happens if we now try to measure the qubit in the dual basis, i.e. measuring along operators $M_+ = \ket{+}\bra{+}$ and $M_- = \ket{-}\bra{-}$. The calculation is easier in the dual basis, in which $\rho' = \ket{+}\bra{+}$, and so we directly get $p(+) = 1$. In this basis, using $\ket{0} = \frac{1}{\sqrt{2}}(\ket{+} + \ket{-})$ and $\ket{1} = \frac{1}{\sqrt{2}}(\ket{+} - \ket{-})$, $\rho$ becomes
+
+\begin{align}
+    \hat{\rho} &= 1/2 \ket{0}\bra{0} + 1/2 \ket{1}\bra{1}\\
+               &= 1/2 (\frac{1}{\sqrt{2}}(\ket{+} + \ket{-}))(\frac{1}{\sqrt{2}}(\bra{+} + \bra{-})) + 1/2 (\frac{1}{\sqrt{2}}(\ket{+} - \ket{-}))(\frac{1}{\sqrt{2}}(\bra{+} - \bra{-}))\\
+               &= 1/2 \ket{+}\bra{+} + 1/2 \ket{-}\bra{-}.
+\end{align}
+
+\noindent And so the probabilities associated to outcomes + and - are
+
+\begin{align}
+    p(+) &= \tr\Big(\ket{+}\bra{+}\ket{+}\bra{+}\big(1/2 (\ket{+}\bra{+}) + 1/2 (\ket{-}\bra{-})\big)\Big)\\
+         &= \tr\Big(1/2 \ket{+}\bra{+}\ket{+}\bra{+} + 1/2 \ket{+}\bra{+}\ket{-}\bra{-}\Big)\\
+         &= \tr(1/2 \ket{+}\bra{+}\ket{+}\bra{+})\\
+         &= 1/2,\\
+    p(-) &= \tr\Big(\ket{-}\bra{-}\ket{-}\bra{-}\big(1/2 \ket{+}\bra{+} + 1/2 \ket{-}\bra{-}\big)\Big)\\
+         &= \tr\Big(1/2 \ket{-}\bra{-}\ket{-}\bra{-} + 1/2 \ket{-}\bra{-}\ket{-}\bra{-}\Big)\\
+         &= \tr(1/2 \ket{-}\bra{-}\ket{-}\bra{-})\\
+         &= 1/2.
+\end{align}
+
+This is interesting, because this example showcases a fundamental difference between a superposition and a classical mixture. An appropriate choice of basis can make the outcome of measuring a state in a superposition certain, whereas the outcome of a measurement on a mixed state is \textit{always} uncertain, no matter the choice of measurement operator.
