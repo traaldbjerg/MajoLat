@@ -427,10 +427,29 @@ The Schur-concavity of the Shannon entropy, which preserves the ordering of the 
     \end{equation}
 \end{definition}
 
-\begin{theorem}[Supermodularity of the Shannon entropy \cite{cicalese_supermodularity_2002}]
-    The entropy function $H$ is supermodular on the majorization lattice\footnote{It is important to specify which lattice: on the boolean lattice, which gives a different ordering and different meet and join operations, the Shannon entropy is \textit{submodular} instead.}, and so for all $p, q \in \mathcal{P}^d$,
+We will work with concatenated probability vectors. We will need the following definition for the main theorem of this section.
+
+\begin{definition}[Order-preserving concatenation]
+    Let $p, q \in \mathcal{P}^d$, then the concatenation of $p$ and $q$, $\omega(p, q)$, is defined as
+    \begin{align}
+        \omega(p, q) = (p_1, p_2, ..., p_d, q_1, q_2, ..., q_d) \in \mathbb{R}^{2d}.
+    \end{align}
+    We then define the order-preserving concatenation of $p$ and $q$, $\gamma(p, q)$, which is constructed with the following algorithm. Let $k, l \in \mathbb{N}$, and initialize them to 1. $\forall i \leq 2d$,
+    \begin{itemize}
+        \item if $p_k \geq q_l$, then $\gamma_i = p_k$ and increment $k$ by 1
+        \item if $p_k < q_l$, then $\gamma_i = q_l$ and increment $l$ by 1.
+    \end{itemize}
+    Note that in general, $\gamma(p, q) \neq \gamma(p, q)^\downarrow$.
+\end{definition}
+
+\begin{theorem}[Supermodularity of all "sum-concave" functions]
+    All functions of the form
+    \begin{equation} \label{eq:sum-concave}
+        F: \mathcal{P}^n \rightarrow \mathbb{R},  p \rightarrow \sum_i \varphi(p_i), \
+    \end{equation}
+    where $\varphi$ is a real function that is concave on $[0, 1]$, are supermodular on the majorization lattice\footnote{It is important to specify which lattice: on the boolean lattice, which gives a different ordering and different meet and join operations, the Shannon entropy is \textit{submodular} instead.}, and so for all $p, q \in \mathcal{P}^d$,
     \begin{equation} \label{eq:supermodularity}
-        H(p \wedge q) + H(p \vee q) \geq H(p) + H(q).
+        F(p \wedge q) + F(p \vee q) \geq F(p) + F(q). 
     \end{equation}
     Note that if $p \sim q$, there is trivially equality.
 \end{theorem}
@@ -438,21 +457,21 @@ The Schur-concavity of the Shannon entropy, which preserves the ordering of the 
 \begin{proof} \label{proof:alternative_supermodularity}
     Of the 2 properties, this is the most useful one, so let us go through the proof. We will prove the slightly stronger result on $\beta(p, q)$ as defined in (\ref{eq:beta}):
     \begin{equation} \label{eq:beta_supermodularity}
-        H(p \wedge q) + H(\beta(p, q)) \geq H(p) + H(q).
+        F(p \wedge q) + F(\beta(p, q)) \geq F(p) + F(q).
     \end{equation}
 
-    By Schur-concavity of Shannon entropy we have $\beta^\downarrow(p, q) \succ p \vee q \implies H(\beta(p, q)) \leq H(p \vee q)$, so showing (\ref{eq:beta_supermodularity}) directly gives us the desired result (\ref{eq:supermodularity}). The original proof is quite long and hinges on unintuitive index tricks, however the first result of this master thesis is to show an alternative, shorter and stronger proof of eq. (\ref{eq:beta_supermodularity}). Define
+    The original proof only concerned Shannon entropy (which is of the form (\ref{eq:sum-concave}) with $\varphi(x) = -x \log x$), is quite long and hinges on unintuitive index tricks, however the first result of this master thesis is to show an alternative, shorter and stronger proof of eq. (\ref{eq:beta_supermodularity}). Define\footnote{Credit must be given to OpenAI's o4-mini LLM for the idea of constructing such concatenated vectors.}
     \begin{gather}
         r = p \wedge q, \; s = \beta(p, q), \\
-        A = (p_1, p_2, ..., p_d, q_1, q_2, ..., q_d)^\downarrow \in \mathbb{R}^{2d}, \\
-        B = (r_1, r_2, ..., r_d, s_1, s_2, ..., s_d)^\downarrow \in \mathbb{R}^{2d}.
+        A = (p_1, p_2, \dots, p_d, q_1, q_2, \dots, q_d)^\downarrow \in \mathbb{R}^{2d}, \\
+        B = \gamma(r, s) \in \mathbb{R}^{2d},
     \end{gather}
-    We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that $A \succ B$ (which is actually stronger than the original theorem). Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the biggest entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the biggest entries of $r$ and $s$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ for any $d$-dimensional probability vector $v$. For all $k \leq 2d$, we have 
+    where $\gamma$ is the order-preserving concatenation of two vectors. We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that $A \succ B$. Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the first entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the first entries of $r$ and $s$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ for any $d$-dimensional probability vector $v$. For all $k \leq 2d$, we have
     \begin{gather}
         S^\downarrow_k (A) = \max_{l\leq k} (S^\downarrow_l (p) + S^\downarrow_{k-l} (q)), \\
         S^\downarrow_k (B) = \max_{m\leq k} (S^\downarrow_{k-m} (r)+ S^\downarrow_m (s)).
     \end{gather} % si plusieurs l ou m sont possibles c'est pas grave pck on a quand meme le max de la somme je pense
-    Recall equations (\ref{eq:alpha_bis}) and (\ref{eq:beta_bis}), from which we immediately deduce
+    Recall equations (\ref{eq:alpha_bis}) and (\ref{eq:beta_bis}), from which we immediately deduce\footnote{The point of the order-preserving concatenation is to be able to write the following, if we had used $(r_1, r_2, \dots, r_d, s_1, s_2, \dots, s_d)^\downarrow$ instead of $\gamma(r, s)$ we would not be able to use the nice expressions of $S^\downarrow_k (r)$ and $S^\downarrow_k (s)$ in terms of $S^\downarrow_i (p)$ and $S^\downarrow_i (q)$.}
     \begin{gather}
         S^\downarrow_i (r) = \min \{S^\downarrow_i (p), S^\downarrow_i (q)\}, \\
         S^\downarrow_i (s) = \max \{S^\downarrow_i (p), S^\downarrow_i (q)\}.
@@ -464,14 +483,30 @@ The Schur-concavity of the Shannon entropy, which preserves the ordering of the 
         &\leq \max_{l\leq k} (S^\downarrow_l (p) +S^\downarrow_{k-l} (q)) = S^\downarrow_k (A),
     \end{align}
     which is precisely one inequality of the majorization relation for a specific $k$. The $S^\downarrow_m (p) \leq S^\downarrow_m (q)$ case being symmetric, and this being true for all $k \leq 2d$, we have shown that $A \succ B$.
-    Finally, let $\varphi(x) = -x \log(x)$, which is concave on $[0, 1]$. Using Lemma \ref{lem:karamata} on $\varphi$ ($-\varphi$ being convex on the same interval), we get
+    Using Lemma \ref{lem:karamata} on $\varphi$ ($-\varphi$ being convex on the same interval), we get
     \begin{equation} \label{eq:supermodularity_karamata_step}
         \sum_{i=1}^{2d} \varphi(A_i) \leq \sum_{i=1}^{2d} \varphi(B_i).
     \end{equation}
-    But the LHS of (\ref{eq:supermodularity_karamata_step}) is precisely $H(p) + H(q)$, and the RHS is precisely $H(p \wedge q) + H(\beta(p, q))$, so we have proven (\ref{eq:beta_supermodularity}) which implies (\ref{eq:supermodularity}). \qedhere
+    But the LHS of (\ref{eq:supermodularity_karamata_step}) is precisely $F(p) + F(q)$, and the RHS is precisely $F(p \wedge q) + F(\beta(p, q))$, so we have proven (\ref{eq:beta_supermodularity}) which implies (\ref{eq:supermodularity}). \qedhere
 \end{proof}
 
+\begin{corollary}[Supermodularity of Shannon entropy \cite{cicalese_supermodularity_2002}]
+    The entropy function $H$ is supermodular on the majorization lattice, and so for all $p, q \in \mathcal{P}^d$,
+    \begin{equation} \label{eq:supermodularity_shannon}
+        H(p \wedge q) + H(p \vee q) \geq H(p) + H(q).
+    \end{equation}
+    Note that if $p \sim q$, there is trivially equality.
+\end{corollary}
 
+\begin{corollary}[Supermodularity of \textit{all} Rényi entropies]
+    The Rényi entropy functions $H_\alpha$ are all supermodular on the majorization lattice, and so for all $p, q \in \mathcal{P}^d$,
+    \begin{equation} \label{eq:supermodularity_renyi}
+        H_\alpha(p \wedge q) + H_\alpha(p \vee q) \geq H_\alpha(p) + H_\alpha(q).
+    \end{equation}
+    Note that if $p \sim q$, there is trivially equality.
+\end{corollary}
+
+\noindent We have thus proven a powerful generalisation of the supermodularity property.
 
 \subsection{Subadditivity} \label{sec:subadditivity}
 

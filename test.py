@@ -50,6 +50,8 @@ def generate_bank(bank_size, dimensions):
         bank.append(q)
     return bank
 
+    
+
 #print("RATIO: {}".format(ratio/tries))
 #print("INCOMPARABILITY RATIO: {}".format(comp/tries))
 
