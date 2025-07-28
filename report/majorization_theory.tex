@@ -151,13 +151,14 @@ Some functions preserve the ordering defined by the majorization relation and ar
     \end{equation}
 \end{definition}
 
-Conversely, a function $f$ is (Schur-)concave if $-f$ is (Schur-)convex. Additional properties linking convex and concave functions to majorization exist, such as inequality (C.1) from Ref. \cite[p. 92]{marshall_inequalities_2011}, often called Karamata's inequality.
+Conversely, a function $f$ is (Schur-)concave if $-f$ is (Schur-)convex. Additional properties linking convex and concave functions to majorization exist.
 
-\begin{lemma}[Karamata's inequality] \label{lem:karamata}
+\begin{lemma}[{Karamata's inequality \cite[p. 92]{marshall_inequalities_2011}}] \label{lem:karamata}
     If $f \in C(\mathcal{I} \to \mathbb{R})$ is convex on $\mathcal{I}$, and if $p \succ q$, then
     \begin{equation}
         \sum_{i=1}^{d} f(p_i) \geq \sum_{i=1}^{d} f(q_i).
     \end{equation}
+    This can be restated as saying that the function $\sum_i f$ is Schur-convex.
 \end{lemma}
 
 Essentially, this inequality states that if $b = Da$ with $D$ a bistochastic matrix, then $a$ has entries that are more spread out (think of the certain vector), whereas $b$ has entries closer to the middle of the interval (think of the uniform vector), and so, by definition of a convex (resp. concave) function, on average $f(b_i)$ is less (resp. more) than $f(a_i)$.
@@ -408,7 +409,7 @@ While it is fairly clear how the algorithms from sections \ref{sec:meet} and \re
 
 % parler du fait que les proprietes sont logiques dans la vision geometrique aussi ?
 
-These properties are extremely helpful when working on proofs on the lattice, and will appear quite a bit in the second part of this master thesis.
+These properties are extremely helpful when working on proofs on the lattice, and will appear quite a bit in chapter \ref{chap:incomparability}.
 
 
 
@@ -427,86 +428,16 @@ The Schur-concavity of the Shannon entropy, which preserves the ordering of the 
     \end{equation}
 \end{definition}
 
-We will work with concatenated probability vectors. We will need the following definition for the main theorem of this section.
 
-\begin{definition}[Order-preserving concatenation]
-    Let $p, q \in \mathcal{P}^d$, then the concatenation of $p$ and $q$, $\omega(p, q)$, is defined as
-    \begin{align}
-        \omega(p, q) = (p_1, p_2, ..., p_d, q_1, q_2, ..., q_d) \in \mathbb{R}^{2d}.
-    \end{align}
-    We then define the order-preserving concatenation of $p$ and $q$, $\gamma(p, q)$, which is constructed with the following algorithm. Let $k, l \in \mathbb{N}$, and initialize them to 1. $\forall i \leq 2d$,
-    \begin{itemize}
-        \item if $p_k \geq q_l$, then $\gamma_i = p_k$ and increment $k$ by 1
-        \item if $p_k < q_l$, then $\gamma_i = q_l$ and increment $l$ by 1.
-    \end{itemize}
-    Note that in general, $\gamma(p, q) \neq \gamma(p, q)^\downarrow$.
-\end{definition}
-
-\begin{theorem}[Supermodularity of all "sum-concave" functions]
-    All functions of the form
-    \begin{equation} \label{eq:sum-concave}
-        F: \mathcal{P}^n \rightarrow \mathbb{R},  p \rightarrow \sum_i \varphi(p_i), \
-    \end{equation}
-    where $\varphi$ is a real function that is concave on $[0, 1]$, are supermodular on the majorization lattice\footnote{It is important to specify which lattice: on the boolean lattice, which gives a different ordering and different meet and join operations, the Shannon entropy is \textit{submodular} instead.}, and so for all $p, q \in \mathcal{P}^d$,
-    \begin{equation} \label{eq:supermodularity}
-        F(p \wedge q) + F(p \vee q) \geq F(p) + F(q). 
-    \end{equation}
-    Note that if $p \sim q$, there is trivially equality.
-\end{theorem}
-
-\begin{proof} \label{proof:alternative_supermodularity}
-    Of the 2 properties, this is the most useful one, so let us go through the proof. We will prove the slightly stronger result on $\beta(p, q)$ as defined in (\ref{eq:beta}):
-    \begin{equation} \label{eq:beta_supermodularity}
-        F(p \wedge q) + F(\beta(p, q)) \geq F(p) + F(q).
-    \end{equation}
-
-    The original proof only concerned Shannon entropy (which is of the form (\ref{eq:sum-concave}) with $\varphi(x) = -x \log x$), is quite long and hinges on unintuitive index tricks, however the first result of this master thesis is to show an alternative, shorter and stronger proof of eq. (\ref{eq:beta_supermodularity}). Define\footnote{Credit must be given to OpenAI's o4-mini LLM for the idea of constructing such concatenated vectors.}
-    \begin{gather}
-        r = p \wedge q, \; s = \beta(p, q), \\
-        A = (p_1, p_2, \dots, p_d, q_1, q_2, \dots, q_d)^\downarrow \in \mathbb{R}^{2d}, \\
-        B = \gamma(r, s) \in \mathbb{R}^{2d},
-    \end{gather}
-    where $\gamma$ is the order-preserving concatenation of two vectors. We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that $A \succ B$. Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the first entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the first entries of $r$ and $s$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ for any $d$-dimensional probability vector $v$. For all $k \leq 2d$, we have
-    \begin{gather}
-        S^\downarrow_k (A) = \max_{l\leq k} (S^\downarrow_l (p) + S^\downarrow_{k-l} (q)), \\
-        S^\downarrow_k (B) = \max_{m\leq k} (S^\downarrow_{k-m} (r)+ S^\downarrow_m (s)).
-    \end{gather} % si plusieurs l ou m sont possibles c'est pas grave pck on a quand meme le max de la somme je pense
-    Recall equations (\ref{eq:alpha_bis}) and (\ref{eq:beta_bis}), from which we immediately deduce\footnote{The point of the order-preserving concatenation is to be able to write the following, if we had used $(r_1, r_2, \dots, r_d, s_1, s_2, \dots, s_d)^\downarrow$ instead of $\gamma(r, s)$ we would not be able to use the nice expressions of $S^\downarrow_k (r)$ and $S^\downarrow_k (s)$ in terms of $S^\downarrow_i (p)$ and $S^\downarrow_i (q)$.}
-    \begin{gather}
-        S^\downarrow_i (r) = \min \{S^\downarrow_i (p), S^\downarrow_i (q)\}, \\
-        S^\downarrow_i (s) = \max \{S^\downarrow_i (p), S^\downarrow_i (q)\}.
-    \end{gather} 
-    Let us fix $m$. There are two possible cases, either $S^\downarrow_m (p) \geq S^\downarrow_m (q)$ or $S^\downarrow_m (p) \leq S^\downarrow_m (q)$. Let us consider the $S^\downarrow_m (p) \geq S^\downarrow_m (q)$ case, which gives us
-    \begin{align}
-        S^\downarrow_k (B) &= \min \{S^\downarrow_{k-m} (p), S^\downarrow_{k-m} (q)\} + S^\downarrow_m (p) \\
-        &\leq S^\downarrow_m (p) + S^\downarrow_{k-m} (q) \\
-        &\leq \max_{l\leq k} (S^\downarrow_l (p) +S^\downarrow_{k-l} (q)) = S^\downarrow_k (A),
-    \end{align}
-    which is precisely one inequality of the majorization relation for a specific $k$. The $S^\downarrow_m (p) \leq S^\downarrow_m (q)$ case being symmetric, and this being true for all $k \leq 2d$, we have shown that $A \succ B$.
-    Using Lemma \ref{lem:karamata} on $\varphi$ ($-\varphi$ being convex on the same interval), we get
-    \begin{equation} \label{eq:supermodularity_karamata_step}
-        \sum_{i=1}^{2d} \varphi(A_i) \leq \sum_{i=1}^{2d} \varphi(B_i).
-    \end{equation}
-    But the LHS of (\ref{eq:supermodularity_karamata_step}) is precisely $F(p) + F(q)$, and the RHS is precisely $F(p \wedge q) + F(\beta(p, q))$, so we have proven (\ref{eq:beta_supermodularity}) which implies (\ref{eq:supermodularity}). \qedhere
-\end{proof}
-
-\begin{corollary}[Supermodularity of Shannon entropy \cite{cicalese_supermodularity_2002}]
+\begin{theorem}[Supermodularity of Shannon entropy \cite{cicalese_supermodularity_2002}] \label{th:shannon_supermodularity}
     The entropy function $H$ is supermodular on the majorization lattice, and so for all $p, q \in \mathcal{P}^d$,
     \begin{equation} \label{eq:supermodularity_shannon}
         H(p \wedge q) + H(p \vee q) \geq H(p) + H(q).
     \end{equation}
     Note that if $p \sim q$, there is trivially equality.
-\end{corollary}
+\end{theorem}
 
-\begin{corollary}[Supermodularity of \textit{all} Rényi entropies]
-    The Rényi entropy functions $H_\alpha$ are all supermodular on the majorization lattice, and so for all $p, q \in \mathcal{P}^d$,
-    \begin{equation} \label{eq:supermodularity_renyi}
-        H_\alpha(p \wedge q) + H_\alpha(p \vee q) \geq H_\alpha(p) + H_\alpha(q).
-    \end{equation}
-    Note that if $p \sim q$, there is trivially equality.
-\end{corollary}
-
-\noindent We have thus proven a powerful generalisation of the supermodularity property.
+The original proof is long and hinges on unintuitive index tricks, however one of the first results of this master thesis is to prove a stronger version of theorem \ref{th:shannon_supermodularity} which is applicable to a broader class of functions than only Shannon entropy in specific cases. As such we will go over the proof section \ref{sec:alternative_supermodularity}.
 
 \subsection{Subadditivity} \label{sec:subadditivity}
 
@@ -517,18 +448,18 @@ We will work with concatenated probability vectors. We will need the following d
     \end{equation}
 \end{definition}
 
-\begin{theorem}[Subadditivity of the Shannon entropy, \cite{cicalese_supermodularity_2002}]
+\begin{theorem}[Subadditivity of the Shannon entropy, \cite{cicalese_supermodularity_2002}] \label{th:shannon_subadditivity}
     The entropy function $H$ is subadditive on the majorization lattice, so for all $p, q \in \mathcal{P}^d$
     \begin{equation}
         H(p \wedge q) \leq H(p) + H(q).
     \end{equation}
 \end{theorem}
 
-
+Just like for supermodularity, one of the first results of this master thesis is to prove a stronger version of theorem \ref{th:shannon_subadditivity} which is applicable to a broader class of functions than only Shannon entropy in specific cases. As such we will go over the proof in section \ref{sec:alternative_subadditivity}.
 
 \subsection{Entropic distance on the lattice}
 
-To conclude this chapter, we will take a look at a definition for an entropic distance on the lattice, which allows us to quantify how far away two probability vectors are from each other on the lattice.
+Shannon entropy can be used to define an entropic distance on the lattice, which allows us to quantify how far away two probability vectors are from each other on the lattice. We will use it quite a lot in chapter \ref{chap:incomparability} to quantify the amount of incomparability between 2 probability vectors.
 
 \begin{definition}[Entropic distance]
     For all $p, q \in \mathcal{P}^d$, we define
@@ -545,3 +476,5 @@ To conclude this chapter, we will take a look at a definition for an entropic di
         \item Triangular inequality: $d(p, q) \leq d(p, t) + d(t, q)$.
     \end{itemize}
 \end{theorem}
+
+This distance has a few non-intuitive properties, but remains a rigorous notion of distance nonetheless. % expliquer geometrie hyperbolique et faire un diagramme ?

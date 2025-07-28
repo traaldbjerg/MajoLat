@@ -79,6 +79,7 @@
 \theoremstyle{plain}
 \newtheorem{lemma}{Lemma}[chapter]
 \newtheorem{result}{Result}[chapter]
+\newtheorem{conjecture}{Conjecture}[chapter]
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{corollary}{Corollary}[theorem]
 
@@ -99,11 +100,12 @@
 % alias pour meet et join
 \newcommand{\meet}{\wedge}
 \newcommand{\join}{\vee}
+\newcommand{\reach}[1]{\overset{#1}{\longrightarrow}}
 
 \usepackage[
 backend=biber,
 style=numeric,
-sorting=nyt,
+sorting=none,
 date=year,
 url=false,
 doi=false,
