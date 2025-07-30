@@ -2,22 +2,31 @@
 
 \section{Definitions}
 
-We will work with concatenated probability vectors. We will need the following definition for the main theorem of this section.
+We will work with concatenated probability vectors. We will need the following definitions for the main theorems of this section.
 
 \begin{definition}[Probability vector concatenation]
     Let $p, q \in \mathcal{P}^d$, then the concatenation of $p$ and $q$, $\gamma(p, q)$, is defined as
     \begin{align}
         \gamma(p, q) = (p_1, p_2, ..., p_d, q_1, q_2, ..., q_d) \in \mathbb{R}^{2d},
     \end{align}
-    and so $S^\downarrow_{2d}(\gamma(p, q)) = 1$.
+    and so $S^\downarrow_{2d}(\gamma(p, q)) = 2$.
+\end{definition}
+
+\begin{definition}[Sum-convex function] \label{def:sum-convex} % chercher si ca existe deja dans la litterature
+    Let $F: \mathcal{P}^n \rightarrow \mathbb{R}$. $F$ is sum-convex if there exists a convex function $\phi: [0, 1] \rightarrow \mathbb{R}$ such that
+    \begin{equation} \label{eq:sum-convex}
+        F(p) = \sum_i \phi(p_i)
+    \end{equation}
 \end{definition}
 
 \begin{definition}[Sum-concave function] \label{def:sum-concave} % chercher si ca existe deja dans la litterature
-    Let $\varphi$ be any real-valued function that is concave on $[0, 1]$. From it, we define a sum-concave function $F$ such that
+    Let $F: \mathcal{P}^n \rightarrow \mathbb{R}$. $F$ is sum-concave if there exists a concave function $\varphi: [0, 1] \rightarrow \mathbb{R}$ such that
     \begin{equation} \label{eq:sum-concave}
-        F: \mathcal{P}^n \rightarrow \mathbb{R},  p \rightarrow \sum_i \varphi(p_i)
+        F(p) = \sum_i \varphi(p_i)
     \end{equation}
 \end{definition}
+
+\noindent Alternatively, $F$ is sum-concave if $-F$ is sum-convex. Moreover, note that lemma \ref{lem:karamata} implies that all sum-convex functions (resp. sum-concave) are Schur-convex (resp. Schur-concave).
 
 
 
@@ -32,12 +41,12 @@ We will work with concatenated probability vectors. We will need the following d
 \end{theorem}
 
 \begin{proof} \label{proof:alternative_supermodularity}
-    Of the 2 properties, this is the most useful one, so let us go through the proof. We will prove the slightly stronger result on $\beta(p, q)$ as defined in (\ref{eq:beta}):
+    We will prove the slightly stronger result on $\beta(p, q)$ as defined in (\ref{eq:beta}):
     \begin{equation} \label{eq:beta_supermodularity}
         F(p \wedge q) + F(\beta(p, q)) \geq F(p) + F(q).
     \end{equation}
 
-    The original proof only concerned Shannon entropy (which is of the form (\ref{eq:sum-concave}) with $\varphi(x) = -x \log x$), is quite long and hinges on unintuitive index tricks, however the first result of this master thesis is to show an alternative, shorter and stronger proof of eq. (\ref{eq:beta_supermodularity}). Define\footnote{Credit must be given to OpenAI's o4-mini LLM for the idea of constructing such concatenated vectors.}
+    The original proof only concerned Shannon entropy (which is of the form (\ref{eq:sum-concave}) with $\varphi(x) = -x \log x$). The first result of this master thesis is to show an simpler proof of eq. (\ref{eq:beta_supermodularity}) in specific cases. Define\footnote{Credit must be given to OpenAI's o4-mini LLM for the idea of constructing such concatenated vectors.}
     \begin{gather}
         r = p \wedge q, \; s = \beta(p, q), \\
         A = (p_1, p_2, \dots, p_d, q_1, q_2, \dots, q_d)^\downarrow \in \mathbb{R}^{2d}, \\
@@ -67,15 +76,33 @@ We will work with concatenated probability vectors. We will need the following d
     But the LHS of (\ref{eq:supermodularity_karamata_step}) is precisely $F(p) + F(q)$, and the RHS is precisely $F(p \wedge q) + F(\beta(p, q))$, so we have proven (\ref{eq:beta_supermodularity}) which implies (\ref{eq:supermodularity}). \qedhere
 \end{proof}
 
+The above proof can be reused for a sum-convex function $f$ (because $-f$ is sum-concave) by simply reversing the final Karamata inequality.
+
+\begin{corollary}[Submodularity of all sum-convex functions] \label{cor:submodularity_sum-convex}
+    All sum-convex functions $F$ are submodular on the majorization lattice if $\beta(p, q) = \beta^\downarrow(p, q)$ (as defined in (\ref{eq:beta})), and so for all $p, q \in \mathcal{P}^d$,
+    \begin{equation} \label{eq:submodularity}
+        F(p \wedge q) + F(p \vee q) \leq F(p) + F(q).
+    \end{equation}
+    Note that if $p \sim q$, there is trivially equality. Moreover, in dimension 3, $\beta(p, q) = \beta^\downarrow(p, q)$ is always true.
+\end{corollary}
+
 \begin{corollary}[Supermodularity of the exponential of $\alpha < 1$ Rényi entropies]
-    The exponential of Rényi entropy functions $2^{H_\alpha}$ are all supermodular on the majorization lattice, and so for all $p, q \in \mathcal{P}^d$,
+    The exponential of Rényi entropy functions $2^{H_\alpha}$ of order $\alpha < 1$ are supermodular on the majorization lattice for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = \beta^\downarrow(p, q)$, for which we have
     \begin{equation} \label{eq:supermodularity_renyi}
         2^{H_\alpha(p \wedge q)} + 2^{H_\alpha(p \vee q)} \geq 2^{H_\alpha(p)} + 2^{H_\alpha(q)}.
     \end{equation}
     Note that if $p \sim q$, there is trivially equality.
 \end{corollary}
 
-\noindent Theorem \ref{th:alternative_supermodularity} is a generalization of supermodularity to a broader class of functions. However, the condition $\beta(p, q) = \beta^\downarrow(p, q)$ is limiting. However, numerical testing seems to indicate that the relation $A \succ B$ holds even in cases where $\beta(p, q) \neq \beta^\downarrow(p, q)$ (and so $\beta^\downarrow$ must be smoothed), which yields the first conjecture of this master thesis.
+\begin{corollary}[Submodularity of the exponential of $\alpha > 1$ Rényi entropies]
+    The exponential of Rényi entropy functions $2^{H_\alpha}$  of order $\alpha > 1$ are submodular on the majorization lattice for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = \beta^\downarrow(p, q)$, for which we have
+    \begin{equation} \label{eq:submodularity_renyi}
+        2^{H_\alpha(p \wedge q)} + 2^{H_\alpha(p \vee q)} \leq 2^{H_\alpha(p)} + 2^{H_\alpha(q)}.
+    \end{equation}
+    Note that if $p \sim q$, there is trivially equality.
+\end{corollary}
+
+\noindent Theorem \ref{th:alternative_supermodularity} is a generalization of supermodularity to a broader class of functions. However, the condition $\beta(p, q) = \beta^\downarrow(p, q)$ is limiting. Numerical testing seems to indicate that the relation $A \succ B$ holds even in cases where $\beta(p, q) \neq \beta^\downarrow(p, q)$ (and so $\beta^\downarrow$ must be smoothed), which yields the first conjecture of this master thesis.
 
 \begin{conjecture} \label{conj:alternative_supermodularity}
     All sum-concave functions $F$ are supermodular on the majorization lattice, and so for all $p, q \in \mathcal{P}^d$,

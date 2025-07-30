@@ -4,9 +4,9 @@ The theory of majorization gives a framework for what it means for a probability
 
 
 
-\section{Definitions of majorization}
+\section{Definitions of majorization} \label{sec:majorization}
 
-\subsection{Using cumulative sums}
+\subsection{Using cumulative sums} \label{sec:cumulative}
 
 Let $p$ be a probability vector, \textit{i.e.} a vector such that $p_i \geq 0$ and $\sum_{i}^{d} p_i = 1$ for a vector of dimension $d$. Let $p^\downarrow$ be the non-increasing reordering of $p$, meaning that the entries of $p^\downarrow$ are the same as those of $p$, but sorted such that $p^\downarrow_1 \geq p^\downarrow_2 \geq ... \geq p^\downarrow_d$. We will always be considering reordered vectors in this master thesis, and we will therefore denote the set of $n$-dimensional probability vectors sorted in non-increasing order $\mathcal{P}^n$. Formally, $\mathcal{P}^n = \{p \in \mathbb{R}^n | \sum_{i}^{n} p_i = 1, p_i \geq p_{i+1}\}$.
 
@@ -51,7 +51,7 @@ The majorization relation creates a partial order on $\mathcal{P}^d$, meaning th
 
 
 
-\subsection{Using bistochastic matrices}
+\subsection{Using bistochastic matrices} \label{sec:bistochastic}
 
 A second equivalent definition for majorization can be reached by a different intuition involving bistochastic matrices. The idea is the following: if the probability vector $q$ can be obtained by randomly mixing the components of $p$ together, then $p$ is more ordered than $q$. It turns out that this simple idea is equivalent to the definition using cumulative sums. Let us express this rigorously.
 
@@ -212,7 +212,7 @@ In similar fashion, the lub, the join, of two vectors $p, q \in \mathcal{P}^d$ i
 
 
 
-\subsection{Majorization cones and geometric intuition}
+\subsection{Majorization cones and geometric intuition} \label{sec:majorization_cones}
 
 Before going further with the proof, let us first give a 2D visual representation of the lattice, which is very helpful in building intuition for using the lattice, first proposed in the field of thermomajorization \cite{korzekwa_structure_2017}. More accurate representations exist but are much more complicated, living in the canonical Weyl chamber of a $\Delta_{d-1}$ simplex \cite{junior_geometric_2022}. Nevertheless, the simple 2D depiction is very useful to think about, even if one has to be careful not to draw hasty conclusions from it.
 
@@ -349,14 +349,14 @@ Figure \ref{fig:first_join_attempt} shows the Lorenz curves of $p, q, \beta(p, q
     \centering
     \begin{minipage}{.48\textwidth}
         \centering
-        \includegraphics[scale=0.5]{images/join_first_attempt.png}
+        \includegraphics[scale=0.48]{images/join_first_attempt.png}
         \caption{Lorenz curves for the vector $p = (0.6, 0.15, 0.15, 0.1)$ and the vector $q = (0.5, 0.25, 0.20, 0.05)$, along with the join prototypes $\beta(p, q)$ and $\beta'(p, q)$.}
         \label{fig:first_join_attempt}
     \end{minipage}
     \hfill
     \begin{minipage}{0.48\textwidth} 
         \centering
-        \includegraphics[scale=0.5]{images/join_second_attempt.png}
+        \includegraphics[scale=0.48]{images/join_second_attempt.png}
         \caption{Zoom on the region that visually shows that the $\beta'(p, q)$ vector is not the join, as there exist vectors such as $\beta''(p, q)$ that are majorized by it but still majorize both $p$ and $q$.} 
         \label{fig:second_join_attempt}
     \end{minipage}
@@ -421,7 +421,7 @@ The Schur-concavity of the Shannon entropy, which preserves the ordering of the 
 
 \subsection{Supermodularity} \label{sec:supermodularity}
 
-\begin{definition}
+\begin{definition} \label{def:supermodularity}
     A real-valued function $f$ defined on a lattice $\langle \mathcal{L}, \sqsubseteq, \wedge, \vee \rangle$ is \textit{supermodular} iff for any $a, b \in \mathcal{L}$
     \begin{equation}
         f(a \wedge b) + f(a \vee b) \geq f(a) + f(b).
@@ -437,11 +437,18 @@ The Schur-concavity of the Shannon entropy, which preserves the ordering of the 
     Note that if $p \sim q$, there is trivially equality.
 \end{theorem}
 
-The original proof is long and hinges on unintuitive index tricks, however one of the first results of this master thesis is to prove a stronger version of theorem \ref{th:shannon_supermodularity} which is applicable to a broader class of functions than only Shannon entropy in specific cases. As such we will go over the proof section \ref{sec:alternative_supermodularity}.
+This property is quite useful when working on the lattice. The original proof is long and hinges on unintuitive index tricks, however one of the first results of this master thesis is to prove a stronger version of theorem \ref{th:shannon_supermodularity} which is applicable to a broader class of functions than only Shannon entropy (but works only in specific cases). As such we will leave the proof for section \ref{sec:alternative_supermodularity}. We will also encounter the reverse concept of \textit{submodularity} later on.
+
+\begin{definition} \label{def:submodularity}
+    A function $f$ defined on a lattice $\langle \mathcal{L}, \sqsubseteq, \wedge, \vee \rangle$ is \textit{submodular} iff for any $a, b \in \mathcal{L}$, $-f$ is supermodular. Alternatively,
+    \begin{equation}
+        f(a \wedge b) + f(a \vee b) \leq f(a) + f(b).
+    \end{equation}
+\end{definition}
 
 \subsection{Subadditivity} \label{sec:subadditivity}
 
-\begin{definition}[Subadditivity]
+\begin{definition}[Subadditivity] \label{def:subadditivity}
     A real-valued function $f$ defined on a lattice $\langle \mathcal{L}, \sqsubseteq, \wedge, \vee \rangle$ is \textit{subadditive} iff for any $a, b \in \mathcal{L}$
     \begin{equation}
         f(a \wedge b) \leq f(a) + f(b).
@@ -455,13 +462,20 @@ The original proof is long and hinges on unintuitive index tricks, however one o
     \end{equation}
 \end{theorem}
 
-Just like for supermodularity, one of the first results of this master thesis is to prove a stronger version of theorem \ref{th:shannon_subadditivity} which is applicable to a broader class of functions than only Shannon entropy in specific cases. As such we will go over the proof in section \ref{sec:alternative_subadditivity}.
+Just like for supermodularity, one of the first results of this master thesis is to prove a stronger version of theorem \ref{th:shannon_subadditivity} which is applicable to a broader class of functions than only Shannon entropy in specific cases. As such we will leave the proof for section \ref{sec:alternative_subadditivity}. We will also encounter the reverse concept of \textit{superadditivity} later on.
 
-\subsection{Entropic distance on the lattice}
+\begin{definition}[Superadditivity] \label{def:superadditivity}
+    A real-valued function $f$ defined on a lattice $\langle \mathcal{L}, \sqsubseteq, \wedge, \vee \rangle$ is \textit{superadditive} iff for any $a, b \in \mathcal{L}$, $-f$ is subadditive. Alternatively,
+    \begin{equation}
+        f(a \wedge b) \geq f(a) + f(b).
+    \end{equation}
+\end{definition}
+
+\subsection{Entropic distance on the lattice} \label{sec:entropic_distances}
 
 Shannon entropy can be used to define an entropic distance on the lattice, which allows us to quantify how far away two probability vectors are from each other on the lattice. We will use it quite a lot in chapter \ref{chap:incomparability} to quantify the amount of incomparability between 2 probability vectors.
 
-\begin{definition}[Entropic distance]
+\begin{definition}[Entropic distance] \label{def:entropic_distance}
     For all $p, q \in \mathcal{P}^d$, we define
     \begin{equation}
         d(p, q) = H(p) + H(q) - 2H(p \vee q).
@@ -478,3 +492,15 @@ Shannon entropy can be used to define an entropic distance on the lattice, which
 \end{theorem}
 
 This distance has a few non-intuitive properties, but remains a rigorous notion of distance nonetheless. % expliquer geometrie hyperbolique et faire un diagramme ?
+We will also use a quasidistance going through the meet instead of the join.
+
+\begin{definition}[Meet-based entropic quasidistance] \label{def:entropic_quasidistance}
+    For all $p, q \in \mathcal{P}^d$, we define
+    \begin{equation}
+        d(p, q) = 2H(p \wedge q) - H(p) - H(q).
+    \end{equation}
+\end{definition}
+
+This notion of distance is unfortunately not as foolproof as the first one, which goes through the join. In particular, while it does satisfy symmetry and positivity, it fails the triangular inequality in some cases. As such, one can not use it as a rigorous notion of distance, but it still has a few applications nonetheless.
+
+An interpretation of these notions of distance is given in figure FAIRE FIGURE. Notably, this distance seems to induce some form of hyperbolic geometry in the majorization lattice.

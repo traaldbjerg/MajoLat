@@ -283,7 +283,7 @@ This corollary directly implies that entangled states all have non-trivial Schmi
     the $\tr_A$ case being symmetric. \qedhere
 \end{proof}
 
-As we have seen before, the reduced state of a perfectly known joint state can be mixed, meaning that the result of measuring it is uncertain. Let Alice and Bob share an entangled state $\ket{\psi}$ with Schmidt vector $\lambda$. How much uncertainty does Alice resolve by assigning a local description to her half of the state, i.e. by measuring it ? The answer, perhaps unsurprisingly, turns out to be $H(\lambda)$ (in the asymptotic limit). As discussed before, this means that Alice needs on average $H(\lambda)$ yes/no measurements in her half of the Schmidt basis to determine the state she holds, with an additional overhead due to an integer constraint (which vanishes as the size of the system increases).
+As we have seen before, the reduced state of a perfectly known joint state can be mixed, meaning that the result of measuring it is uncertain. Let Alice and Bob share an entangled state $\ket{\psi}$ with Schmidt vector $\lambda$. How much uncertainty does Alice resolve by assigning a local description to her half of the state, i.e. by measuring it ? The answer, perhaps unsurprisingly, turns out to be $H(\lambda)$ (in the asymptotic limit) CITER ADVANCED CONDENSED MATTER PHYSICS ?. As discussed before, this means that Alice needs on average $H(\lambda)$ yes/no measurements in her half of the Schmidt basis to determine the state she holds, with an additional overhead due to an integer constraint (which vanishes as the size of the system increases).
 
 
 
@@ -413,6 +413,43 @@ Just like other resource theories, free operations can only make a state less re
 
 \noindent Considering that theorem \ref{th:nielsen} gives us a LOCC reachability condition in terms of a majorization relation on Schmidt vectors, it is easy to see that any Schur-concave function applied on the Schmidt vector of a state is a valid entanglement monotone. In particular, $H(\lambda_\psi)$ is a valid entanglement monotone, which is quite satisfying considering the information-theoretic interpretation of the Schmidt vector (cf. section \ref{sec:schmidt}).
 
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[scale=0.9]
+        % draw cone of p
+        \coordinate (A) at (-2,3);
+        \coordinate (B) at (2, -3);
+        \draw [name path=A--B] (A) -- (B);
+        \coordinate (C) at (-2,-3);
+        \coordinate (D) at (2,3);
+        \draw [name path=C--D] (C) -- (D);
+        \path [name intersections={of=A--B and C--D,by=E}];
+        \node [fill=black,inner sep=2pt,label=0:$\lambda_\psi$] at (E) {};
+        % fill draw the future cone of p + notation
+        \fill[fill=red, opacity=0.2] (C) -- (E) -- (B) -- cycle;
+        \node [inner sep=0pt, label=-90:$\mathcal{T}_+ (\lambda_\psi)$] at (0, -2) {};
+        % fill draw the past cone of p + notation
+        \fill[fill=blue, opacity=0.2] (A) -- (E) -- (D) -- cycle;
+        \node [inner sep=0pt, label=90:$\mathcal{T}_- (\lambda_\psi)$] at (0, 2) {};
+        % fill draw the incomparable region of p mais pas hyper clair
+        %\filldraw[draw=black, fill=gray, opacity=0.2] (A) -- (E) -- (C) -- cycle;
+        %\filldraw[draw=black, fill=gray, opacity=0.2] (D) -- (E) -- (B) -- cycle;
+        \node [inner sep=0pt, label=0:$\mathcal{T}_\emptyset (\lambda_\psi)$] at (1.5, 0) {};
+        % create the entropy arrow
+        \coordinate (F) at (-3, -2);
+        \coordinate (G) at (-3, 2);
+        \draw[->] (F) -- (G);
+        \node [inner sep=0pt, label=0:$F(\ket{\psi})$] at (-3, 0) {};
+        
+    \end{tikzpicture}
+    \caption{Depiction of the entanglement cones of a pure state $\ket{\psi}$ with Schmidt vector $\lambda_\psi \in \mathcal{P}^d$. $F$ is any entanglement monotone.}
+    \label{fig:nielsen_cones_example}
+\end{figure}
+
+Figure \ref{fig:nielsen_cones_example} shows the geometric illustration of entanglement cones (cf. section \ref{sec:majorization_cones}). With theorem \ref{th:nielsen} in mind, it is clearer why we decided to call $\mathcal{T}_+ (\lambda_\psi)$ the future cone of $\lambda_\psi$, as it is exactly the set containing all of the LOCC reachable Schmidt vectors from $\lambda_\psi$. Likewise, $\mathcal{T}_- (\lambda_\psi)$ is the set of states from which $\lambda_\psi$ could have been constructed through LOCC, hence the past cone denomination. Finally, the incomparable region $\mathcal{T}_\emptyset (\lambda_\psi)$ is the set of states that could not have reached $\lambda_\psi$, and can not be reached from $\lambda_\psi$.  As such, holding additional states in $\mathcal{T}_- (\lambda_\psi) \cup \mathcal{T}_\emptyset (\lambda_\psi)$ is interesting, because it allows you to reach states not directly reachable from $\lambda_\psi$. This will be touched on further in section \ref{sec:strategies}. 
+
+Moreover, the convention of representing the lattice with increasing entropy towards the top makes more sense now that the notion of entanglement monotone has been defined, as more resourceful states are therefore drawn at the top. Separable states are at the very bottom of the lattice and can always be reached from any state of the theory. Thinking in terms of cones is quite useful 
+
 % ecrire un protocole explicite ?
 
 
@@ -434,7 +471,7 @@ This section is based on Refs. \cite{vidal_entanglement_1999} and \cite{nielsen_
 \noindent This time, a super-majorization relation appears. The maximal success probability can thus be acquired from the theorem by finding the limiting $p$. 
 
 \begin{corollary}
-    Probabilistic LOCC transformations cannot increase the Schmidt rank of a state, because if $\lambda_\phi$ has Schmidt rank $k$ and $\lambda_\psi$ has Schmidt rank $> k$, then super-majorization relation $k+1$ is only satisfied for $p=0$.
+    Probabilistic LOCC transformations cannot increase the Schmidt rank of a state, because if $\lambda_\psi$ has Schmidt rank $k$ and $\lambda_\phi$ has Schmidt rank $> k$, then super-majorization relation $k+1$ is only satisfied for $p=0$.
 \end{corollary}
 
 %jsp si les monotones de vidal sont hyper interessants en vrai

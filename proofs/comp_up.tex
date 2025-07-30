@@ -1,4 +1,4 @@
-\begin{lemma} \label{lem:comp_up}
+\begin{lemma} \label{lem:comp_past}
     $d'(p, q) = d'(p, p \wedge q) + d'(p \wedge q, q)$ for the quasi-distance defined as $d'(p, q) \coloneqq 2H(p \wedge q) - H(p) - H(q)$.
 \end{lemma}
 
@@ -21,7 +21,7 @@
 
 \begin{align}
     E_q^{\text{prec}} (p) &= \min_{s \prec q} d'(p, s) \nonumber \\
-    \overset{\text{Lemma \ref{lem:comp_up}}}&{=} \min_{s \prec q} d'(p, p \wedge s) + d'(p \wedge s, s) \nonumber \\
+    \overset{\text{Lemma \ref{lem:comp_past}}}&{=} \min_{s \prec q} d'(p, p \wedge s) + d'(p \wedge s, s) \nonumber \\
     &\implies \min_{s \prec q} d'(p, s) \geq \min_{s \prec q} d'(p, p \wedge s) \label{eq:1}
 \end{align}
 
