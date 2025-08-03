@@ -1,6 +1,8 @@
 \chapter{Quantification of incomparability} \label{chap:incomparability}
 
-This chapter tries to quantify the amount of incomparability between probability vectors. The idea of proceeding this way came from chapter \ref{chap:criteria}, where incomparability seemed to allow us to improve entropic criteria. As such, studying how incomparable two distributions are seemed an interesting prospect.
+This chapter tries to quantify the amount of incomparability between probability vectors. The idea of proceeding this way came from chapter \ref{chap:criteria}, where incomparability seemed to allow us to improve entropic criteria. As such, studying how incomparable two distributions are seemed an interesting prospect. It is interesting to note that some unpublished work attempting to quantify the incomparability of quantum states does exist (but without the lattice), however the proposed measures do not seem very natural \cite{hu_characterizing_2018}.
+
+
 
 \section{Entropic distance approach}
 
@@ -19,7 +21,7 @@ The approach that was taken was to take inspiration from resource theories to de
 
 There are some key differences to usual resource monotones when quantifying incomparability. The first major difference is that a vector can only be incomparable to another vector (a vector is not incomparable in and of itself). As such, treating incomparability as a resource is a bit strange because it would characterize some form of collective property of a pair of states, rather than an intrinsic property of individual states which most resource theories do. In the following, we will call $p$ the \textit{probe state}, and $q$ the \textit{reference state} that $p$ is compared to. Of course, nothing prevents us from reversing the roles of $p$ and $q$ to study the other half of the collective property. 
 
-Let $E$ be some incomparability function. To emphasize the asymmetrical role of $p$ and $q$, we propose the notation $E(p \parallel q)$, which is inspired by the notation for the \textit{relative entropy} (also known as Kullback-Leibler divergence) between 2 probability distributions, which is also asymmetric \cite[p. 19]{cover_elements_2006}. A good measure of incomparability $E$ between $p$ and $q$ should be 0 when $p \sim q$ and greater than 0 only when $p \nsim q$. That is,
+Let $E$ be some incomparability function. To emphasize the asymmetrical role of $p$ and $q$, we propose the notation $E(p \parallel q)$, which is inspired by the notation for the \textit{relative entropy} (also known as Kullback-Leibler divergence, cf. appendix \ref{app:shannon_compositions}) between 2 probability distributions, which is also asymmetric \cite[p. 19]{cover_elements_2006}. A good measure of incomparability $E$ between $p$ and $q$ should be 0 when $p \sim q$ and greater than 0 only when $p \nsim q$. That is,
 
 \begin{equation} % peut etre moyen d'expliquer ceci un peu mieux en disant que 0 sinon ?
     E(p \parallel q) \neq 0 \iff p \in \mathcal{T}_\emptyset(q). \label{eq:ideal_incomparability}
@@ -277,81 +279,25 @@ This theorem is quite satisfying in the sense that it seems to indicate that our
     Let $\rho_{AB}$ be a bipartite quantum state, and let $\rho_A$ and $\rho_B$ be the reduced states. Let $\lambda_{AB}, \lambda_A$ and $\lambda_B$ be the vectors of eigenvalues of their density matrices. Then, if $\rho_{AB}$ is separable, $E^+ (\lambda_{AB} \parallel \lambda_B) \geq E^+ (\lambda_A \parallel \lambda_B)$ and $E^+ (\lambda_{AB} \parallel \lambda_A) \geq E^+ (\lambda_B \parallel \lambda_A)$.
 \end{corollary}
 
-These corollaries, while not very useful per se, still hold some interpretational value, because that they show that in the sense of our future incomparability monotone, some states must be more incomparable than others relatively to some set states. Corollary \ref{cor:incomparability_LOCC}, while involving some nondescript Schmidt vector $\lambda_\alpha$, essentially states it is not possible to create a state that is more incomparable to $\lambda_\alpha$ through LOCC than the original state $\lambda_\psi$. Corollary \ref{cor:incomparability_separability} is perhaps more interesting, and states that if a joint state is separable, then the joint state is more incomparable to each of the reduced states than the reduced states are to each other.
+These corollaries, while not very useful per se, still hold some interpretational value, because they show that in the sense of our future incomparability monotone, some states must be more incomparable than others relatively to some set states. Corollary \ref{cor:incomparability_LOCC}, while involving some nondescript Schmidt vector $\lambda_\alpha$, essentially states it is not possible to create a state that is more incomparable to $\lambda_\alpha$ through LOCC than the original state $\lambda_\psi$. Corollary \ref{cor:incomparability_separability} is perhaps more interesting, and states that if a joint state is separable, then the joint state is more incomparable to each of the reduced states than the reduced states are to each other.
 
-One would hope that the analogue of theorem \ref{th:monotone_future_p} would hold for the measure of past incomparability $E^-$, however it does not. The following counterexample shows that a bistochastic matrix $D$ such that $E^- (Dp || q) < E^- (p || q)$ can exist, but also that a bistochastic matrix $D'$ such that $E^- (D'p || q) > E^- (p || q)$ can exist too. Let $q = (0.6, 0.4)$, $p = (0.7, 0.29, 0.01)$, $p' = p \wedge q$ and $p'' = (0.7, 0.15, 0.15)$. One can verify that $p$ majorizes both $p'$ and $p''$, yet $E^- (p || q) = 0.0939$ bits, $E^- (p' || q) = 0$ bits and $E^- (p'' || q) = 0.171$ bits.
+One would hope that the analogue of theorem \ref{th:monotone_future_p} would hold for the measure of past incomparability $E^-$, however it does not. The following counterexample shows that a bistochastic matrix $D$ such that $E^- (Dp \parallel q) < E^- (p \parallel q)$ can exist, but also that a bistochastic matrix $D'$ such that $E^- (D'p \parallel q) > E^- (p \parallel q)$ can exist too. Let $q = (0.6, 0.4)$, $p = (0.7, 0.29, 0.01)$, $p' = p \wedge q$ and $p'' = (0.7, 0.15, 0.15)$. One can verify that $p$ majorizes both $p'$ and $p''$, yet $E^- (p \parallel q) = 0.0939$ bits, $E^- (p' \parallel q) = 0$ bits and $E^- (p'' \parallel q) = 0.171$ bits.
 
 
 
 \subsection{Monotonicity under bistochastic degradation of the reference} \label{sec:q_monotonicity}
 
-Let us now turn our attention to bistochastic degradations of $q$, and attempt to promote our incomparability functions to monotones. Figure FAIRE FIGURE shows the monotonicity relations we expect. Starting with the future incomparability function, if we can show that $E^+(p \parallel Dq) < E^+(p \parallel q)$ for any bistochastic matrix $D$, then $E^+$ would be a decreasing monotone, like we expect. We first need a preliminar lemma.
-
-\begin{lemma} \label{lem:monotone_future_q}
-    For any $p, q \in \mathcal{P}^d$, we have
-    \begin{equation}
-        p \vee q \succ p \vee q' \; \; \; \forall \: q' \prec q.
-    \end{equation}
-\end{lemma}
-
-\begin{proof}
-    Let $p, q \in \mathcal{P}^d$ and let $q'$ be any probability vector majorized by $q$.
-    \begin{equation}
-        p \vee q = p \vee (q \vee q') = p \vee (q' \vee q) = (p \vee q') \vee q \succ p \vee q'.  \qedhere
-    \end{equation} 
-\end{proof}
-
-\noindent This lemma is all we need to prove the monotonicity of $E^+$ under bistochastic degradation of $q$.
+Let us now turn our attention to bistochastic degradations of $q$, and attempt to promote our incomparability functions to monotones. Figure FAIRE FIGURE shows the monotonicity relations we expect. The proofs of these properties are simpler than for probe degradation. The proofs can be found in appendix \ref{app:q_monotonicity}. Starting with the future incomparability function, if we can show that $E^+(p \parallel Dq) < E^+(p \parallel q)$ for any bistochastic matrix $D$, then $E^+$ would be a decreasing monotone, like we expect.
 
 \begin{theorem} \label{th:monotone_future_q}
     There exists no bistochastic matrix $D$ such that $E^+ (p \parallel Dq) > E^+ (p \parallel q)$.
 \end{theorem}
 
-\begin{proof}
-    Let us show that the maximum value of $E^+(p \parallel q')$ (with $q' \prec q$) is realized for $q'= q$.
-    \begin{align}
-        \max_{q' \prec q} E^+ (p \parallel q') &= \max_{q' \prec q} d(p, p \vee q')\\
-        &= \max_{q' \prec q} H(p) - H(p \vee q')\\
-        \overset{\text{Lemma \ref{lem:monotone_future_q}}}&{=} H(p) - H(p \vee q)\\
-        &= d(p, p \vee q)\\
-        &= E^+ (p \parallel q),
-    \end{align}
-    and so the maximal value of $E^+(p \parallel Dq)$ is reached for the identity degradation. \qedhere
-\end{proof}
-
-Let us turn our attention to $E^-$. This time around, the expected property for $E^-$ does hold, and we do have monotonicity in $q$. If we can show that $E^-(p \parallel Dq) > E^+(p \parallel q)$ for any bistochastic matrix $D$, then $E^-$ would be an increasing monotone, like we expect. To prove it, we first need the following lemma.
-
-\begin{lemma} \label{lem:monotone_past_q}
-    For any $p, q \in \mathcal{P}^d$, we have
-    \begin{equation}
-        p \wedge q \succ p \wedge q' \; \; \; \forall \: q' \prec q.
-    \end{equation}
-\end{lemma}
-
-\begin{proof}
-    Let $p, q \in \mathcal{P}^d$, and let $q'$ be any probability vector majorized by $q$. We have
-    \begin{equation}
-        p \wedge q' = p \wedge (q \wedge q') = (p \wedge q) \wedge q' \prec p \wedge q. \qedhere
-    \end{equation} 
-\end{proof}
-
-\noindent This lemma is all we need to prove the monotonicity of $E^-$ under bistochastic degradation of $q$.
+Let us turn our attention to $E^-$. This time around, the expected property for $E^-$ does hold, and we do have monotonicity in $q$. If we can show that $E^-(p \parallel Dq) > E^+(p \parallel q)$ for any bistochastic matrix $D$, then $E^-$ would be an increasing monotone, like we expect.
 
 \begin{theorem} \label{th:monotone_past_q}
     There exists no bistochastic matrix $D$ such that $E^- (p \parallel Dq) < E^- (p \parallel q)$.
 \end{theorem}
-
-\begin{proof}
-    Let $q'$ be a vector majorized by $q$, i.e. there exists a bistochastic matrix $D$ such that $q' = Dq$.
-    \begin{align}
-        \min_{q' \prec q} E^- (p \parallel q') &= \min_{q' \prec q} d(p, p \wedge q')\\
-        &= \min_{q' \prec q} H(p \wedge q') - H(p)\\
-        \overset{\text{Lemma \ref{lem:monotone_past_q}}}&{=} H(p \wedge q) - H(p)\\
-        &= d(p, p \wedge q)\\
-        &= E^- (p \parallel q),
-    \end{align}
-    and so the minimal value of $E^-(p \parallel Dq)$ is reached for the identity degradation. \qedhere
-\end{proof}
 
 To conclude this section, we will simply note that theorems \ref{th:monotone_future_q} and \ref{th:monotone_past_q} have corollaries analoguous to those of theorem \ref{th:monotone_future_p}.
 
@@ -386,4 +332,3 @@ We will voluntarily keep the discussion in this section short because a better i
 While we did take inspiration from a resource-theoretic approach, we have not defined a full resource theory. Indeed, although we have identified free states as being the future-comparable or past-comparable states of $q$, it is not clear what the free operations of the theory might be. Perhaps some more general notion of operation should be defined which would act on both $p$ and $q$, and where $p$ ending in a reachable region for $q$ would make it free because it is already reachable from $q$. This (potential) new type of relative resource theory might be interesting in considering the intrinsic value of having a diverse set of states: if $p \nsim q$, then $p$ can reach some states that $q$ can't (e.g. in a LOCC context). In this sense, incomparability seems like it enables \textit{diversity} in reachable states.
 
 Therefore, incomparability seems like a desirable property, and it is this idea that was explored further. More precisely, now that we have quantified the incomparability between a probe state and a reference state, the question that ended up being interesting to ask was how can we generalize this notion of incomparability to a \textit{set of reference states}?
-

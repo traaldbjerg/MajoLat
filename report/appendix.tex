@@ -2,9 +2,78 @@
 \chapter*{Appendices}
 \addcontentsline{toc}{chapter}{Appendices}
 \renewcommand{\thesection}{\Alph{section}}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+
+
+
+\section{Entropy of compositions of random variables} \label{app:shannon_compositions}% en vrai nsm j'aurais pas du ecrire ca ptn
+
+In practice, we are often concerned with more than one process at a given time, and so defining the uncertainty of two variables $X$, $Y$ is interesting. Moreover, knowing how much measuring one variable reduces the uncertainty on the second one (and so how much information on the second process we gain) on average is valuable as well. These concepts are captured by \textit{joint entropy}, \textit{conditional entropy} and \textit{mutual information}.
+
+\begin{appendix_definition}[Joint entropy]
+    Let $X$ and $Y$ be random variables over alphabets $\mathcal{X}$ and $\mathcal{Y}$ with joint probability distribution $p(x, y)$. Then the joint entropy $H(X, Y)$ of $X$ and $Y$ is defined as
+    \begin{align}
+        H(X, Y) &= - \sum_{x \in \mathcal{X}, y \in \mathcal{Y}} p(x, y) \log p(x, y)\\
+                &= - E[\log p(x, y)].
+    \end{align}
+\end{appendix_definition}
+
+\begin{appendix_definition}[Conditional entropy]
+    Let $X$ and $Y$ be random variables over alphabets $\mathcal{X}$ and $\mathcal{Y}$ with marginal probability distributions $p(x)$ and $p(y)$. Then the conditional entropy $H(X|Y)$ of $X$ knowing $Y$ is defined as
+    \begin{align}
+        H(X|Y) &= \sum_{y \in \mathcal{Y}} p(y) H(X|Y = y)\\
+                 &= - \sum_{y \in \mathcal{Y}} p(y) \sum_{x \in \mathcal{X}} p(x|y) \log p(x|y)\\
+                 &= - \sum_{y \in \mathcal{Y}} \sum_{x \in \mathcal{X}} p(x, y) \log p(x|y)\\
+                 &= - E[\log p(x|y)].
+    \end{align}
+\end{appendix_definition}
+
+It is interesting to note that these definitions are all very consistent with each other, as the vision of entropy being the expected value of the random variable $\log \frac{1}{p(x)}$ holds even for compositions of random variables. Before defining mutual information, we introduce another mathematical tool, the Kullback-Leibler divergence $D(p \parallel q)$ of two probability mass functions $p$ and $q$, sometimes called \textit{relative entropy}.
+
+\begin{appendix_definition}[Kullback-Leibler divergence]
+    Let $p$ and $q$ be two probability mass functions over an alphabet $\mathcal{X}$. Then the Kullback-Leibler divergence $D(p \parallel q)$ of $p$ and $q$ is defined as
+    \begin{align}
+        D(p \parallel q) &= \sum_{x \in \mathcal{X}} p(x) \frac{p(x)}{q(x)}\\
+                &= E_p\left[\log \frac{p(x)}{q(x)}\right],
+    \end{align}
+    with conventions $0 \log \frac{0}{0} = 0$, and $p \log \frac{p}{0} = \infty$ and $0 \log \frac{0}{q} = 0$ by continuity arguments.
+\end{appendix_definition}
+
+This quantity can be understood as measuring how far from each other the two distributions $p$ and $q$ are. If they are identical, i.e. $p(x) = q(x) \: \forall x \in \mathcal{X}$, then all of the terms in the sum are $\log \frac{p(x)}{p(x)} = \log 1 = 0$ and the relative entropy is simply 0. It is important to note however that this quantity is not a proper notion of distance, as it is not symmetric in its arguments, and fails the triangular inequality. % fort similaire a Cover and Thomas, faudrait reformuler un peu
+Nonetheless, this notion of distance is used to define mutual information between two random variables as the Kullback-Leibler divergence between the joint probability distribution and the product of the marginal probability distributions.
+
+\begin{appendix_definition}[Mutual information]
+    Let $X$ and $Y$ be random variables over alphabets $\mathcal{X}$ and $\mathcal{Y}$ with marginal probability distributions $p(x)$ and $p(y)$ and joint distribution $p(x, y)$. Then the mutual information $I(X, Y)$ of $X$ and $Y$ is defined as
+    \begin{align}
+        I(X, Y) &= D(p(x, y)||p(x)p(y))\\
+                &= \sum_{x \in \mathcal{X}} \sum_{y \in \mathcal{Y}} p(x, y) \log \frac{p(x, y)}{p(x)p(y)}\\
+                &= E_{p(x, y)}\left[\log \frac{p(x, y)}{p(x)p(y)}\right]\\
+                &= E_{p(x, y)}[- \log p(x)] + E_{p(x, y)}[- \log p(y)] - E_{p(x, y)}[- \log p(x, y)]\\
+                &= E_{p(x)}[- \log p(x)] + E_{p(y)}[- \log p(y)] - E_{p(x, y)}[- \log p(x, y)]\\
+                &= H(X) + H(Y) - H(X, Y).
+    \end{align}
+\end{appendix_definition}
+
+Again, this definition agrees with what we would expect intuitively from a notion of the information that two random variables contain about each other: if the variables are independent, and thus contain no information about each other whatsoever (as the outcome of one does not affect the other), then their joint distribution reduces to the product of the marginal distributions, and the relative entropy in the definition becomes 0. Then, the less independent the joint distribution becomes, the farther it becomes from the product distribution, and the more measuring the outcome of one variable can tell you about the outcome of the second. It is interesting to note that the mutual information is symmetric in its arguments.
+
+To finish this small incursion into classical information theory, it turns out that Shannon entropy is actually the only function that satisfies all the properties that one would expect from a measure of information, such as (non-exhaustive list):
+
+\begin{itemize}
+    \item $H(X) \geq 0$.
+    \item $H(X, Y) = H(Y, X)$.
+    \item $H(X, Y) = H(X) + H(Y|X)$.
+    \item \textbf{Subadditivity}\footnote{This subadditivity has nothing to do with the subadditivity on the lattice.}\textbf{:} $H(X, Y) \leq H(X) + H(Y)$ with equality iff $X$ and $Y$ are independent.
+    \item $H(X|Y) \leq H(X)$, which directly implies that $I(X, Y) \geq 0$, with equality iff $X$ and $Y$ are independent.
+\end{itemize}
+
+
+
+\newpage
 
 \section{Mixed state example}
 \label{app:mixed_example}
+
+\setcounter{equation}{0}
 
 Let us take a qubit, and let us try to find the difference between the states $\rho$ and $\rho'$ from the coin-flip example in section \ref{sec:density_matrices}. In the computational basis, they are written
 
@@ -71,3 +140,120 @@ These are the expected results, and the difference between the pure and the mixe
 \end{align}
 
 This is interesting, because this example showcases a fundamental difference between a superposition and a classical mixture. An appropriate choice of basis can make the outcome of measuring a state in a superposition certain, whereas the outcome of a measurement on a mixed state is \textit{always} uncertain, no matter the choice of measurement operator.
+
+
+
+\newpage
+
+\section{Proofs of monotonicity under bistochastic degradation of the reference} \label{app:q_monotonicity}
+
+\setcounter{equation}{0}
+
+We prove here theorems \ref{th:monotone_future_q} and \ref{th:monotone_past_q} from section \ref{sec:q_monotonicity}. Starting with the future incomparability function, if we can show that $E^+(p \parallel Dq) < E^+(p \parallel q)$ for any bistochastic matrix $D$, then $E^+$ would be a decreasing monotone, like we expect. We first need a preliminar lemma.
+
+\begin{appendix_lemma} \label{lem:monotone_future_q}
+    For any $p, q \in \mathcal{P}^d$, we have
+    \begin{equation}
+        p \vee q \succ p \vee q' \; \; \; \forall \: q' \prec q.
+    \end{equation}
+\end{appendix_lemma}
+
+\begin{proof}
+    Let $p, q \in \mathcal{P}^d$ and let $q'$ be any probability vector majorized by $q$.
+    \begin{equation}
+        p \vee q = p \vee (q \vee q') = p \vee (q' \vee q) = (p \vee q') \vee q \succ p \vee q'.  \qedhere
+    \end{equation} 
+\end{proof}
+
+\noindent This lemma is all we need to prove theorem \ref{lem:monotone_future_q} concerning the monotonicity of $E^+$ under bistochastic degradation of $q$.
+
+\begin{proof}[Proof of theorem \ref{th:monotone_future_q}]
+    Let us show that the maximum value of $E^+(p \parallel q')$ (with $q' \prec q$) is realized for $q'= q$.
+    \begin{align}
+        \max_{q' \prec q} E^+ (p \parallel q') &= \max_{q' \prec q} d(p, p \vee q')\\
+        &= \max_{q' \prec q} H(p) - H(p \vee q')\\
+        \overset{\text{Lemma \ref{lem:monotone_future_q}}}&{=} H(p) - H(p \vee q)\\
+        &= d(p, p \vee q)\\
+        &= E^+ (p \parallel q),
+    \end{align}
+    and so the maximal value of $E^+(p \parallel Dq)$ is reached for the identity degradation. \qedhere
+\end{proof}
+
+Let us turn our attention to $E^-$. This time around, the expected property for $E^-$ does hold, and we do have monotonicity in $q$. If we can show that $E^-(p \parallel Dq) > E^+(p \parallel q)$ for any bistochastic matrix $D$, then $E^-$ would be an increasing monotone, like we expect. To prove it, we first need the following lemma.
+
+\begin{appendix_lemma} \label{lem:monotone_past_q}
+    For any $p, q \in \mathcal{P}^d$, we have
+    \begin{equation}
+        p \wedge q \succ p \wedge q' \; \; \; \forall \: q' \prec q.
+    \end{equation}
+\end{appendix_lemma}
+
+\begin{proof}
+    Let $p, q \in \mathcal{P}^d$, and let $q'$ be any probability vector majorized by $q$. We have
+    \begin{equation}
+        p \wedge q' = p \wedge (q \wedge q') = (p \wedge q) \wedge q' \prec p \wedge q. \qedhere
+    \end{equation} 
+\end{proof}
+
+\noindent This lemma is all we need to prove theorem \ref{th:monotone_past_q} concerning the monotonicity of $E^-$ under bistochastic degradation of $q$.
+
+\begin{proof}[Proof of theorem \ref{th:monotone_past_q}]
+    Let $q'$ be a vector majorized by $q$, i.e. there exists a bistochastic matrix $D$ such that $q' = Dq$.
+    \begin{align}
+        \min_{q' \prec q} E^- (p \parallel q') &= \min_{q' \prec q} d(p, p \wedge q')\\
+        &= \min_{q' \prec q} H(p \wedge q') - H(p)\\
+        \overset{\text{Lemma \ref{lem:monotone_past_q}}}&{=} H(p \wedge q) - H(p)\\
+        &= d(p, p \wedge q)\\
+        &= E^- (p \parallel q),
+    \end{align}
+    and so the minimal value of $E^-(p \parallel Dq)$ is reached for the identity degradation. \qedhere
+\end{proof}
+
+
+
+
+\newpage
+
+\section{Proofs of the basic properties of unique entropy} \label{app:unique_entropy_properties}
+
+\setcounter{equation}{0}
+
+We prove here properties \ref{prop:commutativity}, \ref{prop:empty}, \ref{prop:p_absorption} and \ref{prop:q_absorption} from section \ref{sec:unique_entropy_properties}. The commutativity property \ref{prop:commutativity} is immediate by commutativity of the join, and so the ordering of the bank does not matter. This is what we would expect for an inclusion-exclusion formula, as the order in which we remove intersections of sets does not matter as long as we perform the full sum. Because the ordering of the bank is arbitrary, we can always make any vector the last vector of the bank, which is useful for proving properties \ref{prop:p_absorption}, \ref{prop:q_absorption} and \ref{prop:q_monotonicity} as showing the property for $i = k$ is sufficient.
+
+Property \ref{prop:empty} is immediate as well, because the join of the certain distribution $\overline{1}_d$ with any other vector remains the certain distribution. As such, all of the terms in equation (\ref{eq:unique_entropy}) are the entropy of $\overline{1}_d$, which is 0. For property \ref{prop:p_absorption}, we have the following.
+
+\begin{appendix_lemma}[Absorption in $p$ of unique entropy]
+    Let $p, q_1, \dots, q_k \in \mathcal{P}^d$. If $\exists i \leq k \: | \: p \succ q_i$, then
+    \begin{equation}
+        E^+(p \parallel q_1, \dots, q_k) = 0.
+    \end{equation}
+\end{appendix_lemma}
+
+\begin{proof}
+    The proof is immediate from lemma \ref{lem:induction_trick}. Because the ordering of the bank is arbitrary, let us first choose $i = k$, and so $p \succ q_k$. We have
+    \begin{align}
+        E^+(p \parallel q_1, \dots, q_k) &= E^+(p \parallel q_1, \dots, q_{k-1}) - E^+(\underbrace{p \vee q_k}_{= p} \parallel q_1, \dots, q_{k-1})\\
+                                         &= 0.
+    \end{align}
+    The same result can be reached by comparing term by term the possible combinations of states in the bank\footnote{Exactly half of the terms in the sum contain $q_k$. Because each of those can be paired up with the same combination excluding $q_k$, we have terms of same absolute value but opposite sign, and so all of the terms cancel out.}. If $i \neq k$, commuting $q_i$ until it becomes the last vector of the bank and applying lemma \ref{lem:induction_trick} yields the same result. \qedhere
+\end{proof}
+
+This property is again quite intuitive, because if $p$ majorizes one of the vectors of the bank $q_i$, then $\mathcal{T}_+(p) \subseteq \mathcal{T}_+(q_i)$, and so $p$ holds no unique volume relative to the bank. The geometric interpretation of property \ref{prop:q_absorption} is very similar, and we have the following.
+
+\begin{appendix_lemma}[Absorption in $q$ of unique entropy]
+    Let $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$. If $\exists i \leq k \: | \: q_{k+1} \succ q_i$, then
+    \begin{equation}
+        E^+(p \parallel q_1, \dots, q_k, q_{k+1}) = E^+(p \parallel q_1, \dots, q_k).
+    \end{equation}
+\end{appendix_lemma}
+
+\begin{proof}
+    Let $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$.  Because the ordering of the bank is arbitrary, let us first choose $i = k$, and so $q_{k+1} \succ q_k$. Using lemma \ref{lem:induction_trick} twice in a row, we get
+    \begin{align}
+        E^+(p \parallel q_1, \dots, q_k, q_{k+1}) &= E^+(p \parallel q_1, \dots, q_k) - E^+(p \vee q_{k+1} \parallel q_1, \dots, q_k)\\
+                                                  &= E^+(p \parallel q_1, \dots, q_k) - E^+(p \vee q_{k+1} \parallel q_1, \dots, q_{k-1})\nonumber\\
+                                                  &\quad + E^+(p \vee \underbrace{q_{k+1} \vee q_k}_{= q_{k+1}} \parallel q_1, \dots, q_{k-1})\\
+                                                  &= E^+(p \parallel q_1, \dots, q_k).
+    \end{align}
+    The same result can be reached by comparing term by term the possible combinations of states in the bank\footnote{Exactly half of the combinations containing $q_{k+1}$ also contain $q_k$. Because each of those can be paired up with the same combination excluding $q_k$, we have terms of same absolute value but opposite sign, and so all of the terms containing $q_{k+1}$ cancel out.}. If $i \neq k$, commuting $q_i$ until it becomes the $k^\text{th}$ vector of the bank and applying lemma \ref{lem:induction_trick} twice yields the same result. 
+\end{proof}

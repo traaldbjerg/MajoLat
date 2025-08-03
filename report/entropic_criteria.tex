@@ -19,7 +19,7 @@ where $\lambda^X$ is the ordered vector of eigenvalues of the density matrix of 
 These entropic inequalities\footnote{Historically, these entropic inequalities (expressed equivalently in von Neumann entropies) were known before the strengthening to a majorization relation.} are of course not as strong as the majorization relations we deduced them from, as illustrated in the example from section \ref{sec:majorization_separability_criterion}. Using the lattice, however, the entropic condition can be strengthened. The relations $\lambda^{AB} \prec \lambda^A$ and $\lambda^{AB} \prec \lambda^{B}$ mean that $\lambda^{AB}$ is majorized by both $\lambda^A$ and $\lambda^B$. By definition, the meet of $\lambda^A$ and $\lambda^B$ is the vector $\lambda^A \wedge \lambda^B$ that majorizes all the vectors that are majorized by both $\lambda^A$ and $\lambda^B$. This fact can also be restated as 
 
 \begin{equation}
-    \mathcal{T}_+(\lambda^A) \cap \mathcal{T}_+(\lambda^B) = \mathcal{T}_+(\lambda^A \wedge \lambda^B),
+    \mathcal{T}_-(\lambda^A) \cap \mathcal{T}_-(\lambda^B) = \mathcal{T}_-(\lambda^A \wedge \lambda^B),
 \end{equation}
 
 \noindent using definition \ref{def:majorization_cones} of majorization cones. Applying this to the separability criterion, we get that if $\rho^{AB}$ is a separable state, then
@@ -63,7 +63,7 @@ Research has already been carried out at QuIC concerning the design of such an i
 
 \subsection{Other criteria}
 
-The previous discussion is not unique to quantum information and separability. Any other branch of physics working with coupled majorization relations but struggling to use them in practice might benefit from constructing the equivalent of a state $\rho_{A \wedge B}$ and computing the entropy of the resulting distribution. For example, another field that deals with majorization relations is the field of quantum thermodynamics, where allowed state transformations under thermal operations are bound to majorization cones (called thermal cones), analogously to entanglement cones in LOCC \cite{korzekwa_structure_2017, junior_geometric_2022}. On the flip-side, this kind of entropic criterion based on the meet could also be used as an experimental sign\footnote{Not evidence, however, as the improved entropic criterion is still weaker than the majorization relation.} of an underlying majorization relation, in cases where one suspects that there is something deeper going on than only the entropic inequalities.
+The previous discussion is not unique to quantum information and separability. Any other branch of physics working with coupled majorization relations but struggling to use them in practice might benefit from constructing the equivalent of a state $\rho_{A \wedge B}$ and computing the entropy of the resulting distribution. For example, another field that deals with majorization relations is the field of quantum thermodynamics, where allowed state transformations under thermal operations are bound to thermomajorization cones (called thermal cones), analogously to entanglement cones in LOCC \cite{korzekwa_structure_2017, junior_geometric_2022}. On the flip-side, this kind of entropic criterion based on the meet could also be used as an experimental sign\footnote{Not evidence, however, as the improved entropic criterion is still weaker than the majorization relation.} of an underlying majorization relation, in cases where one suspects that there is something deeper going on than only the entropic inequalities.
 
 % figure pour illustrer ici
 
@@ -74,7 +74,7 @@ The improved criterion is not unique to Shannon entropy either. All Rényi entro
     \lambda^{AB} \prec \lambda^A \; \text{and} \; \lambda^{AB} \prec \lambda^{B} \; &\iff \; \lambda^{AB} \prec \lambda^A \wedge \lambda^B \;\\ &\implies \; H_\alpha(\lambda^{AB}) \geq H_\alpha(\lambda^A \wedge \lambda^B) \quad \forall \alpha \in \mathbb{R}^+.
 \end{align}
 
-A numerical analysis was carried out to figure out whether there exists an optimal $\alpha$ for which the improvement over the initial $H_\alpha(\lambda^{AB}) \geq \max(H_\alpha(\lambda), H_\alpha(\lambda^B))$ is greatest. On average, the results are REFAIRE LES SIMULATIONS
+A numerical analysis was carried out to figure out whether there exists an optimal $\alpha$ for which the ratio of both upper bounds $\frac{H_\alpha(\lambda^{AB})} {\max(H_\alpha(\lambda), H_\alpha(\lambda^B))}$ is greatest. On average, the results are REFAIRE LES SIMULATIONS
 
 \section{Purity of quantum states}
 

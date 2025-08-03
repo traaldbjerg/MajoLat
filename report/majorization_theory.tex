@@ -11,9 +11,9 @@ The theory of majorization gives a framework for what it means for a probability
 Let $p$ be a probability vector, \textit{i.e.} a vector such that $p_i \geq 0$ and $\sum_{i}^{d} p_i = 1$ for a vector of dimension $d$. Let $p^\downarrow$ be the non-increasing reordering of $p$, meaning that the entries of $p^\downarrow$ are the same as those of $p$, but sorted such that $p^\downarrow_1 \geq p^\downarrow_2 \geq ... \geq p^\downarrow_d$. We will always be considering reordered vectors in this master thesis, and we will therefore denote the set of $n$-dimensional probability vectors sorted in non-increasing order $\mathcal{P}^n$. Formally, $\mathcal{P}^n = \{p \in \mathbb{R}^n | \sum_{i}^{n} p_i = 1, p_i \geq p_{i+1}\}$.
 
 \begin{definition}[Cumulative sum] % ressemble beaucoup a ce que Serge a ecrit dans son memoire, a reformuler
-    Let $p$ be a vector in $\mathcal{P}^d$. The $j^{\text{th}}$ non-increasing\footnote{We could also have defined $\mathcal{P}^d$ to be non-decreasing vectors and use non-decreasing cumulative sums $S^\uparrow_i (p)$ instead. We would get an equivalent description of majorization, the only effect being reversed inequalities in (\ref{eq:majorization}).} cumulative sum of $p$ is the sum of the $j$ biggest components of $p$, which can be written as
+    Let $p$ be a vector in $\mathcal{P}^d$. The $k^{\text{th}}$ non-increasing\footnote{We could also have defined $\mathcal{P}^d$ to be non-decreasing vectors and use non-decreasing cumulative sums $S^\uparrow_i (p)$ instead. We would get an equivalent description of majorization, the only effect being reversed inequalities in (\ref{eq:majorization}).} cumulative sum of $p$ is the sum of the $j$ biggest components of $p$, which can be written as
     \begin{equation}
-        S^\downarrow_j (p) \coloneqq \sum_{i = 1}^{j} p^\downarrow_i,
+        S^\downarrow_k (p) \coloneqq \sum_{i = 1}^{k} p^\downarrow_i,
     \end{equation}
     where $p^\downarrow_i$ is the $i^{\text{th}}$ largest entry of $p$. 
 
@@ -22,7 +22,7 @@ Let $p$ be a probability vector, \textit{i.e.} a vector such that $p_i \geq 0$ a
     Let $p, q \in \mathbb{R}^d$ be two vectors of dimension $d$. We say that $p$ majorizes $q$, written $p \succ q$, if and only if
     \begin{equation} \label{eq:majorization}
         \begin{system}
-            S^\downarrow_j (p) \geq S^\downarrow_j (q) \quad \forall j = 1,...,d - 1, \\
+            S^\downarrow_k (p) \geq S^\downarrow_k (q) \quad \forall k = 1,...,d - 1, \\
             S^\downarrow_d (p) = S^\downarrow_d (q).
         \end{system}
     \end{equation}
@@ -437,7 +437,7 @@ The Schur-concavity of the Shannon entropy, which preserves the ordering of the 
     Note that if $p \sim q$, there is trivially equality.
 \end{theorem}
 
-This property is quite useful when working on the lattice. The original proof is long and hinges on unintuitive index tricks, however one of the first results of this master thesis is to prove a stronger version of theorem \ref{th:shannon_supermodularity} which is applicable to a broader class of functions than only Shannon entropy (but works only in specific cases). As such we will leave the proof for section \ref{sec:alternative_supermodularity}. We will also encounter the reverse concept of \textit{submodularity} later on.
+This property is quite useful when working on the lattice. The original proof is long and hinges on unintuitive index tricks, however one of the first results of this master thesis is to prove a generalization of theorem \ref{th:shannon_supermodularity} which is applicable to a broader class of functions than only Shannon entropy, however it only works in specific cases. As such we will leave the proof for section \ref{sec:alternative_supermodularity}. We will also encounter the reverse concept of \textit{submodularity} later on.
 
 \begin{definition} \label{def:submodularity}
     A function $f$ defined on a lattice $\langle \mathcal{L}, \sqsubseteq, \wedge, \vee \rangle$ is \textit{submodular} iff for any $a, b \in \mathcal{L}$, $-f$ is supermodular. Alternatively,
@@ -445,6 +445,8 @@ This property is quite useful when working on the lattice. The original proof is
         f(a \wedge b) + f(a \vee b) \leq f(a) + f(b).
     \end{equation}
 \end{definition}
+
+
 
 \subsection{Subadditivity} \label{sec:subadditivity}
 
@@ -462,7 +464,7 @@ This property is quite useful when working on the lattice. The original proof is
     \end{equation}
 \end{theorem}
 
-Just like for supermodularity, one of the first results of this master thesis is to prove a stronger version of theorem \ref{th:shannon_subadditivity} which is applicable to a broader class of functions than only Shannon entropy in specific cases. As such we will leave the proof for section \ref{sec:alternative_subadditivity}. We will also encounter the reverse concept of \textit{superadditivity} later on.
+One of the first results of this master thesis is to prove a stronger version of theorem \ref{th:shannon_subadditivity} which is applicable to a broader class of functions than only Shannon entropy. Moreover, this time our proof has no additional condition, and so theorem \ref{th:shannon_subadditivity} becomes a corollary of our theorem. We will leave the proof for section \ref{sec:alternative_subadditivity}. We will also encounter the reverse concept of \textit{superadditivity} later on.
 
 \begin{definition}[Superadditivity] \label{def:superadditivity}
     A real-valued function $f$ defined on a lattice $\langle \mathcal{L}, \sqsubseteq, \wedge, \vee \rangle$ is \textit{superadditive} iff for any $a, b \in \mathcal{L}$, $-f$ is subadditive. Alternatively,
@@ -470,6 +472,8 @@ Just like for supermodularity, one of the first results of this master thesis is
         f(a \wedge b) \geq f(a) + f(b).
     \end{equation}
 \end{definition}
+
+
 
 \subsection{Entropic distance on the lattice} \label{sec:entropic_distances}
 
