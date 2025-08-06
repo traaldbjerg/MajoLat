@@ -1,4 +1,4 @@
-\chapter{Alternative proofs of supermodularity and subadditivity}
+\chapter{Alternative proofs of supermodularity and subadditivity} \label{chap:alternative}
 
 \section{Concatenations, sum-convex and sum-concave functions}
 
@@ -139,7 +139,7 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = \b
         A = \text{concat}(p, q),\\
         B = \text{concat}(\overline{1}_d, r),
     \end{gather}
-    where $\text{concat}(\cdot, \cdot)$ is the ordered concatenation of two vectors. We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that $A \prec B$. Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the first entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the first entries of $r$ and $\overline{1}_d$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ and $S^\downarrow_0(v) = 0$ for any $d$-dimensional probability vector $v$. For all $k \leq 2d$, we have
+    where $\text{concat}(\cdot, \cdot)$ is the ordered concatenation of two vectors. We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that majorization precursor $A \prec B$ is true. Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the first entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the first entries of $r$ and $\overline{1}_d$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ and $S^\downarrow_0(v) = 0$ for any $d$-dimensional probability vector $v$. For all $k \leq 2d$, we have
     \begin{gather}
         S^\downarrow_k (A) = \max_{l\leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right), \\
         S^\downarrow_k (B) = 1 + S^\downarrow_{k-1}(r).
@@ -164,12 +164,15 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = \b
     For the remaining cases, we first do the following manipulation
     \begin{align}
         S^\downarrow_k(B) &= 1 + \min \left\{S^\downarrow_{k-1}(p), S^\downarrow_{k-1}(q)\right\}\\
-                          &\geq \max \left\{S^\downarrow_{k-1}(p), S^\downarrow_{k-1}(q)\right\} + \min \left\{S^\downarrow_{k-1}(p), S^\downarrow_{k-1}(q)\right\}\\
-                          &= S^\downarrow_{k-1}(p) + S^\downarrow_{k-1}(q)\\
-                          &\geq \max_{l \leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right)\\
-                          &\iff \max_{l \leq k} \left(S^\downarrow_l (p) - S^\downarrow_{k-1}(p) + S^\downarrow_{k-l} (q) - S^\downarrow_{k-1}(q)\right) \leq 0, \label{eq:subadditivity_leq}
+                          &\geq \max \left\{S^\downarrow_{k-1}(p), S^\downarrow_{k-1}(q)\right\} + \min \left\{S^\downarrow_{k-1}(p), S^\downarrow_{k-1}(q)\right\} \label{eq:subadditivity_max_trick}\\
+                          &= S^\downarrow_{k-1}(p) + S^\downarrow_{k-1}(q),
     \end{align}
-    and so the majorization inequality is satisfied if we show that the LHS of eq. (\ref{eq:subadditivity_leq}) is less than or equal to 0 for any choice of $l$ that we haven't treated yet.
+    where we have used the fact that the cumulative sum of any $d$-dimensional vector is always less or equal to 1 to write equation (\ref{eq:subadditivity_max_trick}). Therefore, for the majorization relation $S^\downarrow_k(B) \geq S^\downarrow_k(A)$ to be verified, it is enough to show that for any choice of $l$ that we haven't treated yet,
+    \begin{align}
+                          S^\downarrow_{k-1}(p) + S^\downarrow_{k-1}(q) &\geq \max_{l \leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right)\\
+                                                                        \iff 0 &\geq \max_{l \leq k} \left(S^\downarrow_l (p) - S^\downarrow_{k-1}(p) + S^\downarrow_{k-l} (q) - S^\downarrow_{k-1}(q)\right), \label{eq:subadditivity_leq}
+    \end{align}
+    and so the majorization inequality is satisfied if we show that the RHS of eq. (\ref{eq:subadditivity_leq}) is less than or equal to 0.
     \begin{enumerate}[resume]
         \item \underline{$l = 1$}: eq. (\ref{eq:subadditivity_leq}) becomes \label{case:1}
         \begin{equation}
@@ -215,10 +218,12 @@ Just like with supermodularity, the above proof can be reused for a sum-convex f
     \end{equation}
 \end{corollary}
 
-Theorem \ref{th:alternative_subadditivity} also implies corollaries analoguous to \ref{cor:renyi_leq_1} and \ref{cor:renyi_geq_1} for subadditivity and superadditivity of the exponential of Rényi entropies, respectively.
+Theorem \ref{th:alternative_subadditivity} also implies corollaries analoguous to \ref{cor:renyi_leq_1} and \ref{cor:renyi_geq_1} for subadditivity and superadditivity of the exponential of Rényi entropies of order $\alpha < 1$ and $\alpha > 1$, respectively.
 
 
 
 \section{Discussion}
 
-We have proven that properties akin to supermodularity and subadditivity hold for a broader class of functions than Shannon entropy. We found some recent exemples of research using \textit{separable, piecewise-linear, concave} (SPLC) utilities (which is a subset of the class of sum-concave functions) in the theory of market equilibria in economics and algorithmic game theory \cite{vazirani_market_2011, anari_nash_2017, garg_approximating_2025}. Conjecture \ref{conj:alternative_supermodularity} and theorem \ref{th:alternative_subadditivity} might then be of interest if researchers decide to study some of their probability distributions on the majorization lattice. We do not know whether such prospects are interesting, however.
+We have proven that properties akin to supermodularity and subadditivity hold for a broader class of functions than Shannon entropy. We found some recent examples of research using \textit{separable, piecewise-linear, concave} (SPLC) utilities (which is a subset of the class of sum-concave functions) in the theory of market equilibria in economics and algorithmic game theory \cite{vazirani_market_2011, anari_nash_2017, garg_approximating_2025}. Conjecture \ref{conj:alternative_supermodularity} and theorem \ref{th:alternative_subadditivity} might then be of interest if researchers decide to study some of their probability distributions on the majorization lattice.
+
+We also believe that the concatenation technique used in this chapter might be of use to find new majorization precursors for existing entropic inequalities. For example, there is currently some interest in finding a majorization precursor for the entropic version of Bell inequalities from Ref. \cite{cerf_entropic_1997}, because such a majorization relation could enable deeper insight into Bell nonlocality.

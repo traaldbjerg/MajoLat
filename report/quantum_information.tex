@@ -1,4 +1,4 @@
-\chapter{Quantum Information}
+\chapter{Quantum information} \label{chap:quantum_information}
 
 \section{From classical information to quantum information} \label{sec:classical_information}
 
@@ -41,7 +41,7 @@ Usually, the logarithm is taken in base 2, and the entropy is said to be measure
 
 Recall the question that we asked above: what is the average length of the shortest description of a random process distributed along $p$ ? It turns out that the answer to this question is $H(p)$. A naive idea would be to assign the code 0 if our friend got 0/20, 1 if they got 10/20, and 01 if they got 20/20. Then, in the case of teacher 1, on average, we expect to use $7/10 + 2/10 + 2 \cdot 1/10 = 1.1$ bits $< H(p)$. Why did we beat Shannon entropy with this simple code ? The answer is that our code is not uniquely decodable (which is a hypothesis of the theory), and is thus not a very good code. Imagine we receive the string 0100 for the results of several students. Are the scores 20/20, 0/20, 0/20, or are they 0/20, 10/20, 0/20, 0/20 ?
 
-A better idea would be to use codes such that no code is a prefix for another code, such as 0 for 0/20, 10 for 10/20, and 11 for 20/20. This is called a Huffman code, which can be proven to be the optimal family of codes \cite[p. 123]{cover_elements_2006}. In this case, we expect to use $7/10 + 2 \cdot 2/10 + 2 \cdot 1/10 = 1.3$ bits on average, which is close to $H(p)$ with a small overhead due to the constraint of an integer representation. However, we can get arbitrarily close to $H(p)$ per symbol on average if we code larger strings \cite[p. 114]{cover_elements_2006}. This is perhaps the most intuitive interpretation of entropy. As such, one should be careful with the fact that entropy is exact only in the asymptotic limit. Moreover, underlying hypotheses in the theory can sometimes be broken in practice\footnote{A famous example is the 56 kbit/s modem which broke the theoretical channel capacity for modems by cleverly bypassing some of Shannon's hypotheses CITATION NEEDED.}. %redemander l'anecdote a papa
+A better idea would be to use codes such that no code is a prefix for another code, such as 0 for 0/20, 10 for 10/20, and 11 for 20/20. This is called a Huffman code, which can be proven to be the optimal family of codes \cite[p. 123]{cover_elements_2006}. In this case, we expect to use $7/10 + 2 \cdot 2/10 + 2 \cdot 1/10 = 1.3$ bits on average, which is close to $H(p)$ with a small overhead due to the constraint of an integer representation. However, we can get arbitrarily close to $H(p)$ per symbol on average if we code larger strings \cite[p. 114]{cover_elements_2006}. This is perhaps the most intuitive interpretation of entropy. As such, one should be careful with the fact that entropy is exact only in the asymptotic limit. Moreover, underlying hypotheses in the theory can sometimes be broken in practice\footnote{A famous example is the 56 kbit/s modem which broke the theoretical channel capacity for modems by cleverly bypassing some of Shannon's hypotheses CITATION NEEDED.}. Additional information-theoretic quantities for compositions of random variables can be found in appendix \ref{app:shannon_compositions}. %redemander l'anecdote a papa
 
 % bon tout ceci est a remanier lol mais vsy il y a quelques bases, je pense faudrait donner un peu plus d'exemples et d'applications
 
@@ -237,7 +237,7 @@ In the last decades, the properties of entangled states have been of great inter
 
 The surprising property of entanglement that a joint state can be more certain globally than locally can be formalized into a theorem.
 
-\begin{theorem}[Entropic separability criterion] \label{th:entropic_criterion}
+\begin{theorem}[Entropic separability criterion CITATION NEEDED] \label{th:entropic_criterion}
     Let $\rho^{AB}$ be the state of a bipartite system $AB$, and $\rho^A$ and $\rho^B$ the reduced states of subsystems $A$ and $B$. Then, $\rho^{AB}$ is an entangled state if 
     \begin{equation}
         S(\rho^{AB}) < S(\rho^A) \quad \text{or} \quad S(\rho^{AB}) < S(\rho^B).
@@ -289,7 +289,7 @@ As we have seen before, the reduced state of a perfectly known joint state can b
 
 \subsection{Majorization separability criterion} \label{sec:majorization_separability_criterion}
 
-As we have seen in section \ref{sec:schur_shannon}, majorization relations directly imply entropic inequalities. As such, entropic inequalities can be the sign of underlying majorization relations, which are stronger. In the case of quantum information, the entropic criterion in theorem \ref{th:entropic_criterion} can be strengthened to a majorization criterion.
+As we have seen in section \ref{sec:schur_shannon}, majorization relations directly imply entropic inequalities. As such, an entropic inequality can sometimes be the sign of an underlying majorization relation, which we will call a \textit{majorization precursor}\footnote{This is not a standard denomination.}. Finding majorization precursors to existing inequalities is an active research domain. In the case of entanglement, the entropic criterion in theorem \ref{th:entropic_criterion} can be strengthened to a majorization criterion.
 
 \begin{theorem}[Majorization separability criterion \cite{nielsen_separable_2001}] \label{th:majorization_separability_criterion}
     Let $\rho^{AB}$ be the state of a bipartite system $AB$, $\rho^A$ and $\rho^B$ the reduced states of subsystems $A$ and $B$, and $\lambda^{AB}$, $\lambda^A$ and $\lambda^B$ are their vectors of eigenvalues, sorted in decreasing order. Then, $\rho^{AB}$ is an entangled state if 

@@ -1,12 +1,16 @@
-\chapter{Majorization Theory} \label{chap:majorization}
+\chapter{Majorization theory} \label{chap:majorization}
+
+All notations for majorization theory and the majorization lattice follow those of Ref. \cite{cicalese_supermodularity_2002}.
+
+
+
+\section{The majorization relation} \label{sec:majorization}
 
 The theory of majorization gives a framework for what it means for a probability distribution (or vectors) to be more disordered, more random, than another one. A rigorous notion of disorder such as the one that majorization suggests is interesting because it is linkable to other objects that attempt to quantify randomness in information theory, and most notably Shannon entropy. In order to see that this is the case, we first need to rigorously define the majorization relation.
 
 
 
-\section{Definitions of majorization} \label{sec:majorization}
-
-\subsection{Using cumulative sums} \label{sec:cumulative}
+\subsection{Definition using cumulative sums} \label{sec:cumulative}
 
 Let $p$ be a probability vector, \textit{i.e.} a vector such that $p_i \geq 0$ and $\sum_{i}^{d} p_i = 1$ for a vector of dimension $d$. Let $p^\downarrow$ be the non-increasing reordering of $p$, meaning that the entries of $p^\downarrow$ are the same as those of $p$, but sorted such that $p^\downarrow_1 \geq p^\downarrow_2 \geq ... \geq p^\downarrow_d$. We will always be considering reordered vectors in this master thesis, and we will therefore denote the set of $n$-dimensional probability vectors sorted in non-increasing order $\mathcal{P}^n$. Formally, $\mathcal{P}^n = \{p \in \mathbb{R}^n | \sum_{i}^{n} p_i = 1, p_i \geq p_{i+1}\}$.
 
@@ -19,11 +23,11 @@ Let $p$ be a probability vector, \textit{i.e.} a vector such that $p_i \geq 0$ a
 
 \end{definition}
 \begin{definition}[Majorization relation] \label{def:majorization}
-    Let $p, q \in \mathbb{R}^d$ be two vectors of dimension $d$. We say that $p$ majorizes $q$, written $p \succ q$, if and only if
+    Let $p, q \in \mathbb{R}^d$ be two vectors of dimension $d$. We say that $p$ is majorized by $q$, written $p \prec q$, if and only if
     \begin{equation} \label{eq:majorization}
         \begin{system}
-            S^\downarrow_k (p) \geq S^\downarrow_k (q) \quad \forall k = 1,...,d - 1, \\
-            S^\downarrow_d (p) = S^\downarrow_d (q).
+            S^\downarrow_k (q) \geq S^\downarrow_k (p) \quad \forall k = 1,...,d - 1, \\
+            S^\downarrow_d (q) = S^\downarrow_d (p).
         \end{system}
     \end{equation}
 If the dimensions of the vectors do not match, one can always append zeroes to the one of lower dimension and apply the definition on the enlarged vector.
@@ -33,7 +37,7 @@ If the dimensions of the vectors do not match, one can always append zeroes to t
     If $p$ and $q$ are probability vectors, then the last equality is automatically verified because $S^\downarrow_d (p) = S^\downarrow_d (q) = 1$.
 \end{remark}
 
-This definition encapsulates the idea of disorder: if $p \succ q$, then the largest probability of $p$ ($p_1^\downarrow)$ is larger than the largest probability of $q$ ($q_1^\downarrow$), and the rest of the distribution in $p$ is lowered for the sum of probabilities to give $1$, whereas $q$ has a distribution that is more spread out. As an example, consider $p = (0.9, 0.1)$ and $q = (0.6, 0.4)$, and applying Definition \ref{def:majorization} we see that $p \succ q$. This feels fairly intuitive : $p$ is not as uncertain as $q$, because a process described by probability distribution $p$ sees one of the 2 events happen most of the time, whereas the outcome of a process with probability distribution $q$ is almost equally likely to be one or the other. It is clear from this example that the \textit{majorizer} is more ordered than the \textit{majorized}.
+This definition encapsulates the idea of disorder: if $p \prec q$, then the largest probability of $q$ ($q_1^\downarrow)$ is larger than the largest probability of $p$ ($p_1^\downarrow$), and the rest of the distribution in $q$ is lowered for the sum of probabilities to give $1$, whereas $p$ has a distribution that is more spread out. As an example, consider $q = (0.9, 0.1)$ and $p = (0.6, 0.4)$, and applying Definition \ref{def:majorization} we see that $p \prec q$. This feels fairly intuitive : $q$ is not as uncertain as $q$, because a process described by probability distribution $p$ sees one of the 2 events happen most of the time, whereas the outcome of a process with probability distribution $p$ is almost equally likely to be one or the other. It is clear from this example that the \textit{majorizer} is more ordered than the \textit{majorized}.
 
 \begin{remark}
     For any $p \in \mathcal{P}^d$, we have
@@ -43,7 +47,7 @@ This definition encapsulates the idea of disorder: if $p \succ q$, then the larg
     which is fairly intuitive, considering that $(\frac{1}{d}, ..., \frac{1}{d})$ is the most uncertain distribution and $(1, 0, ..., 0)$ is the most certain distribution. % ca ressemble beaucoup a ce que Serge a ecrit dans son memoire, a reformuler
 \end{remark}
 
-The majorization relation creates a partial order on $\mathcal{P}^d$, meaning that the ordering is both reflexive and transitive on the set, and that\footnote{This is not the case if we had chosen the subset of $\mathbb{R}^d$  of vectors with non-negative entries, where having both $p \succ q$ and $p \prec q$ only means that $p$ and $q$ are the same up to a reordering. On non-ordered vectors, the majorization relation therefore only generates a preorder instead of a proper partial order.} $p \succ q$ and $p \prec q \implies p = q$ for any $p, q \in \mathcal{P}^d$. When either $p \succ q$ or $p \prec q$ is verified, we will say that $p$ and $q$ are \textit{comparable} (written $p \sim q$). However, there also exist cases where both $p \nsucc q$ and $p \nprec q$ are true, and we will then say that $p$ and $q$ are \textit{incomparable} (written $p \nsim q$). For example, $(0.5, 0.25, 0.25) \nsim (0.4, 0.4, 0.2)$.
+The majorization relation creates a partial order on $\mathcal{P}^d$, meaning that the ordering is both reflexive and transitive on the set, and that\footnote{This is not the case if we choose the subset of $\mathbb{R}^d$  of vectors with non-negative entries, where having both $p \succ q$ and $p \prec q$ only means that $p$ and $q$ are the same up to a reordering. On non-ordered vectors, the majorization relation therefore only generates a preorder instead of a proper partial order.} $p \prec q$ and $p \succ q \implies p = q$ for any $p, q \in \mathcal{P}^d$. When either $p \prec q$ or $p \succ q$ is verified, we will say that $p$ and $q$ are \textit{comparable} (written $p \sim q$). However, there also exist cases where both $p \nprec q$ and $p \nsucc q$ are true, and we will then say that $p$ and $q$ are \textit{incomparable} (written $p \nsim q$). For example, $(0.5, 0.25, 0.25) \nsim (0.4, 0.4, 0.2)$.
 
 \begin{remark}
     Two vectors of dimension 2 are always comparable. Incomparability is only possible from dimension 3 and above.
@@ -51,7 +55,7 @@ The majorization relation creates a partial order on $\mathcal{P}^d$, meaning th
 
 
 
-\subsection{Using bistochastic matrices} \label{sec:bistochastic}
+\subsection{Definition using bistochastic matrices} \label{sec:bistochastic}
 
 A second equivalent definition for majorization can be reached by a different intuition involving bistochastic matrices. The idea is the following: if the probability vector $q$ can be obtained by randomly mixing the components of $p$ together, then $p$ is more ordered than $q$. It turns out that this simple idea is equivalent to the definition using cumulative sums. Let us express this rigorously.
 
@@ -78,18 +82,18 @@ A bistochastic matrix (also called doubly stochastic matrix) is basically a matr
 From this theorem, we can see that the effect of a bistochastic matrix on a vector is essentially to perform a convex mixture of the vector's entries, producing a vector that is more smoothed out, and thus more disordered.
 
 \begin{theorem}[Hardy, Littlewood and Pólya] \label{th:bistochastic_majorization}
-    Let $p, q \in \mathcal{P}^d$. Then, $p \succ q$ if and only if there exists a $d$-dimensional bistochastic matrix $D$ such that
+    Let $p, q \in \mathcal{P}^d$. Then, $p \prec q$ if and only if there exists a $d$-dimensional bistochastic matrix $D$ such that
     \begin{equation} \label{eq:bistochastic_majorization}
-        q = Dp.
+        p = Dq.
     \end{equation}
 \end{theorem}
 
 One can take theorem \ref{th:bistochastic_majorization} as a definition of the majorization relation, as the notion of a vector being more disordered is perhaps clearer in the bistochastic matrix picture. Then, the nature of the convex combination % Serge: expliquer ce que c'est
-of entries would have given us the set of inequalities (\ref{eq:majorization}). Let's take the same example as earlier, $p = (0.9, 0.1)$ and $q = (0.6, 0.4)$. Then we can find that $D = \Big(\begin{smallmatrix}
+of entries would have given us the set of inequalities (\ref{eq:majorization}). Let's take the same example as earlier, $p = (0.6, 0.4)$ and $q = (0.9, 0.1)$. Then we can find that $D = \Big(\begin{smallmatrix}
                                                                                                     5/8 & 3/8 \\
                                                                                                     3/8 & 5/8
                                                                                                 \end{smallmatrix}\Big)$
-gives us $q = Dp$, and therefore $p \succ q$.
+gives us $p = Dq$, and therefore $p \prec q$.
 
 Whichever picture one prefers intuitively, the fact that there is a full equivalence between the two is quite powerful when working on proofs, as sometimes one picture is easier to work with than the other depending on the context.
 
@@ -103,9 +107,9 @@ Whichever picture one prefers intuitively, the fact that there is a full equival
 
 
 
-\subsection{Using Lorenz curves}
+\subsection{Visualization using Lorenz curves}
 
-Lorenz curves were first introduced in 1905 by economist Max Lorenz as a way to represent income inequality. By plotting the cumulative sums of two distributions, we can say that if one curve is above the other at all times, then it is more unequal (more disordered) than the second. By normalizing the distributions for total income, this graphical tool could then be used to quickly compare income inequality between different regions or countries.
+Lorenz curves were first introduced in 1905 by economist Max Lorenz as a way to represent income inequality. By plotting the cumulative sums of two distributions, we can say that if one curve is above the other at all times, then it is more unequal (more disordered) than the second. By normalizing the distributions for total income, this graphical tool could then be used to quickly compare income inequality between different regions or countries CITATION NEEDED.
 
 More formally, the Lorenz curve of a vector $p \in \mathbb{R}^d$ is obtained by linear interpolation between the points of the set $\{(i, S^\downarrow_i(p)) | i \in \mathbb{N}, i \leq d\}$.
 We will be using the convention that $S^\downarrow_0 (v) = 0$ for any vector $v$. A couple of examples are given in figures \ref{fig:lorenz_comparable_example} and \ref{fig:lorenz_incomparable_example}.
@@ -154,9 +158,9 @@ Some functions preserve the ordering defined by the majorization relation and ar
 Conversely, a function $f$ is (Schur-)concave if $-f$ is (Schur-)convex. Additional properties linking convex and concave functions to majorization exist.
 
 \begin{lemma}[{Karamata's inequality \cite[p. 92]{marshall_inequalities_2011}}] \label{lem:karamata}
-    If $f \in C(\mathcal{I} \to \mathbb{R})$ is convex on $\mathcal{I}$, and if $p \succ q$, then
+    If $f \in C(\mathcal{I} \to \mathbb{R})$ is convex on $\mathcal{I}$, and if $p \prec q$, then
     \begin{equation}
-        \sum_{i=1}^{d} f(p_i) \geq \sum_{i=1}^{d} f(q_i).
+        \sum_{i=1}^{d} f(p_i) \leq \sum_{i=1}^{d} f(q_i).
     \end{equation}
     This can be restated as saying that the function $\sum_i f$ is Schur-convex.
 \end{lemma}
@@ -172,11 +176,11 @@ The Shannon entropy function $H(p) \coloneqq - \sum_{i = 1}^{d} p_i \log p_i$ is
 \begin{lemma}[Schur-concavity of the Shannon entropy]
     For any $p, q \in \mathcal{P}^d$,
     \begin{equation}
-        p \succ q \implies  H(p) \leq H(q).
+        p \prec q \implies  H(p) \geq H(q).
     \end{equation}
 \end{lemma}
 
-This property of Shannon entropy is fairly intuitive: the Shannon entropy captures the uncertainty content of a probability distribution, and $p \succ q$ means that $p$ is unequivocally\footnote{As opposed to incomparable distributions being more ordered than the other each in their own way.} more ordered (so more certain) than $q$, so we would expect Schur-concavity to hold. However a majorization relation is stronger than an entropic inequality, and so we should study majorization relations alongside Shannon entropy to gain a better understanding of information theory.
+This property of Shannon entropy is fairly intuitive: the Shannon entropy captures the uncertainty content of a probability distribution, and $p \prec q$ means that $q$ is unequivocally\footnote{As opposed to incomparable distributions being more ordered than the other each in their own way.} more ordered (so more certain) than $p$, so we would expect Schur-concavity to hold. However a majorization relation is stronger than an entropic inequality, and so we should study majorization relations alongside Shannon entropy to gain a better understanding of information theory.
 % Il existe une version plus forte de ce lemme, p \succ q implique H(q) - H(p) \geq D(p^\downarrow || q^\downarrow) dans \cite{ho_interplay_2010}
 
 \subsection{Rényi entropies}
@@ -189,7 +193,7 @@ This property of Shannon entropy is fairly intuitive: the Shannon entropy captur
 
 \subsection{Lattice structures}
 
-The majorization relation creates a proper partial ordering on the set of \textit{ordered} probability vectors $\mathcal{P}^d$. With the ordering induced by the majorization relation, the set of ordered vectors $\{z | z_1 \geq z_2 \geq ... \geq z_d\}$ becomes a lattice.
+This section is based on \cite{cicalese_supermodularity_2002}. The majorization relation creates a proper partial ordering on the set of \textit{ordered} probability vectors $\mathcal{P}^d$. With the ordering induced by the majorization relation, the set of ordered vectors $\{z | z_1 \geq z_2 \geq ... \geq z_d\}$ becomes a lattice.
 
 \begin{definition}[Lattice] \label{def:lattice} % copie colle de l'article de Cicalese and Vaccaro, c'est ok ou pas ?
     A lattice is a quadruple $\langle \mathcal{L}, \sqsubseteq, \wedge, \vee \rangle$ where $\mathcal{L}$ is a set, $\sqsubseteq$ is a partial ordering $\mathcal{L}$, and for all $a, b \in \mathcal{L}$ there is a unique greatest lower bound (glb) $a \wedge b$ and a unique least upper bound (lub) $a \vee b$. That is, $a \wedge b$ precedes ($\sqsubseteq$) both $a$ and $b$ and $a \vee b$ succedes ($\sqsupseteq$) both $a$ and $b$, and for any $c$ that precedes both $a$ and $b$, and for any $d$ that succedes both $a$ and $b$, we have
@@ -200,7 +204,7 @@ The majorization relation creates a proper partial ordering on the set of \texti
 
 A simple example of a lattice is the set $\mathbb{N}$ of natural numbers ordered by the relation “divides”. Then for $a, b \in \mathbb{N}$ the lub is the least common multiple of $(a, b)$ and the glb is the greatest common divisor of $(a, b)$. % example from Dominich, 2008, Elements of Lattice Theory
 
-It was shown that the set $\mathcal{P}^d$ endowed with the partial ordering $\prec$ is a lattice \cite{cicalese_supermodularity_2002}. As the lattice is a central part of this master thesis, we will go through the main ideas behind the proof, which hinges on defining the correct greatest lower bound (glb) $p \wedge q$, which is called the \textit{meet} of $p$ and $q$, and the correct least upper bound (lub) $p \vee q$, which is called the \textit{join}.
+It was shown that the set $\mathcal{P}^d$ endowed with the partial ordering $\prec$ is a lattice. As the lattice is a central part of this master thesis, we will go through the main ideas behind the proof, which hinges on defining the correct greatest lower bound (glb) $p \wedge q$, which is called the \textit{meet} of $p$ and $q$, and the correct least upper bound (lub) $p \vee q$, which is called the \textit{join}.
 
 Let us first go through what it means for a vector to be the glb, the meet, of two vectors $p, q \in \mathcal{P}^d$. Intuitively, the glb of $p$ and $q$ in terms of majorization is the least disordered vector that is majorized by both $p$ and $q$. While this may not seem very interesting at a first glance, recall that two vectors may be incomparable, meaning that both $p \nprec q$ and $p \nsucc q$ are true. Even if they are incomparable, the subset of vectors that are majorized by both $p$ and $q$ is nonempty\footnote{It is guaranteed to at least contain the uniform distribution $(\frac{1}{d}, ..., \frac{1}{d})$ since it is majorized by every other distribution.} and has a supremum, $p \wedge q$, \textit{which majorizes every other vector in the subset}. Note that an equivalent definition of a lattice is to require that every partially ordered subset has a supremum and infimum \cite[p. 19]{marshall_inequalities_2011}. Since the two definitions are equivalent, we can consider this to be a property of the lattice, guaranteeing the existence of the supremum $p \wedge q$.
 
@@ -395,27 +399,28 @@ Lemmas \ref{lem:meet} and \ref{lem:join} conclude the proof sketch for the set $
  
 \subsection{Algebraic properties of the meet and join}
 
-In any lattice, the meet and the join can also be seen as two operations\footnote{This is actually another alternative definition of a lattice, which can be defined as a triple $\langle \mathcal{L}, \wedge, \vee \rangle$ with operations $\wedge, \vee$ acting on elements of $\mathcal{L}$. If they satisfy the properties listed above, an ordering $\sqsubseteq$ can then be derived from the triple \cite[p. 47]{dominich_elements_2008}.}
-acting on elements of a set $\mathcal{L}$, which enjoy some useful properties \cite[p. 46]{dominich_elements_2008}.
+This section is based on Ref. \cite[pp. 39-41]{davey_introduction_2002}. In any lattice, the meet and the join can also be seen as two operations\footnote{This yields an equivalent definition of a lattice, which can be defined as a triple $\langle \mathcal{L}, \wedge, \vee \rangle$ with operations $\wedge, \vee$ acting on elements of $\mathcal{L}$. If they satisfy the properties listed above, an ordering $\sqsubseteq$ can then be derived from the triple by defining $a \sqsubseteq b \iff a \wedge b = a$.}
+acting on elements of a set $\mathcal{L}$, which enjoy some useful properties.
 
 \begin{itemize} \label{it:meet_join_properties}
     \item Commutativity: $a \wedge b = b \wedge a, \; a \vee b = b \vee a \quad \forall a, b \in \mathcal{L}$.
     \item Associativity: $a \wedge (b \wedge c) = (a \wedge b) \wedge c, \;
                             a \vee (b \vee c) = (a \vee b) \vee c \quad \forall a, b, c \in \mathcal{L}$.
+    \item Idempotency: $a \wedge a = a, \; a \vee a = a \quad \forall a \in \mathcal{L}$.
     \item Absorption: $a \wedge (a \vee b) = a, \; a \vee (a \wedge b) = a \quad \forall a, b \in \mathcal{L}$.
 \end{itemize}
 
-While it is fairly clear how the algorithms from sections \ref{sec:meet} and \ref{sec:join} lead to commutativity and associativity, it might not be as clear why they lead to the absorption rule. Recall definition \ref{def:lattice} and the interpretation of glb and lub of the meet and join respectively. Then it becomes clearer that the first absorption rule for the majorization lattice states that \textit{the most ordered vector that is majorized by both $a$ and some vector that majorizes $a$ (and $b$) is none other than $a$}. Similarly, the second absorption rules states that \textit{the least ordered vector that majorizes both $a$ and some vector that is majorized by $a$ (and $b$) is $a$}. Yet another way to understand it is that this boils down to Corollary \ref{cor:comp_meet_join}: $a$ is necessarily comparable to $a \vee b$ (resp. $a \wedge b$) since by definition $a \prec a \vee b$ (resp. $a \succ a \wedge b$), and when two vectors are comparable their meet (resp. join) is simply the least ordered (resp. most ordered) of the two vectors, being $a$ in this case.
+While it is fairly clear how the algorithms from sections \ref{sec:meet} and \ref{sec:join} lead to commutativity, associativity, and idempotency, it might not be as clear why they lead to the absorption rule. Recall definition \ref{def:lattice} and the interpretation of glb and lub of the meet and join respectively. Then it becomes clearer that the first absorption rule for the majorization lattice states that \textit{the most ordered vector that is majorized by both $a$ and some vector that majorizes $a$ (and $b$) is none other than $a$}. Similarly, the second absorption rules states that \textit{the least ordered vector that majorizes both $a$ and some vector that is majorized by $a$ (and $b$) is $a$}. Yet another way to understand it is that this boils down to Corollary \ref{cor:comp_meet_join}: $a$ is necessarily comparable to $a \vee b$ (resp. $a \wedge b$) since by definition $a \prec a \vee b$ (resp. $a \succ a \wedge b$), and when two vectors are comparable their meet (resp. join) is simply the least ordered (resp. most ordered) of the two vectors, being $a$ in this case.
 
 % parler du fait que les proprietes sont logiques dans la vision geometrique aussi ?
 
-These properties are extremely helpful when working on proofs on the lattice, and will appear quite a bit in chapter \ref{chap:incomparability}.
+These properties are extremely helpful when working on proofs on the lattice, and will appear often in chapters \ref{chap:incomparability} and \ref{chap:volume}.
 
 
 
 \section{Properties of the Shannon entropy on the lattice}
 
-The Schur-concavity of the Shannon entropy, which preserves the ordering of the majorization relation, has already been discussed in section \ref{sec:schur_shannon}. However, the Shannon entropy enjoys additional properties on the majorization lattice: \textit{supermodularity} and \textit{subadditivity}.
+This section is based on Refs. \cite{cicalese_supermodularity_2002} and \cite{cicalese_information_2013}. The Schur-concavity of the Shannon entropy, which preserves the ordering of the majorization relation, has already been discussed in section \ref{sec:schur_shannon}. However, the Shannon entropy enjoys additional properties on the majorization lattice: \textit{supermodularity} and \textit{subadditivity}.
 
 
 
@@ -429,7 +434,7 @@ The Schur-concavity of the Shannon entropy, which preserves the ordering of the 
 \end{definition}
 
 
-\begin{theorem}[Supermodularity of Shannon entropy \cite{cicalese_supermodularity_2002}] \label{th:shannon_supermodularity}
+\begin{theorem}[Supermodularity of Shannon entropy] \label{th:shannon_supermodularity}
     The entropy function $H$ is supermodular on the majorization lattice, and so for all $p, q \in \mathcal{P}^d$,
     \begin{equation} \label{eq:supermodularity_shannon}
         H(p \wedge q) + H(p \vee q) \geq H(p) + H(q).
@@ -457,7 +462,7 @@ This property is quite useful when working on the lattice. The original proof is
     \end{equation}
 \end{definition}
 
-\begin{theorem}[Subadditivity of the Shannon entropy, \cite{cicalese_supermodularity_2002}] \label{th:shannon_subadditivity}
+\begin{theorem}[Subadditivity of the Shannon entropy] \label{th:shannon_subadditivity}
     The entropy function $H$ is subadditive on the majorization lattice, so for all $p, q \in \mathcal{P}^d$
     \begin{equation}
         H(p \wedge q) \leq H(p) + H(q).
@@ -486,7 +491,7 @@ Shannon entropy can be used to define an entropic distance on the lattice, which
     \end{equation}
 \end{definition}
 
-\begin{theorem}[Cicalese, Gargano and Vaccaro, 2013 \cite{cicalese_information_2013}]
+\begin{theorem}[Cicalese, Gargano and Vaccaro, 2013]
     $d$ is a distance on $\mathcal{P}^d$, meaning that it satisfies the following properties:
     \begin{itemize}
         \item Symmetry: $d(p, q) = d(q, p)$,
@@ -505,6 +510,6 @@ We will also use a quasidistance going through the meet instead of the join.
     \end{equation}
 \end{definition}
 
-This notion of distance is unfortunately not as foolproof as the first one, which goes through the join. In particular, while it does satisfy symmetry and positivity, it fails the triangular inequality in some cases. As such, one can not use it as a rigorous notion of distance, but it still has a few applications nonetheless.
+This notion of distance is unfortunately not as foolproof as the first one, which goes through the join. In particular, while it does satisfy symmetry and positivity, it fails the triangular inequality in some cases. For example, consider vectors TROUVER EXEMPLE. As such, one can not use it as a rigorous notion of distance, but it still has a few applications nonetheless.
 
 An interpretation of these notions of distance is given in figure FAIRE FIGURE. Notably, the distance $d$ seems to induce some form of hyperbolic geometry in the majorization lattice, in the sense that two segments that look identical in our geometrical representation actually aren't. For example, in any incomparable diamond $p, q, p \wedge q, p \vee q$ we have $d(p, p\vee q) \leq d(q, q \wedge p)$, even though when looking at the representation one would get the idea that the 2 are equally far apart.
