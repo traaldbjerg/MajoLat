@@ -28,11 +28,64 @@ These entropic inequalities\footnote{Historically, these entropic inequalities (
     \lambda^{AB} \prec \lambda^A \; \text{and} \; \lambda^{AB} \prec \lambda^{B} \; \iff \; \lambda^{AB} \prec \lambda^A \wedge \lambda^B \; \implies \; H(\lambda^{AB}) \geq H(\lambda^A \wedge \lambda^B).
 \end{equation}
 
-This new formulation in terms of entropies is a strengthening of the initial entropic criterion, providing a better lower bound on the entropy of a separable state. However, it is still not as strong as the majorization criterion itself. Moreover, this new entropic criterion based on the meet is not very interesting for pure bipartite states because of corollary \ref{cor:reduced_schmidt}, which essentially states that $\lambda^A = \lambda^B$ if $\rho^{AB}$ is pure. In that case $\lambda^A \wedge \lambda^B = \lambda^A = \lambda^B$, and the new entropic criterion reduces to the original one. Unfortunately, pure bipartite states are the more interesting states for quantum computation: decoherence (i.e. losing purity by interacting with the environment) is never a desired feature for qubits as mixed states introduce uncertainty into computations, causing them to fail with a certain probability.
+This new formulation in terms of entropies is a strengthening of the initial entropic criterion, providing a better lower bound on the entropy of a separable state. However, it is still not as strong as the majorization criterion itself. Moreover, this new entropic criterion based on the meet is not very interesting for pure bipartite states because of corollary \ref{cor:reduced_schmidt}, which essentially states that $\lambda^A = \lambda^B$ if $\rho^{AB}$ is pure. In that case $\lambda^A \wedge \lambda^B = \lambda^A = \lambda^B$, and the new entropic criterion reduces to the original one. Unfortunately, pure bipartite states are the more interesting states for quantum computation: decoherence (i.e. losing purity by interacting with the environment) is never a desired feature for qubits as mixed states introduce uncertainty into computations, causing them to fail with a certain probability. Figure \ref{fig:improved_criterion} illustrates the new criterion.
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[scale=0.9]
+        % draw cone of p
+        \coordinate (A) at (-2, 3);
+        \coordinate (B) at (1, -1.5);
+        \draw[dotted] [name path=A--B, color=gray] (A) -- (B);
+        \coordinate (C) at (-1,-1.5);
+        \coordinate (D) at (2,3);
+        \draw[dotted] [name path=C--D, color=gray] (C) -- (D);
+        \path [name intersections={of=A--B and C--D,by=E}];
+        \node [fill=black,inner sep=1pt,label=180:$\lambda^A$] at (E) {};
+        % draw cone of q
+        \coordinate (F) at (-0.166,3);
+        \coordinate (G) at (2.833, -1.5);
+        \draw[dotted] [name path=F--G, color=gray] (F) -- (G);
+        \coordinate (H) at (2.166,-1.5);
+        \coordinate (I) at (4.966,3);
+        \draw[dotted] [name path=H--I, color=gray] (H) -- (I);
+        \path [name intersections={of=F--G and H--I,by=J}];
+        \node [fill=black,inner sep=1pt,label=0:$\lambda^B$] at (J) {};
+        %intersections of the 2 cones
+        \path [name intersections={of=F--G and C--D,by=K}];
+        %\path [name intersections={of=H--I and A--B,by=L}];
+        \node [fill=black,inner sep=1pt,label=90:$\lambda^A \wedge \lambda^B$] at (K) {};
+        %\node [fill=black,inner sep=1pt] at (L) {};
+        %\node [inner sep=4pt, label=270:$p \vee q$] at (L) {}; % virtual point to set the label further away (otherwise the fill gets bigger too)
+        % create the entropy arrow
+        \coordinate (M) at (-3, -1.5);
+        \coordinate (N) at (-3, 3);
+        \coordinate (N') at (-3, 3.3);
+        \coordinate (O) at (5, 1.33);
+        \coordinate (P) at (5, 3);
+        \coordinate (Q) at (5, -1.5);
+        \coordinate (R) at (-3, 1.33);
+        \coordinate (S) at (-3.5, 1.33);
+
+        \draw[->] (M) -- (N');
+        \node [inner sep=0pt, label=180:$H(\lambda^{AB})$] at (N') {};
+        \draw[dotted] [name path=old_left, color=gray] (E) -| (M);
+        \draw[dotted] [name path=old_right, color=gray] (E) -| (5,0);
+        \draw[dotted] [name path=new_left, color=gray] (K) -| (S);
+        \draw[dotted] [name path=new_right, color=gray] (K) -| (O);
+        % fill the 2 zones for the criterion
+        \fill[fill=blue, opacity=0.15] (N) -- (R) -- (O) -- (P) -- cycle;
+        \fill[fill=red, opacity=0.15] (M) -- (R) -- (O) -- (Q) -- cycle;
+        \node [inner sep=3pt, label=135:{Maybe entangled, maybe separable}] at (R) {};
+        \node [inner sep=3pt, label=225:{Entangled}] at (R) {};
+
+    \end{tikzpicture}
+    \caption{Depiction of the improved entropic criterion for entanglement. The previous criterion could not decide whether states with $\lambda^{AB}$ with an entropy between the two horizontal doted lines going through $\lambda^A$ and $\lambda^A \wedge \lambda^B$ were entangled. The new criterion shows that they are.}
+    \label{fig:improved_criterion}
+\end{figure}
 
 Another important caveat to this criterion is that if $\lambda^A \sim \lambda^B$, then $\lambda^A \wedge \lambda^B = \lambda^A$ or $\lambda^B$ (whichever is majorized by the other), and the criterion reduces to the original one. As such, it seems that something interesting is happening when two vectors are incomparable, as incomparability enables us to improve entropic criteria. This very notion, of quantifying the amount of incomparability between two probability vectors and considering it a resource, is the idea that led to chapter \ref{chap:incomparability}.
 
-% figure pour illustrer ici
 
 This means that our criterion is \textit{a priori} not particularly useful in the context of quantum information, however it could still be useful in experiments trying to assert whether a state is entangled or not. In such cases, the majorization relations can be hard to use because the vector of eigenvalues of the density operator can be hard to determine experimentally. However, the measurement statistics can be used to compute the Shannon entropy of the distributions easily. As such, if one could experimentally construct a state with the same eigenvalues as $\lambda^A \wedge \lambda^B$, one could measure its statistics and use the better lower bound to determine whether the joint state is separable. Unfortunately, no obvious way to construct this state, which we will note $\rho_{A \wedge B}$, was found. For example, constructing this state with an interferometer in quantum optics would require the construction of the meet (cf. section \ref{sec:meet}) to have a known formulation in terms of unitary operators. An additional constraint is that the action of an interferometer cannot decrease the entropy of a state CITATION NEEDED, which means that the subadditivity property of Shannon entropy (cf. theorem \ref{th:shannon_subadditivity}) prevents us from constructing an interferometer that only outputs the meet of two entry states because
 

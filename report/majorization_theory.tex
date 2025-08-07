@@ -1,18 +1,18 @@
 \chapter{Majorization theory} \label{chap:majorization}
 
-All notations for majorization theory and the majorization lattice follow those of Ref. \cite{cicalese_supermodularity_2002}.
+Notations for majorization theory mostly follow Ref. \cite{marshall_inequalities_2011}, except for the reordering convention $p^\downarrow$ (cf. section \ref{sec:cumulative}) and notations for the majorization lattice which come from Ref. \cite{cicalese_supermodularity_2002}.
 
 
 
 \section{The majorization relation} \label{sec:majorization}
 
-This section is based on \cite[pp. ???]{marshall_inequalities_2011}. The theory of majorization gives a framework for what it means for a probability distribution (or vectors) to be more disordered, more random, than another one. A rigorous notion of disorder such as the one that majorization suggests is interesting because it is linkable to other objects that attempt to quantify randomness in information theory, and most notably Shannon entropy. In order to see that this is the case, we first need to rigorously define the majorization relation.
+The theory of majorization gives a framework for what it means for a probability distribution (or vectors) to be more disordered, more random, than another one. A rigorous notion of disorder such as the one that majorization suggests is interesting because it is linkable to other objects that attempt to quantify randomness in information theory, and most notably Shannon entropy. In order to see that this is the case, we first need to rigorously define the majorization relation.
 
 
 
 \subsection{Definition using cumulative sums} \label{sec:cumulative}
 
-Let $p$ be a probability vector, \textit{i.e.} a vector such that $p_i \geq 0$ and $\sum_{i}^{d} p_i = 1$ for a vector of dimension $d$. Let $p^\downarrow$ be the non-increasing reordering of $p$, meaning that the entries of $p^\downarrow$ are the same as those of $p$, but sorted such that $p^\downarrow_1 \geq p^\downarrow_2 \geq ... \geq p^\downarrow_d$. We will always be considering reordered vectors in this master thesis, and we will therefore denote the set of $n$-dimensional probability vectors sorted in non-increasing order $\mathcal{P}^d$. Formally, $\mathcal{P}^d = \{p \in \mathbb{R}^d | \sum_{i}^{d} p_i = 1, p_i \geq p_{i+1}\}$.
+This section is based on Ref. \cite[pp. 4-10]{marshall_inequalities_2011}. Let $p$ be a probability vector, \textit{i.e.} a vector such that $p_i \geq 0$ and $\sum_{i}^{d} p_i = 1$ for a vector of dimension $d$. Let $p^\downarrow$ be the non-increasing reordering of $p$, meaning that the entries of $p^\downarrow$ are the same as those of $p$, but sorted such that $p^\downarrow_1 \geq p^\downarrow_2 \geq ... \geq p^\downarrow_d$. We will always be considering reordered vectors in this master thesis, and we will therefore denote the set of $d$-dimensional probability vectors sorted in non-increasing order $\mathcal{P}^d$. Formally, $\mathcal{P}^d = \{p \in \mathbb{R}^d | \sum_{i}^{d} p_i = 1, p_i \geq p_{i+1}\}$.
 
 \begin{definition}[Cumulative sum] % ressemble beaucoup a ce que Serge a ecrit dans son memoire, a reformuler
     Let $p$ be a vector in $\mathcal{P}^d$. The $k^{\text{th}}$ non-increasing\footnote{We could also have defined $\mathcal{P}^d$ to be non-decreasing vectors and use non-decreasing cumulative sums $S^\uparrow_i (p)$ instead. We would get an equivalent description of majorization, the only effect being reversed inequalities in (\ref{eq:majorization}).} cumulative sum of $p$ is the sum of the $j$ biggest components of $p$, which can be written as
@@ -57,7 +57,7 @@ The majorization relation creates a partial order on $\mathcal{P}^d$, meaning th
 
 \subsection{Definition using bistochastic matrices} \label{sec:bistochastic}
 
-A second equivalent definition for majorization can be reached by a different intuition involving bistochastic matrices. The idea is the following: if the probability vector $q$ can be obtained by randomly mixing the components of $p$ together, then $p$ is more ordered than $q$. It turns out that this simple idea is equivalent to the definition using cumulative sums. Let us express this rigorously.
+This section is based on Ref. \cite[pp. 29-33]{marshall_inequalities_2011}. A second equivalent definition for majorization can be reached by a different intuition involving bistochastic matrices. The idea is the following: if the probability vector $q$ can be obtained by randomly mixing the components of $p$ together, then $p$ is more ordered than $q$. It turns out that this simple idea is equivalent to the definition using cumulative sums. Let us express this rigorously.
 
 \begin{definition}[Bistochastic matrix]
     A bistochastic matrix $D$ is a matrix in $\mathbb{R}^{d \times d}$ such that
@@ -109,7 +109,7 @@ Whichever picture one prefers intuitively, the fact that there is a full equival
 
 \subsection{Visualization using Lorenz curves}
 
-Lorenz curves were first introduced in 1905 by economist Max Lorenz as a way to represent income inequality. By plotting the cumulative sums of two distributions, we can say that if one curve is above the other at all times, then it is more unequal (more disordered) than the second. By normalizing the distributions for total income, this graphical tool could then be used to quickly compare income inequality between different regions or countries CITATION NEEDED.
+This section is based on Ref. \cite[pp. 5-6]{marshall_inequalities_2011}. Lorenz curves were first introduced in 1905 by economist Max Lorenz as a way to represent income inequality. By plotting the cumulative sums of two distributions, we can say that if one curve is above the other at all times, then it is more unequal (more disordered) than the second. By normalizing the distributions for total income, this graphical tool could then be used to quickly compare income inequality between different regions or countries.
 
 More formally, the Lorenz curve of a vector $p \in \mathbb{R}^d$ is obtained by linear interpolation between the points of the set $\{(i, S^\downarrow_i(p)) | i \in \mathbb{N}, i \leq d\}$.
 We will be using the convention that $S^\downarrow_0 (v) = 0$ for any vector $v$. A couple of examples are given in figures \ref{fig:lorenz_comparable_example} and \ref{fig:lorenz_incomparable_example}.
@@ -139,7 +139,7 @@ At integer abscissa $i$, we see the values of $S_i^\downarrow (v)$ for each vect
 
 \subsection{Definition}
 
-Some functions preserve the ordering defined by the majorization relation and are therefore interesting to study because a majorization relation directly implies an inequality on these functions. The following few definitions will be useful.
+This section is based on Ref. \cite[pp. 79-92]{marshall_inequalities_2011}. Some functions preserve the ordering defined by the majorization relation and are therefore interesting to study because a majorization relation directly implies an inequality on these functions. The following few definitions will be useful.
 
 \begin{definition}[Convex function]
     A function $f \in C(\mathcal{I} \to \mathbb{R})$ is convex on an interval $\mathcal{I}$ iff for all $x_1, x_2 \in \mathcal{I}$
@@ -157,7 +157,7 @@ Some functions preserve the ordering defined by the majorization relation and ar
 
 Conversely, a function $f$ is (Schur-)concave if $-f$ is (Schur-)convex. Additional properties linking convex and concave functions to majorization exist.
 
-\begin{lemma}[{Karamata's inequality \cite[p. 92]{marshall_inequalities_2011}}] \label{lem:karamata}
+\begin{lemma}[Karamata's inequality] \label{lem:karamata}
     If $f \in C(\mathcal{I} \to \mathbb{R})$ is convex on $\mathcal{I}$, and if $p \prec q$, then
     \begin{equation}
         \sum_{i=1}^{d} f(p_i) \leq \sum_{i=1}^{d} f(q_i).
@@ -171,6 +171,7 @@ Essentially, this inequality states that if $b = Da$ with $D$ a bistochastic mat
 
 \subsection{Shannon entropy} \label{sec:schur_shannon}
 
+This section is based on Refs. \cite[p. 101]{marshall_inequalities_2011} and \cite[p. 88]{cover_elements_2006}. % pas sur que citer un exercice soit hyper acceptable mdr
 The Shannon entropy function $H(p) \coloneqq - \sum_{i = 1}^{d} p_i \log p_i$ is a foundational quantity in classical information theory (cf. section \ref{sec:classical_information}). $H(p)$ essentially captures the uncertainty content of a random process distributed over a probability distribution $p$. We therefore expect it to be linked to majorization theory which gives a partial order on the uncertainty of different probability distributions. The following lemma establishes this link through Schur-concavity.
 
 \begin{lemma}[Schur-concavity of the Shannon entropy]
@@ -181,7 +182,7 @@ The Shannon entropy function $H(p) \coloneqq - \sum_{i = 1}^{d} p_i \log p_i$ is
 \end{lemma}
 
 This property of Shannon entropy is fairly intuitive: the Shannon entropy captures the uncertainty content of a probability distribution, and $p \prec q$ means that $q$ is unequivocally\footnote{As opposed to incomparable distributions being more ordered than the other each in their own way.} more ordered (so more certain) than $p$, so we would expect Schur-concavity to hold. However a majorization relation is stronger than an entropic inequality, and so we should study majorization relations alongside Shannon entropy to gain a better understanding of information theory.
-% Il existe une version plus forte de ce lemme, p \succ q implique H(q) - H(p) \geq D(p^\downarrow || q^\downarrow) dans \cite{ho_interplay_2010}
+% Il existe une version plus forte de ce lemme, p \succ q implique H(q) - H(p) \geq D(p^\downarrow \parallel q^\downarrow) dans \cite{ho_interplay_2010}
 
 \subsection{Rényi entropies}
 
@@ -237,7 +238,7 @@ Figure \ref{fig:maj_cones_example} shows an example of the 2D representation of 
         \coordinate (D) at (2,3);
         \draw [name path=C--D] (C) -- (D);
         \path [name intersections={of=A--B and C--D,by=E}];
-        \node [fill=black,inner sep=2pt,label=0:$p$] at (E) {};
+        \node [fill=black,inner sep=1pt,label=0:$p$] at (E) {};
         % fill draw the future cone of p + notation
         \fill[fill=red, opacity=0.2] (C) -- (E) -- (B) -- cycle;
         \node [inner sep=0pt, label=-90:$\mathcal{T}_+ (p)$] at (0, -2) {};
@@ -270,7 +271,7 @@ Figure \ref{fig:maj_cones_example} shows an example of the 2D representation of 
         \coordinate (D) at (2,3);
         \draw [name path=C--D] (C) -- (D);
         \path [name intersections={of=A--B and C--D,by=E}];
-        \node [fill=black,inner sep=2pt,label=0:$p$] at (E) {};
+        \node [fill=black,inner sep=1pt,label=0:$p$] at (E) {};
         % draw cone of q
         \coordinate (F) at (-0.666,3);
         \coordinate (G) at (3.333, -3);
@@ -279,12 +280,12 @@ Figure \ref{fig:maj_cones_example} shows an example of the 2D representation of 
         \coordinate (I) at (4.666,3);
         \draw [name path=H--I] (H) -- (I);
         \path [name intersections={of=F--G and H--I,by=J}];
-        \node [fill=black,inner sep=2pt,label=0:$q$] at (J) {};
+        \node [fill=black,inner sep=1pt,label=0:$q$] at (J) {};
         %intersections of the 2 cones
         \path [name intersections={of=F--G and C--D,by=K}];
         \path [name intersections={of=H--I and A--B,by=L}];
-        \node [fill=black,inner sep=2pt,label=0:$p \wedge q$] at (K) {};
-        \node [fill=black,inner sep=2pt,label=0:$p \vee q$] at (L) {};
+        \node [fill=black,inner sep=1pt,label=0:$p \wedge q$] at (K) {};
+        \node [fill=black,inner sep=1pt,label=0:$p \vee q$] at (L) {};
         %fill the two cones
         \fill[fill=blue, opacity=0.2] (F) -- (K) -- (D) -- cycle;
         \node [inner sep=0pt] at ($ (F) !.3333! (K) !.3333! (D) $) {$\mathcal{T}_- (p \wedge q)$};
@@ -512,4 +513,88 @@ We will also use a quasidistance going through the meet instead of the join.
 
 This notion of distance is unfortunately not as foolproof as the first one, which goes through the join. In particular, while it does satisfy symmetry and positivity, it fails the triangular inequality in some cases. For example, consider vectors TROUVER EXEMPLE. As such, one can not use it as a rigorous notion of distance, but it still has a few applications nonetheless.
 
-An interpretation of these notions of distance is given in figure FAIRE FIGURE. Notably, the distance $d$ seems to induce some form of hyperbolic geometry in the majorization lattice, in the sense that two segments that look identical in our geometrical representation actually aren't. For example, in any incomparable diamond $p, q, p \wedge q, p \vee q$ we have $d(p, p\vee q) \leq d(q, q \wedge p)$, even though when looking at the representation one would get the idea that the 2 are equally far apart.
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[scale=0.9]
+        % draw cone of p
+        \coordinate (A) at (-2, 1);
+        \coordinate (B) at (2, -1);
+        \coordinate (C) at (-1, 4);
+        \coordinate (D) at (1, -4);
+        \draw [name path=A--C] (A) -- (C) node[midway, above, sloped] {$d(p, p \wedge q)$};
+        \draw [name path=C--B] (C) -- (B) node[midway, above, sloped] {$d(q, p \wedge q)$};
+        \draw [name path=B--D] (B) -- (D) node[midway, below, sloped] {$d(q, p \vee q)$};
+        \draw [name path=D--A] (D) -- (A) node[midway, below, sloped] {$d(p, p \vee q)$};
+        %\path [name intersections={of=A--B and C--D,by=E}];
+        \node [fill=black,inner sep=1pt,label=0:$p$] at (A) {};
+        \node [fill=black,inner sep=1pt,label=0:$q$] at (B) {};
+        \node [fill=black,inner sep=1pt,label=0:$p \wedge q$] at (C) {};
+        \node [fill=black,inner sep=1pt,label=0:$p \vee q$] at (D) {};
+        % draw cone of q
+        \coordinate (F) at (-0.666,3);
+        \coordinate (G) at (3.333, -3);
+        %\draw [name path=F--G] (F) -- (G);
+        \coordinate (H) at (0.666,-3);
+        \coordinate (I) at (4.666,3);
+    \end{tikzpicture}
+    \caption{Depiction of the incomparability diamond $p, q, p \wedge q, p \vee q$ generated by two incomparable vectors $p, q \in \mathcal{P}^d$. Supermodularity implies that $d(p, p\vee q) = H(p) - H(p \vee q) \leq d(q, q \wedge p) = H(p \wedge q) - H(q)$, which seems to indicate some form of hyperbolic metric on the lattice where segments higher up are larger despite the parallel lines.} 
+    \label{fig:hyperbolic_geometry}
+\end{figure}
+
+An interpretation of these notions of distance is given in figure \ref{fig:hyperbolic_geometry}. Notably, the distance $d$ seems to induce some form of hyperbolic metric in the majorization lattice, in the sense that two segments that look identical in our geometrical representation (due to parallel lines) are not according to this notion of distance. For example, in any incomparable diamond $p, q, p \wedge q, p \vee q$ we have $d(p, p\vee q) = H(p) - H(p \vee q) \leq d(q, q \wedge p) = H(p \wedge q) - H(q)$ by supermodularity, even though when looking at the representation one would get the idea that the 2 distances are equal. In general, segments become larger the higher they are on the lattice. This intuition is helpful to understand some results of chapter \ref{chap:incomparability}. Finally, the following lemma will help us see another unusual property of this entropic distance, represented on figure \ref{fig:triangular_lemma}.
+
+\begin{lemma} (Cicalese, Gargano and Vaccaro, 2013 \cite{cicalese_information_2013}) \label{lem:comp_future} 
+    The join $p \vee q$ of two probability vectors $p, q \in \mathcal{P}^d$ saturates the triangular inequality for the entropic distance $d(p, q) = H(p) + H(q) - 2H(p \vee q)$.
+\end{lemma}
+
+\begin{proof}
+    Let $p, q \in \mathcal{P}^d$. We have
+    \begin{align}
+        d(p, p \vee q) + d(p \vee q, q) &= H(p) + H(p \vee q) - 2H(p \vee (p \vee q)) + H(p \vee q) \nonumber \\
+        &\quad \quad + H(q) - 2H((p \vee q) \vee q) \\
+        &= H(p) + H(p \vee q) - 2H(p \vee q) + H(p \vee q) + H(q) \nonumber\\
+        &\quad \quad - 2H(p \vee q) \\
+        &= H(p) + H(q) - 2H(p \vee q) \\
+        &= d(p, q),
+    \end{align}
+    where we have used associativity of successive joins to simplify the expressions. \qedhere
+\end{proof}
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[scale=0.9]
+        % draw cone of p
+        \coordinate (A) at (-1, 1.5);
+        \coordinate (B) at (2, -3);
+        \draw[dotted] [name path=A--B, color=gray] (A) -- (B);
+        \coordinate (C) at (-2,-3);
+        \coordinate (D) at (1,1.5);
+        \draw[dotted] [name path=C--D, color=gray] (C) -- (D);
+        \path [name intersections={of=A--B and C--D,by=E}];
+        \node [fill=black,inner sep=1pt,label=90:$p$] at (E) {};
+        % draw cone of q
+        \coordinate (F) at (0.944,1.5);
+        \coordinate (G) at (3.833, -3);
+        \draw[dotted] [name path=F--G, color=gray] (F) -- (G);
+        \coordinate (H) at (1.166,-3);
+        \coordinate (I) at (3.966,1.5);
+        \draw[dotted] [name path=H--I, color=gray] (H) -- (I);
+        \path [name intersections={of=F--G and H--I,by=J}];
+        \node [fill=black,inner sep=1pt,label=45:$q$] at (J) {};
+        %intersections of the 2 cones
+        %\path [name intersections={of=F--G and C--D,by=K}];
+        \path [name intersections={of=H--I and A--B,by=L}];
+        %\node [fill=black,inner sep=2pt,label=0:$p \wedge q$] at (K) {};
+        \node [fill=black,inner sep=1pt] at (L) {};
+        \node [inner sep=4pt, label=270:$p \vee q$] at (L) {}; % virtual point to set the label further away (otherwise the fill gets bigger too)
+        % draw the 3 distances
+        \draw [name path=E--J] (E) -- (J) node[midway, above, sloped] {$d(p, q)$};
+        \draw [name path=E--L] (E) -- (L) node[midway, below, sloped] {$d(p, p \vee q)$};
+        \draw [name path=L--J] (L) -- (J) node[midway, below, sloped] {$d(q, p \vee q)$};
+
+    \end{tikzpicture}
+    \caption{Depiction of the saturated triangular inequality $d(p, q) = d(p, p \vee q) + d(p \vee q, q)$ from Lemma \ref{lem:comp_future} for two incomparable vectors $p, q \in \mathcal{P}^d$.}
+    \label{fig:triangular_lemma}
+\end{figure}
+
+A way to interpret this result is that the distance always \textit{goes through the join} when two vectors are incomparable, instead of measuring the "segment joining the two vectors" directly.

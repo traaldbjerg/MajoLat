@@ -27,13 +27,13 @@ Let $E$ be some incomparability function. To emphasize the asymmetrical role of 
     E(p \parallel q) \neq 0 \iff p \in \mathcal{T}_\emptyset(q). \label{eq:ideal_incomparability}
 \end{equation}
 
-Unfortunately, the second difference with usual resource monotones is that the set of comparable vectors to $q$ is not convex. Figure \ref{fig:meet_join_incomp} illustrates why this is the case: a convex mixture of a vector from $\mathcal{T}_+(q)$ and $\mathcal{T}_-(q)$ could land in $\mathcal{T}_\emptyset(q)$. % ?? check le souci enft je vois pas exactement ce qui va pas
+Unfortunately, the second difference with usual resource monotones is that the set of comparable vectors to $q$ is not convex. Figure \ref{fig:convex_mixture_incomp} illustrates why this is the case: a convex mixture of a vector from $\mathcal{T}_+(q)$ and $\mathcal{T}_-(q)$ could land in $\mathcal{T}_\emptyset(q)$. % ?? check le souci enft je vois pas exactement ce qui va pas
 This problem unfortunately prevents us from achieving a monotone obeying equation (\ref{eq:ideal_incomparability}), at least directly. However, we can define two separate notions of incomparability, one as the minimal distance to the future cone of $q$ and the other as the minimal distance to the past cone of $q$.
 
-\begin{figure}[h!] % rajouter les 4 distances sur la figure ?
+\begin{figure}[h!]
     \centering
     \begin{tikzpicture}[scale=0.9]
-        % draw cone of p
+        % draw cone of q
         \coordinate (A) at (-2,3);
         \coordinate (B) at (2, -3);
         \draw [name path=A--B] (A) -- (B);
@@ -41,37 +41,74 @@ This problem unfortunately prevents us from achieving a monotone obeying equatio
         \coordinate (D) at (2,3);
         \draw [name path=C--D] (C) -- (D);
         \path [name intersections={of=A--B and C--D,by=E}];
-        \node [fill=black,inner sep=2pt,label=0:$p$] at (E) {};
-        % draw cone of q
-        \coordinate (F) at (-0.666,3);
-        \coordinate (G) at (3.333, -3);
-        \draw [name path=F--G] (F) -- (G);
-        \coordinate (H) at (0.666,-3);
-        \coordinate (I) at (4.666,3);
-        \draw [name path=H--I] (H) -- (I);
-        \path [name intersections={of=F--G and H--I,by=J}];
-        \node [fill=black,inner sep=2pt,label=0:$q$] at (J) {};
-        %intersections of the 2 cones
-        \path [name intersections={of=F--G and C--D,by=K}];
-        \path [name intersections={of=H--I and A--B,by=L}];
-        \node [fill=black,inner sep=2pt,label=0:$p \wedge q$] at (K) {};
-        \node [fill=black,inner sep=2pt,label=0:$p \vee q$] at (L) {};
-        %fill the two cones
-        %\fill[fill=blue, opacity=0.2] (F) -- (K) -- (D) -- cycle;
-        %\node [inner sep=0pt] at ($ (F) !.3333! (K) !.3333! (D) $) {$\mathcal{T}_- (p \wedge q)$};
-        %\fill[fill=red, opacity=0.2] (H) -- (L) -- (B) -- cycle;
-        %\node [inner sep=5pt, label=-90:$\mathcal{T}_+ (p \vee q)$] at ($ (H) !.3333! (L) !.3333! (B) $) {};
-        
+        \node [fill=black,inner sep=1pt,label=0:$q$] at (E) {};
+        % define q^- and q^+
+        \coordinate (F) at (1, 2);
+        \coordinate (G) at (1, -2);
+        \node [fill=black,inner sep=1pt,label=90:$q^-$] at (F) {};
+        \node [fill=black,inner sep=1pt,label=270:$q^+$] at (G) {};
+        % draw their convex mixtures
+        \draw[dotted] [name path=F--G, color=gray] (F) -- (G);
+        % fill draw the future cone of p + notation
+        \fill[fill=red, opacity=0.2] (C) -- (E) -- (B) -- cycle;
+        \node [inner sep=0pt, label=-90:$\mathcal{T}_+ (q)$] at (0, -2) {};
+        % fill draw the past cone of p + notation
+        \fill[fill=blue, opacity=0.2] (A) -- (E) -- (D) -- cycle;
+        \node [inner sep=0pt, label=90:$\mathcal{T}_- (q)$] at (0, 2) {};
+        \node [inner sep=0pt, label=180:$\mathcal{T}_\emptyset (q)$] at (-1.5, 0) {};
+
+    
     \end{tikzpicture}
-    \caption{Depiction of incomparable vectors $p, q \in \mathcal{P}^d$, and of their meet $p \wedge q$ and join $p \vee q$ A MODIFIER.}
-    \label{fig:meet_join_incomp}
+    \caption{Depiction of the set $\mathcal{T}_+(q) \cup \mathcal{T}_-(q)$ not being convex, as there exists elements $q^+, q^-$ such that the chord joining them is not entirely contained in the set.}
+    \label{fig:convex_mixture_incomp}
 \end{figure}
-
-
 
 \subsection{Future incomparability function}
 
-Considering the previous discussion, there are 2 notions of incomparability we can define. The first will be called the notion of \textit{future incomparability}. Essentially, it is simply going to characterize how far $p$ is from the future cone of $q$. We propose the following definition, illustrated by figure FAIRE FIGURE directly on the lattice.
+Considering the previous discussion, there are 2 notions of incomparability we can define. The first will be called the notion of \textit{future incomparability}. Essentially, it is simply going to characterize how far $p$ is from the future cone of $q$. We propose the following definition for a future incomaparability function $E^+(p \parallel q)$, illustrated by figure \ref{fig:future_closest_intuition} directly on the lattice.
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[scale=0.9]
+        % draw cone of q
+        \coordinate (A) at (-2,3);
+        \coordinate (B) at (2, -3);
+        \draw [name path=A--B] (A) -- (B);
+        \coordinate (C) at (-2,-3);
+        \coordinate (D) at (2,3);
+        \draw [name path=C--D] (C) -- (D);
+        \path [name intersections={of=A--B and C--D,by=E}];
+        \node [fill=black,inner sep=1pt,label=0:$q$] at (E) {};
+        % ghost draw cone of p
+        \coordinate (F) at (0.666,3);
+        \coordinate (G) at (-3.333, -3);
+        \draw [name path=F--G, draw=none] (F) -- (G);
+        \coordinate (H) at (-0.666,-3);
+        \coordinate (I) at (-4.666,3);
+        \draw [name path=H--I, draw=none] (H) -- (I);
+        \path [name intersections={of=F--G and H--I,by=J}];
+        \node [fill=black,inner sep=1pt,label=180:$p$] at (J) {};
+        \path [name intersections={of=F--G and A--B,by=K}];
+        \path [name intersections={of=H--I and C--D,by=L}];
+        %\node [fill=black,inner sep=2pt,label=180:closest past state?] at (K) {};
+        \node [fill=black,inner sep=1.5pt,label=180:closest future state] at (L) {};
+        %\draw[dotted] [name path=J--K, color=gray] (J) -- (K);
+        \draw[dotted] [name path=J--L, color=gray] (J) -- (L) node[midway, above, sloped] {$E^+(p \parallel q)$};
+        % fill draw the future cone of p + notation
+        \fill[fill=red, opacity=0.2] (C) -- (E) -- (B) -- cycle;
+        \node [inner sep=0pt, label=-90:$\mathcal{T}_+ (q)$] at (0, -2) {};
+        % fill draw the past cone of p + notation
+        %\fill[fill=blue, opacity=0.2] (A) -- (E) -- (D) -- cycle;
+        %\node [inner sep=0pt, label=90:$\mathcal{T}_- (q)$] at (0, 2) {};
+        % fill draw the incomparable region of p mais pas hyper clair
+        %\filldraw[draw=black, fill=gray, opacity=0.2] (A) -- (E) -- (C) -- cycle;
+        %\filldraw[draw=black, fill=gray, opacity=0.2] (D) -- (E) -- (B) -- cycle;
+        %\node [inner sep=0pt, label=0:$\mathcal{T}_\emptyset (q)$] at (1.5, 0) {};
+    
+    \end{tikzpicture}
+    \caption{Depiction of the geometrical intuition behind the closest 'free state' approach.}
+    \label{fig:future_closest_intuition}
+\end{figure}
 
 \begin{definition}[Future incomparability function] \label{def:future_incomparability_monotone}
     Let $p, q \in \mathcal{P}^d$. The future incomparability $E^+(p \parallel q)$ of $p$ to $q$ is defined as
@@ -84,26 +121,7 @@ Considering the previous discussion, there are 2 notions of incomparability we c
     From the definition it is easy to see that $p \in \mathcal{T}_+(q) \iff E^+(p \parallel q) = 0$, because then the closest state to $p$ that also majorizes $q$ is simply $p$.
 \end{remark}
 
-Essentially, we are looking for the vector $s$ in $\mathcal{T}_+(q)$ which is closest to $p$ in terms of entropic distance. Intuitively, we would expect this vector to be $p \vee q$. To prove this is the case, we will first need the following lemma.
-
-\begin{lemma} (Cicalese, Gargano and Vaccaro, 2013 \cite{cicalese_information_2013}) \label{lem:comp_future} 
-    The join $p \vee q$ of two probability vectors $p, q \in \mathcal{P}^d$ saturates the triangular inequality for the entropic distance $d(p, q) = H(p) + H(q) - 2H(p \vee q)$.
-\end{lemma}
-
-\begin{proof}
-    Let $p, q \in \mathcal{P}^d$. We have
-    \begin{align}
-        d(p, p \vee q) + d(p \vee q, q) &= H(p) + H(p \vee q) - 2H(p \vee (p \vee q)) + H(p \vee q) \nonumber \\
-        &\quad \quad + H(q) - 2H((p \vee q) \vee q) \\
-        &= H(p) + H(p \vee q) - 2H(p \vee q) + H(p \vee q) + H(q) \nonumber\\
-        &\quad \quad - 2H(p \vee q) \\
-        &= H(p) + H(q) - 2H(p \vee q) \\
-        &= d(p, q),
-    \end{align}
-    where we have used associativity of successive joins to simplify the expressions. \qedhere
-\end{proof}
-
-This lemma gives us the tools to prove the first major result of this chapter, which essentially states that our geometric intuition is correct.
+Essentially, we are looking for the vector $s$ in $\mathcal{T}_+(q)$ which is closest to $p$ in terms of entropic distance. Intuitively, we would expect this vector to be $p \vee q$. Lemma \ref{lem:comp_future} gives us the tools to prove the first major result of this chapter, which essentially states that our geometric intuition is correct.
 
 \begin{theorem}
     The future incomparability of a vector $p$ to another vector $q$ is the entropic distance from $p$ to their join. Formally,
@@ -148,7 +166,50 @@ Essentially, this theorem simply states that our geometric intution concerning m
 
 \subsection{Past incomparability function}
 
-One could attempt the same definition for a \textit{past incomparability} function of $p$ to $q$ as being the minimal distance from $p$ to the past cone of $q$, $\mathcal{T}_-(q)$. However, using the same entropic distance does not yield properties as nice as we had with the join. A simple interpretation of this would be the hyperbolic geometry induced by our entropic distance, which complicates any attempts at working with the meet. Instead, we tried working with the entropic quasidistance $d'(p, q) = 2H(p \wedge q) - H(p) - H(q)$ as introduced in definition \ref{def:entropic_quasidistance}. We propose the following definition.
+One could attempt the same definition for a \textit{past incomparability} function of $p$ to $q$ as being the minimal distance from $p$ to the past cone of $q$, $\mathcal{T}_-(q)$. However, using the same entropic distance does not yield properties as nice as we had with the join. A simple interpretation of this would be the hyperbolic geometry induced by our entropic distance, which complicates any attempts at working with the meet. Instead, we worked with the entropic quasidistance $d'(p, q) = 2H(p \wedge q) - H(p) - H(q)$ as introduced in definition \ref{def:entropic_quasidistance}. We propose the following definition for a past incomparability function $E^-(p \parallel q)$, illustrated by figure \ref{fig:past_closest_intuition}.
+
+\begin{figure}[h!] % rajouter les 4 distances sur la figure ?
+    \centering
+    \begin{tikzpicture}[scale=0.9]
+        % draw cone of q
+        \coordinate (A) at (-2,3);
+        \coordinate (B) at (2, -3);
+        \draw [name path=A--B] (A) -- (B);
+        \coordinate (C) at (-2,-3);
+        \coordinate (D) at (2,3);
+        \draw [name path=C--D] (C) -- (D);
+        \path [name intersections={of=A--B and C--D,by=E}];
+        \node [fill=black,inner sep=1pt,label=0:$q$] at (E) {};
+        % ghost draw cone of p
+        \coordinate (F) at (0.666,3);
+        \coordinate (G) at (-3.333, -3);
+        \draw [name path=F--G, draw=none] (F) -- (G);
+        \coordinate (H) at (-0.666,-3);
+        \coordinate (I) at (-4.666,3);
+        \draw [name path=H--I, draw=none] (H) -- (I);
+        \path [name intersections={of=F--G and H--I,by=J}];
+        \node [fill=black,inner sep=1pt,label=180:$p$] at (J) {};
+        \path [name intersections={of=F--G and A--B,by=K}];
+        %\path [name intersections={of=H--I and C--D,by=L}];
+        \node [fill=black,inner sep=1.5pt,label=180:closest past state] at (K) {};
+        %\node [fill=black,inner sep=2pt,label=180:closest future state?] at (L) {};
+        \draw[dotted] [name path=J--K, color=gray] (J) -- (K) node[midway, below, sloped] {$E^-(p \parallel q)$};
+        %\draw[dotted] [name path=J--L, color=gray] (J) -- (L);
+        % fill draw the future cone of p + notation
+        %\fill[fill=red, opacity=0.2] (C) -- (E) -- (B) -- cycle;
+        %\node [inner sep=0pt, label=-90:$\mathcal{T}_+ (q)$] at (0, -2) {};
+        % fill draw the past cone of p + notation
+        \fill[fill=blue, opacity=0.2] (A) -- (E) -- (D) -- cycle;
+        \node [inner sep=0pt, label=90:$\mathcal{T}_- (q)$] at (0, 2) {};
+        % fill draw the incomparable region of p mais pas hyper clair
+        %\filldraw[draw=black, fill=gray, opacity=0.2] (A) -- (E) -- (C) -- cycle;
+        %\filldraw[draw=black, fill=gray, opacity=0.2] (D) -- (E) -- (B) -- cycle;
+        %\node [inner sep=0pt, label=0:$\mathcal{T}_\emptyset (q)$] at (1.5, 0) {};
+    
+    \end{tikzpicture}
+    \caption{Depiction of the geometrical intuition behind the closest 'free state' approach.}
+    \label{fig:past_closest_intuition}
+\end{figure}
 
 \begin{definition}[Past incomparability function]
     Let $p, q \in \mathcal{P}^d$. The past incomparability $E^-(p \parallel q)$ of $p$ to $q$ is defined as
@@ -157,7 +218,7 @@ One could attempt the same definition for a \textit{past incomparability} functi
     \end{equation}
 \end{definition}
 
-Figure FAIRE FIGURE illustrates this definition on the lattice. The same interpretation can be given, though one should be careful that we are working with a quasidistance this time around, and so geometric intuitions can be deceiving.
+The same interpretation can be given as the future incomparability function, though one should be careful that we are working with a quasidistance this time around, and so geometric intuitions can be deceiving.
 
 \begin{remark}
     From the definition it is easy to see that $p \in \mathcal{T}_-(q) \iff E^-(p \parallel q) = 0$, because then the closest state to $p$ that is also majorized by $q$ is simply $p$.
@@ -221,7 +282,54 @@ For this section, we will denote bistochastic matrices of dimension $d\times d$ 
 
 \subsection{Monotonicity under bistochastic degradation of the probe} \label{sec:p_monotonicity}
 
-Let us start with studying the future incomparability function. If we can show that $E^+(Dp \parallel q)$ is greater than $E^+(p \parallel q)$ for any bistochastic matrix $D$, then we can promote our future incomparability function $E^+$ to a monotone (under bistochastic degradation of $p$). Figure FAIRE FIGURE shows why we geometrically expect this to be the case. Moreover, this would also mean that $E^+$ can only decrease under LOCC of $p$. We will first need the following lemma.
+Let us start with studying the future incomparability function. If we can show that $E^+(Dp \parallel q)$ is greater than $E^+(p \parallel q)$ for any bistochastic matrix $D$ (implying $Dp \in \mathcal{T}_-(p)$), then we can promote our future incomparability function $E^+$ to an increasing monotone under bistochastic degradation of $p$, or alternatively to a decreasing monotone under LOCC degradation. Figure \ref{fig:future_p_monotonicity} shows why we geometrically expect this to be the case. The representation seems to indicate that the states with the lowest distance to $\mathcal{T}_+(q)$ are on the edge facing towards $q$. All of the states on the edge visually have the same distance to the cone, like $p'$. But, remembering the hyperbolic metric induced by the entropic distance (cf. section \ref{sec:entropic_distances}), we deduce that $d(p', p' \vee q) \leq d(p, p \vee q)$.
+
+\begin{figure}[h!] % rajouter les 4 distances sur la figure ?
+    \centering
+    \begin{tikzpicture}[scale=0.9]
+        % draw cone of q
+        \coordinate (A) at (0, 3);
+        \coordinate (B) at (-2,0);
+        \coordinate (C) at (2, 0);
+        \draw [name path=A--B] (A) -- (B);
+        \draw [name path=A--C] (A) -- (C);
+        \node [fill=black,inner sep=1pt,label=0:$q$] at (A) {};
+        % drawfill future cone of q
+        \fill[fill=red, opacity=0.2] (A) -- (B) -- (C) -- cycle;
+        \node [inner sep=0pt, label=-90:$\mathcal{T}_+ (q)$] at (0, 1.5) {};
+        % draw cone of p
+        \coordinate (D) at (-2, 1.5);
+        \coordinate (E) at (-4, 4.5);
+        \coordinate (F) at (0, 4.5);
+        \draw[dotted] [name path=D--E] (D) -- (E);
+        \draw[dotted] [name path=D--F] (D) -- (F);
+        \node [fill=black,inner sep=1pt,label=225:$p$] at (D) {};
+        % draw bottom right leg for p
+        \coordinate (K) at (-1, 0);
+        \draw[draw=none] [name path=D--K] (D) -- (K);
+        \path [name intersections={of=D--K and A--B, by=L}];
+        \draw[dotted] [name path=D--L, color=gray] (D) -- (L);
+        % add p' and p''
+        \coordinate (P') at (-1, 3);
+        \coordinate (P'') at (-2.5, 3.5);
+        \node [fill=black,inner sep=1pt,label=90:$p'$] at (P') {};
+        \node [fill=black,inner sep=1pt,label=145:$p''$] at (P'') {};
+        % ghost draw bottom right cone leg for p' and p''
+        \coordinate (G) at (1, 0);
+        \coordinate (H) at (-0.16666, 0);
+        \draw[draw=none] [name path=P'--G] (P') -- (G);
+        \draw[draw=none] [name path=P''--H] (P'') -- (H);
+        \path [name intersections={of=P'--G and A--B, by=I}];
+        \path [name intersections={of=P''--H and A--B, by=J}];
+        \draw[dotted] [name path=P'--I, color=gray] (P') -- (I);
+        \draw[dotted] [name path=P''--J, color=gray] (P'') -- (J);
+
+    \end{tikzpicture}
+    \caption{Depiction of the expected monotonicity in $p$ of $E^+$.}
+    \label{fig:future_p_monotonicity}
+\end{figure}
+
+\noindent In order to prove monotonicity, we will first need the following lemma.
 
 \begin{lemma} \label{lem:incomparable_diamond}
     In any incomparable diamond $p, q, p \wedge q, p \vee q$ we have $d(p, p \vee q) \leq d(q, p \wedge q)$.
@@ -281,13 +389,42 @@ This theorem is quite satisfying in the sense that it seems to indicate that our
 
 These corollaries, while not very useful per se, still hold some interpretational value, because they show that in the sense of our future incomparability monotone, some states must be more incomparable than others relatively to some set states. Corollary \ref{cor:incomparability_LOCC}, while involving some nondescript Schmidt vector $\lambda_\alpha$, essentially states it is not possible to create a state that is more incomparable to $\lambda_\alpha$ through LOCC than the original state $\lambda_\psi$. Corollary \ref{cor:incomparability_separability} is perhaps more interesting, and states that if a joint state is separable, then the joint state is more incomparable to each of the reduced states than the reduced states are to each other.
 
-One would hope that the analogue of theorem \ref{th:monotone_future_p} would hold for the measure of past incomparability $E^-$, however it does not. The following counterexample shows that a bistochastic matrix $D$ such that $E^- (Dp \parallel q) < E^- (p \parallel q)$ can exist, but also that a bistochastic matrix $D'$ such that $E^- (D'p \parallel q) > E^- (p \parallel q)$ can exist too. Let $q = (0.6, 0.4)$, $p = (0.7, 0.29, 0.01)$, $p' = p \wedge q$ and $p'' = (0.7, 0.15, 0.15)$. One can verify that $p$ majorizes both $p'$ and $p''$, yet $E^- (p \parallel q) = 0.0939$ bits, $E^- (p' \parallel q) = 0$ bits and $E^- (p'' \parallel q) = 0.171$ bits.
+One would hope that the analogue of theorem \ref{th:monotone_future_p} would hold for the measure of past incomparability $E^-$, however it does not. The following counterexample shows that a bistochastic matrix $D$ such that $E^- (Dp \parallel q) < E^- (p \parallel q)$ can exist, but also that a bistochastic matrix $D'$ such that $E^- (D'p \parallel q) > E^- (p \parallel q)$ can exist too. Let $q = (0.6, 0.4)$, $p = (0.7, 0.29, 0.01)$, $p' = p \wedge q$ and $p'' = (0.7, 0.15, 0.15)$. One can verify that $p$ majorizes both $p'$ and $p''$, yet $E^- (p \parallel q) = 0.0939$ bits, $E^- (p' \parallel q) = 0$ bits and $E^- (p'' \parallel q) = 0.171$ bits. With figure FAIRE FIGURE it is not too hard to see that this is because the hyperbolic geometry makes distance in the wrong way in this case: sticking to the right edge for $p'$ makes $E^-$ increase, whereas with $p''$ one can go straight towards the past cone of $q$, making $E^-$ decrease, and so there is no monotonicity.
 
 
 
 \subsection{Monotonicity under bistochastic degradation of the reference} \label{sec:q_monotonicity}
 
-Let us now turn our attention to bistochastic degradations of $q$, and attempt to promote our incomparability functions to monotones. Figure FAIRE FIGURE shows the monotonicity relations we expect. The proofs of these properties are simpler than for probe degradation. The proofs can be found in appendix \ref{app:q_monotonicity}. Starting with the future incomparability function, if we can show that $E^+(p \parallel Dq) < E^+(p \parallel q)$ for any bistochastic matrix $D$, then $E^+$ would be a decreasing monotone, like we expect.
+Let us now turn our attention to bistochastic degradations of $q$, and attempt to promote our incomparability functions to monotones. Figure \ref{fig:future_q_monotonicity} shows the monotonicity relations we expect. The proofs of these properties are simpler than for probe degradation, and can be found in appendix \ref{app:q_monotonicity}. Starting with the future incomparability function, if we can show that $E^+(p \parallel Dq) < E^+(p \parallel q)$ for any bistochastic matrix $D$, then $E^+$ would be a decreasing monotone, like we expect.
+
+\begin{figure}[h!] % rajouter les 4 distances sur la figure ?
+    \centering
+    \begin{tikzpicture}[scale=0.9]
+        % draw cone of q
+        \coordinate (Q) at (0, 3);
+        \coordinate (B) at (-2,0);
+        \coordinate (C) at (2, 0);
+        \draw[dotted] [name path=Q--B, color=gray] (Q) -- (B);
+        \draw[dotted] [name path=Q--C, color=gray] (Q) -- (C);
+        \node [fill=black,inner sep=1pt,label=0:$q$] at (Q) {};
+        \coordinate (E) at (-2, 6);
+        \coordinate (F) at (2, 6);
+        \draw [name path=Q--E] (Q) -- (E);
+        \draw [name path=Q--F] (Q) -- (F);
+        % draw cone of p
+        \coordinate (P) at (-4, 3);
+        \node [fill=black,inner sep=1pt,label=0:$p$] at (P) {};
+        \coordinate (D) at (-2.5, 0);
+        % add q' and q''
+        \coordinate (Q') at (1, 4.5);
+        \coordinate (Q'') at (-1, 4.5);
+        \node [fill=black,inner sep=1pt,label=0:$q'$] at (Q') {};
+        \node [fill=black,inner sep=1pt,label=70:$q''$] at (Q'') {};
+
+    \end{tikzpicture}
+    \caption{Depiction of the expected monotonicity in $q$ of $E^+$ and $E^-$.}
+    \label{fig:future_q_monotonicity}
+\end{figure}
 
 \begin{theorem} \label{th:monotone_future_q}
     There exists no bistochastic matrix $D$ such that $E^+ (p \parallel Dq) > E^+ (p \parallel q)$.
@@ -299,7 +436,7 @@ Let us turn our attention to $E^-$. This time around, the expected property for 
     There exists no bistochastic matrix $D$ such that $E^- (p \parallel Dq) < E^- (p \parallel q)$.
 \end{theorem}
 
-To conclude this section, we will simply note that theorems \ref{th:monotone_future_q} and \ref{th:monotone_past_q} have corollaries analoguous to those of theorem \ref{th:monotone_future_p}.
+To conclude this section, we will simply note that theorems \ref{th:monotone_future_q} and \ref{th:monotone_past_q} have similar corollaries to those of theorem \ref{th:monotone_future_p}.
 
 
 
