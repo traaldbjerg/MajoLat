@@ -12,7 +12,7 @@ The theory of majorization gives a framework for what it means for a probability
 
 \subsection{Definition using cumulative sums} \label{sec:cumulative}
 
-This section is based on Ref. \cite[pp. 4-10]{marshall_inequalities_2011}. Let $p$ be a probability vector, \textit{i.e.} a vector such that $p_i \geq 0$ and $\sum_{i}^{d} p_i = 1$ for a vector of dimension $d$. Let $p^\downarrow$ be the non-increasing reordering of $p$, meaning that the entries of $p^\downarrow$ are the same as those of $p$, but sorted such that $p^\downarrow_1 \geq p^\downarrow_2 \geq ... \geq p^\downarrow_d$. We will always be considering reordered vectors in this master thesis, and we will therefore denote the set of $d$-dimensional probability vectors sorted in non-increasing order $\mathcal{P}^d$. Formally, $\mathcal{P}^d = \{p \in \mathbb{R}^d | \sum_{i}^{d} p_i = 1, p_i \geq p_{i+1}\}$.
+This section is based on Ref. \cite[pp. 4--10]{marshall_inequalities_2011}. Let $p$ be a probability vector, \textit{i.e.} a vector such that $p_i \geq 0$ and $\sum_{i}^{d} p_i = 1$ for a vector of dimension $d$. Let $p^\downarrow$ be the non-increasing reordering of $p$, meaning that the entries of $p^\downarrow$ are the same as those of $p$, but sorted such that $p^\downarrow_1 \geq p^\downarrow_2 \geq ... \geq p^\downarrow_d$. We will always be considering reordered vectors in this master thesis, and we will therefore denote the set of $d$-dimensional probability vectors sorted in non-increasing order $\mathcal{P}^d$. Formally, $\mathcal{P}^d = \{p \in \mathbb{R}^d | \sum_{i}^{d} p_i = 1, p_i \geq p_{i+1}\}$.
 
 \begin{definition}[Cumulative sum] % ressemble beaucoup a ce que Serge a ecrit dans son memoire, a reformuler
     Let $p$ be a vector in $\mathcal{P}^d$. The $k^{\text{th}}$ non-increasing\footnote{We could also have defined $\mathcal{P}^d$ to be non-decreasing vectors and use non-decreasing cumulative sums $S^\uparrow_i (p)$ instead. We would get an equivalent description of majorization, the only effect being reversed inequalities in (\ref{eq:majorization}).} cumulative sum of $p$ is the sum of the $j$ biggest components of $p$, which can be written as
@@ -20,8 +20,8 @@ This section is based on Ref. \cite[pp. 4-10]{marshall_inequalities_2011}. Let $
         S^\downarrow_k (p) \coloneqq \sum_{i = 1}^{k} p^\downarrow_i,
     \end{equation}
     where $p^\downarrow_i$ is the $i^{\text{th}}$ largest entry of $p$. 
-
 \end{definition}
+
 \begin{definition}[Majorization relation] \label{def:majorization}
     Let $p, q \in \mathbb{R}^d$ be two vectors of dimension $d$. We say that $p$ is majorized by $q$, written $p \prec q$, if and only if
     \begin{equation} \label{eq:majorization}
@@ -57,7 +57,7 @@ The majorization relation creates a partial order on $\mathcal{P}^d$, meaning th
 
 \subsection{Definition using bistochastic matrices} \label{sec:bistochastic}
 
-This section is based on Ref. \cite[pp. 29-33]{marshall_inequalities_2011}. A second equivalent definition for majorization can be reached by a different intuition involving bistochastic matrices. The idea is the following: if the probability vector $q$ can be obtained by randomly mixing the components of $p$ together, then $p$ is more ordered than $q$. It turns out that this simple idea is equivalent to the definition using cumulative sums. Let us express this rigorously.
+This section is based on Ref. \cite[pp. 29--33]{marshall_inequalities_2011}. A second equivalent definition for majorization can be reached by a different intuition involving bistochastic matrices. The idea is the following: if the probability vector $q$ can be obtained by randomly mixing the components of $p$ together, then $p$ is more ordered than $q$. It turns out that this simple idea is equivalent to the definition using cumulative sums. Let us express this rigorously.
 
 \begin{definition}[Bistochastic matrix]
     A bistochastic matrix $D$ is a matrix in $\mathbb{R}^{d \times d}$ such that
@@ -109,7 +109,7 @@ Whichever picture one prefers intuitively, the fact that there is a full equival
 
 \subsection{Visualization using Lorenz curves}
 
-This section is based on Ref. \cite[pp. 5-6]{marshall_inequalities_2011}. Lorenz curves were first introduced in 1905 by economist Max Lorenz as a way to represent income inequality. By plotting the cumulative sums of two distributions, we can say that if one curve is above the other at all times, then it is more unequal (more disordered) than the second. By normalizing the distributions for total income, this graphical tool could then be used to quickly compare income inequality between different regions or countries.
+This section is based on Ref. \cite[pp. 5--6]{marshall_inequalities_2011}. Lorenz curves were first introduced in 1905 by economist Max Lorenz as a way to represent income inequality. By plotting the cumulative sums of two distributions, we can say that if one curve is above the other at all times, then it is more unequal (more disordered) than the second. By normalizing the distributions for total income, this graphical tool could then be used to quickly compare income inequality between different regions or countries.
 
 More formally, the Lorenz curve of a vector $p \in \mathbb{R}^d$ is obtained by linear interpolation between the points of the set $\{(i, S^\downarrow_i(p)) | i \in \mathbb{N}, i \leq d\}$.
 We will be using the convention that $S^\downarrow_0 (v) = 0$ for any vector $v$. A couple of examples are given in figures \ref{fig:lorenz_comparable_example} and \ref{fig:lorenz_incomparable_example}.
@@ -133,13 +133,39 @@ We will be using the convention that $S^\downarrow_0 (v) = 0$ for any vector $v$
 
 At integer abscissa $i$, we see the values of $S_i^\downarrow (v)$ for each vector $v$. At each point, we can thus compare the value of the cumulative sums of each vector, which is precisely the same as an inequality of the majorization relation \ref{eq:majorization}. From these figures, we quite quickly get the intuition that if one vector majorizes another (i.e. they are comparable), then all of the inequalities must be satisfied and the majorizer's curve must be above the majorized's curve at all points. If the two vectors are incomparable, then at least one inequality must fail, and so there must be a reversal in the largest cumulative sum, and the Lorenz curves must cross at least once.
 
+\subsection{Weak majorization}
+
+This section is based on \cite[pp. 10--15]{marshall_inequalities_2011}. It is sometimes useful to relax a bit the conditions on the majorization relation, in order to compare vectors that do not have the same sum. Two complementary notions can be defined, \textit{submajorization} and \textit{supermajorization}.
+
+\begin{definition}[Submajorization] \label{def:submajorization}
+    Let $p, q \in \mathbb{R}^d$ be two vectors of dimension $d$. We say that $p$ is submajorized by $q$, written $p \prec_w q$, if and only if
+    \begin{equation} \label{eq:submajorization}
+            S^\downarrow_k (q) \geq S^\downarrow_k (p) \quad \forall k = 1,...,d.
+    \end{equation}
+If the dimensions of the vectors do not match, one can always append zeroes to the one of lower dimension and apply the definition on the enlarged vector.
+\end{definition}
+
+\begin{definition}[Supermajorization] \label{def:supermajorization}
+    Let $p, q \in \mathbb{R}^d$ be two vectors of dimension $d$. We say that $p$ is supermajorized by $q$, written $p \prec^w q$, if and only if
+    \begin{equation} \label{eq:supermajorization}
+            S^\uparrow_k (q) \leq S^\uparrow_k (p) \quad \forall k = 1,...,d,
+    \end{equation}
+where $S^\uparrow_k(p)$ and $S^\uparrow_k (q)$ denote the $k^\text{th}$ non-decreasing cumulative sums\footnote{Notice that using the reverse ordering means that the first components of $p^\uparrow$ are the smallest components of $p$, and so the smallest components of $p$ should be greater than those of $q$ in order to be more uncertain. This is why the inequality in equation (\ref{eq:supermajorization}) is reversed.} of $p$ and $q$. If the dimensions of the vectors do not match, one can always append zeroes to the one of lower dimension and apply the definition on the enlarged vector.
+\end{definition}
+
+Essentially, these definitions are the same as majorization, but they remove the condition that $S_d(p) = S_d(q)$. This allows to compare objects that do not have the same 1-norm.
+
+FAIRE UNE PAIRE DE COURBES DE LORENZ
+
+
+
 
 
 \section{Schur-convex and Schur-concave functions}
 
 \subsection{Definition}
 
-This section is based on Ref. \cite[pp. 79-92]{marshall_inequalities_2011}. Some functions preserve the ordering defined by the majorization relation and are therefore interesting to study because a majorization relation directly implies an inequality on these functions. The following few definitions will be useful.
+This section is based on Ref. \cite[pp. 79--92]{marshall_inequalities_2011}. Some functions preserve the ordering defined by the majorization relation and are therefore interesting to study because a majorization relation directly implies an inequality on these functions. The following few definitions will be useful.
 
 \begin{definition}[Convex function]
     A function $f \in C(\mathcal{I} \to \mathbb{R})$ is convex on an interval $\mathcal{I}$ iff for all $x_1, x_2 \in \mathcal{I}$
@@ -400,7 +426,7 @@ Lemmas \ref{lem:meet} and \ref{lem:join} conclude the proof sketch for the set $
  
 \subsection{Algebraic properties of the meet and join}
 
-This section is based on Ref. \cite[pp. 39-41]{davey_introduction_2002}. In any lattice, the meet and the join can also be seen as two operations\footnote{This yields an equivalent definition of a lattice, which can be defined as a triple $\langle \mathcal{L}, \wedge, \vee \rangle$ with operations $\wedge, \vee$ acting on elements of $\mathcal{L}$. If they satisfy the properties listed above, an ordering $\sqsubseteq$ can then be derived from the triple by defining $a \sqsubseteq b \iff a \wedge b = a$.}
+This section is based on Ref. \cite[pp. 39--41]{davey_introduction_2002}. In any lattice, the meet and the join can also be seen as two operations\footnote{This yields an equivalent definition of a lattice, which can be defined as a triple $\langle \mathcal{L}, \wedge, \vee \rangle$ with operations $\wedge, \vee$ acting on elements of $\mathcal{L}$. If they satisfy the properties listed above, an ordering $\sqsubseteq$ can then be derived from the triple by defining $a \sqsubseteq b \iff a \wedge b = a$.}
 acting on elements of a set $\mathcal{L}$, which enjoy some useful properties.
 
 \begin{itemize} \label{it:meet_join_properties}

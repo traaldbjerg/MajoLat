@@ -8,13 +8,30 @@ This chapter is a direct continuation of chapter \ref{chap:incomparability}. The
 
 \subsection{Venn diagrams and the inclusion-exclusion principle}
 
-Let us remain in the 2 state context for now. Incomparability seems to enable \textit{diversity} in the set of LOCC-reachable states from $p$ and $q$. In some sense, we would expect $E^+$ to characterize how many states are only accessible from $p$, but not from $q$. The set-theoretic intuition is helpful here: we are looking to compute the volume (which is directly linked to the amount of reachable states) $V(\mathcal{T}_+(p) \backslash \mathcal{T}_+(q))$, where $V$ is some volume-like\footnote{We will touch on what this means a bit later.} set function that sends the cone of a state to a real number. For sets $A$ and $B$, set theory gives us the following expression
+Let us remain in the 2 state context for now. Incomparability seems to enable \textit{diversity} in the set of LOCC-reachable states from $p$ and $q$. In some sense, we would expect $E^+$ to characterize how many states are only accessible from $p$, but not from $q$. The set-theoretic intuition is helpful here: we are looking to compute the volume (which is directly linked to the amount of reachable states) $V(\mathcal{T}_+(p) \backslash \mathcal{T}_+(q))$, where $V$ is a measure that sends the cone of a state to a real number. For sets $A$ and $B$, set theory gives us the following expression
 
 \begin{equation} \label{eq:2_set_exclusion}
-    V(A \backslash B) = V(A) - V(A \cap B).
+    V(A \backslash B) = V(A) - V(A \cap B),
 \end{equation}
 
-The formula is easily understood with the Venn diagram on figure FAIRE FIGURE. The key insight which we will use extensively for this chapter, which to our knowledge has not been used in the litterature before, is that $\mathcal{T}_+(p) \cap \mathcal{T}_+(q) = \mathcal{T}_+(p \vee q)$ (we had briefly mentioned this relationship with figure \ref{fig:meet_join_example}). It is very important to note at this stage that while visually similar, the notation for the lattice-theoretic meet and join $\wedge$ and $\vee$ should not be confused with the notations for the set-theoretic union and intersection $\cup$ and $\cap$. With this insight, we can rewrite equation (\ref{eq:2_set_exclusion}) with $A = \mathcal{T}_+(p)$ and $B = \mathcal{T}_+(q)$ as
+\noindent which is illustrated with Venn diagrams on figure \ref{fig:venn_two}.
+
+\begin{figure}[h!] % code adapted from https://texample.net/venn-diagram/
+    \centering
+    \begin{tikzpicture}
+        \begin{scope}[even odd rule]
+            \clip (0:1.75cm) circle (2.5cm) (-5, -2.5) rectangle (5, 2.5);
+            \fill[cyan] (180:1.75cm) circle (2.5cm);
+        \end{scope}
+        \draw (180:1.75cm) circle (2.5cm) node [text=black] {$A$};
+        \draw (0:1.75cm) circle (2.5cm) node [text=black] {$B$};
+        %\draw \thirdcircle node [text=black,below right] {$C$};
+    \end{tikzpicture}
+    \caption{Venn diagram of two sets $A, B$ with non-empty intersection. $A \backslash B$ is colored in cyan.}
+    \label{fig:venn_two}
+\end{figure}
+
+The key insight which we will use extensively for this chapter, which to our knowledge has not been used in the QRT field before, is that $\mathcal{T}_+(p) \cap \mathcal{T}_+(q) = \mathcal{T}_+(p \vee q)$ (we had briefly mentioned this relationship with figure \ref{fig:meet_join_example}). It is very important to note at this stage that while visually similar, the notation for the lattice-theoretic meet and join $\wedge$ and $\vee$ should not be confused with the notations for the set-theoretic union and intersection $\cup$ and $\cap$. With this insight, we can rewrite equation (\ref{eq:2_set_exclusion}) with $A = \mathcal{T}_+(p)$ and $B = \mathcal{T}_+(q)$ as
 
 \begin{equation}
     V(\mathcal{T}_+(p) \backslash \mathcal{T}_+(q)) = V(\mathcal{T}_+(p)) - V(\mathcal{T}_+(p \vee q)).
@@ -26,10 +43,34 @@ Thankfully, it is possible to generalize this idea further. For example, for thr
     V(A \backslash (B \cup C)) = V(A) - V(A \cap B) - V(A \cap C) + V(A \cap B \cap C),
 \end{equation}
 
-which is illustrated with Venn diagrams on figure FAIRE FIGURE. The idea is essentially that when removing both $A \cap B$ and $A \cap C$ from $A$, the region $A \cap B \cap C$ gets removed twice, and we must add it back to get the correct set size. This formula can then be rewritten with $A = \mathcal{T}_+(p)$, $B = \mathcal{T}_+(q_1)$ and $C = \mathcal{T}_+(q_2)$ to compute the volume of the region that is \textit{only} LOCC-reachable from $p$, and not from the bank $\{q_1, q_2\}$. The fully general set-theoretic formula is known as the \textit{inclusion-exclusion principle}, which gives the following statement.
+\noindent which is illustrated with Venn diagrams on figure \ref{fig:venn_three}.
+
+\begin{figure}[h!] % code adapted from https://tex.stackexchange.com/questions/9681/how-to-draw-venn-diagrams-especially-complements-in-latex
+    \centering
+    \begin{tikzpicture}
+        \begin{scope}
+            \fill[cyan] \firstcircle;
+        \end{scope}
+        \begin{scope}
+            \clip \firstcircle;
+            \fill[white] \secondcircle;
+        \end{scope}
+        \begin{scope}
+            \clip \firstcircle;
+            \fill[white] \thirdcircle;
+        \end{scope}
+        \draw \firstcircle node[text=black,above] {$A$};
+        \draw \secondcircle node [text=black,below left] {$B$};
+        \draw \thirdcircle node [text=black,below right] {$C$};
+    \end{tikzpicture}
+    \caption{Venn diagram of three sets $A, B, C$ with non-empty intersections. $A \backslash (B \cup C)$ is colored in cyan.}
+    \label{fig:venn_three}
+\end{figure}
+
+The idea is essentially that when removing both $A \cap B$ and $A \cap C$ from $A$, the region $A \cap B \cap C$ gets removed twice, and we must add it back to get the correct set size. This formula can then be rewritten with $A = \mathcal{T}_+(p)$, $B = \mathcal{T}_+(q_1)$ and $C = \mathcal{T}_+(q_2)$ to compute the volume of the region that is \textit{only} LOCC-reachable from $p$, and not from the bank $\{q_1, q_2\}$. The fully general set-theoretic formula is known as the \textit{inclusion-exclusion principle}, which gives the following statement.
 
 \begin{theorem}[Inclusion-exclusion principle CITATION NEEDED] \label{th:inclusion-exclusion}
-    Let $A_i \subseteq \Omega, 0 \leq i \leq k$, and let $V$ be some volume-like set function over $\Omega$. We have the following statement
+    Let $A_i \subseteq \Omega, 0 \leq i \leq k$, and let $V$ be some volume-like set function over $\Omega$. We have
     \begin{equation}
         V\left(A_0 \backslash \left(\bigcup\limits_{i = 1}^k A_i\right)\right) = V(A_0) + \sum_{\emptyset \neq J \subseteq \{1, \dots, k\}} (-1)^{|J|} \: V\left(A_0 \bigcap\limits_{i \in J} A_i\right),
     \end{equation}
@@ -76,11 +117,11 @@ With this in mind, we postulate that Shannon entropy is itself a measure of the 
     \end{equation}
 \end{definition}
 
-While this definition and postulate may not seem too far-fetched considering the previous discussion, this essentially means that if $E^+$ satisfies volume-like behavior, then a set function $\mu_0$ which sends cones onto the entropy of their tip $p$ is a valid pre-measure of the set $\mathcal{P}^d$. In other words, the volume of a cone would be entirely determined by its tip (meaning that $\mu_0$ would be a very unusual set function). That this might be possible is not too surprising however, because existing formulae for computing the volume of convex polytopes already only use the vertices of the polytope. Moreover, algorithms to compute the location of the vertices of the majorization cone of any vector $p$ do exist, and Ref. \cite{junior_thermalcones_2022} even provides a Mathematica implementation (in the context of thermomajorization\footnote{It is interesting to note at this point that the volume of thermal cones has already been studied in Ref. \cite{junior_geometric_2022}, and that they also give an interpretation of the volume being akin to a resource. Moreover, they also propose a euclidean and Haar volume for entanglement cones. However, they studied the volume of individual cones, and thus did not attempt to characterize the volume uniquely accessible from a state. Finally, we were also interested in studying how the entropic volume might behave.} which is similar). Therefore, the volume of a majorization cone is entirely determined by its tip.
+While this definition and postulate may not seem too far-fetched considering the previous discussion, this essentially means that if $E^+$ satisfies volume-like behavior, then a set function $\mu_0$ which sends cones onto the entropy of their tip $p$ is a valid pre-measure of the set $\mathcal{P}^d$. In other words, the volume of a cone would be entirely determined by its tip (meaning that $\mu_0$ would be a very unusual set function). That this might be possible is not too surprising however, because existing formulae for computing the volume of convex polytopes already only use the vertices of the polytope \cite{braden_surveyors_1986}. Moreover, algorithms to compute the location of the vertices of the majorization cone of any vector $p$ do exist, and Ref. \cite{junior_thermalcones_2022} even provides a Mathematica implementation (in the context of thermomajorization\footnote{It is interesting to note at this point that the volume of thermal cones has already been studied in Ref. \cite{junior_geometric_2022}, and that they also give an interpretation of the volume being akin to a resource. Moreover, they also propose a euclidean and Haar volume for entanglement cones. However, they studied the volume of individual cones, and thus did not attempt to characterize the volume uniquely accessible from a state. Finally, we were also interested in studying how the entropic volume might behave.} which is similar). Therefore, the volume of a majorization cone is entirely determined by its tip.
 
 Some work did go into studying the basics of measure theory and defining a rigorous set function which would send cones onto the entropy of their tip, which would then be a valid measure for majorization cones if it could verify the properties of countable additivity and positivity on the $\sigma$-algebra generated by the majorization cones. Such a result would be very interesting, and would give new insight into the nature of entropy on the majorization lattice.
 
-For this to be possible we need our set function to work on a given collection of subsets of $\mathcal{P}^d$ of interest. We are only really interested in the measure of the cones, however a measure must be defined on a $\sigma$-algebra\footnote{Or on a semi-ring, but this did not seem relevant in our context.} CITATION NEEDED. We can generate the $\sigma$-algebra from the true collection of interest: the $\sigma$-algebra of our majorization cones contains all the possible unions, complements and intersections of cones. Intersections are easy because $\mathcal{T}_+(p) \cap \mathcal{T}_+(q) = \mathcal{T}_+(p \vee q)$ (and so the collection of cones directly forms a $\pi$-system), but unions and complements are not necessarily cones and so the naive set function which sends cones on the entropy of their tip is not directly defined for those. It is unfortunately not clear if and how one could extend the naive set function to the $\sigma$-algebra of cones. We believe that a recursive definition for an extended set function $\mu_{\text{ext}}$ sending a set $A$ to $\mu_0(A)$ if $A$ is a cone, and to $\mu_{\text{ext}}(A') +\mu_{\text{ext}}(A'') - \mu_{\text{ext}}(A' \cap A'')$ if $A$ is the union of 2 sets $A'$ and $A''$ might be enough, however proving countable additivity for such a recursive function seemed out of scope for this master thesis and was not studied further.
+For this to be possible we need our set function to work on a given collection of subsets of $\mathcal{P}^d$ of interest. We are only really interested in the measure of the cones, however a measure must be defined on a $\sigma$-algebra\footnote{Or on a semi-ring, but this did not seem relevant in our context.} CITATION NEEDED. We can generate the $\sigma$-algebra from the true collection of interest: the $\sigma$-algebra of our majorization cones contains all the possible unions, complements and intersections of cones. Intersections are easy because $\mathcal{T}_+(p) \cap \mathcal{T}_+(q) = \mathcal{T}_+(p \vee q)$ (and so the collection of cones directly forms a $\pi$-system), but unions and complements of cones are not necessarily cones and so the naive set function which sends cones on the entropy of their tip is not directly defined for those. It is unfortunately not clear if and how one could extend the naive set function to the $\sigma$-algebra of cones. We believe that a recursive definition for an extended set function $\mu_{\text{ext}}$ sending a set $A$ to $\mu_0(A)$ if $A$ is a cone, and to $\mu_{\text{ext}}(A') +\mu_{\text{ext}}(A'') - \mu_{\text{ext}}(A' \cap A'')$ if $A$ is the union of 2 sets $A'$ and $A''$ might be enough, however proving countable additivity for such a recursive function seemed out of scope for this master thesis and was not studied further.
 
 
 

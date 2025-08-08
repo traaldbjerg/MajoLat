@@ -97,6 +97,11 @@
 
 \DeclareMathOperator{\tr}{tr}
 
+% venn diagrams
+\def\firstcircle{(90:1.75cm) circle (2.5cm)}
+\def\secondcircle{(210:1.75cm) circle (2.5cm)}
+\def\thirdcircle{(330:1.75cm) circle (2.5cm)}
+
 \newenvironment{system}%
 {\left\lbrace
 \everymath={\displaystyle}
@@ -110,12 +115,12 @@
 
 \usepackage[
 backend=biber,
-style=numeric,
 sorting=none,
 date=year,
 url=false,
 doi=false,
-isbn=false
+isbn=false,
+giveninits
 ]{biblatex}
 \addbibresource{references.bib}
 \renewenvironment{theglossary}%

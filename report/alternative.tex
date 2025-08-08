@@ -47,7 +47,7 @@ We will work with concatenated probability vectors. We will need the following d
     \begin{equation} \label{eq:beta_supermodularity}
         F(p \wedge q) + F(\beta(p, q)) \geq F(p) + F(q).
     \end{equation}
-    Let us define\footnote{Credit must be given to OpenAI's o4-mini LLM for the idea of constructing such concatenated vectors.}
+    Let us define\footnote{Credit must be given to OpenAI's o4-mini LLM for the idea of constructing such concatenated vectors. After digging, it turns out that similar techniques are used in Ref. \cite[pp. 133--136]{marshall_inequalities_2011}, where non-trivial vector constructions are also used to prove convexity results.}
     \begin{gather}
         r = p \wedge q, \; s = \beta(p, q), \\
         A = \text{concat}(p, q) \in \mathbb{R}^{2d}, \\
@@ -224,6 +224,6 @@ Theorem \ref{th:alternative_subadditivity} also implies corollaries analoguous t
 
 \section{Discussion}
 
-We have proven that properties akin to supermodularity and subadditivity hold for a broader class of functions than Shannon entropy. We found some recent examples of research using \textit{separable, piecewise-linear, concave} (SPLC) utilities (which is a subset of the class of sum-concave functions) in the theory of market equilibria in economics and algorithmic game theory \cite{vazirani_market_2011, anari_nash_2017, garg_approximating_2025}. Conjecture \ref{conj:alternative_supermodularity} and theorem \ref{th:alternative_subadditivity} might then be of interest if researchers decide to study some of their probability distributions on the majorization lattice.
+We have proven that properties akin to supermodularity and subadditivity hold for a broader class of functions than Shannon entropy. We found some recent examples of research using \textit{separable, piecewise-linear, concave} (SPLC) utilities (which is a subset of the class of sum-concave functions) in the theory of market equilibria in economics and algorithmic game theory \cite{vazirani_market_2011, anari_nash_2017}. Conjecture \ref{conj:alternative_supermodularity} and theorem \ref{th:alternative_subadditivity} might then be of interest if researchers decide to study some of their probability distributions on the majorization lattice. Some game equilibria have already been studied on lattice structures \cite{agliardi_generalization_2000}, so such a prospect might be intresting.
 
 We also believe that the concatenation technique used in this chapter might be of use to find new majorization precursors for existing entropic inequalities where other techniques have failed. For example, there is currently some interest in finding a majorization precursor for the entropic version of Bell inequalities from Ref. \cite{cerf_entropic_1997}, because such a majorization relation could enable deeper insight into Bell nonlocality.
