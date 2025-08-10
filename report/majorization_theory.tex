@@ -212,7 +212,20 @@ This property of Shannon entropy is fairly intuitive: the Shannon entropy captur
 
 \subsection{Rényi entropies}
 
+This section is based on \cite{cover_elements_2006}. A generalization of Shannon entropy is the concept of Renyi entropies, which are a class of functions that can all be used to quantify the uncertainty of a random variable.
 
+\begin{definition}[Renyi entropy] \label{def:renyi_entropies}
+    Let $p$ be a probability distribution of dimension $d$. Then, its R\'enyi entropy of order $\alpha$ is
+    \begin{equation}
+        H_\alpha(p) = \frac{1}{1 - \alpha} \log \left(\sum_i p_i^\alpha\right)
+    \end{equation}
+\end{definition}
+
+Shannon entropy is a special case of R\'enyi entropy and is obtained as the limit of $H_\alpha$ as $\alpha$ goes to 1. Other values also hold specific interpretations, but we will not go over them here.
+
+\begin{lemma}[Schur-concavity of R\'enyi entropy CITATION NEEDED]
+    All R\'enyi entropies of order $\alpha \geq 0$ are Schur-concave.    
+\end{lemma}
 
 
 
@@ -420,7 +433,7 @@ The following definition provides the smoothing algorithm to apply to $\beta(p, 
     For any $p, q \in \mathcal{P}^d$ we obtain $p \vee q$ in at most $d-1$ iterations\footnote{Smoothing a concave dent can lead to a concave dent with the following point, so there is at most $d-1$ concave dents to smoothe.} of the algorithm described in definition \ref{def:smoothing_algorithm} applied to the vector $\beta(p, q)$.
 \end{lemma}
 
-Lemmas \ref{lem:meet} and \ref{lem:join} conclude the proof sketch for the set $\mathcal{P}^d$ endowed with the majorization relation being a lattice, as we have found the lub and glb of any two vectors in $\mathcal{P}^d$. Working implementations of the join and meet algorithms in Python are available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}, which consists of a small library for majorization-related tasks such as plotting Lorenz curves or applying bistochastic matrices on probability vectors. The library can be used with QuTip which is a Python quantum information library for generating quantum state representations.
+Lemmas \ref{lem:meet} and \ref{lem:join} conclude the proof sketch for the set $\mathcal{P}^d$ endowed with the majorization relation being a lattice, as we have found the lub and glb of any two vectors in $\mathcal{P}^d$. Working implementations of the join and meet algorithms in Python are available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}, which consists of a small library for majorization-related tasks such as plotting Lorenz curves or applying bistochastic matrices on probability vectors. The library can be used with QuTip which is a Python quantum information library for generating quantum state representations \cite{lambert_qutip_2024}.
 
 
  
