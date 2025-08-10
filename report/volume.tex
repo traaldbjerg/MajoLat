@@ -221,7 +221,7 @@ The goal of a good LOCC state selection strategy is then to run out of states ca
 
 \subsection{Entropic strategy}
 
-The simplest form of LOCC state selection strategy could be to use the least entangled state that can reach $t$. This simple idea yields the following algorithm, which we use as an example.
+The simplest form of LOCC state selection strategy could be to use the least entangled state that can reach $t$. This simple idea yields the following algorithm, which we use as a benchmark.
 
 \begin{definition}[Entropic strategy]
     Let $Q$ be a bank of pre-shared entangled states, and let $t$ be a target state. The following algorithm decides which state $q \in Q$ to use to construct $t$.
@@ -279,7 +279,7 @@ We also define an additional variation, which mixes all three proposed loss func
 
 \subsection{Comparison and statistical sampling}
 
-Unfortunately, equation (\ref{eq:unique_entropy}) is computationally very demanding. Most of the time, property \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is not too large, however sometimes a target such that many states fall into $Q''$ is generated, and the unique entropy computation is costly. We would have liked to simulate LOCC state selection strategies and create a curve of the average success ratio between the volumic and the entropic strategy depending on the $\alpha$ parameter of the mixed strategy, but this was not realistic. An implementation of the LOCC state selection strategy and successive attemps (nicknamed "games") to survive against successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}. However, a small simulation of 500 games at dimensions 3 by 3 with a bank of 45 uniformly sampled states and 5 OCRs and 50 successive targets to reach shows that the volumic strategy does beat the entropic strategy by X\%.
+Unfortunately, equation (\ref{eq:unique_entropy}) is computationally very demanding. Most of the time, property \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is not too large, however sometimes a target such that many states fall into $Q''$ is generated, and the unique entropy computation is costly. We would have liked to simulate LOCC state selection strategies and create a curve of the average success ratio between the volumic and the entropic strategy depending on the $\alpha$ parameter of the mixed strategy, but this was not realistic. An implementation of the LOCC state selection strategy and successive attemps (nicknamed "games") to survive against successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}. However, a small simulation of 500 games at dimensions 3 $\times$ 3 with a bank of 45 uniformly sampled states and 5 OCRs and 50 successive targets to reach shows that the volumic strategy does beat the entropic strategy by X\%.
 
 
 

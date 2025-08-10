@@ -16,7 +16,7 @@ where $\lambda^X$ is the ordered vector of eigenvalues of the density matrix of 
     H(\lambda^{AB}) \geq H(\lambda^A) \quad \text{and} \quad H(\lambda^{AB}) \geq H(\lambda^B).
 \end{equation}
 
-These entropic inequalities\footnote{Historically, these entropic inequalities (expressed equivalently in von Neumann entropies) were known before the strengthening to a majorization relation.} are of course not as strong as the majorization relations we deduced them from, as illustrated in the example from section \ref{sec:majorization_separability_criterion}. Using the lattice, however, the entropic condition can be strengthened. The relations $\lambda^{AB} \prec \lambda^A$ and $\lambda^{AB} \prec \lambda^{B}$ mean that $\lambda^{AB}$ is majorized by both $\lambda^A$ and $\lambda^B$. By definition, the meet of $\lambda^A$ and $\lambda^B$ is the vector $\lambda^A \wedge \lambda^B$ that majorizes all the vectors that are majorized by both $\lambda^A$ and $\lambda^B$. This fact can also be restated as 
+These entropic inequalities\footnote{Historically, these entropic inequalities (expressed equivalently in von Neumann entropies) were known before the strengthening to a majorization relation \cite{cerf_negative_1997, nielsen_separable_2001}.} are of course not as strong as the majorization relations we deduced them from, as illustrated in the example from section \ref{sec:majorization_separability_criterion}. Using the lattice, however, the entropic condition can be strengthened. The relations $\lambda^{AB} \prec \lambda^A$ and $\lambda^{AB} \prec \lambda^{B}$ mean that $\lambda^{AB}$ is majorized by both $\lambda^A$ and $\lambda^B$. By definition, the meet of $\lambda^A$ and $\lambda^B$ is the vector $\lambda^A \wedge \lambda^B$ that majorizes all the vectors that are majorized by both $\lambda^A$ and $\lambda^B$. This fact can also be restated as 
 
 \begin{equation}
     \mathcal{T}_-(\lambda^A) \cap \mathcal{T}_-(\lambda^B) = \mathcal{T}_-(\lambda^A \wedge \lambda^B),
@@ -116,7 +116,7 @@ We suspect that such an interferometer might be possible, but no clear lead on d
 
 \subsection{Other criteria}
 
-The previous discussion is not unique to quantum information and separability. Any other branch of physics working with coupled majorization relations but struggling to use them in practice might benefit from constructing the equivalent of a state $\rho_{A \wedge B}$ and computing the entropy of the resulting distribution. For example, another field that deals with majorization relations is the field of quantum thermodynamics, where allowed state transformations under thermal operations are bound to thermomajorization cones (called thermal cones), analogously to entanglement cones in LOCC \cite{korzekwa_structure_2017, junior_geometric_2022}. On the flip-side, this kind of entropic criterion based on the meet could also be used as an experimental sign\footnote{Not evidence, however, as the improved entropic criterion is still weaker than the majorization relation.} of an underlying majorization relation, in cases where one suspects that there is something deeper going on than only the entropic inequalities.
+The previous discussion is not unique to quantum information and separability. Any other branch of physics working with coupled majorization relations but struggling to use them in practice might benefit from constructing the equivalent of a state $\rho_{A \wedge B}$ and computing the entropy of the resulting distribution. For example, another field that deals with majorization relations is the field of quantum thermodynamics, where allowed state transformations under thermal operations are bound to thermomajorization cones (called thermal cones), analogously to entanglement cones in LOCC \cite{junior_geometric_2022, korzekwa_structure_2017}. On the flip-side, this kind of entropic criterion based on the meet could also be used as an experimental sign\footnote{Not evidence, however, as the improved entropic criterion is still weaker than the majorization relation.} of an underlying majorization relation, in cases where one suspects that there is something deeper going on than only the entropic inequalities.
 
 
 
@@ -129,13 +129,42 @@ The improved criterion is not unique to Shannon entropy. All Rényi entropies $H
     \lambda^{AB} \prec \lambda^A \; \text{and} \; \lambda^{AB} \prec \lambda^{B} \; &\iff \; \lambda^{AB} \prec \lambda^A \wedge \lambda^B \;\\ &\implies \; H_\alpha(\lambda^{AB}) \geq H_\alpha(\lambda^A \wedge \lambda^B) \quad \forall \alpha \in \mathbb{R}^+.
 \end{align}
 
-A numerical analysis was carried out to figure out whether there exists an optimal $\alpha$ for which the improved criterion triggers the most amount of times, relative to the original criterion. This was simulated in the context of entanglement by generating random density matrices using QuTip with a specified tensor structure until the majorization criterion $\lambda^A \wedge \lambda^B \prec \lambda^{AB}$ is met. This way, 10000 strongly entangled states are generated. Then, the Rényi-entropic criterion was used on each of these strongly entangled states by iterating over the value of $\alpha$, with a step of 0.2, and each entanglement detection was recorded. The final results are shown in figures INSERER IMAGES. Finally, this process is repeated for several dimensions of interest. 
+A numerical analysis was carried out to figure out whether there exists an optimal $\alpha$ for which the improved criterion triggers the most amount of times, relative to the original criterion. This was simulated in the context of entanglement by generating random density matrices using QuTip with a specified tensor structure until the majorization criterion $\lambda^A \wedge \lambda^B \prec \lambda^{AB}$ is met. This way, 10000 strongly entangled states are generated. Then, the Rényi-entropic criterion was used on each of these strongly entangled states by iterating over the value of $\alpha$, with a step of 0.2, and each entanglement detection was recorded. Finally, this process is repeated for several dimensions of interest. An implementation of this test is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}.
 
-Computationally, the eigenvalue calculations of the operators and reduced operators become very heavy as the dimensions increase, so the largest dimensions attempted were 3 by 6 before the computation time became prohibitive. The 2 by 2 case is not shown because incomparability is not possible in two dimensions and so the meet criterion reduces to the old one.
+Computationally, the eigenvalue calculations of the operators and reduced operators become very heavy as the dimensions increase, so the largest dimensions attempted were 3 by 6 before the computation time became prohibitive. The 2 by 2 case is not shown because incomparability is not possible in two dimensions and so the meet criterion reduces to the old one. The final results are shown in figures \ref{fig:renyi_comparison}.
 
-METTRE FIGURES OU METTRE EN ANNEXE ?
+\begin{figure}[ht] 
+  \begin{subfigure}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/renyi_comparison_2_3_30_0.2.png} 
+    \caption{Entanglement detection ratios as a function of $\alpha$ for dimensions 2 $\times$ 3.} 
+    \label{fig:renyi_2x3} 
+    \vspace{2ex}
+  \end{subfigure}%% 
+  \begin{subfigure}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/renyi_comparison_3_3_30_0.2.png} 
+    \caption{Entanglement detection ratios as a function of $\alpha$ for dimensions 3 $\times$ 3.} 
+    \label{fig:renyi_3x3} 
+    \vspace{2ex}
+  \end{subfigure} 
+  \begin{subfigure}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/renyi_comparison_3_4_30_0.2.png} 
+    \caption{Entanglement detection ratios as a function of $\alpha$ for dimensions 3 $\times$ 4.} 
+    \label{fig:renyi_3x4} 
+  \end{subfigure}%%
+  \begin{subfigure}[b]{0.5\linewidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/renyi_comparison_3_6_30_0.2.png} 
+    \caption{Entanglement detection ratios as a function of $\alpha$ for dimensions 3 $\times$ 6.} 
+    \label{fig:renyi_3x6} 
+  \end{subfigure} 
+  \caption{Illustration of various images}
+  \label{fig:renyi_comparison} 
+\end{figure}
 
 
 \subsection{Discussion}
 
-Interestingly, the Rényi simulation shows that there does seem to be an optimum $\alpha$. Moreover, it seems to be dimension dependent. Perhaps this hints at some deeper connection between Rényi entropy and majorization, but this research avenue was not explored furter. It is also interesting to note that the improved criterion does not seem to show significant improvements according to the simulation. This might be because of a non-uniform density of quantum states in the $\Delta_{d-1}$ simplex, which might lead to a significant number of random density matrices being drawn close to the bottom of the lattice where the 2 criteria can tell entanglement. Perhas, instead this might be due to reduced states of a density matrix not tending to be too imcomparable from each other, and thus being close to their meet\footnote{This is explained in section \ref{sec:p_monotonicity} with corollary \ref{cor:incomparability_separability}.}. This final idea leads nicely into chapter \ref{chap:incomparability}, where we define and study new objects quantifying the incomparability between probability vectors.
+Interestingly, the Rényi simulation shows that there does seem to be an optimum $\alpha$. Moreover, it seems to be dimension dependent, with a clear optimum in dimension 3 $\times$ 3. Perhaps this hints at some deeper connection between Rényi entropy and majorization, but this research avenue was not explored furter. It is also interesting to note that the improved criterion does not seem to show significant improvements according to the simulation. This might be because of a non-uniform density of quantum states in the $\Delta_{d-1}$ simplex, which might lead to a significant number of random density matrices being drawn close to the bottom of the lattice where the 2 criteria can tell entanglement. Perhas, instead this might be due to reduced states of a density matrix not tending to be too imcomparable from each other, and thus being close to their meet\footnote{This is explained in section \ref{sec:p_monotonicity} with corollary \ref{cor:incomparability_separability}.}. This final idea leads nicely into chapter \ref{chap:incomparability}, where we define and study new objects quantifying the incomparability between probability vectors.

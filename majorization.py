@@ -330,7 +330,6 @@ def construct_concatenated(p, q): # hypothesis test for the alternative supermod
 
 
 
-
 # display tools
 def plot_lorenz_curves(*prob_vectors, labels=None, colors=None, markers=None, title="Lorenz Curves",
                        linestyles=None, figsize=(6,6)):

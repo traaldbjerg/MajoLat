@@ -7,12 +7,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from pathlib import Path
 
-def random_mixed_state(dim, dims=None):
-    """
-    Generates a random density matrix (mixed state) in the given dimension.
-    """
-    return q.rand_dm(dim, dims=dims)
-
+# functions needed for the test (except the first one)
 def random_separable_mixed_state(dim1, dim2, num_terms=5):
     """
     Generate a random separable mixed state in the tensor product space of dim1 x dim2.
@@ -33,8 +28,8 @@ def random_separable_mixed_state(dim1, dim2, num_terms=5):
 
     for _ in range(num_terms):
         # Random mixed state for system 1 and system 2
-        rho1 = random_mixed_state(dim1)
-        rho2 = random_mixed_state(dim2)
+        rho1 = q.rand_dm(dim1)
+        rho2 = q.rand_dm(dim2)
         
         # Tensor product of mixed states
         product_state = q.tensor(rho1, rho2)
@@ -77,7 +72,6 @@ def random_strongly_entangled_state(dim1, dim2, entropic=False):
             meet = a + b
 
     return state
-
 
 def compare_renyi_criteria(num_states=10000, dim1=2, dim2=2, max_alpha=10, alpha_step=0.1): # see section 4.1.3
     Path.mkdir(Path("results"), exist_ok=True)
@@ -129,78 +123,12 @@ def compare_renyi_criteria(num_states=10000, dim1=2, dim2=2, max_alpha=10, alpha
         #plt.show()
 
 
-def LOCC_target_game(dims, bank, alpha=0, beta=1, targets=[]): # see definition 6.5
-    successes = 0
-    if targets == []:
-        targets = [mj.ProbVector(np.random.dirichlet(np.ones(dims)))]
-        #print(target_list)
-        endless = True
-    else:
-        endless = False
-    while targets != []:
-        # step 1 of algo -- eliminate all non-majorized states
-        #print(1)
-        can_reach = [] # index list
-        for i in range(len(bank)):
-            if bank[i] < targets[-1]:
-                can_reach.append(i)
-        if can_reach == []:
-            break # game is over if target non-reachable
-        #print(can_reach)
-        # step 2 of algo -- eliminate all non-minimal states and copies of minimal states
-        #print(2)
-        index_record = [] # keep track of all majorized states to remove them
-        for i in range(1,len(can_reach)):
-            for j in range(i-1): # avoid comparing index i to index i or we would delete all states
-                if bank[can_reach[i]] < bank[can_reach[j]]:
-                    index_record.append(i) # jth state majorizes and so is below on the lattice
-                elif bank[can_reach[i]] > bank[can_reach[j]]: # if several copies of same state, elif only removes the last of the comparison -> only one is left in the final bank
-                    index_record.append(j)
-        index_record = sorted(set(index_record), reverse=True) # removes duplicates indexes and reverse order to avoid indexerror on pops
-        lowest_reach = can_reach # index list too
-        for i in index_record:
-            lowest_reach.pop(i)
-        #print(lowest_reach)
-        # step 3 of algo -- compute weighted loss function
-        #print(3)
-        a = []
-        b = []
-        c = []
-        for i in range(len(lowest_reach)):
-            if beta == 0: # save on computation time
-                a.append(alpha * mj.entropy(bank[lowest_reach[i]])) # loss function
-            else: # entropy is not that heavy computationally so whatever
-                a.append(alpha * mj.entropy(bank[lowest_reach[i]]) + beta * mj.unique_entropy(bank[lowest_reach[i]], [bank[_] for _ in lowest_reach if _ != lowest_reach[i]])) # loss function
-            b.append(0)
-            for j in range(len(can_reach)): # redundancy factor
-                if bank[can_reach[j]] < bank[lowest_reach[i]]:
-                    b[i] += 1
-            c.append(a[i]/b[i]) # weighted loss function
-        # step 4 -- construct target if possible
-        #print(4)
-        index_min = np.argmin(c) # find index of least valuable state
-        bank.pop(lowest_reach[index_min]) # pop the state used to construct the target
-        targets.pop() # pop the last target
-        if endless:
-            targets = [mj.ProbVector(np.random.dirichlet(np.ones(dims)))]
-        successes += 1
-
-    return successes
-
-def generate_bank(dims, total, ocr=0, distribution=None):
-    if distribution == None:
-        distribution = np.ones(dims) # sample uniformly
-    b = []
-    for i in range(total - ocr): # number of normal states
-        b.append(mj.ProbVector(np.random.dirichlet(distribution)))
-    for _ in range(ocr): # number of jokers
-        b.append(mj.ProbVector([1/dims for _ in range(dims)]))
-    return b
-
-def generate_targets(dims, total, distribution=None):
-    if distribution == None:
-        distribution = np.ones(dims) # sample uniformly
-    t = []
-    for i in range(total): # number of normal states
-        t.append(mj.ProbVector(np.random.dirichlet(distribution)))
-    return t
+# execution
+if __name__ == "__main__":
+    #dimension_list = [(2, 2), (2, 3), (3, 3), (3, 4), (3, 5), (3, 6)]#, (4, 4), (4, 6), (4, 8)] # dimensions to test, eigenvalue calculations quickly become expensive
+    dimension_list = [(4, 4)]
+    num_states = 1000
+    max_alpha = 30
+    alpha_step = 0.2
+    for dims in dimension_list: # loop over dimensions of interest
+        compare_renyi_criteria(num_states, dims[0], dims[1], max_alpha=max_alpha, alpha_step=alpha_step)
