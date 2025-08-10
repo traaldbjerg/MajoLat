@@ -16,7 +16,7 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         norm_1 = np.linalg.norm(probs, ord=1)
         for i in range(len(probs)):
             if probs[i] < 0:
-                if probs[i] > -ProbVector.tolerance: # might mess with fringe cases which might be interesting :(
+                if probs[i] > -ProbVector.tolerance: # might mess with fringe cases
                     probs[i] = 0
                 else:
                     raise ValueError("Probabilities must be nonnegative")
@@ -146,7 +146,7 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
     
  
     
-class BistochMatrix(): # useful for degrading 2 vectors with the same bistochastic matrix and seeing what happens
+class BistochMatrix(): # useful for degrading 2 vectors with the same bistochastic matrix
     
     __slots__ = ('array', 'dims')
      
@@ -191,8 +191,7 @@ class BistochMatrix(): # useful for degrading 2 vectors with the same bistochast
         return self.array
     
     def isBistochastic(self):
-        #return np.all(np.sum(self.array, axis=0) == 1) and np.all(np.sum(self.array, axis=1) == 1)
-        return True # for now, probably need to implement a tolerance
+        return np.all(1 - 1e-12 <= np.sum(self.array, axis=0) <= 1 + 1e-12) and np.all(1 - 1e-12 <= np.sum(self.array, axis=1) <= 1 + 1e-12) # tolerances
         
     def __mul__(self, other):
         if isinstance(other, BistochMatrix):
@@ -248,7 +247,7 @@ def d(p,q): # as defined in Cicalese and Vaccaro 2013
     return entropy(p) + entropy(q) - 2*entropy(p * q)
 
 def d_prime(p, q):
-    return 2 * entropy(p + q) - entropy(p) - entropy(q) # quasi-distance going trough the meet instead of the join
+    return 2 * entropy(p + q) - entropy(p) - entropy(q) # quasi-distance going through the meet instead of the join
 
 def D(p, q): # as defined in Cicalese and Vaccaro 2013
     n = max(len(p), len(q))
@@ -260,24 +259,29 @@ def S(p, q, alpha = 1): # basically just supermodularity but with renyi entropie
 def d_subadd(p, q, alpha = 1):
     return - renyi_entropy(p + q, alpha) + renyi_entropy(p, alpha) + renyi_entropy(q, alpha)
 
-def E_plus(p, q): # see theorem 2
+def E_past(p, q): # see theorem 2, E^- in the text
     return d_prime(p, p + q)
 
-def E_minus(p, q): # see theorem 1
+def E_future(p, q): # see theorem 1, E^+ in the text
     return d(p, p * q)
 
-def E_t(p, q):
-    return E_plus(p, q) - E_minus(p, q)
+def F(p, q):
+    return E_future(p, q) - E_past(p, q)
+
+def G(p, q):
+    return E_future(p, q) * E_past(p, q)
+
+
 
 def remove_majorized(bank): # remove states that add nothing but unnecessary terms in the sums for majorization cone calculations
     b = bank
     index_record = []
     for i in range(1,len(b)):
         for j in range(i-1): # avoid comparing index i to index i or we would delete all states
-            if b[i] > b[j]:
-                index_record.append(i) # ith state majorizes and so is below on the lattice
-            elif b[i] < b[j]:
-                index_record.append(j)
+            if b[i] < b[j]:
+                index_record.append(j) # jth state majorizes and so is below on the lattice
+            elif b[i] > b[j]: # if several copies of same state, elif only removes one of the pair -> only one is left in the final bank
+                index_record.append(i)
     index_record = sorted(set(index_record), reverse=True) # removes duplicates indexes and reverse order to avoid indexerror on pops
     for i in index_record:
         #print(i)
@@ -293,15 +297,15 @@ def unique_entropy(p, bank, reduce=True): # unique accessible future volume from
         b = remove_majorized(bank)
     else: # mostly debug purposes
         b = bank
-    for i in range(len(b)): # number of combinations
+    for i in range(len(b)): # inefficient, should be optimized (reuse previous joins instead of computing them from scratch every single time ?)
         for combination in itertools.combinations(b, i + 1): # generate all the combinations of length i+1 (0-indexing)
-            joined_state = combination[0] # initialization
+            joined_state = combination[0]
             for state in combination: # generate the joined_state
                 joined_state = joined_state * state
             entropy_sum += ((-1) ** (i+1)) * entropy(p * joined_state)
     return entropy_sum
 
-def construct_concatenated(p, q): # hypothesis test for the alternative supermodularity proof
+def construct_concatenated(p, q): # hypothesis test for the alternative supermodularity/subadditivity proof
     b = np.array([]) # coefficients of beta(p, q) in the text
     p_copy = p
     q_copy = q
@@ -323,6 +327,8 @@ def construct_concatenated(p, q): # hypothesis test for the alternative supermod
     A = ProbVector(np.hstack([p.getArray(), q.getArray()]), normalize=False) # sum is 2
     B = ProbVector(np.hstack([(p+q).getArray(), b]), normalize=False) # b is already only an array
     return A, B
+
+
 
 
 # display tools

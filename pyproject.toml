@@ -3,9 +3,9 @@ name = "memo"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
-    "alive-progress>=3.2.0",
-    "matplotlib>=3.10.1",
-    "qutip>=5.1.1",
+    "tqdm>=4.66.2",
+    "matplotlib>=3.6.3",
+    "qutip==4.7.6",
 ]

@@ -4,7 +4,7 @@
 import majorization as mj
 import numpy as np
 import matplotlib
-from alive_progress import alive_bar
+from tqdm import tqdm
 import itertools
 
 #matplotlib.use('TkAgg')
@@ -19,34 +19,32 @@ bank_size = 5
 hypothesis = True
 
 def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, bank_size=4, hypothesis=True):
-    with alive_bar(tries, title="Testing hypothesis", calibrate=100) as bar:
-        record = 0
-        for _ in range(tries):
-            p = mj.ProbVector(np.random.rand(dimensions))
-            bank = generate_bank(bank_size, dimensions)
-            unique_volume = mj.unique_entropy(p, bank)
-            D = mj.BistochMatrix(dims=dimensions)
-            degraded_bank = bank
-            degraded_bank[0] = D * degraded_bank[0] # order of states in bank does not matter so no need to randomize the index
-            #upgraded_unique_volume = mj.unique_entropy(D*p, bank) # should be larger
-            degraded_unique_volume = mj.unique_entropy(p, degraded_bank) # should be smaller
-            if unique_volume < degraded_unique_volume - 1e-12:
-                hypothesis = False
-                print(unique_volume)
-                print(degraded_unique_volume)
-                print(bank[0])
-                print(degraded_bank[0])
-                for state in bank:
-                    print(state)
-                break
-            bar()
+    record = 0
+    for _ in tqdm(range(tries), desc="Testing hypothesis"):
+        p = mj.ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
+        bank = generate_bank(bank_size, dimensions)
+        unique_volume = mj.unique_entropy(p, bank)
+        D = mj.BistochMatrix(dims=dimensions)
+        degraded_bank = bank
+        degraded_bank[0] = D * degraded_bank[0] # order of states in bank does not matter so no need to randomize the index
+        #upgraded_unique_volume = mj.unique_entropy(D*p, bank) # should be larger
+        degraded_unique_volume = mj.unique_entropy(p, degraded_bank) # should be smaller
+        if unique_volume < degraded_unique_volume - 1e-12:
+            hypothesis = False
+            print(unique_volume)
+            print(degraded_unique_volume)
+            print(bank[0])
+            print(degraded_bank[0])
+            for state in bank:
+                print(state)
+            break
     #print(record)
     return hypothesis, comp
 
 def generate_bank(bank_size, dimensions):
     bank = []
     for _ in range(bank_size): # fill the bank
-        q = mj.ProbVector(np.random.rand(dimensions))
+        q = mj.ProbVector(np.random.dirichlet(np.ones(dimensions)))
         bank.append(q)
     return bank
 
@@ -76,8 +74,8 @@ def generate_bank(bank_size, dimensions):
 #                       figsize=(6, 4))
 
 
-hypothesis, comp = generate_attempts(dimensions=dimensions, tries=tries, ratio=ratio, comp=comp, bank_size=bank_size, hypothesis=hypothesis)
+#hypothesis, comp = generate_attempts(dimensions=dimensions, tries=tries, ratio=ratio, comp=comp, bank_size=bank_size, hypothesis=hypothesis)
 
-print(hypothesis)
+#print(hypothesis)
 #print(comp)
 

@@ -205,3 +205,4 @@ cython_debug/
 
 #custom files
 scratch.py
+results/
