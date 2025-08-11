@@ -382,7 +382,7 @@ be shown that $\text{SEP}(\mathcal{H}) \reach{\text{LOCC}} \text{SEP}(\mathcal{H
 
 
 
-\subsection{Deterministic entanglement transformations} \label{sec:nielsen}
+\subsection{Majorization criterion for deterministic transformations} \label{sec:nielsen}
 
 This section is based on Ref. \cite{nielsen_conditions_1999}. We now know that the theory of entanglement with the mapping LOCC yields a QRT, and so entanglement can be seen as a resource. Thankfully additional results exist giving the conditions under which a state is reachable from another (without having to try every possible LOCC map until one works).
 
@@ -452,11 +452,13 @@ Figure \ref{fig:nielsen_cones_example} shows the geometric illustration of entan
 
 Moreover, the convention of representing the lattice with increasing entropy towards the top makes more sense now that the notion of entanglement monotone has been defined, as more resourceful states are therefore drawn at the top. Separable states are at the very bottom of the lattice and can always be reached from any state of the theory. Thinking in terms of cones is quite useful 
 
+As a final remark, it is important to note that from now on, we will mostly work with probability distributions and their entropic properties on the lattice. We will not explicitly remind it each time, however to bring ourselves back to the quantum case, it suffices to plug a Schmidt vector $\lambda$ into distributions $p$ and $q$.
+
 % ecrire un protocole explicite ?
 
 
 
-\subsection{Probabilistic entanglement transformations} \label{sec:vidal}
+\subsection{Supermajorization criterion for probabilistic transformations} \label{sec:vidal}
 
 This section is based on Refs. \cite{vidal_entanglement_1999} and \cite{nielsen_majorization_2001}. Until now, only deterministic entanglement transformations have been discussed, i.e. transformations that succeed with probability one. However, a more general notion of entanglement transformations is the class of \textit{probabilistic} entanglement transformations. In the context of LOCC, we will denote the class of LOCC transformations that succeed with probability $p$ by LOCC$_p$. As such, the class of deterministic LOCC transformations we have discussed until now is simply LOCC$_1$. Probabilistic transformations are powerful, because they can break the majorization condition of theorem \ref{th:nielsen}, and so such transformations can sometimes gain entanglement, even though the operations in themselves are not nonlocal in nature. While this may seem strange, the key lies in the word \textit{sometimes}: such a protocol has probability $p$ of succeeding, but when it fails with probability $1-p$, the resulting state is less entangled, and \textit{on average} the amount of entanglement is (at most) preserved. The following theorem gives the success probability with which a state can be transformed into another.
 
@@ -487,8 +489,3 @@ This section is based on Refs. \cite{vidal_entanglement_1999} and \cite{nielsen_
 %    \end{equation}
 %    where the sum runs from $k$ to $d$. As such, $E_{k+1}(\lambda_\psi) \leq E_k(\lambda_\psi) \; \forall \lambda_\psi \in \mathcal{P}^d$. 
 %\end{definition}
-
-
-
-\subsection{Entanglement distillation and Optimal Common Resource} \label{sec:OCR}
-

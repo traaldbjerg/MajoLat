@@ -1,10 +1,10 @@
-\chapter{Entropic volume of majorization cones} \label{chap:volume}
+\chapter{Quantification of incomparability for sets of states} \label{chap:volume}
 
 This chapter is a direct continuation of chapter \ref{chap:incomparability}. The question that this chapter tried to answer is the following: how can we generalize the notion of incomparability function of a probe state, relative to a \textit{set of reference states} ? For the rest of this master thesis, we will call this set of reference states the \textit{bank}. We will also focus on LOCC-reachability, which are confined to the $\mathcal{T}_+$ sets, and will only discuss the generalization of $E^+$. We did not attempt it, but we believe that reversing the whole discussion of this chapter is also possible for other theories such as quantum thermodynamics, which work with the $\mathcal{T}_-$ sets instead, on the condition to work with a negentropy-based $E^-$.
 
 
 
-\section{Entropic volume}
+\section{Entropic volume of majorization cones}
 
 \subsection{Venn diagrams and the inclusion-exclusion principle}
 
@@ -20,11 +20,11 @@ Let us remain in the 2 state context for now. Incomparability seems to enable \t
     \centering
     \begin{tikzpicture}
         \begin{scope}[even odd rule]
-            \clip (0:1.75cm) circle (2.5cm) (-5, -2.5) rectangle (5, 2.5);
-            \fill[cyan] (180:1.75cm) circle (2.5cm);
+            \clip (0:1cm) circle (1.5cm) (-5, -1.5) rectangle (5, 1.5);
+            \fill[cyan] (180:1cm) circle (1.5cm);
         \end{scope}
-        \draw (180:1.75cm) circle (2.5cm) node [text=black] {$A$};
-        \draw (0:1.75cm) circle (2.5cm) node [text=black] {$B$};
+        \draw (180:1cm) circle (1.5cm) node [text=black] {$A$};
+        \draw (0:1cm) circle (1.5cm) node [text=black] {$B$};
         %\draw \thirdcircle node [text=black,below right] {$C$};
     \end{tikzpicture}
     \caption{Venn diagram of two sets $A, B$ with non-empty intersection. $A \backslash B$ is colored in cyan.}
@@ -178,7 +178,7 @@ TRAVAILLER SUR PREUVES DE 5 6 7
 
 
 
-\subsection{New intuition for supermodularity from entropic volumes}
+\subsection{New intuition for supermodularity from entropic volumes} \label{sec:supermodularity_intuition}
 
 If one could rigorously prove that an entropy-based set function would give a true measure on the $\sigma$-algebra of majorization cones, then one would immediately have a new proof of supermodularity of Shannon entropy. This is because any measure $\mu$ is monotone (similiar to resource monotonicity), in the sense that for any 2 sets $A, B$, if $A \subseteq B$, then $\mu(A) \leq \mu(B)$. Consider now figure FAIRE FIGURE. It is easy to see that we have
 
@@ -236,7 +236,7 @@ This simple strategy essentially uses up the least resourceful state each time. 
 
 
 
-\subsection{Volumic strategies}
+\subsection{Volumic strategy}
 
 Let us now turn to the main application of $E^+$. A state $q_i$ with a high unique entropy relative to the rest of the bank $Q \backslash q_i$ is inherently valuable because it can reach many states that the rest of the bank can't reach. If we have no knowledge over the future targets to construct, we would want to avoid using up a state with a high $E^+$ as long as possible, because if we use it up instead of a state that has a low unique entropy, we have a higher risk that at a later step in the protocol a target would fall in the region
 $\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q \backslash q_i} \mathcal{T}_+(q_j)\right)$, which would now be unreachable. However, directly computing the unique entropy of all the states that can reach $t$ and deciding based on that alone is not sufficient. Consider figure FAIRE FIGURE AVEC LA SITUATION DONT ON A PARLE AVEC SERGE. 
@@ -255,15 +255,15 @@ Clearly, it would be a waste to use up $q_4$ or $q_5$, because they are majorize
 
 \noindent It is interesting to note at this stage that this decision algorithm is computationaly more demanding than the entropic strategy.
 
-Essentially, the parameter $b$, which we will call the \textit{redundacy factor}, is used here to take into account the number of times one can reach a region. For example, if one of the high $E^+$ states left in $Q''$ has many copies (or majorized states), then it makes sense to use it to construct the target instead of a lower $E^+$ state with few copies, because using it up makes that region of the bank significantly weaker. Other strategies might choose a different $a$, which we will call the \textit{loss function}. Moreover, the decision criterion is comparing the values of $c$, which we will call the \textit{weighted loss function}, and could also be changed in other strategies\footnote{For example, one could choose $c = \frac{a}{b^2}$, which might yield a different behavior of the strategy in some cases.}. For instance, we propose the following variation of the strategy.
+Essentially, the parameter $b$, which we will call the \textit{redundacy factor}, is used here to take into account the number of times one can reach a region. For example, if one of the high $E^+$ states left in $Q''$ has many copies (or majorized states), then it makes sense to use it to construct the target instead of a lower $E^+$ state with few copies, because using it up makes that region of the bank significantly weaker. Other strategies might choose a different $a$, which we will call the \textit{loss function}. Moreover, the decision criterion is comparing the values of $c$, which we will call the \textit{weighted loss function}, and could also be changed in other strategies\footnote{For example, one could choose $c = \frac{a}{b^2}$, which might yield a different behavior of the strategy in some cases.}.% For instance, we propose the following variation of the strategy.
 
-\begin{definition}[Euclidean volume strategy]
-    The euclidean volume strategy is the same as the unique entropy strategy (cf. definition \ref{strat:unique_entropy}), except that the loss function is replaced with $a_i = V\left(\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q'' \backslash q_i} \mathcal{T}_+(q_j)\right)\right)$ in step \ref{step:volume}. The euclidean volume can be computed using the formula
-\begin{equation}
-    V(\mathcal{T}_+(p)) = , % find gauss area formula
-\end{equation}
-and using equation (\ref{eq:LOCC_inclusion-exclusion}).
-\end{definition}
+%\begin{definition}[Euclidean volume strategy]
+%    The euclidean volume strategy is the same as the unique entropy strategy (cf. definition \ref{strat:unique_entropy}), except that the loss function is replaced with $a_i = V\left(\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q'' \backslash q_i} \mathcal{T}_+(q_j)\right)\right)$ in step \ref{step:volume}. The euclidean volume can be computed using the formula
+%\begin{equation}
+%    V(\mathcal{T}_+(p)) = , % find gauss area formula
+%\end{equation}
+%and using equation (\ref{eq:LOCC_inclusion-exclusion}).
+%\end{definition}
 
 
 
@@ -279,9 +279,12 @@ We also define an additional variation, which mixes all three proposed loss func
 
 \subsection{Comparison and statistical sampling}
 
-Unfortunately, equation (\ref{eq:unique_entropy}) is computationally very demanding. Most of the time, property \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is not too large, however sometimes a target such that many states fall into $Q''$ is generated, and the unique entropy computation is costly. We would have liked to simulate LOCC state selection strategies and create a curve of the average success ratio between the volumic and the entropic strategy depending on the $\alpha$ parameter of the mixed strategy, but this was not realistic. An implementation of the LOCC state selection strategy and successive attemps (nicknamed "games") to survive against successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}. However, a small simulation of 500 games at dimensions 3 $\times$ 3 with a bank of 45 uniformly sampled states and 5 OCRs and 50 successive targets to reach shows that the volumic strategy does beat the entropic strategy by X\%.
+Unfortunately, equation (\ref{eq:unique_entropy}) is computationally very demanding. Most of the time, property \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is not too large, however sometimes a target such that many states fall into $Q''$ is generated, and the unique entropy computation is costly. We would have liked to simulate LOCC state selection strategies and create a curve of the average success ratio between the volumic and the entropic strategy depending on the $\alpha$ parameter of the mixed strategy, but this was not realistic. An implementation of the LOCC state selection strategy and successive attemps (nicknamed "games") to survive against successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}. However, a small simulation of 500 games at dimensions 3 $\times$ 3 with a bank of 50 states (of which 45 uniformly sampled states and 5 OCRs) and 50 successive targets to reach shows that the volumic strategy does beat the entropic strategy by X\%.
 
 
 
 \section{Discussion}
 
+While the generalization of incomparability monotones to sets of states is conceptually interesting, the application to LOCC state selection strategies is unfortunately hampered by the computational complexity of such a formula. Our numerical simulations did not seem to show significant differences between the entropic strategy and the volumic strategy, which is fairly disappointing. The sampling was drawn using the uniform Dirichlet distribution, which samples probability distributions uniformly in the $\Delta_{d-1}$ simplex. Perhaps altering the $\alpha$ coefficients of the distribution in order to draw targets closer to the bottom on average might yield better results. The computation time for unique entropy might also be improved using approximation techniques for inclusion-exclusion formulae, which are famously computationally demanding.
+
+However, unique entropy being able to quantify the redundancy of a state relative to a bank is still quite interesting. We believe that many other quantities measuring redundancy could be defined from the lattice, yielding similar applications. Studying the idea of an entropic measure is also interesting, and could be another avenue of research, mostly because interesting properties of Shannon entropy might be explained or discovered this way, like we discussed with supermodularity in section \ref{sec:supermodularity_intuition}.

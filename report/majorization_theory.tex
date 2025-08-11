@@ -155,10 +155,6 @@ where $S^\uparrow_k(p)$ and $S^\uparrow_k (q)$ denote the $k^\text{th}$ non-decr
 
 Essentially, these definitions are the same as majorization, but they remove the condition that $S_d(p) = S_d(q)$. This allows to compare objects that do not have the same 1-norm.
 
-FAIRE UNE PAIRE DE COURBES DE LORENZ
-
-
-
 
 
 \section{Schur-convex and Schur-concave functions}
@@ -550,7 +546,22 @@ We will also use a quasidistance going through the meet instead of the join.
     \end{equation}
 \end{definition}
 
-This notion of distance is unfortunately not as foolproof as the first one, which goes through the join. In particular, while it does satisfy symmetry and positivity, it fails the triangular inequality in some cases. For example, consider vectors TROUVER EXEMPLE. As such, one can not use it as a rigorous notion of distance, but it still has a few applications nonetheless.
+This notion of distance is unfortunately not as foolproof as the first one, which goes through the join. In particular, while it does satisfy symmetry and positivity, it fails the triangular inequality in some cases. For example, consider $p, q \in \mathcal{P}^d$. One can show that in general, $d'(p, q) \nleq d'(p, p \wedge q) + d'(p \wedge q, q)$. We have
+\begin{align}
+    d'(p, p \wedge q) + d'(p \wedge q, q) &= 2 H(p \wedge (p \vee q)) - H(p) - H(p \vee q)\nonumber \\
+                                          &\quad + 2 H((p \vee q) \wedge q) - H(p \vee q) - H(q)\\
+                                          &= 2 H(p) - H(p) - H(p \vee q)\nonumber\\
+                                          &\quad + 2 H(q) - H(p \vee q) - H(q)\\
+                                          &= H(p) + H(q) - 2 H(p \vee q).
+\end{align}
+
+This quantity can be compared to $d'(p, q) = 2 H(p \wedge q) - H(p) - H(q)$, and we have $d'(p, q) \geq d'(p, p \wedge q) + d'(p \wedge q, q)$ iff
+\begin{align}
+    2 H(p \wedge q) - H(p) - H(q) &\geq H(p) + H(q) - 2 H(p \vee q)\\
+    \iff 2 H(p \wedge q) + 2 H(p \vee q) &\geq 2 H(p) + 2 H(q),
+\end{align}
+
+which is always true by supermodularity, and so the triangular inequality always fails for incomparable $p$ and $q$, and is saturated otherwise. As such, one can not use it as a rigorous notion of distance, but it still has a few applications nonetheless.
 
 \begin{figure}[h!]
     \centering

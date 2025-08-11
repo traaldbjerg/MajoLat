@@ -125,8 +125,8 @@ def compare_renyi_criteria(num_states=10000, dim1=2, dim2=2, max_alpha=10, alpha
 
 # execution
 if __name__ == "__main__":
-    #dimension_list = [(2, 2), (2, 3), (3, 3), (3, 4), (3, 5), (3, 6)]#, (4, 4), (4, 6), (4, 8)] # dimensions to test, eigenvalue calculations quickly become expensive
-    dimension_list = [(4, 4)]
+    dimension_list = [(2, 2), (2, 3), (3, 3), (3, 4), (3, 5), (3, 6)]#, (4, 4), (4, 6), (4, 8)] # dimensions to test, eigenvalue calculations quickly become expensive
+    #dimension_list = [(4, 4)]
     num_states = 1000
     max_alpha = 30
     alpha_step = 0.2
