@@ -2,6 +2,9 @@ import majorization as mj
 import numpy as np
 from tqdm import tqdm
 import copy
+import csv
+from pathlib import Path
+import matplotlib.pyplot as plt
 
 # functions needed for the game
 def generate_bank(dims, total, ocr=0, distribution=None):
@@ -14,7 +17,7 @@ def generate_bank(dims, total, ocr=0, distribution=None):
         b.append(mj.ProbVector([1/dims for _ in range(dims)]))
     return b
 
-def LOCC_target_game(dims, bank, alpha=0, beta=1, targets=[]): # see definition 6.5
+def LOCC_target_game(dims, bank, alpha=0, targets=[]): # see definition 6.5
     successes = 0
     if targets == []:
         targets = [mj.ProbVector(np.random.dirichlet(np.ones(dims)))]
@@ -49,11 +52,11 @@ def LOCC_target_game(dims, bank, alpha=0, beta=1, targets=[]): # see definition 
         b = []
         c = []
         for i in range(len(lowest_reach)):
-            if beta == 0: # save on computation time
-                a.append(alpha * mj.entropy(bank[lowest_reach[i]])) # loss function
-            else: # entropy is not that heavy computationally so whatever
-                a.append(alpha * mj.entropy(bank[lowest_reach[i]]) + beta * mj.unique_entropy(bank[lowest_reach[i]], [bank[_] for _ in lowest_reach if _ != lowest_reach[i]])) # loss function
-            b.append(0)
+            if alpha == 1: # save on computation time
+                a.append(mj.entropy(bank[lowest_reach[i]])) # loss function
+            else: # entropy is not that heavy computationally so not the end of the world to include it if alpha = 0
+                a.append(alpha * mj.entropy(bank[lowest_reach[i]]) + (1 - alpha) * mj.unique_entropy(bank[lowest_reach[i]], [bank[_] for _ in lowest_reach if _ != lowest_reach[i]])) # loss function
+            b.append(1)
             for j in range(len(can_reach)): # redundancy factor
                 if bank[can_reach[j]] < bank[lowest_reach[i]]:
                     b[i] += 1
@@ -71,24 +74,55 @@ def LOCC_target_game(dims, bank, alpha=0, beta=1, targets=[]): # see definition 
 
 # execution
 if __name__ == "__main__":
-    tries = 1000
+    tries = 100000
     entropic_successes = 0
     unique_entropy_successes = 0
+    bank_size = 10
+    ocr = 1
+    dims = 4
+    skew = 2
+    target_distribution = [skew]
+    target_distribution.extend([1/skew for _ in range(dims-1)]) # skew targets toward bottom of simplex
+    #print(target_distribution)
+    step = 0.01
+    successes = np.array([0 for _ in range(int(round(1/step) + 1))], dtype=np.float64)
+    #print(successes)
 
-    for _ in tqdm(range(tries), desc="Comparing strategies"):
-        dims = 3 * 3
+    Path.mkdir(Path("results"), exist_ok=True)
+    csv_path = Path("results/locc_game_{}_{}_{}_{}_{}_{}.csv".format(tries, dims, bank_size, ocr, step, skew))
+    png_path = Path("results/locc_game_{}_{}_{}_{}_{}_{}.png".format(tries, dims, bank_size, ocr, step, skew))
 
-        bank = generate_bank(dims, 95, 5)
+    for game in tqdm(range(tries), desc="Comparing strategies"): 
+        bank = generate_bank(dims, bank_size, ocr)
+        targets = generate_bank(dims, bank_size, distribution=target_distribution)
         bank_copy = copy.deepcopy(bank)
-        targets = generate_bank(dims, 100)
         targets_copy = copy.deepcopy(targets)
-        entropic_successes = LOCC_target_game(dims, bank, alpha=1, beta=0, targets=targets) # try entropic strategy
-        # get back to the copy to revert the pops
-        bank = bank_copy
-        targets = targets_copy
-        unique_entropy_successes = LOCC_target_game(dims, bank, alpha=0, beta=1, targets=targets) # try unique entropy strategy
+        for alpha in range(int(round(1/step) + 1)):
+            successes[alpha] += LOCC_target_game(dims, bank, alpha=alpha*step, targets=targets) # try the different strategies
+            bank = copy.deepcopy(bank_copy) # revert to old state (not very clean, probably more efficient to only keep track of indices in LOCC_target_game)
+            targets = copy.deepcopy(targets_copy)
 
-    entropic_successes /= 500
-    unique_entropy_successes /= 500
-    print(entropic_successes)
-    print(unique_entropy_successes)
+    successes[:] /= tries
+    #print(successes)
+    with open(file=csv_path, mode="w") as f:
+        writer = csv.writer(f)
+        writer.writerow(successes)
+
+    # plot results
+    fig, ax = plt.subplots()
+    x = np.linspace(0, 1, int(round(1/step) + 1))
+    ax.plot(x, successes, color="blue") # plot number of only new detections
+    
+    ax.set_xlabel("Alpha")
+    ax.set_ylabel("Average number of targets constructed")
+    ax.set_title("Average number of targets constructed as a function of the strategy parameter alpha")
+    ax.legend()
+    #ax.tick_params(which='major', width=1.00, length=5)
+    #ax.tick_params(which='minor', width=0.75, length=2.5)
+    #ax.xaxis.set_major_locator(ticker.AutoLocator())
+    #ax.xaxis.set_minor_locator(ticker.AutoMinorLocator())
+    ax.grid(True)
+    ax.set_xlim(0, 1)
+    #ax.set_ylim(0, 1)
+    plt.savefig(png_path)
+    plt.show()

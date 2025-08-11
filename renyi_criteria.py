@@ -78,56 +78,56 @@ def compare_renyi_criteria(num_states=10000, dim1=2, dim2=2, max_alpha=10, alpha
     csv_path = Path("results/renyi_comparison_{}_{}_{}_{}.csv".format(dim1, dim2, max_alpha, alpha_step))
     png_path = Path("results/renyi_comparison_{}_{}_{}_{}.png".format(dim1, dim2, max_alpha, alpha_step))
 
+    
+    max_alpha = int(round(max_alpha/alpha_step))
+    results_new = np.zeros(max_alpha)
+    results_old = np.zeros(max_alpha)
+    for i in tqdm(range(num_states), desc="Comparing Renyi criteria - dims {} x {}".format(dim1, dim2)):
+        state = random_strongly_entangled_state(dim1, dim2, entropic=False) # use majorization criterion, and so all strongly entangled
+        a = mj.ProbVector(state.ptrace(0).eigenenergies())
+        b = mj.ProbVector(state.ptrace(1).eigenenergies())
+        ab = mj.ProbVector(state.eigenenergies())
+        
+        for alpha in range(max_alpha):
+            old_criterion = mj.renyi_entropy(ab, alpha*alpha_step) < max(mj.renyi_entropy(a, alpha*alpha_step), mj.renyi_entropy(b, alpha*alpha_step))
+            new_criterion = mj.renyi_entropy(ab, alpha*alpha_step) < mj.renyi_entropy(a+b, alpha*alpha_step)
+            if new_criterion: # if the new can tell it is entangled
+                results_new[alpha] += 1
+            if old_criterion: # if the old can't
+                    results_old[alpha] += 1
+    
+    results_new[:] /= num_states
+    results_old[:] /= num_states
     with open(file=csv_path, mode="w") as f:
-        max_alpha = int(round(max_alpha/alpha_step))
-        results_diff = np.zeros(max_alpha)
-        results_total = np.zeros(max_alpha)
-        for i in tqdm(range(num_states), desc="Comparing Renyi criteria - dims {} x {}".format(dim1, dim2)):
-            state = random_strongly_entangled_state(dim1, dim2, entropic=False) # use majorization criterion, and so all strongly entangled
-            a = mj.ProbVector(state.ptrace(0).eigenenergies())
-            b = mj.ProbVector(state.ptrace(1).eigenenergies())
-            ab = mj.ProbVector(state.eigenenergies())
-            
-            for alpha in range(max_alpha):
-                old_criterion = mj.renyi_entropy(ab, alpha*alpha_step) < max(mj.renyi_entropy(a, alpha*alpha_step), mj.renyi_entropy(b, alpha*alpha_step))
-                new_criterion = mj.renyi_entropy(ab, alpha*alpha_step) < mj.renyi_entropy(a+b, alpha*alpha_step)
-                if new_criterion: # if the new can tell it is entangled
-                    results_total[alpha] +=1
-                    if not old_criterion: # if the old can't
-                        results_diff[alpha] += 1
-        
-        results_diff[:] /= num_states
-        results_total[:] /= num_states
         writer = csv.writer(f)
-        writer.writerow(results_diff)
-        writer.writerow(results_total)
+        writer.writerow(results_new)
+        writer.writerow(results_old)
 
-        # plot results
-        fig, ax = plt.subplots()
-        x = np.linspace(0, max_alpha*alpha_step, max_alpha)
-        ax.plot(x, results_diff, color="blue", label="Detection ratio only by new entropic criterion") # plot number of only new detections
-        ax.plot(x, results_total, color="orange", label="Detection ratio by both entropic criteria") # plot number of only new detections
-        
-        ax.set_xlabel("Alpha")
-        ax.set_ylabel("Detection ratio")
-        ax.set_title("Entanglement detection as a function of alpha for dimensions {} x {}".format(dim1, dim2))
-        ax.legend()
-        ax.tick_params(which='major', width=1.00, length=5)
-        ax.tick_params(which='minor', width=0.75, length=2.5)
-        ax.xaxis.set_major_locator(ticker.AutoLocator())
-        ax.xaxis.set_minor_locator(ticker.AutoMinorLocator())
-        ax.grid(True)
-        ax.set_xlim(0, max_alpha*alpha_step)
-        ax.set_ylim(0, 1)
-        plt.savefig(png_path)
-        #plt.show()
+    # plot results
+    fig, ax = plt.subplots()
+    x = np.linspace(0, max_alpha*alpha_step, max_alpha)
+    ax.plot(x, results_new, color="blue", label="Detection ratio by new entropic criterion") # plot number of only new detections
+    ax.plot(x, results_old, color="orange", label="Detection ratio by old entropic criterion") # plot number of only new detections
+    
+    ax.set_xlabel("Alpha")
+    ax.set_ylabel("Detection ratio")
+    ax.set_title("Entanglement detection as a function of alpha for dimensions {} x {}".format(dim1, dim2))
+    ax.legend()
+    ax.tick_params(which='major', width=1.00, length=5)
+    ax.tick_params(which='minor', width=0.75, length=2.5)
+    ax.xaxis.set_major_locator(ticker.AutoLocator())
+    ax.xaxis.set_minor_locator(ticker.AutoMinorLocator())
+    ax.grid(True)
+    ax.set_xlim(0, max_alpha*alpha_step)
+    ax.set_ylim(0, 1)
+    plt.savefig(png_path)
+    #plt.show()
 
 
 # execution
 if __name__ == "__main__":
     dimension_list = [(2, 2), (2, 3), (3, 3), (3, 4), (3, 5), (3, 6)]#, (4, 4), (4, 6), (4, 8)] # dimensions to test, eigenvalue calculations quickly become expensive
-    #dimension_list = [(4, 4)]
-    num_states = 1000
+    num_states = 10000
     max_alpha = 30
     alpha_step = 0.2
     for dims in dimension_list: # loop over dimensions of interest
