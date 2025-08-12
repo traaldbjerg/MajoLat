@@ -1,6 +1,6 @@
 \chapter{Majorization theory} \label{chap:majorization}
 
-Notations for majorization theory mostly follow Ref. \cite{marshall_inequalities_2011}, except for the reordering convention $p^\downarrow$ (cf. section \ref{sec:cumulative}) and notations for the majorization lattice which come from Ref. \cite{cicalese_supermodularity_2002}.
+Notations and definitions for majorization theory mostly follow Ref. \cite{marshall_inequalities_2011}, except for the reordering convention $p^\downarrow$ (cf. section \ref{sec:cumulative}) and notations for the majorization lattice which come from Ref. \cite{cicalese_supermodularity_2002}.
 
 
 
@@ -15,7 +15,7 @@ The theory of majorization gives a framework for what it means for a probability
 This section is based on Ref. \cite[pp. 4--10]{marshall_inequalities_2011}. Let $p$ be a probability vector, \textit{i.e.} a vector such that $p_i \geq 0$ and $\sum_{i}^{d} p_i = 1$ for a vector of dimension $d$. Let $p^\downarrow$ be the non-increasing reordering of $p$, meaning that the entries of $p^\downarrow$ are the same as those of $p$, but sorted such that $p^\downarrow_1 \geq p^\downarrow_2 \geq ... \geq p^\downarrow_d$. We will always be considering reordered vectors in this master thesis, and we will therefore denote the set of $d$-dimensional probability vectors sorted in non-increasing order $\mathcal{P}^d$. Formally, $\mathcal{P}^d = \{p \in \mathbb{R}^d | \sum_{i}^{d} p_i = 1, p_i \geq p_{i+1}\}$.
 
 \begin{definition}[Cumulative sum] % ressemble beaucoup a ce que Serge a ecrit dans son memoire, a reformuler
-    Let $p$ be a vector in $\mathcal{P}^d$. The $k^{\text{th}}$ non-increasing\footnote{We could also have defined $\mathcal{P}^d$ to be non-decreasing vectors and use non-decreasing cumulative sums $S^\uparrow_i (p)$ instead. We would get an equivalent description of majorization, the only effect being reversed inequalities in (\ref{eq:majorization}).} cumulative sum of $p$ is the sum of the $j$ biggest components of $p$, which can be written as
+    Let $p$ be a vector in $\mathcal{P}^d$. The $k^{\text{th}}$ non-increasing\footnote{We could also have defined $\mathcal{P}^d$ to be non-decreasing vectors and use non-decreasing cumulative sums $S^\uparrow_k (p)$ instead. We would get an equivalent description of majorization, the only effect being reversed inequalities in (\ref{eq:majorization}).} cumulative sum of $p$ is the sum of the $j$ biggest components of $p$, which can be written as
     \begin{equation}
         S^\downarrow_k (p) \coloneqq \sum_{i = 1}^{k} p^\downarrow_i,
     \end{equation}
@@ -112,7 +112,7 @@ Whichever picture one prefers intuitively, the fact that there is a full equival
 This section is based on Ref. \cite[pp. 5--6]{marshall_inequalities_2011}. Lorenz curves were first introduced in 1905 by economist Max Lorenz as a way to represent income inequality. By plotting the cumulative sums of two distributions, we can say that if one curve is above the other at all times, then it is more unequal (more disordered) than the second. By normalizing the distributions for total income, this graphical tool could then be used to quickly compare income inequality between different regions or countries.
 
 More formally, the Lorenz curve of a vector $p \in \mathbb{R}^d$ is obtained by linear interpolation between the points of the set $\{(i, S^\downarrow_i(p)) | i \in \mathbb{N}, i \leq d\}$.
-We will be using the convention that $S^\downarrow_0 (v) = 0$ for any vector $v$. A couple of examples are given in figures \ref{fig:lorenz_comparable_example} and \ref{fig:lorenz_incomparable_example}.
+We will be using the convention that $S^\downarrow_0 (v) = 0$ for any vector $v$. A couple of examples are given in Figures \ref{fig:lorenz_comparable_example} and \ref{fig:lorenz_incomparable_example}.
 
 \begin{figure}[h!]
     \centering
@@ -131,7 +131,7 @@ We will be using the convention that $S^\downarrow_0 (v) = 0$ for any vector $v$
     \end{minipage}
 \end{figure}
 
-At integer abscissa $i$, we see the values of $S_i^\downarrow (v)$ for each vector $v$. At each point, we can thus compare the value of the cumulative sums of each vector, which is precisely the same as an inequality of the majorization relation \ref{eq:majorization}. From these figures, we quite quickly get the intuition that if one vector majorizes another (i.e. they are comparable), then all of the inequalities must be satisfied and the majorizer's curve must be above the majorized's curve at all points. If the two vectors are incomparable, then at least one inequality must fail, and so there must be a reversal in the largest cumulative sum, and the Lorenz curves must cross at least once.
+At integer abscissa $i$, we see the values of $S_i^\downarrow (v)$ for each vector $v$. At each point, we can thus compare the value of the cumulative sums of each vector, which is precisely the same as an inequality of the majorization relation (\ref{eq:majorization}). From these figures, we quite quickly get the intuition that if one vector majorizes another (i.e. they are comparable), then all of the inequalities must be satisfied and the majorizer's curve must be above the majorized's curve at all points. If the two vectors are incomparable, then at least one inequality must fail, and so there must be a reversal in the largest cumulative sum, and the Lorenz curves must cross at least once.
 
 \subsection{Weak majorization}
 
@@ -159,9 +159,11 @@ Essentially, these definitions are the same as majorization, but they remove the
 
 \section{Schur-convex and Schur-concave functions}
 
+ Some functions preserve the ordering defined by the majorization relation and are therefore interesting to study because a majorization relation directly implies an inequality on these functions.
+
 \subsection{Definition}
 
-This section is based on Ref. \cite[pp. 79--92]{marshall_inequalities_2011}. Some functions preserve the ordering defined by the majorization relation and are therefore interesting to study because a majorization relation directly implies an inequality on these functions. The following few definitions will be useful.
+This section is based on Ref. \cite[pp. 79--92]{marshall_inequalities_2011}. The following few definitions will be useful.
 
 \begin{definition}[Convex function]
     A function $f \in C(\mathcal{I} \to \mathbb{R})$ is convex on an interval $\mathcal{I}$ iff for all $x_1, x_2 \in \mathcal{I}$
@@ -194,7 +196,7 @@ Essentially, this inequality states that if $b = Da$ with $D$ a bistochastic mat
 \subsection{Shannon entropy} \label{sec:schur_shannon}
 
 This section is based on Refs. \cite[p. 101]{marshall_inequalities_2011} and \cite[p. 88]{cover_elements_2006}. % pas sur que citer un exercice soit hyper acceptable mdr
-The Shannon entropy function $H(p) \coloneqq - \sum_{i = 1}^{d} p_i \log p_i$ is a foundational quantity in classical information theory (cf. section \ref{sec:classical_information}). $H(p)$ essentially captures the uncertainty content of a random process distributed over a probability distribution $p$. We therefore expect it to be linked to majorization theory which gives a partial order on the uncertainty of different probability distributions. The following lemma establishes this link through Schur-concavity.
+The Shannon entropy $H(p) \coloneqq - \sum_{i = 1}^{d} p_i \log p_i$ is a foundational quantity in classical information theory (cf. section \ref{sec:classical_information}). $H(p)$ essentially captures the uncertainty content of a random process distributed over a probability distribution $p$. We therefore expect it to be linked to majorization theory which gives a partial order on the uncertainty of different probability distributions. The following lemma establishes this link through Schur-concavity.
 
 \begin{lemma}[Schur-concavity of the Shannon entropy]
     For any $p, q \in \mathcal{P}^d$,
@@ -203,14 +205,14 @@ The Shannon entropy function $H(p) \coloneqq - \sum_{i = 1}^{d} p_i \log p_i$ is
     \end{equation}
 \end{lemma}
 
-This property of Shannon entropy is fairly intuitive: the Shannon entropy captures the uncertainty content of a probability distribution, and $p \prec q$ means that $q$ is unequivocally\footnote{As opposed to incomparable distributions being more ordered than the other each in their own way.} more ordered (so more certain) than $p$, so we would expect Schur-concavity to hold. However a majorization relation is stronger than an entropic inequality, and so we should study majorization relations alongside Shannon entropy to gain a better understanding of information theory.
+This property of Shannon entropy is fairly intuitive: the Shannon entropy captures the uncertainty content of a probability distribution, and $p \prec q$ means that $q$ is unequivocally\footnote{As opposed to incomparable distributions being more ordered than the other each in their own way.} more ordered (so more certain) than $p$, so we would expect Schur-concavity to hold. However, a majorization relation is stronger than an entropic inequality, and so we should study majorization relations alongside Shannon entropy to gain a better understanding of information theory.
 % Il existe une version plus forte de ce lemme, p \succ q implique H(q) - H(p) \geq D(p^\downarrow \parallel q^\downarrow) dans \cite{ho_interplay_2010}
 
 \subsection{Rényi entropies}
 
 This section is based on \cite{cover_elements_2006}. A generalization of Shannon entropy is the concept of Renyi entropies, which are a class of functions that can all be used to quantify the uncertainty of a random variable.
 
-\begin{definition}[Renyi entropy] \label{def:renyi_entropies}
+\begin{definition}[R\'enyi entropy] \label{def:renyi_entropies}
     Let $p$ be a probability distribution of dimension $d$. Then, its R\'enyi entropy of order $\alpha$ is
     \begin{equation}
         H_\alpha(p) = \frac{1}{1 - \alpha} \log \left(\sum_i p_i^\alpha\right)
@@ -244,7 +246,7 @@ It was shown that the set $\mathcal{P}^d$ endowed with the partial ordering $\pr
 
 Let us first go through what it means for a vector to be the glb, the meet, of two vectors $p, q \in \mathcal{P}^d$. Intuitively, the glb of $p$ and $q$ in terms of majorization is the least disordered vector that is majorized by both $p$ and $q$. While this may not seem very interesting at a first glance, recall that two vectors may be incomparable, meaning that both $p \nprec q$ and $p \nsucc q$ are true. Even if they are incomparable, the subset of vectors that are majorized by both $p$ and $q$ is nonempty\footnote{It is guaranteed to at least contain the uniform distribution $(\frac{1}{d}, ..., \frac{1}{d})$ since it is majorized by every other distribution.} and has a supremum, $p \wedge q$, \textit{which majorizes every other vector in the subset}. Note that an equivalent definition of a lattice is to require that every partially ordered subset has a supremum and infimum \cite[p. 19]{marshall_inequalities_2011}. Since the two definitions are equivalent, we can consider this to be a property of the lattice, guaranteeing the existence of the supremum $p \wedge q$.
 
-In similar fashion, the lub, the join, of two vectors $p, q \in \mathcal{P}^d$ is the least ordered vector that majorizes both $p$ and $q$. The subset of vectors that majorize both $p$ and $q$ is nonempty\footnote{It is guaranteed to at least contain the certain distribution $(1, 0, ..., 0)$ since it majorizes every other distribution.} and has an infimum, $p \vee q$, \textit{which is majorized by every other vector in the subset}. Moreover, the same property as before guarantees the existence of the infimum.
+In a similar fashion, the lub, the join, of two vectors $p, q \in \mathcal{P}^d$ is the least ordered vector that majorizes both $p$ and $q$. The subset of vectors that majorize both $p$ and $q$ is nonempty\footnote{It is guaranteed to at least contain the certain distribution $(1, 0, ..., 0)$ since it majorizes every other distribution.} and has an infimum, $p \vee q$, \textit{which is majorized by every other vector in the subset}. Moreover, the same property as before guarantees the existence of the infimum.
 
 \begin{corollary} \label{cor:comp_meet_join}
     If two vectors are comparable, say $p \prec q$ (the $p \succ q$ case being symmetric), then the question becomes trivial as the least ordered vector that majorizes both $p$ and $q$ is $q$ and the least disordered vector that is majorized by both $p$ and $q$ is $p$, i.e. $p \wedge q = p$ and $p \vee q = q$.
@@ -292,7 +294,7 @@ Figure \ref{fig:maj_cones_example} shows an example of the 2D representation of 
             \node [inner sep=0pt, label=0:Entropy] at (-3, 0) {};
             
         \end{tikzpicture}
-        \caption{Depiction of the majorization cones of a nondescript vector $p \in \mathcal{P}^d$.}
+        \caption{Depiction of the majorization cones of a nondescript vector $p \in \mathcal{P}^d$. The future cone $\mathcal{T}_+(p)$ and past cone $\mathcal{T}_-(p)$ of $p$ have been shaded red and blue, respectively. The incomparable region to $p$, $\mathcal{T}_\emptyset(p)$ is shaded white. The arrow shows the direction in which $H(p)$ increases.}
         \label{fig:maj_cones_example}
     \end{minipage}
     \hfill
@@ -324,7 +326,7 @@ Figure \ref{fig:maj_cones_example} shows an example of the 2D representation of 
             \node [fill=black,inner sep=1pt,label=0:$p \vee q$] at (L) {};
             %fill the two cones
             \fill[fill=blue, opacity=0.2] (F) -- (K) -- (D) -- cycle;
-            \node [inner sep=0pt] at ($ (F) !.3333! (K) !.3333! (D) $) {$\mathcal{T}_- (p \wedge q)$};
+            \node [inner sep=8pt, label=90:$\mathcal{T}_- (p \wedge q)$] at ($ (F) !.3333! (K) !.3333! (D) $) {};
             \fill[fill=red, opacity=0.2] (H) -- (L) -- (B) -- cycle;
             \node [inner sep=5pt, label=-90:$\mathcal{T}_+ (p \vee q)$] at ($ (H) !.3333! (L) !.3333! (B) $) {};
             
@@ -647,4 +649,4 @@ An interpretation of these notions of distance is given in figure \ref{fig:hyper
     \label{fig:triangular_lemma}
 \end{figure}
 
-A way to interpret this result is that the distance always \textit{goes through the join} when two vectors are incomparable, instead of measuring the "segment joining the two vectors" directly. Again, this idea is compatible with the notion of the hyperbolic intuition given above: in any euclidean metric, saying that the middle distance is as long as the sum of the two bottom ones would be false.
+A way to interpret this result is that the distance always \textit{goes through the join} when two vectors are incomparable, instead of measuring the "segment joining the two vectors" directly. Again, this idea is compatible with the hyperbolic intuition given above: in any euclidean metric, saying that the middle distance is as long as the sum of the two bottom ones would be absurd.

@@ -60,7 +60,7 @@ def LOCC_target_game(dims, bank, alpha=0, targets=[], distribution=None): # see 
                 a.append(mj.entropy(bank[i])) # loss function
             else: # entropy is not that heavy computationally so not the end of the world to include it if alpha = 0
                 a.append(alpha * mj.entropy(bank[i]) + (1 - alpha) * mj.unique_entropy(bank[i],
-                                                                                    [bank[_] for _ in indexes if _ != i and not bank[_] < bank[i]])) # loss function
+                                                                                    [bank[_] for _ in lowest_reach if _ != i])) # loss function
             b.append(0)
             for j in can_reach: # redundancy factor
                 if bank[j] < bank[i]:
@@ -84,7 +84,7 @@ def LOCC_target_game(dims, bank, alpha=0, targets=[], distribution=None): # see 
 
 # execution
 if __name__ == "__main__":
-    tries = 100
+    tries = 300000
     entropic_successes = 0
     unique_entropy_successes = 0
     bank_size = 10

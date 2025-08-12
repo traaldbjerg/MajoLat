@@ -1,10 +1,10 @@
 \chapter{Supermodularity and subadditivity on the majorization lattice} \label{chap:alternative}
 
-This chapter proves some of the mathematical properties of Shannon entropy we will use extensively in the following chapters, and is thus of interest for the study of quantum applications of the majorization lattice.
+This chapter proves some of the mathematical properties of Shannon entropy we will use extensively in the following chapters, and is thus of interest for the study of quantum applications of the majorization lattice. In particular, we show alternative proofs of supermodularity and subadditivity, which often come up when working with entropic distances and thus appear a lot in Chapter \ref{chap:incomparability}.
 
 \section{Concatenations, sum-convex and sum-concave functions}
 
-We will work with concatenated probability vectors. We will need the following definitions for the main theorems of this section.
+We will work with concatenated probability vectors. We will need the following definitions for the main theorems of the following sections.
 
 \begin{definition}[Probability vector concatenation] \label{def:concatenation}
     Let $p, q \in \mathcal{P}^d$, then the ordered concatenation of $p$ and $q$, $\text{concat}(p, q)$, is defined as
@@ -37,7 +37,7 @@ We will work with concatenated probability vectors. We will need the following d
 \subsection{Main statement}
 
 \begin{theorem}[Supermodularity of all sum-concave functions] \label{th:alternative_supermodularity}
-    All sum-concave functions $F$ are supermodular on the majorization lattice\footnote{It is important to specify which lattice, because a different lattice means a different ordering and different meet and join operations, leading to different properties. For example, on the boolean lattice, the Shannon entropy is \textit{submodular} instead.} for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = p \vee q$ (as defined in (\ref{eq:beta})). For those vectors, we have
+    All sum-concave functions $F$ are supermodular on the majorization lattice\footnote{It is important to specify which lattice, because a different lattice means a different ordering and different meet and join operations, leading to different properties. For example, on the boolean lattice, the Shannon entropy is \textit{submodular} instead CITATION NEEDED.} for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = p \vee q$ (as defined in (\ref{eq:beta})). For those vectors, we have
     \begin{equation} \label{eq:supermodularity}
         F(p \wedge q) + F(p \vee q) \geq F(p) + F(q).
     \end{equation}
@@ -93,6 +93,8 @@ However, the above proof can be reused for a sum-convex function $f$ (because $-
     Note that if $p \sim q$, there is trivially equality. Moreover, in dimension 3, $\beta(p, q) = p \vee q$ is always true.
 \end{corollary}
 
+Another interesting corollary is that the exponential of R\'enyi entropies $2^{H_\alpha}$ can be expressed as sum-concave or sum-convex functions too (depending on the parameter $\alpha$). This is simply because $2^{H_\alpha} = 2^{\frac{1}{1-\alpha}\log \sum_{i}p_i^\alpha} = 2^{\frac{1}{1-\alpha}} \sum_{i}p_i^\alpha$, which is clearly sum-concave if $\alpha < 1$ and sum-convex if $\alpha > 1$.
+
 \begin{corollary}[Supermodularity of the exponential of $\alpha < 1$ Rényi entropies] \label{cor:renyi_leq_1}
     The exponential of Rényi entropy functions $2^{H_\alpha}$ of order $\alpha < 1$ are supermodular on the majorization lattice for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = p \vee q$, for which we have
     \begin{equation} \label{eq:supermodularity_renyi}
@@ -141,7 +143,7 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = p 
         A = \text{concat}(p, q),\\
         B = \text{concat}(\overline{\delta}_d, r),
     \end{gather}
-    where $\text{concat}(\cdot, \cdot)$ is the ordered concatenation of two vectors. We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that majorization precursor $A \prec B$ is true. Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the first entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the first entries of $r$ and $\overline{\delta}_d$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ and $S^\downarrow_0(v) = 0$ for any $d$-dimensional probability vector $v$. For all $k \leq 2d$, we have
+    where $\text{concat}(\cdot, \cdot)$ is the ordered concatenation of two vectors. We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that the majorization precursor $A \prec B$ is true. Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the first entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the first entries of $r$ and $\overline{\delta}_d$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ and $S^\downarrow_0(v) = 0$ for any $d$-dimensional probability vector $v$. For all $k \leq 2d$, we have
     \begin{gather}
         S^\downarrow_k (A) = \max_{l\leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right), \\
         S^\downarrow_k (B) = 1 + S^\downarrow_{k-1}(r).
@@ -226,7 +228,7 @@ Theorem \ref{th:alternative_subadditivity} also implies corollaries analoguous t
 
 \section{Discussion}
 
-We have proven that properties akin to supermodularity and subadditivity hold for a broader class of functions than Shannon entropy. We found some recent examples of research using \textit{separable, piecewise-linear, concave} (SPLC) utilities (which is a subset of the class of sum-concave functions) in the theory of market equilibria in economics and algorithmic game theory \cite{vazirani_market_2011, anari_nash_2017}. Conjecture \ref{conj:alternative_supermodularity} and theorem \ref{th:alternative_subadditivity} might then be of interest if researchers decide to study some of their probability distributions on the majorization lattice. Some game equilibria have already been studied on lattice structures \cite{agliardi_generalization_2000}, so such a prospect might be interesting.
+We have proven that properties akin to supermodularity and subadditivity hold for a broader class of functions than Shannon entropy. Some sum-concave functions is used in recent litterature, particularly the subset of \textit{separable, piecewise-linear, concave} (SPLC) utilities (which is a subset of the class of sum-concave functions) in the theory of market equilibria in economics and algorithmic game theory \cite{vazirani_market_2011, anari_nash_2017}. Conjecture \ref{conj:alternative_supermodularity} and Theorem \ref{th:alternative_subadditivity} might then be of interest if researchers decide to study some of their probability distributions on the majorization lattice. Some game equilibria have already been studied on lattice structures \cite{agliardi_generalization_2000}, so such a prospect might be interesting.
 
 The exponential of R\'enyi entropies has also long been studied, and inequalities and concavity results have already been shown for differential entropy \cite{rioul_information_2011, guo_generalization_2021}. Corollaries \ref{cor:renyi_leq_1} and \ref{cor:renyi_geq_1} and their subadditivity/superadditivity counterparts might be of interest in the discrete case.
 
