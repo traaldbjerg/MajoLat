@@ -44,7 +44,7 @@ This definition encapsulates the idea of disorder: if $p \prec q$, then the larg
     \begin{equation} \label{eq:top_bottom}
         \left(\frac{1}{d}, ..., \frac{1}{d}\right) \prec p \prec (1, 0, ..., 0)
     \end{equation}
-    which is fairly intuitive, considering that $(\frac{1}{d}, ..., \frac{1}{d})$ is the most uncertain distribution and $(1, 0, ..., 0)$ is the most certain distribution. % ca ressemble beaucoup a ce que Serge a ecrit dans son memoire, a reformuler
+    which is fairly intuitive, considering that the flat distribution $\overline{1}_d \coloneqq \left(\frac{1}{d}, ..., \frac{1}{d}\right)$ is the most uncertain distribution and the peaked distribution $\overline{\delta}_d \coloneqq (1, 0, ..., 0)$ is the most certain distribution. % ca ressemble beaucoup a ce que Serge a ecrit dans son memoire, a reformuler
 \end{remark}
 
 The majorization relation creates a partial order on $\mathcal{P}^d$, meaning that the ordering is both reflexive and transitive on the set, and that\footnote{This is not the case if we choose the subset of $\mathbb{R}^d$  of vectors with non-negative entries, where having both $p \succ q$ and $p \prec q$ only means that $p$ and $q$ are the same up to a reordering. On non-ordered vectors, the majorization relation therefore only generates a preorder instead of a proper partial order.} $p \prec q$ and $p \succ q \implies p = q$ for any $p, q \in \mathcal{P}^d$. When either $p \prec q$ or $p \succ q$ is verified, we will say that $p$ and $q$ are \textit{comparable} (written $p \sim q$). However, there also exist cases where both $p \nprec q$ and $p \nsucc q$ are true, and we will then say that $p$ and $q$ are \textit{incomparable} (written $p \nsim q$). For example, $(0.5, 0.25, 0.25) \nsim (0.4, 0.4, 0.2)$.
@@ -261,75 +261,77 @@ Before going further with the proof, let us first give a 2D visual representatio
 \end{definition}
 
 Figure \ref{fig:maj_cones_example} shows an example of the 2D representation of a vector $p \in \mathcal{P}^d$ in the lattice, along with some definitions we introduce now, and figure \ref{fig:meet_join_example} shows the intersections of the majorization cones of two vectors $p, q \in \mathcal{P}^d$ and their meet and join.
-
-\begin{figure}[h!]
+\begin{figure}[h!] % rajouter les 4 distances sur la figure ?
     \centering
-    \begin{tikzpicture}[scale=0.9]
-        % draw cone of p
-        \coordinate (A) at (-2,3);
-        \coordinate (B) at (2, -3);
-        \draw [name path=A--B] (A) -- (B);
-        \coordinate (C) at (-2,-3);
-        \coordinate (D) at (2,3);
-        \draw [name path=C--D] (C) -- (D);
-        \path [name intersections={of=A--B and C--D,by=E}];
-        \node [fill=black,inner sep=1pt,label=0:$p$] at (E) {};
-        % fill draw the future cone of p + notation
-        \fill[fill=red, opacity=0.2] (C) -- (E) -- (B) -- cycle;
-        \node [inner sep=0pt, label=-90:$\mathcal{T}_+ (p)$] at (0, -2) {};
-        % fill draw the past cone of p + notation
-        \fill[fill=blue, opacity=0.2] (A) -- (E) -- (D) -- cycle;
-        \node [inner sep=0pt, label=90:$\mathcal{T}_- (p)$] at (0, 2) {};
-        % fill draw the incomparable region of p mais pas hyper clair
-        %\filldraw[draw=black, fill=gray, opacity=0.2] (A) -- (E) -- (C) -- cycle;
-        %\filldraw[draw=black, fill=gray, opacity=0.2] (D) -- (E) -- (B) -- cycle;
-        \node [inner sep=0pt, label=0:$\mathcal{T}_\emptyset (p)$] at (1.5, 0) {};
-        % create the entropy arrow
-        \coordinate (F) at (-3, -2);
-        \coordinate (G) at (-3, 2);
-        \draw[->] (F) -- (G);
-        \node [inner sep=0pt, label=0:Entropy] at (-3, 0) {};
-        
-    \end{tikzpicture}
-    \caption{Depiction of the majorization cones of a nondescript vector $p \in \mathcal{P}^d$.}
-    \label{fig:maj_cones_example}
-\end{figure}
-
-\begin{figure}[h!]
-    \centering
-    \begin{tikzpicture}[scale=0.9]
-        % draw cone of p
-        \coordinate (A) at (-2,3);
-        \coordinate (B) at (2, -3);
-        \draw [name path=A--B] (A) -- (B);
-        \coordinate (C) at (-2,-3);
-        \coordinate (D) at (2,3);
-        \draw [name path=C--D] (C) -- (D);
-        \path [name intersections={of=A--B and C--D,by=E}];
-        \node [fill=black,inner sep=1pt,label=0:$p$] at (E) {};
-        % draw cone of q
-        \coordinate (F) at (-0.666,3);
-        \coordinate (G) at (3.333, -3);
-        \draw [name path=F--G] (F) -- (G);
-        \coordinate (H) at (0.666,-3);
-        \coordinate (I) at (4.666,3);
-        \draw [name path=H--I] (H) -- (I);
-        \path [name intersections={of=F--G and H--I,by=J}];
-        \node [fill=black,inner sep=1pt,label=0:$q$] at (J) {};
-        %intersections of the 2 cones
-        \path [name intersections={of=F--G and C--D,by=K}];
-        \path [name intersections={of=H--I and A--B,by=L}];
-        \node [fill=black,inner sep=1pt,label=0:$p \wedge q$] at (K) {};
-        \node [fill=black,inner sep=1pt,label=0:$p \vee q$] at (L) {};
-        %fill the two cones
-        \fill[fill=blue, opacity=0.2] (F) -- (K) -- (D) -- cycle;
-        \node [inner sep=0pt] at ($ (F) !.3333! (K) !.3333! (D) $) {$\mathcal{T}_- (p \wedge q)$};
-        \fill[fill=red, opacity=0.2] (H) -- (L) -- (B) -- cycle;
-        \node [inner sep=5pt, label=-90:$\mathcal{T}_+ (p \vee q)$] at ($ (H) !.3333! (L) !.3333! (B) $) {};
-        
-    \end{tikzpicture}
-    \caption{Depiction of the intersection of the majorization cones of incomparable vectors $p, q \in \mathcal{P}^d$. Note that by definition of the meet and join, $\mathcal{T}_+ (p) \cap \mathcal{T}_+ (q) = \mathcal{T}_+ (p \vee q)$ and $\mathcal{T}_- (p) \cap \mathcal{T}_- (q) = \mathcal{T}_- (p \wedge q)$.}
-    \label{fig:meet_join_example}
+    \begin{minipage}{.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.9]
+            % draw cone of p
+            \coordinate (A) at (-2,3);
+            \coordinate (B) at (2, -3);
+            \draw [name path=A--B] (A) -- (B);
+            \coordinate (C) at (-2,-3);
+            \coordinate (D) at (2,3);
+            \draw [name path=C--D] (C) -- (D);
+            \path [name intersections={of=A--B and C--D,by=E}];
+            \node [fill=black,inner sep=1pt,label=0:$p$] at (E) {};
+            % fill draw the future cone of p + notation
+            \fill[fill=red, opacity=0.2] (C) -- (E) -- (B) -- cycle;
+            \node [inner sep=0pt, label=-90:$\mathcal{T}_+ (p)$] at (0, -2) {};
+            % fill draw the past cone of p + notation
+            \fill[fill=blue, opacity=0.2] (A) -- (E) -- (D) -- cycle;
+            \node [inner sep=0pt, label=90:$\mathcal{T}_- (p)$] at (0, 2) {};
+            % fill draw the incomparable region of p mais pas hyper clair
+            %\filldraw[draw=black, fill=gray, opacity=0.2] (A) -- (E) -- (C) -- cycle;
+            %\filldraw[draw=black, fill=gray, opacity=0.2] (D) -- (E) -- (B) -- cycle;
+            \node [inner sep=0pt, label=0:$\mathcal{T}_\emptyset (p)$] at (1.5, 0) {};
+            % create the entropy arrow
+            \coordinate (F) at (-3, -2);
+            \coordinate (G) at (-3, 2);
+            \draw[->] (F) -- (G);
+            \node [inner sep=0pt, label=0:Entropy] at (-3, 0) {};
+            
+        \end{tikzpicture}
+        \caption{Depiction of the majorization cones of a nondescript vector $p \in \mathcal{P}^d$.}
+        \label{fig:maj_cones_example}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{.48\textwidth}
+        \centering
+        \begin{tikzpicture}[scale=0.9]
+            % draw cone of p
+            \coordinate (A) at (-2,3);
+            \coordinate (B) at (2, -3);
+            \draw [name path=A--B] (A) -- (B);
+            \coordinate (C) at (-2,-3);
+            \coordinate (D) at (2,3);
+            \draw [name path=C--D] (C) -- (D);
+            \path [name intersections={of=A--B and C--D,by=E}];
+            \node [fill=black,inner sep=1pt,label=0:$p$] at (E) {};
+            % draw cone of q
+            \coordinate (F) at (-0.666,3);
+            \coordinate (G) at (3.333, -3);
+            \draw [name path=F--G] (F) -- (G);
+            \coordinate (H) at (0.666,-3);
+            \coordinate (I) at (4.666,3);
+            \draw [name path=H--I] (H) -- (I);
+            \path [name intersections={of=F--G and H--I,by=J}];
+            \node [fill=black,inner sep=1pt,label=0:$q$] at (J) {};
+            %intersections of the 2 cones
+            \path [name intersections={of=F--G and C--D,by=K}];
+            \path [name intersections={of=H--I and A--B,by=L}];
+            \node [fill=black,inner sep=1pt,label=0:$p \wedge q$] at (K) {};
+            \node [fill=black,inner sep=1pt,label=0:$p \vee q$] at (L) {};
+            %fill the two cones
+            \fill[fill=blue, opacity=0.2] (F) -- (K) -- (D) -- cycle;
+            \node [inner sep=0pt] at ($ (F) !.3333! (K) !.3333! (D) $) {$\mathcal{T}_- (p \wedge q)$};
+            \fill[fill=red, opacity=0.2] (H) -- (L) -- (B) -- cycle;
+            \node [inner sep=5pt, label=-90:$\mathcal{T}_+ (p \vee q)$] at ($ (H) !.3333! (L) !.3333! (B) $) {};
+            
+        \end{tikzpicture}
+        \caption{Depiction of the intersection of the majorization cones of incomparable vectors $p, q \in \mathcal{P}^d$. Note that by definition of the meet and join, $\mathcal{T}_+ (p) \cap \mathcal{T}_+ (q) = \mathcal{T}_+ (p \vee q)$ and $\mathcal{T}_- (p) \cap \mathcal{T}_- (q) = \mathcal{T}_- (p \wedge q)$.}
+        \label{fig:meet_join_example}
+    \end{minipage}
 \end{figure}
 
 In classical and quantum information, the lattice is usually drawn with more disordered vectors at the top and more ordered vectors at the bottom because the entropy of a state is considered a resource (cf. section \ref{sec:QRT}). This means that the uniform distribution sits at the very top of the diagram, and the certain distribution at the very bottom. One should therefore be careful, because the majorization relation runs from top to bottom, which is the opposite of what one would picture at first (a greatest lower bound looks like a least upper bound and vice-versa). While this is inconvenient for this chapter, this convention will make more sense later down the road.
@@ -370,14 +372,12 @@ We can proceed in a similar way for the join of two vectors $p \vee q$, and thin
 \end{figure}
 
 \noindent More formally, we can define the vector $\beta(p, q) = (b_1, ..., b_d)$ as 
-
 \begin{align}
     b_i &= \max \Big\{ \sum_{j=1}^{i} p_j , \sum_{j=1}^{i} q_j \Big\} - \sum_{j=1}^{i-1} b_j \label{eq:beta_bis} \\
     &= \max \Big\{ \sum_{j=1}^{i} p_j , \sum_{j=1}^{i} q_j \Big\} - \max \Big\{ \sum_{j=1}^{i-1} p_j , \sum_{j=1}^{i-1} q_j \Big\}. \label{eq:beta}
 \end{align}
 
 While this is a step in the right direction, things are unfortunately more complicated than for the meet, as this vector is not guaranteed to be sorted in nonincreasing order and is thus not necessarily in $\mathcal{P}^d$. In order to see why, let us take a slightly more complicated example with $p = (0.6, 0.15, 0.15, 0.1)$ and $q = (0.5, 0.25, 0.20, 0.05)$ and let us define $\beta'(p, q) = (\beta(p, q))^\downarrow \in \mathcal{P}^d$. We have
-
 \begin{align}
     \beta(p, q) &= (0.6, 0.15, 0.2, 0.05) \notin \mathcal{P}^4 \\
     \beta'(p, q) &= (0.6, 0.2, 0.15, 0.05) \in \mathcal{P}^4.
@@ -542,7 +542,7 @@ We will also use a quasidistance going through the meet instead of the join.
 \begin{definition}[Meet-based entropic quasidistance] \label{def:entropic_quasidistance}
     For all $p, q \in \mathcal{P}^d$, we define
     \begin{equation}
-        d(p, q) = 2H(p \wedge q) - H(p) - H(q).
+        d'(p, q) = 2H(p \wedge q) - H(p) - H(q).
     \end{equation}
 \end{definition}
 
@@ -647,4 +647,4 @@ An interpretation of these notions of distance is given in figure \ref{fig:hyper
     \label{fig:triangular_lemma}
 \end{figure}
 
-A way to interpret this result is that the distance always \textit{goes through the join} when two vectors are incomparable, instead of measuring the "segment joining the two vectors" directly.
+A way to interpret this result is that the distance always \textit{goes through the join} when two vectors are incomparable, instead of measuring the "segment joining the two vectors" directly. Again, this idea is compatible with the notion of the hyperbolic intuition given above: in any euclidean metric, saying that the middle distance is as long as the sum of the two bottom ones would be false.

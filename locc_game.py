@@ -17,19 +17,22 @@ def generate_bank(dims, total, ocr=0, distribution=None):
         b.append(mj.ProbVector([1/dims for _ in range(dims)]))
     return b
 
-def LOCC_target_game(dims, bank, alpha=0, targets=[]): # see definition 6.5
+def LOCC_target_game(dims, bank, alpha=0, targets=[], distribution=None): # see definition 6.5
     successes = 0
-    if targets == []:
-        targets = [mj.ProbVector(np.random.dirichlet(np.ones(dims)))]
+    indexes = [_ for _ in range(len(bank))]
+    target_indexes = [_ for _ in range(len(targets))]
+    if target_indexes == []:
+        targets = [mj.ProbVector(np.random.dirichlet(distribution))]
+        target_indexes = [0]
         #print(target_list)
         endless = True
     else:
         endless = False
-    while targets != []:
+    while target_indexes != []:
         # step 1 of algo -- eliminate all non-majorized states
         can_reach = [] # index list
-        for i in range(len(bank)):
-            if bank[i] < targets[-1]:
+        for i in indexes:
+            if bank[i] < targets[target_indexes[-1]]:
                 can_reach.append(i)
         if can_reach == []:
             break # game is over if target non-reachable
@@ -42,7 +45,7 @@ def LOCC_target_game(dims, bank, alpha=0, targets=[]): # see definition 6.5
                     index_record.append(i) # jth state majorizes and so is below on the lattice
                 elif bank[can_reach[i]] > bank[can_reach[j]]: # if several copies of same state, elif only removes the last of the comparison -> only one is left in the final bank
                     index_record.append(j)
-        index_record = sorted(set(index_record), reverse=True) # removes duplicates indexes and reverse order to avoid indexerror on pops
+        index_record = sorted(set(index_record), reverse=True) # removes duplicate indexes and reverse order to avoid indexerror on pops
         lowest_reach = can_reach # index list too
         for i in index_record:
             lowest_reach.pop(i)
@@ -51,22 +54,29 @@ def LOCC_target_game(dims, bank, alpha=0, targets=[]): # see definition 6.5
         a = []
         b = []
         c = []
-        for i in range(len(lowest_reach)):
+        current_index = 0 # not very clean but prevents having bank[lowest_reach[i]] everywhere so more readable
+        for i in lowest_reach:
             if alpha == 1: # save on computation time
-                a.append(mj.entropy(bank[lowest_reach[i]])) # loss function
+                a.append(mj.entropy(bank[i])) # loss function
             else: # entropy is not that heavy computationally so not the end of the world to include it if alpha = 0
-                a.append(alpha * mj.entropy(bank[lowest_reach[i]]) + (1 - alpha) * mj.unique_entropy(bank[lowest_reach[i]], [bank[_] for _ in lowest_reach if _ != lowest_reach[i]])) # loss function
-            b.append(1)
-            for j in range(len(can_reach)): # redundancy factor
-                if bank[can_reach[j]] < bank[lowest_reach[i]]:
-                    b[i] += 1
-            c.append(a[i]/b[i]) # weighted loss function
+                a.append(alpha * mj.entropy(bank[i]) + (1 - alpha) * mj.unique_entropy(bank[i],
+                                                                                    [bank[_] for _ in indexes if _ != i and not bank[_] < bank[i]])) # loss function
+            b.append(0)
+            for j in can_reach: # redundancy factor
+                if bank[j] < bank[i]:
+                    b[current_index] += 1
+            c.append(a[current_index]/b[current_index]) # weighted loss function
+            current_index += 1
         # step 4 -- construct target if possible
         index_min = np.argmin(c) # find index of least valuable state
-        bank.pop(lowest_reach[index_min]) # pop the state used to construct the target
-        targets.pop() # pop the last target
+        #print(indexes)
+        #print(lowest_reach)
+        #print(index_min)
+        indexes.remove(lowest_reach[index_min]) # pop the state used to construct the target
+        target_indexes.pop() # pop the last target
         if endless:
-            targets = [mj.ProbVector(np.random.dirichlet(np.ones(dims)))]
+            targets = [mj.ProbVector(np.random.dirichlet(distribution))] # regenerate another target
+            target_indexes = [0]
         successes += 1
 
     return successes
@@ -74,7 +84,7 @@ def LOCC_target_game(dims, bank, alpha=0, targets=[]): # see definition 6.5
 
 # execution
 if __name__ == "__main__":
-    tries = 200000
+    tries = 100
     entropic_successes = 0
     unique_entropy_successes = 0
     bank_size = 10
@@ -95,12 +105,12 @@ if __name__ == "__main__":
     for game in tqdm(range(tries), desc="Comparing strategies"): 
         bank = generate_bank(dims, bank_size, ocr)
         targets = generate_bank(dims, bank_size, distribution=target_distribution)
-        bank_copy = copy.deepcopy(bank)
-        targets_copy = copy.deepcopy(targets)
+        #bank_copy = copy.deepcopy(bank)
+        #targets_copy = copy.deepcopy(targets)
         for alpha in range(int(round(1/step) + 1)):
             successes[alpha] += LOCC_target_game(dims, bank, alpha=alpha*step, targets=targets) # try the different strategies
-            bank = copy.deepcopy(bank_copy) # revert to old state (not very clean, probably more efficient to only keep track of indices in LOCC_target_game)
-            targets = copy.deepcopy(targets_copy)
+            #bank = copy.deepcopy(bank_copy) # revert to old state (not very clean, probably more efficient to only keep track of indices in LOCC_target_game)
+            #targets = copy.deepcopy(targets_copy)
 
     successes[:] /= tries
     #print(successes)

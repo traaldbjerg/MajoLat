@@ -131,7 +131,7 @@ Unfortunately, without a clear set function we cannot work on showing finite add
 
 \begin{enumerate}
     \item \textbf{Commutativity:} $E^+(p \parallel q_1, \dots, q_i, \dots, q_j, \dots, q_k) = E^+(p \parallel q_1, \dots, q_j, \dots, q_i, \dots, q_k)$ for any $i \neq j$. \label{prop:commutativity}
-    \item \textbf{Empty volume:} $E^+(\overline{1}_d \parallel q_1, \dots, q_k) = 0$. \label{prop:empty}
+    \item \textbf{Empty volume:} $E^+(\overline{\delta}_d \parallel q_1, \dots, q_k) = 0$. \label{prop:empty}
     \item \textbf{Absorption in $p$:} $E^+(p \parallel q_1, \dots, q_k) = 0$ if $\exists i \leq k \: | \: p \succ q_i$. \label{prop:p_absorption}
     \item \textbf{Absorption in $q$:} $E^+(p \parallel q_1, \dots, q_k, q_{k+1}) = E^+(p \parallel q_1, \dots, q_k)$ if $\exists i \leq k \: | \: q_{k+1} \succ q_i$. \label{prop:q_absorption}
     \item \textbf{Positivity:} $E^+(p \parallel q_1, \dots, q_k) \geq 0$. \label{prop:positivity}
@@ -237,7 +237,54 @@ This simple strategy essentially uses up the least resourceful state each time. 
 \subsection{Volumic strategy}
 
 Let us now turn to the main application of $E^+$. A state $q_i$ with a high unique entropy relative to the rest of the bank $Q \backslash q_i$ is inherently valuable because it can reach many states that the rest of the bank can't reach. If we have no knowledge over the future targets to construct, we would want to avoid using up a state with a high $E^+$ as long as possible, because if we use it up instead of a state that has a low unique entropy, we have a higher risk that at a later step in the protocol a target would fall in the region
-$\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q \backslash q_i} \mathcal{T}_+(q_j)\right)$, which would now be unreachable. However, directly computing the unique entropy of all the states that can reach $t$ and deciding based on that alone is not sufficient. Consider figure FAIRE FIGURE AVEC LA SITUATION DONT ON A PARLE AVEC SERGE. 
+$\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q \backslash q_i} \mathcal{T}_+(q_j)\right)$, which would now be unreachable. However, directly computing the unique entropy of all the states that can reach $t$ and deciding based on that alone is not sufficient. Consider a bank of 5 entangled states with which to construct a target $t$, represented in figure \ref{fig:5_cone_example}.
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[scale=0.9]
+        % draw cone of q1
+        \coordinate (Q1) at (2, 3);
+        \coordinate (Q1L) at (0, 0);
+        \coordinate (Q1R) at (4, 0);
+        \draw [name path=Q1--Q1L, color=gray] (Q1) -- (Q1L);
+        \draw [name path=Q1--Q1R, color=gray] (Q1) -- (Q1R);
+        \node [fill=black,inner sep=1pt,label=0:$q_1$, color=gray] at (Q1) {};
+        % draw cone of q2
+        \coordinate (Q2) at (5, 4.5);
+        \coordinate (Q2L) at (2, 0);
+        \coordinate (Q2R) at (7, 1.5);
+        \draw [name path=Q2--Q2L, color=orange] (Q2) -- (Q2L);
+        \draw [name path=Q2--Q2R, color=orange] (Q2) -- (Q2R);
+        \node [fill=black,inner sep=1pt,label=110:$q_2$, color=orange] at (Q2) {};
+        % draw cone of q3
+        \coordinate (Q3) at (5.5, 4.5);
+        \coordinate (Q3L) at (2.5, 0);
+        \coordinate (Q3R) at (7, 2.25);
+        \draw [name path=Q3--Q3L, color=blue] (Q3) -- (Q3L);
+        \draw [name path=Q3--Q3R, color=blue] (Q3) -- (Q3R);
+        \node [fill=black,inner sep=1pt,label=90:$q_3$, color=blue] at (Q3) {};
+        % draw cone of q4
+        \coordinate (Q4) at (2, 6);
+        \coordinate (Q4L) at (-2, 0);
+        \coordinate (Q4R) at (6, 0);
+        \draw [name path=Q4--Q4L, color=red] (Q4) -- (Q4L);
+        \draw [name path=Q4--Q4R, color=red] (Q4) -- (Q4R);
+        \node [fill=black,inner sep=1pt,label=0:$q_4$, color=red] at (Q4) {};
+        % draw cone of q5
+        \coordinate (Q5) at (5, 6);
+        \coordinate (Q5L) at (1, 0);
+        \coordinate (Q5R) at (7, 3);
+        \draw [name path=Q5--Q5L, color=green] (Q5) -- (Q5L);
+        \draw [name path=Q5--Q5R, color=green] (Q5) -- (Q5R);
+        \node [fill=black,inner sep=1pt,label=0:$q_5$, color=green] at (Q5) {};
+        % draw target
+        \coordinate (T) at (2.95, 1);
+        \node [fill=black,inner sep=1pt,label=225:$t$] at (T) {};
+
+    \end{tikzpicture}
+    \caption{Geometric representation of a bank of 5 states, and the target $t$ to construct using one of the states of the bank. The color of the future cones is only to help keep track of which is which.}
+    \label{fig:5_cone_example}
+\end{figure}
 
 Clearly, it would be a waste to use up $q_4$ or $q_5$, because they are majorized by $q_1$ and $q_2$ (respectively), and can therefore reach all of the states that $q_1$ and $q_2$ can reach, respectively. However, $E^+(q_1 \parallel Q \backslash q_1) = E^+(q_2 \parallel Q \backslash q_2) = 0$ because their cones are contained in the cones of $q_4$ and $q_5$, and so without additional restriction on the bank a unique entropy criterion is not sufficient. The approach also fails if we have several copies of the same state, because then all the copies have zero unique entropy. We propose the following LOCC state selection strategy which solves both of these problems.
 
@@ -267,10 +314,10 @@ Essentially, the parameter $b$, which we will call the \textit{redundacy factor}
 
 \subsection{Mixed strategies}
 
-We also define an additional variation, which mixes all three proposed loss functions with a specific ratio which can be adjusted.
+We also define an additional variation, which mixes bith proposed loss functions with a specific ratio that can be adjusted.
 
 \begin{definition}[Mixed strategy]
-    Choose $\alpha, \beta \in [0, 1] \: | \: \alpha + \beta \leq 1$. The mixed strategy is the same as the unique entropy strategy (cf. definition \ref{strat:unique_entropy}), except that the loss function is replaced with $a_i = \alpha H(q_i) + \beta E^+(q_i \parallel Q'' \backslash q_i) + (1 - \alpha - \beta) V\left(\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q'' \backslash q_i} \mathcal{T}_+(q_j)\right)\right)$ in step \ref{step:volume}.
+    Choose $\alpha \in [0, 1]$. The mixed strategy is the same as the unique entropy strategy (cf. definition \ref{strat:unique_entropy}), except that the loss function is replaced with $a_i = \alpha H(q_i) + (1 - \alpha) E^+(q_i \parallel Q'' \backslash q_i)$ in step \ref{step:volume}.
 \end{definition}
 
 

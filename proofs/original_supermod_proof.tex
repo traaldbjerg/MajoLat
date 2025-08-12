@@ -1,101 +1,101 @@
 Let us say that the index $i \in \{2, \ldots, n\}$ is an \emph{inversion point} for $\mathbf{p}$ and $\mathbf{q}$ if either
-    \[
-    \sum_{l=1}^{i} p_l < \sum_{l=1}^{i} q_l \quad \text{and} \quad \sum_{l=1}^{i-1} p_l > \sum_{l=1}^{i-1} q_l
-    \]
-    or, vice versa, if
-    \[
-    \sum_{l=1}^{i} p_l > \sum_{l=1}^{i} q_l \quad \text{and} \quad \sum_{l=1}^{i-1} p_l < \sum_{l=1}^{i-1} q_l.
-    \]
-    
-    Let $2 \leq i_1 < i_2 < \cdots < i_k \leq n$ be all and the only inversion points for $\mathbf{p}$ and $\mathbf{q}$. Moreover, let
-    \[
-    \mathbf{t} = (t_1, \ldots, t_n) = \mathbf{p} \wedge \mathbf{q}
-    \]
-    and
-    \[
-    \mathbf{s} = (s_1, \ldots, s_n) = \beta(\mathbf{p}, \mathbf{q}).
-    \]
-    
-    The proof of the theorem will be an immediate consequence of the following two claims, where we assume $i_0 = 0$ and $i_{k+1} = n + 1$ for the sake of definiteness. Hereafter, we shall use the common assumption that $0 \log \frac{1}{0} = 0$.
-    
-    \textbf{Claim 1:} For each inversion point $i_r$, $r = 0, \ldots, k$, we have
-    \[
-    \sum_{l=i_r+1}^{i_{r+1}-1} p_l \log \frac{1}{p_l} + q_l \log \frac{1}{q_l} = \sum_{l=i_r+1}^{i_{r+1}-1} t_l \log \frac{1}{t_l}.
-    \]
-    
-    \emph{Proof of Claim 1:} Indeed, let us assume, without loss of generality, that
-    \[
-    \sum_{l=1}^{i_r} p_l > \sum_{l=1}^{i_r} q_l.
-    \]
-    
-    Then
-    \[
-    \sum_{l=1}^{i_r} s_l = \sum_{l=1}^{i_r} p_l
-    \]
-    
-    and for all $s = i_r + 1, \ldots, i_{r+1} - 1$, we also have
-    \[
-    s_s = \sum_{l=1}^{s} p_l - \sum_{l=1}^{s} q_l = p_s.
-    \]
-    
-    Accordingly, we have
-    \[
-    \sum_{l=1}^{i_r} t_l = \sum_{l=1}^{i_r} q_l
-    \]
-    
-    and for all $s = i_r + 1, \ldots, i_{r+1} - 1$, we have
-    \[
-    t_s = \sum_{l=0}^{s} q_l - \sum_{l=0}^{s} t_l = q_s,
-    \]
-    
-    which proves Claim 1.
-    
-    As an immediate consequence of Claim 1, we have
-    \[
-    \sum_{l=i_r+1}^{i_{r+1}-1} \left( p_l \log \frac{1}{p_l} + q_l \log \frac{1}{q_l} - t_l \log \frac{1}{t_l} \right) = 0.
-    \]
-    
-    \textbf{Claim 2:} For each inversion point $i_r$, $r = 1, 2, \ldots, k$, we have
-    \[
-    s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} > p_{i_r} \log \frac{1}{p_{i_r}} + q_{i_r} \log \frac{1}{q_{i_r}},
-    \]
-    where $p_{i_r}, q_{i_r}, s_{i_r}, t_{i_r} > 0$.
-    
-    \emph{Proof of Claim 2:} Let us write $p, q, s, t$ instead of $p_{i_r}, q_{i_r}, s_{i_r}, t_{i_r}$, respectively. Without loss of generality let us assume that for the inversion point $i_r$ it holds that
-    \[
-    \sum_{l=1}^{i_r} p_l > \sum_{l=1}^{i_r} q_l \quad \text{and} \quad \sum_{l=1}^{i_r-1} p_l < \sum_{l=1}^{i_r-1} q_l.
-    \]
-    
-    It follows that $s > p$ and $q > t$, so $s > t$. Moreover, it is not hard to see that $s + t = p + q$. Let $s = q + \Delta$, then $t = p - \Delta$ and $s + t = p + q$.
-    
-    Then we have
-    \begin{align*}
-    s \log \frac{1}{s} + t \log \frac{1}{t} - p \log \frac{1}{p} - q \log \frac{1}{q}
-    &= - (s \log s + t \log t) + p \log p + q \log q \\
-    &= - (q + \Delta) \log (q + \Delta) - (p - \Delta) \log (p - \Delta) + p \log p + q \log q \\
-    &= (q \log q + p \log p) - \left( (q + \Delta) \log (q + \Delta) + (p - \Delta) \log (p - \Delta) \right) \\
-    &\geq (q + p + \Delta) \log \left( \frac{(q + p + \Delta)^2}{(q + \Delta)(p - \Delta)} \right) \quad \text{(by Jensen's inequality)} \\
-    &= (q + p + \Delta) \log \left( \frac{s + t + \Delta}{s + \Delta} \cdot \frac{s + t + \Delta}{t - \Delta} \right) \\
-    &= (q + p + \Delta) \log \left( \frac{(s + t + \Delta)^2}{(s + \Delta)(t - \Delta)} \right) > 0,
-    \end{align*}
-    since $s > t$ and $\Delta < t$.
+\[
+\sum_{l=1}^{i} p_l < \sum_{l=1}^{i} q_l \quad \text{and} \quad \sum_{l=1}^{i-1} p_l > \sum_{l=1}^{i-1} q_l
+\]
+or, vice versa, if
+\[
+\sum_{l=1}^{i} p_l > \sum_{l=1}^{i} q_l \quad \text{and} \quad \sum_{l=1}^{i-1} p_l < \sum_{l=1}^{i-1} q_l.
+\]
 
-    The remaining case $s \leq t$ is completely symmetric, provided that we set $s = p + \Delta$ and $t = q - \Delta$. This concludes the proof of the Claim 2.
+Let $2 \leq i_1 < i_2 < \cdots < i_k \leq n$ be all and the only inversion points for $\mathbf{p}$ and $\mathbf{q}$. Moreover, let
+\[
+\mathbf{t} = (t_1, \ldots, t_n) = \mathbf{p} \wedge \mathbf{q}
+\]
+and
+\[
+\mathbf{s} = (s_1, \ldots, s_n) = \beta(\mathbf{p}, \mathbf{q}).
+\]
 
-    We are now ready to prove (12). We have
-    \begin{align*}
-    H(s) + H(t) - H(p) - H(q)
-    &= \sum_{l=1}^{k} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} - p_l \log \frac{1}{p_l} - q_l \log \frac{1}{q_l} \right) \\
-    &= \sum_{r=1}^{k} \left( \sum_{l=i_r+1}^{i_{r+1}-1} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} \right)
-    + s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} \right. \\
-    &\quad \left. - p_{i_r} \log \frac{1}{p_{i_r}} - q_{i_r} \log \frac{1}{q_{i_r}} 
-    - \sum_{l=i_r+1}^{i_{r+1}-1} \left( p_l \log \frac{1}{p_l} + q_l \log \frac{1}{q_l} \right) \right) \\
-    &\quad + \sum_{l=1}^{i_1 - 1} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} 
-    - p_l \log \frac{1}{p_l} - q_l \log \frac{1}{q_l} \right) \\
-    &\quad + \sum_{l=i_k+1}^{n} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} 
-    - p_l \log \frac{1}{p_l} - q_l \log \frac{1}{q_l} \right) \\
-    &= \sum_{r=1}^{k} \left( s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} 
-    - p_{i_r} \log \frac{1}{p_{i_r}} - q_{i_r} \log \frac{1}{q_{i_r}} \right) 
-    \quad \text{(by Claim 1)} \\
-    &> 0 \quad \text{(by Claim 2).} \qedhere
-    \end{align*}
+The proof of the theorem will be an immediate consequence of the following two claims, where we assume $i_0 = 0$ and $i_{k+1} = n + 1$ for the sake of definiteness. Hereafter, we shall use the common assumption that $0 \log \frac{1}{0} = 0$.
+
+\textbf{Claim 1:} For each inversion point $i_r$, $r = 0, \ldots, k$, we have
+\[
+\sum_{l=i_r+1}^{i_{r+1}-1} p_l \log \frac{1}{p_l} + q_l \log \frac{1}{q_l} = \sum_{l=i_r+1}^{i_{r+1}-1} t_l \log \frac{1}{t_l}.
+\]
+
+\emph{Proof of Claim 1:} Indeed, let us assume, without loss of generality, that
+\[
+\sum_{l=1}^{i_r} p_l > \sum_{l=1}^{i_r} q_l.
+\]
+
+Then
+\[
+\sum_{l=1}^{i_r} s_l = \sum_{l=1}^{i_r} p_l
+\]
+
+and for all $s = i_r + 1, \ldots, i_{r+1} - 1$, we also have
+\[
+s_s = \sum_{l=1}^{s} p_l - \sum_{l=1}^{s} q_l = p_s.
+\]
+
+Accordingly, we have
+\[
+\sum_{l=1}^{i_r} t_l = \sum_{l=1}^{i_r} q_l
+\]
+
+and for all $s = i_r + 1, \ldots, i_{r+1} - 1$, we have
+\[
+t_s = \sum_{l=0}^{s} q_l - \sum_{l=0}^{s} t_l = q_s,
+\]
+
+which proves Claim 1.
+
+As an immediate consequence of Claim 1, we have
+\[
+\sum_{l=i_r+1}^{i_{r+1}-1} \left( p_l \log \frac{1}{p_l} + q_l \log \frac{1}{q_l} - t_l \log \frac{1}{t_l} \right) = 0.
+\]
+
+\textbf{Claim 2:} For each inversion point $i_r$, $r = 1, 2, \ldots, k$, we have
+\[
+s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} > p_{i_r} \log \frac{1}{p_{i_r}} + q_{i_r} \log \frac{1}{q_{i_r}},
+\]
+where $p_{i_r}, q_{i_r}, s_{i_r}, t_{i_r} > 0$.
+
+\emph{Proof of Claim 2:} Let us write $p, q, s, t$ instead of $p_{i_r}, q_{i_r}, s_{i_r}, t_{i_r}$, respectively. Without loss of generality let us assume that for the inversion point $i_r$ it holds that
+\[
+\sum_{l=1}^{i_r} p_l > \sum_{l=1}^{i_r} q_l \quad \text{and} \quad \sum_{l=1}^{i_r-1} p_l < \sum_{l=1}^{i_r-1} q_l.
+\]
+
+It follows that $s > p$ and $q > t$, so $s > t$. Moreover, it is not hard to see that $s + t = p + q$. Let $s = q + \Delta$, then $t = p - \Delta$ and $s + t = p + q$.
+
+Then we have
+\begin{align*}
+s \log \frac{1}{s} + t \log \frac{1}{t} - p \log \frac{1}{p} - q \log \frac{1}{q}
+&= - (s \log s + t \log t) + p \log p + q \log q \\
+&= - (q + \Delta) \log (q + \Delta) - (p - \Delta) \log (p - \Delta) + p \log p + q \log q \\
+&= (q \log q + p \log p) - \left( (q + \Delta) \log (q + \Delta) + (p - \Delta) \log (p - \Delta) \right) \\
+&\geq (q + p + \Delta) \log \left( \frac{(q + p + \Delta)^2}{(q + \Delta)(p - \Delta)} \right) \quad \text{(by Jensen's inequality)} \\
+&= (q + p + \Delta) \log \left( \frac{s + t + \Delta}{s + \Delta} \cdot \frac{s + t + \Delta}{t - \Delta} \right) \\
+&= (q + p + \Delta) \log \left( \frac{(s + t + \Delta)^2}{(s + \Delta)(t - \Delta)} \right) > 0,
+\end{align*}
+since $s > t$ and $\Delta < t$.
+
+The remaining case $s \leq t$ is completely symmetric, provided that we set $s = p + \Delta$ and $t = q - \Delta$. This concludes the proof of the Claim 2.
+
+We are now ready to prove (12). We have
+\begin{align*}
+H(s) + H(t) - H(p) - H(q)
+&= \sum_{l=1}^{k} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} - p_l \log \frac{1}{p_l} - q_l \log \frac{1}{q_l} \right) \\
+&= \sum_{r=1}^{k} \left( \sum_{l=i_r+1}^{i_{r+1}-1} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} \right)
++ s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} \right. \\
+&\quad \left. - p_{i_r} \log \frac{1}{p_{i_r}} - q_{i_r} \log \frac{1}{q_{i_r}} 
+- \sum_{l=i_r+1}^{i_{r+1}-1} \left( p_l \log \frac{1}{p_l} + q_l \log \frac{1}{q_l} \right) \right) \\
+&\quad + \sum_{l=1}^{i_1 - 1} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} 
+- p_l \log \frac{1}{p_l} - q_l \log \frac{1}{q_l} \right) \\
+&\quad + \sum_{l=i_k+1}^{n} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} 
+- p_l \log \frac{1}{p_l} - q_l \log \frac{1}{q_l} \right) \\
+&= \sum_{r=1}^{k} \left( s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} 
+- p_{i_r} \log \frac{1}{p_{i_r}} - q_{i_r} \log \frac{1}{q_{i_r}} \right) 
+\quad \text{(by Claim 1)} \\
+&> 0 \quad \text{(by Claim 2).} \qedhere
+\end{align*}

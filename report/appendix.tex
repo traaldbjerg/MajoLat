@@ -6,7 +6,128 @@
 
 
 
-\section{Entropy of compositions of random variables} \label{app:shannon_compositions}% en vrai nsm j'aurais pas du ecrire ca ptn
+\section{Cicalese and Vaccaro's original proof of supermodularity}
+
+A REFORMULER This section goes over the original proof of theorem \ref{th:shannon_supermodularity} for Shannon entropy, from Ref. \cite{cicalese_supermodularity_2002}. The proof is structured in two lemmas. Note that the convention $0 \log \frac{1}{0} = 0$ is used (an event that never happens does not contribute to entropy). We will first need the following definition.
+
+\begin{appendix_definition}[Inversion point]
+    Let $p, q \in \mathcal{P}^d$. We say that the index $i \in \{2, \ldots, n\}$ is an \emph{inversion point} for $p$ and $q$ if either
+\begin{equation}
+    \sum_{l=1}^{i} p_l < \sum_{l=1}^{i} q_l \quad \text{and} \quad \sum_{l=1}^{i-1} p_l > \sum_{l=1}^{i-1} q_l    
+\end{equation}
+or, vice versa, if
+\begin{equation}
+    \sum_{l=1}^{i} p_l > \sum_{l=1}^{i} q_l \quad \text{and} \quad \sum_{l=1}^{i-1} p_l < \sum_{l=1}^{i-1} q_l.
+\end{equation}
+\end{appendix_definition}
+
+Let $2 \leq i_1 < i_2 < \cdots < i_k \leq n$ be all and the only inversion points for $p, q \in \mathcal{P}^d$. Moreover, let
+\begin{equation}
+    t = (t_1, \ldots, t_n) = p \wedge q
+\end{equation}
+and
+\begin{equation}
+    s = (s_1, \ldots, s_n) = \beta(p, q).
+\end{equation}
+
+The proof of the theorem will be an immediate consequence of the following two claims, where we assume $i_0 = 0$ and $i_{k+1} = n + 1$ for the sake of definiteness. 
+
+\begin{appendix_lemma} \label{lem:shannon_1}
+    For each inversion point $i_r$, $r = 0, \ldots, k$, we have
+    \begin{equation}
+        \sum_{l=i_r+1}^{i_{r+1}-1} p_l \log \frac{1}{p_l} + q_l \log \frac{1}{q_l} = \sum_{l=i_r+1}^{i_{r+1}-1} t_l \log \frac{1}{t_l}.
+    \end{equation}
+\end{appendix_lemma} 
+
+\begin{proof} Let us assume, without loss of generality, that
+    \begin{equation}
+        \sum_{l=1}^{i_r} p_l > \sum_{l=1}^{i_r} q_l.
+    \end{equation}
+
+    Then
+    \begin{equation}
+        \sum_{l=1}^{i_r} s_l = \sum_{l=1}^{i_r} p_l
+    \end{equation}
+    and for all $s = i_r + 1, \ldots, i_{r+1} - 1$, we also have
+    \begin{equation}
+        s_s = \sum_{l=1}^{s} p_l - \sum_{l=1}^{s} q_l = p_s.
+    \end{equation}
+
+    Accordingly, we have
+    \begin{equation}
+        \sum_{l=1}^{i_r} t_l = \sum_{l=1}^{i_r} q_l
+    \end{equation}
+
+    and for all $s = i_r + 1, \ldots, i_{r+1} - 1$, we have
+    \begin{equation}
+        t_s = \sum_{l=0}^{s} q_l - \sum_{l=0}^{s} t_l = q_s. \qedhere
+    \end{equation}
+\end{proof}
+
+As an immediate consequence of lemma \ref{lem:shannon_1}, we have
+\begin{equation}
+    \sum_{l=i_r+1}^{i_{r+1}-1} \left( p_l \log \frac{1}{p_l} + q_l \log \frac{1}{q_l} - t_l \log \frac{1}{t_l} \right) = 0.
+\end{equation}
+
+\begin{appendix_lemma} \label{lem:shannon_2}
+    For each inversion point $i_r$, $r = 1, 2, \ldots, k$, we have
+    \begin{equation}
+        s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} > p_{i_r} \log \frac{1}{p_{i_r}} + q_{i_r} \log \frac{1}{q_{i_r}},
+    \end{equation}
+    where $p_{i_r}, q_{i_r}, s_{i_r}, t_{i_r} > 0$.
+\end{appendix_lemma} 
+
+\begin{proof}
+    Let us write $p, q, s, t$ instead of $p_{i_r}, q_{i_r}, s_{i_r}, t_{i_r}$, respectively. Without loss of generality let us assume that for the inversion point $i_r$ it holds that
+    \begin{equation}
+        \sum_{l=1}^{i_r} p_l > \sum_{l=1}^{i_r} q_l \quad \text{and} \quad \sum_{l=1}^{i_r-1} p_l < \sum_{l=1}^{i_r-1} q_l.
+    \end{equation}
+
+    It follows that $s > p$ and $q > t$, so $s > t$. Moreover, it is not hard to see that $s + t = p + q$. Let $s = q + \Delta$, then $t = p - \Delta$ and $s + t = p + q$. Then we have
+    \begin{align}
+        s \log \frac{1}{s} + t \log \frac{1}{t} - p \log \frac{1}{p} - q \log \frac{1}{q}
+        &= - (s \log s + t \log t) + p \log p + q \log q \\
+        &= - (q + \Delta) \log (q + \Delta) - (p - \Delta) \log (p - \Delta) + p \log p + q \log q \\
+        &= (q \log q + p \log p) - \left( (q + \Delta) \log (q + \Delta) + (p - \Delta) \log (p - \Delta) \right) \\
+        &\geq (q + p + \Delta) \log \left( \frac{(q + p + \Delta)^2}{(q + \Delta)(p - \Delta)} \right) \quad \text{(by Jensen's inequality)} \\
+        &= (q + p + \Delta) \log \left( \frac{s + t + \Delta}{s + \Delta} \cdot \frac{s + t + \Delta}{t - \Delta} \right) \\
+        &= (q + p + \Delta) \log \left( \frac{(s + t + \Delta)^2}{(s + \Delta)(t - \Delta)} \right) > 0,
+    \end{align}
+    since $s > t$ and $\Delta < t$.
+
+    The remaining case $s \leq t$ is completely symmetric, provided that we set $s = p + \Delta$ and $t = q - \Delta$. \qedhere
+\end{proof}
+
+We are now ready to prove theorem \ref{th:shannon_supermodularity}. 
+
+\begin{proof}[Proof of theorem \ref{th:shannon_supermodularity}]
+    We have
+    \begin{align}
+        H(s) + H(t) - H(p) - H(q)
+        &= \sum_{l=1}^{k} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} - p_l \log \frac{1}{p_l} - q_l \log \frac{1}{q_l} \right) \\
+        &= \sum_{r=1}^{k} \left( \sum_{l=i_r+1}^{i_{r+1}-1} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} \right)
+        + s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} \right. \\
+        &\quad \left. - p_{i_r} \log \frac{1}{p_{i_r}} - q_{i_r} \log \frac{1}{q_{i_r}} 
+        - \sum_{l=i_r+1}^{i_{r+1}-1} \left( p_l \log \frac{1}{p_l} + q_l \log \frac{1}{q_l} \right) \right) \\
+        &\quad + \sum_{l=1}^{i_1 - 1} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} 
+        - p_l \log \frac{1}{p_l} - q_l \log \frac{1}{q_l} \right) \\
+        &\quad + \sum_{l=i_k+1}^{n} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} 
+        - p_l \log \frac{1}{p_l} - q_l \log \frac{1}{q_l} \right) \\
+        &= \sum_{r=1}^{k} \left( s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} 
+        - p_{i_r} \log \frac{1}{p_{i_r}} - q_{i_r} \log \frac{1}{q_{i_r}} \right) 
+        \quad \text{(by lemma \ref{lem:shannon_1})} \\
+        &> 0 \quad \text{(by lemma \ref{lem:shannon_2}).} \qedhere
+    \end{align}
+\end{proof}
+
+
+
+
+\newpage
+
+\section{Entropy of compositions of random variables} \label{app:shannon_compositions}
+
+\setcounter{equation}{0}
 
 This section is based on \cite[pp. 16--22]{cover_elements_2006}. In practice, we are often concerned with more than one process at a given time, and so defining the uncertainty of two variables $X$, $Y$ is interesting. Moreover, knowing how much measuring one variable reduces the uncertainty on the second one (and so how much information on the second process we gain) on average is valuable as well. These concepts are captured by \textit{joint entropy}, \textit{conditional entropy} and \textit{mutual information}.
 
@@ -78,11 +199,11 @@ To finish this small incursion into classical information theory, it turns out t
 Let us take a qubit, and let us try to find the difference between the states $\rho$ and $\rho'$ from the coin-flip example in section \ref{sec:density_matrices}. In the computational basis, they are written
 
 \begin{align}
-    \hat{\rho} &= 1/2 \ket{0}\bra{0} + 1/2 \ket{1}\bra{1} = \left(\begin{matrix}
+    \rho &= 1/2 \ket{0}\bra{0} + 1/2 \ket{1}\bra{1} = \left(\begin{matrix}
         1/2 & 0\\
         0 & 1/2
     \end{matrix}\right),\\
-    \hat{\rho}' &= \ket{\psi}\bra{\psi} = \ket{+}\bra{+} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})\frac{1}{\sqrt{2}}(\bra{0} + \bra{1}) = \left(\begin{matrix}
+    \rho' &= \ket{\psi}\bra{\psi} = \ket{+}\bra{+} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})\frac{1}{\sqrt{2}}(\bra{0} + \bra{1}) = \left(\begin{matrix}
         1/2 & 1/2\\
         1/2 & 1/2
     \end{matrix}\right).
@@ -121,7 +242,7 @@ In both cases, let us measure if the qubit is in state $\ket{0}$ or $\ket{1}$. T
 These are the expected results, and the difference between the pure and the mixed state are not so clear in this case. However, something interesting happens if we now try to measure the qubit in the dual basis, i.e. measuring along operators $M_+ = \ket{+}\bra{+}$ and $M_- = \ket{-}\bra{-}$. The calculation is easier in the dual basis, in which $\rho' = \ket{+}\bra{+}$, and so we directly get $p(+) = 1$. In this basis, using $\ket{0} = \frac{1}{\sqrt{2}}(\ket{+} + \ket{-})$ and $\ket{1} = \frac{1}{\sqrt{2}}(\ket{+} - \ket{-})$, $\rho$ becomes
 
 \begin{align}
-    \hat{\rho} &= 1/2 \ket{0}\bra{0} + 1/2 \ket{1}\bra{1}\\
+    \rho &= 1/2 \ket{0}\bra{0} + 1/2 \ket{1}\bra{1}\\
                &= 1/2 (\frac{1}{\sqrt{2}}(\ket{+} + \ket{-}))(\frac{1}{\sqrt{2}}(\bra{+} + \bra{-})) + 1/2 (\frac{1}{\sqrt{2}}(\ket{+} - \ket{-}))(\frac{1}{\sqrt{2}}(\bra{+} - \bra{-}))\\
                &= 1/2 \ket{+}\bra{+} + 1/2 \ket{-}\bra{-}.
 \end{align}

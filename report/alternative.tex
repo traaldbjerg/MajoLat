@@ -37,11 +37,11 @@ We will work with concatenated probability vectors. We will need the following d
 \subsection{Main statement}
 
 \begin{theorem}[Supermodularity of all sum-concave functions] \label{th:alternative_supermodularity}
-    All sum-concave functions $F$ are supermodular on the majorization lattice\footnote{It is important to specify which lattice, because a different lattice means a different ordering and different meet and join operations, leading to different properties. For example, on the boolean lattice, the Shannon entropy is \textit{submodular} instead.} for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = \beta^\downarrow(p, q)$ (as defined in (\ref{eq:beta})). For those vectors, we have
+    All sum-concave functions $F$ are supermodular on the majorization lattice\footnote{It is important to specify which lattice, because a different lattice means a different ordering and different meet and join operations, leading to different properties. For example, on the boolean lattice, the Shannon entropy is \textit{submodular} instead.} for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = p \vee q$ (as defined in (\ref{eq:beta})). For those vectors, we have
     \begin{equation} \label{eq:supermodularity}
         F(p \wedge q) + F(p \vee q) \geq F(p) + F(q).
     \end{equation}
-    Note that if $p \sim q$, there is trivially equality. Moreover, in dimension 3, $\beta(p, q) = \beta^\downarrow(p, q)$ is always true.
+    Note that if $p \sim q$, there is trivially equality. Moreover, in dimension 3, $\beta(p, q) = p \vee q$ is always true.
 \end{theorem}
 
 \begin{proof} \label{proof:alternative_supermodularity}
@@ -60,7 +60,7 @@ We will work with concatenated probability vectors. We will need the following d
         S^\downarrow_k (A) = \max_{l\leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right), \\
         S^\downarrow_k (B) = \max_{m\leq k} \left(S^\downarrow_{k-m} (r)+ S^\downarrow_m (s)\right).
     \end{gather} % si plusieurs l ou m sont possibles c'est pas grave pck on a quand meme le max de la somme je pense
-    Recall equations (\ref{eq:alpha_bis}) and (\ref{eq:beta_bis}), from which we immediately deduce\footnote{This is the step where the $\beta(p, q) = \beta^\downarrow(p, q)$ limitation comes into play: the expression in terms of maxima of cumulative sums of $\beta(p, q)$ was defined with the unordered vector, but majorization relations require the ordered vector. As such, we cannot use the maximum relation directly if $\beta(p, q) \neq \beta^\downarrow(p, q)$, on which this proof hinges.}
+    Recall equations (\ref{eq:alpha_bis}) and (\ref{eq:beta_bis}), from which we immediately deduce\footnote{This is the step where the $\beta(p, q) = p \vee q$ limitation comes into play: the expression in terms of maxima of cumulative sums of $\beta(p, q)$ was defined with the unordered vector, but majorization relations require the ordered vector. As such, we cannot use the maximum relation directly if $\beta(p, q) \neq \beta^\downarrow(p, q)$, on which this proof hinges.}
     \begin{gather}
         S^\downarrow_i (r) = \min \left\{S^\downarrow_i (p), S^\downarrow_i (q)\right\}, \\
         S^\downarrow_i (s) = \max \left\{S^\downarrow_i (p), S^\downarrow_i (q)\right\}.
@@ -81,20 +81,20 @@ We will work with concatenated probability vectors. We will need the following d
 
 \subsection{Corollaries and main conjecture}
 
-Of course, the corollary we care the most about is the supermodularity of Shannon entropy. We will not write it here however, because theorem \ref{th:shannon_supermodularity} is stronger than a corollary we can build from theorem \ref{th:alternative_supermodularity} (because of the limiting $\beta(p, q) = \beta^\downarrow(p, q)$ condition).
+Of course, the corollary we care the most about is the supermodularity of Shannon entropy. We will not write it here however, because theorem \ref{th:shannon_supermodularity} is stronger than a corollary we can build from theorem \ref{th:alternative_supermodularity} (because of the limiting $\beta(p, q) = p \vee q$ condition).
 
 However, the above proof can be reused for a sum-convex function $f$ (because $-f$ is sum-concave) by simply reversing the final Karamata inequality, giving the following corollary.
 
 \begin{corollary}[Submodularity of all sum-convex functions] \label{cor:submodularity_sum-convex}
-    All sum-convex functions $F$ are submodular on the majorization lattice for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = \beta^\downarrow(p, q)$ (as defined in (\ref{eq:beta})). For those vectors, we have
+    All sum-convex functions $F$ are submodular on the majorization lattice for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = p \vee q$ (as defined in (\ref{eq:beta})). For those vectors, we have
     \begin{equation} \label{eq:submodularity}
         F(p \wedge q) + F(p \vee q) \leq F(p) + F(q).
     \end{equation}
-    Note that if $p \sim q$, there is trivially equality. Moreover, in dimension 3, $\beta(p, q) = \beta^\downarrow(p, q)$ is always true.
+    Note that if $p \sim q$, there is trivially equality. Moreover, in dimension 3, $\beta(p, q) = p \vee q$ is always true.
 \end{corollary}
 
 \begin{corollary}[Supermodularity of the exponential of $\alpha < 1$ Rényi entropies] \label{cor:renyi_leq_1}
-    The exponential of Rényi entropy functions $2^{H_\alpha}$ of order $\alpha < 1$ are supermodular on the majorization lattice for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = \beta^\downarrow(p, q)$, for which we have
+    The exponential of Rényi entropy functions $2^{H_\alpha}$ of order $\alpha < 1$ are supermodular on the majorization lattice for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = p \vee q$, for which we have
     \begin{equation} \label{eq:supermodularity_renyi}
         2^{H_\alpha(p \wedge q)} + 2^{H_\alpha(p \vee q)} \geq 2^{H_\alpha(p)} + 2^{H_\alpha(q)}.
     \end{equation}
@@ -102,14 +102,14 @@ However, the above proof can be reused for a sum-convex function $f$ (because $-
 \end{corollary}
 
 \begin{corollary}[Submodularity of the exponential of $\alpha > 1$ Rényi entropies] \label{cor:renyi_geq_1}
-    The exponential of Rényi entropy functions $2^{H_\alpha}$  of order $\alpha > 1$ are submodular on the majorization lattice for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = \beta^\downarrow(p, q)$, for which we have
+    The exponential of Rényi entropy functions $2^{H_\alpha}$  of order $\alpha > 1$ are submodular on the majorization lattice for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = p \vee q$, for which we have
     \begin{equation} \label{eq:submodularity_renyi}
         2^{H_\alpha(p \wedge q)} + 2^{H_\alpha(p \vee q)} \leq 2^{H_\alpha(p)} + 2^{H_\alpha(q)}.
     \end{equation}
     Note that if $p \sim q$, there is trivially equality.
 \end{corollary}
 
-\noindent Theorem \ref{th:alternative_supermodularity} is a generalization of supermodularity to a broader class of functions. However, the condition $\beta(p, q) = \beta^\downarrow(p, q)$ is limiting. Numerical testing seems to indicate that the relation $A \succ B$ holds even in cases where $\beta(p, q) \neq \beta^\downarrow(p, q)$ (and so $\beta^\downarrow$ must be smoothed to get the join), which yields the first conjecture of this master thesis.
+\noindent Theorem \ref{th:alternative_supermodularity} is a generalization of supermodularity to a broader class of functions. However, the condition $\beta(p, q) = p \vee q$ is limiting. Numerical testing seems to indicate that the relation $A \succ B$ holds even in cases where $\beta(p, q) \neq \beta^\downarrow(p, q)$ (and so $\beta^\downarrow$ must be smoothed to get the join), which yields the first conjecture of this master thesis.
 
 \begin{conjecture} \label{conj:alternative_supermodularity}
     All sum-concave functions $F$ are supermodular on the majorization lattice, and so for all $p, q \in \mathcal{P}^d$,
@@ -125,12 +125,12 @@ However, the above proof can be reused for a sum-convex function $f$ (because $-
 
 \subsection{Main statement}
 
-Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = \beta^\downarrow(p, q)$ condition, because we will not make use of the join at all during the proof. We therefore have a form of subadditivity that is applicable to more functions than Cicalese and Vaccaro's original theorem. Moreover, the $d-dimensional$ certain distribution $\overline{1}_d = (1, 0, \dots, 0)$ also appears in the proof, and so our theorem is actually a slightly stronger form of subadditivity.
+Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = p \vee q$ condition, because we will not make use of the join at all during the proof. We therefore have a form of subadditivity that is applicable to more functions than Cicalese and Vaccaro's original theorem. Moreover, the $d$-dimensional certain distribution $\overline{\delta}_d = (1, 0, \dots, 0)$ also appears in the proof, and so our theorem is actually a slightly stronger form of subadditivity.
 
 \begin{theorem}[Subadditivity of all sum-concave functions] \label{th:alternative_subadditivity}
     All sum-concave functions $F$ are subadditive on the majorization lattice for all $p, q \in \mathcal{P}^d$. Formally,
     \begin{equation} \label{eq:subadditivity}
-        F(p \wedge q) \leq F(p) + F(q) - F(\overline{1}_d).
+        F(p \wedge q) \leq F(p) + F(q) - F(\overline{\delta}_d).
     \end{equation}
 \end{theorem}
 
@@ -139,9 +139,9 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = \b
     \begin{gather}
         r = p \wedge q,\\
         A = \text{concat}(p, q),\\
-        B = \text{concat}(\overline{1}_d, r),
+        B = \text{concat}(\overline{\delta}_d, r),
     \end{gather}
-    where $\text{concat}(\cdot, \cdot)$ is the ordered concatenation of two vectors. We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that majorization precursor $A \prec B$ is true. Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the first entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the first entries of $r$ and $\overline{1}_d$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ and $S^\downarrow_0(v) = 0$ for any $d$-dimensional probability vector $v$. For all $k \leq 2d$, we have
+    where $\text{concat}(\cdot, \cdot)$ is the ordered concatenation of two vectors. We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that majorization precursor $A \prec B$ is true. Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the first entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the first entries of $r$ and $\overline{\delta}_d$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ and $S^\downarrow_0(v) = 0$ for any $d$-dimensional probability vector $v$. For all $k \leq 2d$, we have
     \begin{gather}
         S^\downarrow_k (A) = \max_{l\leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right), \\
         S^\downarrow_k (B) = 1 + S^\downarrow_{k-1}(r).
@@ -197,13 +197,13 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = \b
     \begin{equation} \label{eq:subadditivity_karamata_step}
         \sum_{i=1}^{2d} \varphi(A_i) \geq \sum_{i=1}^{2d} \varphi(B_i).
     \end{equation}
-    By the sum nature of $F$, the LHS of (\ref{eq:supermodularity_karamata_step}) is precisely $F(p) + F(q)$, and the RHS is precisely $F(p \wedge q) + F(\overline{1}_d)$, which we can rearrange into
+    By the sum nature of $F$, the LHS of (\ref{eq:supermodularity_karamata_step}) is precisely $F(p) + F(q)$, and the RHS is precisely $F(p \wedge q) + F(\overline{\delta}_d)$, which we can rearrange into
     \begin{equation}
-        F(p \wedge q) \leq F(p) + F(q) - F(\overline{1}_d).
+        F(p \wedge q) \leq F(p) + F(q) - F(\overline{\delta}_d).
     \end{equation}
 \end{proof}
 
-It is interesting to note that the appearance of the additional term $F(\overline{1}_d)$ makes this theorem stronger than a subadditivity property. In the case of Shannon entropy, the additional term simply vanishes, because the entropy of the certain distribution $\overline{1}_d$ is 0, however for other sum-concave functions that are not 0 for the certain distribution, this is a better upper bound than simple subadditivity.
+It is interesting to note that the appearance of the additional term $F(\overline{\delta}_d)$ makes this theorem stronger than a subadditivity property. In the case of Shannon entropy, the additional term simply vanishes, because the entropy of the certain distribution $\overline{\delta}_d$ is 0, however for other sum-concave functions that are not 0 for the certain distribution, this is a better upper bound than simple subadditivity.
 
 
 
@@ -216,7 +216,7 @@ Just like with supermodularity, the above proof can be reused for a sum-convex f
 \begin{corollary}[Superadditivity of all sum-convex functions] \label{cor:superadditivity_sum-convex}
     All sum-convex functions $F$ are superadditive on the majorization lattice for all $p, q \in \mathcal{P}^d$. Formally,
     \begin{equation} \label{eq:superadditivity}
-        F(p \wedge q) \geq F(p) + F(q) - F(\overline{1}_d).
+        F(p \wedge q) \geq F(p) + F(q) - F(\overline{\delta}_d).
     \end{equation}
 \end{corollary}
 
