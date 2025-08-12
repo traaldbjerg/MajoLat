@@ -74,7 +74,7 @@ def LOCC_target_game(dims, bank, alpha=0, targets=[]): # see definition 6.5
 
 # execution
 if __name__ == "__main__":
-    tries = 100000
+    tries = 200000
     entropic_successes = 0
     unique_entropy_successes = 0
     bank_size = 10
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     ax.set_xlabel("Alpha")
     ax.set_ylabel("Average number of targets constructed")
     ax.set_title("Average number of targets constructed as a function of the strategy parameter alpha")
-    ax.legend()
+    #ax.legend()
     #ax.tick_params(which='major', width=1.00, length=5)
     #ax.tick_params(which='minor', width=0.75, length=2.5)
     #ax.xaxis.set_major_locator(ticker.AutoLocator())
