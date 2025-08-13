@@ -1,6 +1,6 @@
 \chapter{Quantification of incomparability for sets of states} \label{chap:volume}
 
-This chapter is a direct continuation of chapter \ref{chap:incomparability}. The question that this chapter tried to answer is the following: how can we generalize the notion of incomparability function of a probe state, relative to a \textit{set of reference states} ? For the rest of this master thesis, we will call this set of reference states the \textit{bank}. Because we are interested in quantum applications and LOCC transformations, which are confined to the $\mathcal{T}_+$ sets, we will only discuss the generalization of $E^+$. We did not attempt it, but we believe that reversing the whole discussion of this chapter is also possible for other theories such as quantum thermodynamics, which work with the $\mathcal{T}_-$ sets instead. We suspect that this might require to use a negentropy-based $E^-$.
+This chapter is a direct continuation of chapter \ref{chap:incomparability}. The question that this chapter tries to answer is the following: how can we generalize the notion of incomparability function of a probe state, relative to a \textit{set of reference states} ? For the rest of this master thesis, we will call this set of reference states the \textit{bank}. Because we are interested in quantum applications and LOCC transformations, which are confined to the $\mathcal{T}_+$ sets, we will only discuss the generalization of $E^+$. We did not attempt it, but we believe that reversing the whole discussion of this chapter is also possible for other theories such as quantum thermodynamics, which work with the $\mathcal{T}_-$ sets instead.% We suspect that this might require to use a negentropy-based $E^-$.
 
 
 
@@ -14,7 +14,7 @@ Let us remain in the 2 state context for now. Incomparability seems to enable \t
     V(A \backslash B) = V(A) - V(A \cap B),
 \end{equation}
 
-\noindent which is illustrated with Venn diagrams on figure \ref{fig:venn_two}.
+\noindent which is illustrated with Venn diagrams in Figure \ref{fig:venn_two}.
 
 \begin{figure}[h!] % code adapted from https://texample.net/venn-diagram/
     \centering
@@ -31,7 +31,7 @@ Let us remain in the 2 state context for now. Incomparability seems to enable \t
     \label{fig:venn_two}
 \end{figure}
 
-The key insight which we will use extensively for this chapter, which to our knowledge has not been used in the QRT field before, is that $\mathcal{T}_+(p) \cap \mathcal{T}_+(q) = \mathcal{T}_+(p \vee q)$ (we had briefly mentioned this relationship with figure \ref{fig:meet_join_example}). It is very important to note at this stage that while visually similar, the notation for the lattice-theoretic meet and join $\wedge$ and $\vee$ should not be confused with the notations for the set-theoretic union and intersection $\cup$ and $\cap$. With this insight, we can rewrite equation (\ref{eq:2_set_exclusion}) with $A = \mathcal{T}_+(p)$ and $B = \mathcal{T}_+(q)$ as
+The key insight which we will use extensively for this chapter, which to our knowledge has not been used in the QRT field before, is that $\mathcal{T}_+(p) \cap \mathcal{T}_+(q) = \mathcal{T}_+(p \vee q)$ (we had briefly mentioned this relationship in Figure \ref{fig:meet_join_example}). It is very important to note at this stage that while visually similar, the notation for the lattice-theoretic meet and join $\wedge$ and $\vee$ should not be confused with the notations for the set-theoretic union and intersection $\cup$ and $\cap$. With this insight, we can rewrite equation (\ref{eq:2_set_exclusion}) with $A = \mathcal{T}_+(p)$ and $B = \mathcal{T}_+(q)$ as
 
 \begin{equation}
     V(\mathcal{T}_+(p) \backslash \mathcal{T}_+(q)) = V(\mathcal{T}_+(p)) - V(\mathcal{T}_+(p \vee q)).

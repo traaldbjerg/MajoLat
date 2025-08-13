@@ -52,7 +52,6 @@ A better idea would be to use codes such that no code is a prefix for another co
 This section is based on Ref. \cite[pp. 98--108]{nielsen_quantum_2010}. Extending the notion of information to a quantum setting, where states can be in a superposition of several states depending on the basis choice, is not a trivial question. In order to do this, we first need to go through a few mathematical preliminaries. 
 
 For the rest of this master thesis, we will be considering computational states of a qubit, $\ket{0}$ and $\ket{1}$. The actual implementation of those states matters little for our purposes, be it an optical implementation with vertically and horizontally polarized photons, the spin of an ion vacancy in a crystalline lattice, phonon vibrations of ions in an ion trap, \dots It is useful to define the \textit{dual basis} of the computational states of a qubit. The basis vectors read
-
 \begin{align}
     \ket{+} &= \frac{1}{\sqrt{2}} (\ket{0} + \ket{1})\\
     \ket{-} &= \frac{1}{\sqrt{2}} (\ket{0} - \ket{1}).
@@ -68,7 +67,6 @@ The most general notion of quantum state is the notion of density operator, whic
 \end{definition}
 
 If the sum contains only one term, the state is said to be \textit{pure}, i.e. one can describe it with a single state vector. Otherwise, the state is said to be \textit{mixed}, because it can be seen as a \textit{classical mixture} of pure states. We will also use the convention that when we speak of nondescript mixed states, we explicitly mean states that are not pure (for some authors mixed states include pure states). The two states mentioned in our coin-flip example can be written
-
 \begin{align}
     \rho &= 1/2 \ket{0}\bra{0} + 1/2 \ket{1}\bra{1} = \left(\begin{matrix}
         1/2 & 0\\

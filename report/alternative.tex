@@ -145,7 +145,7 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = p 
     \end{gather}
     where $\text{concat}(\cdot, \cdot)$ is the ordered concatenation of two vectors. We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that the majorization precursor $A \prec B$ is true. Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the first entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the first entries of $r$ and $\overline{\delta}_d$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ and $S^\downarrow_0(v) = 0$ for any $d$-dimensional probability vector $v$. For all $k \leq 2d$, we have
     \begin{gather}
-        S^\downarrow_k (A) = \max_{l\leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right), \\
+        S^\downarrow_k (A) = \max_{0\leq l\leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right), \\
         S^\downarrow_k (B) = 1 + S^\downarrow_{k-1}(r).
     \end{gather} % si plusieurs l ou m sont possibles c'est pas grave pck on a quand meme le max de la somme je pense
     Recall equation (\ref{eq:alpha_bis}), from which we immediately deduce
@@ -173,8 +173,8 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = p 
     \end{align}
     where we have used the fact that the cumulative sum of any $d$-dimensional vector is always less or equal to 1 to write equation (\ref{eq:subadditivity_max_trick}). Therefore, for the majorization relation $S^\downarrow_k(B) \geq S^\downarrow_k(A)$ to be verified, it is enough to show that for any choice of $l$ that we haven't treated yet,
     \begin{align}
-                          S^\downarrow_{k-1}(p) + S^\downarrow_{k-1}(q) &\geq \max_{l \leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right)\\
-                                                                        \iff 0 &\geq \max_{l \leq k} \left(S^\downarrow_l (p) - S^\downarrow_{k-1}(p) + S^\downarrow_{k-l} (q) - S^\downarrow_{k-1}(q)\right), \label{eq:subadditivity_leq}
+                          S^\downarrow_{k-1}(p) + S^\downarrow_{k-1}(q) &\geq \max_{0\leq l \leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right)\\
+                                                                        \iff 0 &\geq \max_{0\leq l \leq k} \left(S^\downarrow_l (p) - S^\downarrow_{k-1}(p) + S^\downarrow_{k-l} (q) - S^\downarrow_{k-1}(q)\right), \label{eq:subadditivity_leq}
     \end{align}
     and so the majorization inequality is satisfied if we show that the RHS of eq. (\ref{eq:subadditivity_leq}) is less than or equal to 0.
     \begin{enumerate}[resume]
@@ -201,7 +201,7 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = p 
     \end{equation}
     By the sum nature of $F$, the LHS of (\ref{eq:supermodularity_karamata_step}) is precisely $F(p) + F(q)$, and the RHS is precisely $F(p \wedge q) + F(\overline{\delta}_d)$, which we can rearrange into
     \begin{equation}
-        F(p \wedge q) \leq F(p) + F(q) - F(\overline{\delta}_d).
+        F(p \wedge q) \leq F(p) + F(q) - F(\overline{\delta}_d). \qedhere
     \end{equation}
 \end{proof}
 
