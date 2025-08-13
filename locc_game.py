@@ -17,7 +17,7 @@ def generate_bank(dims, total, ocr=0, distribution=None):
         b.append(mj.ProbVector([1/dims for _ in range(dims)]))
     return b
 
-def LOCC_target_game(dims, bank, alpha=0, targets=[], distribution=None): # see definition 6.5
+def LOCC_target_game(dims, bank, alpha=0, targets=[], distribution=None, redundancy=True): # see definition 6.5
     successes = 0
     indexes = [_ for _ in range(len(bank))]
     target_indexes = [_ for _ in range(len(targets))]
@@ -61,10 +61,13 @@ def LOCC_target_game(dims, bank, alpha=0, targets=[], distribution=None): # see 
             else: # entropy is not that heavy computationally so not the end of the world to include it if alpha = 0
                 a.append(alpha * mj.entropy(bank[i]) + (1 - alpha) * mj.unique_entropy(bank[i],
                                                                                     [bank[_] for _ in lowest_reach if _ != i])) # loss function
-            b.append(0)
-            for j in can_reach: # redundancy factor
-                if bank[j] < bank[i]:
-                    b[current_index] += 1
+            if redundancy:
+                b.append(0)
+                for j in can_reach: # redundancy factor
+                    if bank[j] < bank[i]:
+                        b[current_index] += 1
+            else:
+                b.append(1)
             c.append(a[current_index]/b[current_index]) # weighted loss function
             current_index += 1
         # step 4 -- construct target if possible
@@ -96,11 +99,12 @@ if __name__ == "__main__":
     #print(target_distribution)
     step = 0.01
     successes = np.array([0 for _ in range(int(round(1/step) + 1))], dtype=np.float64)
+    redundancy = False
     #print(successes)
 
     Path.mkdir(Path("results"), exist_ok=True)
-    csv_path = Path("results/locc_game_{}_{}_{}_{}_{}_{}.csv".format(tries, dims, bank_size, ocr, step, skew))
-    png_path = Path("results/locc_game_{}_{}_{}_{}_{}_{}.png".format(tries, dims, bank_size, ocr, step, skew))
+    csv_path = Path("results/locc_game_{}_{}_{}_{}_{}_{}_{}.csv".format(tries, dims, bank_size, ocr, step, skew, redundancy))
+    png_path = Path("results/locc_game_{}_{}_{}_{}_{}_{}_{}.png".format(tries, dims, bank_size, ocr, step, skew, redundancy))
 
     for game in tqdm(range(tries), desc="Comparing strategies"): 
         bank = generate_bank(dims, bank_size, ocr)
@@ -108,7 +112,7 @@ if __name__ == "__main__":
         #bank_copy = copy.deepcopy(bank)
         #targets_copy = copy.deepcopy(targets)
         for alpha in range(int(round(1/step) + 1)):
-            successes[alpha] += LOCC_target_game(dims, bank, alpha=alpha*step, targets=targets) # try the different strategies
+            successes[alpha] += LOCC_target_game(dims, bank, alpha=alpha*step, targets=targets, redundancy=True) # try the different strategies
             #bank = copy.deepcopy(bank_copy) # revert to old state (not very clean, probably more efficient to only keep track of indices in LOCC_target_game)
             #targets = copy.deepcopy(targets_copy)
 

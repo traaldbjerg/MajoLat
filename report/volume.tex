@@ -316,7 +316,7 @@ Essentially, the parameter $b$, which we will call the \textit{redundacy factor}
 
 We also define an additional variation, which mixes bith proposed loss functions with a specific ratio that can be adjusted.
 
-\begin{definition}[Mixed strategy]
+\begin{definition}[Mixed strategy] \label{strat:mixed}
     Choose $\alpha \in [0, 1]$. The mixed strategy is the same as the unique entropy strategy (cf. definition \ref{strat:unique_entropy}), except that the loss function is replaced with $a_i = \alpha H(q_i) + (1 - \alpha) E^+(q_i \parallel Q'' \backslash q_i)$ in step \ref{step:volume}.
 \end{definition}
 
@@ -324,7 +324,14 @@ We also define an additional variation, which mixes bith proposed loss functions
 
 \subsection{Comparison and statistical sampling}
 
-Unfortunately, equation (\ref{eq:unique_entropy}) is computationally very demanding. Most of the time, property \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is not too large, however sometimes a target such that many states fall into $Q''$ is generated, and the unique entropy computation is costly. We would have liked to simulate LOCC state selection strategies and create a curve of the average success ratio between the volumic and the entropic strategy depending on the $\alpha$ parameter of the mixed strategy, but this was not realistic. An implementation of the LOCC state selection strategy and successive attemps (nicknamed "games") to survive against successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}. However, a small simulation of 500 games at dimensions 3 $\times$ 3 with a bank of 50 states (of which 45 uniformly sampled states and 5 OCRs) and 50 successive targets to reach shows that the volumic strategy does beat the entropic strategy by X\%.
+Unfortunately, equation (\ref{eq:unique_entropy}) is computationally very demanding. Most of the time, property \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is not too large, however sometimes a target such that many states fall into $Q''$ is generated, and the unique entropy computation is costly. We would have liked to simulate LOCC state selection strategies and create a curve of the average success ratio between the volumic and the entropic strategy depending on the $\alpha$ parameter of the mixed strategy, but this was not realistic. An implementation of the LOCC state selection strategy and successive attemps (nicknamed "games") to survive against successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}. To compare the strategies depending on the mixed strategy parameter $\alpha$, a bank of 9 states sampled uniformly on the $\Delta_{d-1}$ simplex and a maximally entangled state and a sequence of 10 targets are generated. A skew parameter allows to control the Dirichlet distribution from which the targets are sampled: if the sampling is uniform then all strategies perform very poorly because strongly entangled targets are likely to be sampled and are quickly not constructible depending on how many states have already been used. The same bank and same sequence of targets are given to algorithm \ref{strat:mixed} for each value of $\alpha$ (with a step of 0.01). This way we simulated 600000 games, and the average number of succesful targets for each value of $\alpha$ was recorded. The results of this process are shown in Figure \ref{fig:strategy_comparison}.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.7]{images/locc_game_100000_4_10_1_0.01_2.png}
+    \caption{Average number of succesful target constructions depending on the value of the strategy parameter $\alpha$ for a bank of 9 uniformly sampled states and 1 maximally entangled state, and 10 targets sampled with Dirichlet parameters $\left(2, \frac{1}{2}, \frac{1}{2}, \frac{1}{2}\right)$. Note that the $\alpha = 0$ extremity is the unique entropy strategy, and $\alpha = 1$ is similar to the entropic strategy, but also uses a redundancy factor $b$ and a weighted loss function $c$, in order to keep the strategies comparable.}
+    \label{fig:strategy_comparison}
+\end{figure}
 
 
 
