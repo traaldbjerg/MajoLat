@@ -266,6 +266,60 @@ This is interesting, because this example showcases a fundamental difference bet
 
 \newpage
 
+\section{Probabilistic entanglement transformations} \label{app:vidal}
+
+\setcounter{equation}{0}
+
+\subsection{Weak majorization}
+
+This section is based on \cite[pp. 10--15]{marshall_inequalities_2011}. It is sometimes useful to relax a bit the conditions on the majorization relation, in order to compare vectors that do not have the same sum. Two complementary notions can be defined, \textit{submajorization} and \textit{supermajorization}.
+
+\begin{appendix_definition}[Submajorization] \label{def:submajorization}
+    Let $p, q \in \mathbb{R}^d$ be two vectors of dimension $d$. We say that $p$ is submajorized by $q$, written $p \prec_w q$, if and only if
+    \begin{equation} \label{eq:submajorization}
+            S^\downarrow_k (q) \geq S^\downarrow_k (p) \quad \forall k = 1,...,d.
+    \end{equation}
+If the dimensions of the vectors do not match, one can always append zeroes to the one of lower dimension and apply the definition on the enlarged vector.
+\end{appendix_definition}
+
+\begin{appendix_definition}[Supermajorization] \label{def:supermajorization}
+    Let $p, q \in \mathbb{R}^d$ be two vectors of dimension $d$. We say that $p$ is supermajorized by $q$, written $p \prec^w q$, if and only if
+    \begin{equation} \label{eq:supermajorization}
+            S^\uparrow_k (q) \leq S^\uparrow_k (p) \quad \forall k = 1,...,d,
+    \end{equation}
+where $S^\uparrow_k(p)$ and $S^\uparrow_k (q)$ denote the $k^\text{th}$ non-decreasing cumulative sums\footnote{Notice that using the reverse ordering means that the first components of $p^\uparrow$ are the smallest components of $p$, and so the smallest components of $p$ should be greater than those of $q$ in order to be more uncertain. This is why the inequality in equation (\ref{eq:supermajorization}) is reversed.} of $p$ and $q$. If the dimensions of the vectors do not match, one can always append zeroes to the one of lower dimension and apply the definition on the enlarged vector.
+\end{appendix_definition}
+
+Essentially, these definitions are the same as majorization, but they remove the condition that $S_d(p) = S_d(q)$. This allows to compare objects that do not have the same 1-norm.
+
+
+
+\subsection{Vidal's theorem} \label{sec:vidal}
+
+This section is based on Refs. \cite{vidal_entanglement_1999} and \cite{nielsen_majorization_2001}. Until now, only deterministic entanglement transformations have been discussed, i.e. transformations that succeed with probability one. However, a more general notion of entanglement transformations is the class of \textit{probabilistic} entanglement transformations. In the context of LOCC, we will denote the class of LOCC transformations that succeed with probability $p$ by LOCC$_p$. As such, the class of deterministic LOCC transformations we have discussed until now is simply LOCC$_1$. Probabilistic transformations are powerful, because they can break the majorization condition of theorem \ref{th:nielsen}, meaning that such transformations can sometimes gain entanglement, even though the operations in themselves are not nonlocal in nature. While this may seem strange, the key lies in the word \textit{sometimes}: such a protocol has probability $p$ of succeeding, but when it fails with probability $1-p$, the resulting state is less entangled, and \textit{on average} the amount of entanglement is (at most) preserved. The following theorem gives the maximal success probability with which a state can be transformed into another.
+
+\begin{appendix_theorem}[Vidal's theorem] \label{th:vidal}
+    Let $\ket{\phi}$ and $\ket{\psi}$ be two pure states of a bipartite system $AB$. Then,
+    \begin{equation}
+        \ket{\psi} \reach{\text{LOCC}_p} \ket{\phi} \iff \lambda_\psi \prec^w p \lambda_\phi,
+    \end{equation}
+    where $\lambda_\psi$ and $\lambda_\phi$ are the Schmidt vectors of $\ket{\psi}$ and $\ket{\phi}$, respectively.
+\end{appendix_theorem}
+
+% ecrire la preuve ?
+
+\noindent This time, a supermajorization relation appears. The maximal success probability can thus be acquired from the theorem by finding the limiting probability $p$. 
+
+\begin{appendix_corollary}
+    Probabilistic LOCC transformations cannot increase the Schmidt rank of a state, because if $\lambda_\psi$ has Schmidt rank $k$ and $\lambda_\phi$ has Schmidt rank $k' > k$, then supermajorization relation $k+1$ is only satisfied for $p=0$.
+\end{appendix_corollary}
+
+
+
+
+
+\newpage
+
 \section{Proofs of monotonicity under bistochastic degradation of the reference} \label{app:q_monotonicity}
 
 \setcounter{equation}{0}
@@ -335,13 +389,42 @@ Let us turn our attention to $E^-$. This time around, the expected property for 
 
 \newpage
 
-\section{Proofs of the basic properties of unique entropy} \label{app:unique_entropy_properties}
+\section{Proof of the basic properties of unique entropy} \label{app:unique_entropy_properties}
 
 \setcounter{equation}{0}
 
 We prove here properties \ref{prop:commutativity}, \ref{prop:empty}, \ref{prop:p_absorption} and \ref{prop:q_absorption} from section \ref{sec:unique_entropy_properties}. The commutativity property \ref{prop:commutativity} is immediate by commutativity of the join, and so the ordering of the bank does not matter. This is what we would expect for an inclusion-exclusion formula, as the order in which we remove intersections of sets does not matter as long as we perform the full sum. Because the ordering of the bank is arbitrary, we can always make any vector the last vector of the bank, which is useful for proving properties \ref{prop:p_absorption}, \ref{prop:q_absorption} and \ref{prop:q_monotonicity} as showing the property for $i = k$ is sufficient.
 
-Property \ref{prop:empty} is immediate as well, because the join of the certain distribution $\overline{1}_d$ with any other vector remains the certain distribution. As such, all of the terms in equation (\ref{eq:unique_entropy}) are the entropy of $\overline{1}_d$, which is 0. For property \ref{prop:p_absorption}, we have the following.
+Property \ref{prop:empty} is immediate as well, because the join of the certain distribution $\overline{\delta}_d$ with any other vector remains the certain distribution. As such, all of the terms in equation (\ref{eq:unique_entropy}) are the entropy of $\overline{\delta}_d$, which is 0.  The key insight needed to prove the other properties is given by lemma \ref{lem:induction_trick}, which we prove here.
+
+\begin{proof}[Proof of Lemma \ref{lem:induction_trick}]
+    Let $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$. Developing all of the terms in eq. (\ref{eq:unique_entropy}), and regrouping the combinations containing $q_{k+1}$, we get
+    \begin{align}
+        E^+(p \parallel q_1, \dots, q_k, q_{k+1}) &= H(p) - \Big[H(p \vee q_1) + \dots + H(p \vee q_k) + H(p \vee q_{k+1})\Big] \nonumber \\
+                                                  &\quad + \Big[H(p \vee q_1 \vee q_2) + \dots + H(p \vee q_{k-1} \vee q_k) + H(p \vee q_1 \vee q_{k+1}) \nonumber \\
+                                                  &\quad + \dots + H(p \vee q_k \vee q_{k+1})\Big] - \dots\nonumber \\
+                                                  &\quad + (-1)^{k+1} H(p \vee \dots \vee q_k \vee q_{k+1})\\
+                                                  &= \Big(H(p) - \big[H(p \vee q_1) + \dots + H(p \vee q_k)\big] + \big[H(p \vee q_1 \vee q_2)\nonumber \\
+                                                  &\quad + \dots + H(p \vee q_{k-1} \vee q_k)\big] - \dots + (-1)^{k} H(p \vee \dots \vee q_{k-1} \vee q_{k})\Big) \nonumber \\
+                                                  &\quad - \Big(H(p \vee q_{k+1}) - \big[H(p \vee q_1 \vee q_{k+1}) + \dots + H(p \vee q_k \vee q_{k+1})\big]\nonumber \\
+                                                  &\quad + \big[H(p \vee q_1 \vee q_2 \vee q_{k+1}) + \dots + H(p \vee q_{k-1} \vee q_k \vee q_{k+1})\big]\nonumber \\
+                                                  &\quad - \dots + (-1)^{k} H(p \vee \dots \vee q_k \vee q_{k+1})\Big). \label{eq:swapparoo_start}
+    \end{align}
+    By commutativity of the join, we can push $q_{k+1}$ next to $p$, and so equation (\ref{eq:swapparoo_start}) becomes
+    \begin{align}
+        E^+(p \parallel q_1, \dots, q_k, q_{k+1}) &= \Big(H(p) - \big[H(p \vee q_1) + \dots + H(p \vee q_k)\big] + \big[H(p \vee q_1 \vee q_2)\nonumber \\
+                                                  &\quad + \dots + H(p \vee q_{k-1} \vee q_k)\big] - \dots + (-1)^{k} H(p \vee \dots \vee q_{k-1} \vee q_{k})\Big) \nonumber \\
+                                                  &\quad - \Big(H(p \vee q_{k+1}) - \big[H(p \vee q_{k+1} \vee q_1) + \dots + H(p \vee q_{k+1} \vee q_k)\big]\nonumber \\
+                                                  &\quad + \big[H(p \vee q_{k+1} \vee q_1 \vee q_2) + \dots + H(p \vee q_{k+1} \vee q_{k-1} \vee q_k)\big]\nonumber \\
+                                                  &\quad - \dots + (-1)^{k} H(p \vee q_{k+1} \vee \dots \vee q_k)\Big).  \label{eq:swapparoo_done}
+    \end{align}
+    Comparing terms one by one, we can see that the second half of the expression is exactly the same as the first half (which is equal to $E^+(p \parallel q_1, \dots, q_k)$) if $p$ is replaced by $p \vee q_{k+1}$, and so equation (\ref{eq:swapparoo_done}) becomes
+    \begin{equation}
+        E^+(p \parallel q_1, \dots, q_k, q_{k+1}) = E^+(p \parallel q_1, \dots, q_k) - E^+(p \vee q_{k+1} \parallel q_1, \dots, q_k). \qedhere
+    \end{equation}
+\end{proof}
+
+Such an expression lends itself very well to induction proofs. Let us now prove the remaining properties. For property \ref{prop:p_absorption}, we have the following.
 
 \begin{appendix_lemma}[Absorption in $p$ of unique entropy]
     Let $p, q_1, \dots, q_k \in \mathcal{P}^d$. If $\exists i \leq k \: | \: p \succ q_i$, then
@@ -378,3 +461,21 @@ This property is again quite intuitive, because if $p$ majorizes one of the vect
     \end{align}
     The same result can be reached by comparing term by term the possible combinations of states in the bank\footnote{Exactly half of the combinations containing $q_{k+1}$ also contain $q_k$. Because each of those can be paired up with the same combination excluding $q_k$, we have terms of same absolute value but opposite sign, and so all of the terms containing $q_{k+1}$ cancel out.}. If $i \neq k$, commuting $q_i$ until it becomes the $k^\text{th}$ vector of the bank and applying lemma \ref{lem:induction_trick} twice yields the same result. 
 \end{proof}
+
+
+
+\newpage
+
+\section{Notions of measure theory} \label{app:measure_theory}
+
+\setcounter{equation}{0}
+
+
+
+
+\newpage
+
+\section{Simulations of alternative filterings for LOCC state selection strategies} \label{app:alternative_filterings}
+
+\setcounter{equation}{0}
+

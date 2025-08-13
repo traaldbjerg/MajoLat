@@ -37,7 +37,7 @@ We will work with concatenated probability vectors. We will need the following d
 \subsection{Main statement}
 
 \begin{theorem}[Supermodularity of all sum-concave functions] \label{th:alternative_supermodularity}
-    All sum-concave functions $F$ are supermodular on the majorization lattice\footnote{It is important to specify which lattice, because a different lattice means a different ordering and different meet and join operations, leading to different properties. For example, on the boolean lattice, the Shannon entropy is \textit{submodular} instead CITATION NEEDED.} for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = p \vee q$ (as defined in (\ref{eq:beta})). For those vectors, we have
+    All sum-concave functions $F$ are supermodular on the majorization lattice\footnote{It is important to specify which lattice, because a different lattice means a different ordering and different meet and join operations, leading to different properties. For example, on the boolean lattice, the Shannon entropy is \textit{submodular} instead \cite{cicalese_supermodularity_2002}.} for all $p, q \in \mathcal{P}^d$ such that $\beta(p, q) = p \vee q$ (as defined in (\ref{eq:beta})). For those vectors, we have
     \begin{equation} \label{eq:supermodularity}
         F(p \wedge q) + F(p \vee q) \geq F(p) + F(q).
     \end{equation}
@@ -57,21 +57,21 @@ We will work with concatenated probability vectors. We will need the following d
     \end{gather}
     where $\text{concat}(\cdot, \cdot)$ is the ordered concatenation of two vectors. We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that $A \succ B$. To do so, we need to show that the majorization inequalities (cf. definition \ref{def:majorization}) are satisfied for each $k \leq 2d$. Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the first entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the first entries of $r$ and $s$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ for any $d$-dimensional probability vector $v$. For each $k \leq 2d$, we have
     \begin{gather}
-        S^\downarrow_k (A) = \max_{l\leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right), \\
-        S^\downarrow_k (B) = \max_{m\leq k} \left(S^\downarrow_{k-m} (r)+ S^\downarrow_m (s)\right).
+        S^\downarrow_k (A) = \max_{0\leq l\leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right), \\
+        S^\downarrow_k (B) = \max_{0\leq m\leq k} \left(S^\downarrow_{k-m} (r)+ S^\downarrow_m (s)\right). \label{eq:max_supermod}
     \end{gather} % si plusieurs l ou m sont possibles c'est pas grave pck on a quand meme le max de la somme je pense
     Recall equations (\ref{eq:alpha_bis}) and (\ref{eq:beta_bis}), from which we immediately deduce\footnote{This is the step where the $\beta(p, q) = p \vee q$ limitation comes into play: the expression in terms of maxima of cumulative sums of $\beta(p, q)$ was defined with the unordered vector, but majorization relations require the ordered vector. As such, we cannot use the maximum relation directly if $\beta(p, q) \neq \beta^\downarrow(p, q)$, on which this proof hinges.}
     \begin{gather}
         S^\downarrow_i (r) = \min \left\{S^\downarrow_i (p), S^\downarrow_i (q)\right\}, \\
         S^\downarrow_i (s) = \max \left\{S^\downarrow_i (p), S^\downarrow_i (q)\right\}.
     \end{gather} 
-    Let us fix $m$. There are two possible cases, either $S^\downarrow_m (p) \geq S^\downarrow_m (q)$ or $S^\downarrow_m (p) \leq S^\downarrow_m (q)$. Let us consider the $S^\downarrow_m (p) \geq S^\downarrow_m (q)$ case, which gives us
+    Let us call the value of $m$ that realizes the maximum of eq. (\ref{eq:max_supermod}) $m'$. There are two possible cases, either $S^\downarrow_{m'} (p) \geq S^\downarrow_{m'} (q)$ or $S^\downarrow_{m'} (p) \leq S^\downarrow_{m'} (q)$. Let us consider the $S^\downarrow_{m'} (p) \geq S^\downarrow_{m'} (q)$ case, which gives us
     \begin{align}
-        S^\downarrow_k (B) &= \min \left\{S^\downarrow_{k-m} (p), S^\downarrow_{k-m} (q)\right\} + S^\downarrow_m (p) \\
-        &\leq S^\downarrow_m (p) + S^\downarrow_{k-m} (q) \\
-        &\leq \max_{l\leq k} \left(S^\downarrow_l (p) +S^\downarrow_{k-l} (q)\right) = S^\downarrow_k (A),
+        S^\downarrow_k (B) &= \min \left\{S^\downarrow_{k-m'} (p), S^\downarrow_{k-m'} (q)\right\} + S^\downarrow_{m'} (p) \\
+        &\leq S^\downarrow_{m'} (p) + S^\downarrow_{k-m'} (q) \\
+        &\leq \max_{0\leq l\leq k} \left(S^\downarrow_l (p) +S^\downarrow_{k-l} (q)\right) = S^\downarrow_k (A),
     \end{align}
-    which is precisely one inequality of the majorization relation for a specific $k$. The $S^\downarrow_m (p) \leq S^\downarrow_m (q)$ case being symmetric, and this being true for all $k \leq 2d$, we have shown that $A \succ B$.
+    which is precisely one inequality of the majorization relation for a specific $k$. The $S^\downarrow_{m'} (p) \leq S^\downarrow_{m'} (q)$ case being symmetric, and this being true for all $k \leq 2d$, we have shown that $A \succ B$.
     Using Lemma \ref{lem:karamata} on $\varphi$ ($-\varphi$ being convex on the same interval), we get
     \begin{equation} \label{eq:supermodularity_karamata_step}
         \sum_{i=1}^{2d} \varphi(A_i) \leq \sum_{i=1}^{2d} \varphi(B_i).
@@ -81,7 +81,7 @@ We will work with concatenated probability vectors. We will need the following d
 
 \subsection{Corollaries and main conjecture}
 
-Of course, the corollary we care the most about is the supermodularity of Shannon entropy. We will not write it here however, because theorem \ref{th:shannon_supermodularity} is stronger than a corollary we can build from theorem \ref{th:alternative_supermodularity} (because of the limiting $\beta(p, q) = p \vee q$ condition).
+Of course, the corollary we care the most about is the supermodularity of Shannon entropy. We will not write it here however, because Theorem \ref{th:shannon_supermodularity} is stronger than a corollary we can build from theorem \ref{th:alternative_supermodularity} (because of the limiting $\beta(p, q) = p \vee q$ condition).
 
 However, the above proof can be reused for a sum-convex function $f$ (because $-f$ is sum-concave) by simply reversing the final Karamata inequality, giving the following corollary.
 

@@ -90,8 +90,7 @@ This new formulation in terms of entropies is a strengthening of the initial ent
 
 Another caveat to this criterion is that if $\lambda^A \sim \lambda^B$, then $\lambda^A \wedge \lambda^B = \lambda^A$ or $\lambda^B$ (whichever is majorized by the other), and the criterion reduces to the original one. As such, it seems that something interesting is happening when two vectors are incomparable, as incomparability enables us to improve entropic criteria. This very notion, of quantifying the amount of incomparability between two probability vectors and considering it a resource, is the idea that led to chapter \ref{chap:incomparability}.
 
-
-However, it could still be useful in experiments trying to assert whether a state is entangled or not. In such cases, the majorization relations can be hard to use because the vector of eigenvalues of the density operator can be hard to determine experimentally. However, the measurement statistics can be used to compute the Shannon entropy of the distributions easily. As such, if one could experimentally construct a state with the same eigenvalues as $\lambda^A \wedge \lambda^B$, one could measure its statistics and use the better lower bound to determine whether the joint state is separable. Unfortunately, no obvious way to construct this state, which we will note $\rho_{A \wedge B}$, was found. For example, constructing this state with an interferometer in quantum optics would require the construction of the meet (cf. Section \ref{sec:meet}) to have a known formulation in terms of unitary operators. An additional constraint is that the action of an interferometer cannot decrease the entropy of a state CITATION NEEDED, which means that the subadditivity property of Shannon entropy (cf. Theorem \ref{th:shannon_subadditivity}) prevents us from constructing an interferometer that only outputs the meet of two entry states because
+However, it could still be useful in experiments trying to assert whether a state is entangled or not. In such cases, the majorization relations can be hard to use because the vector of eigenvalues of the density operator can be hard to determine experimentally. However, given many copies, it is easier to use the measurement statistics to compute the Shannon entropy of the distributions. As such, if one could experimentally construct a state with the same eigenvalues as $\lambda^A \wedge \lambda^B$, one could measure its statistics and use the better lower bound to determine whether the joint state is separable. Unfortunately, no obvious way to construct this state, which we will note $\rho_{A \wedge B}$, was found. For example, constructing this state with an interferometer in quantum optics would require the construction of the meet (cf. Section \ref{sec:meet}) to have a known formulation in terms of unitary operators. An additional constraint is that the action of an interferometer cannot decrease the entropy of a state CITATION NEEDED, which means that the subadditivity property of Shannon entropy (cf. Theorem \ref{th:shannon_subadditivity}) prevents us from constructing an interferometer that only outputs the meet of two entry states because
 
 \begin{equation}
     H(\rho_{A \wedge B}) \leq H(\rho_A) + H(\rho_B).
@@ -114,13 +113,15 @@ We suspect that such an interferometer might be possible, but no clear lead on d
     &= \max \Big\{ \sum_{j=1}^{i} p_j , \sum_{j=1}^{i} q_j \Big\} - \max \Big\{ \sum_{j=1}^{i-1} p_j , \sum_{j=1}^{i-1} q_j \Big\},
 \end{align}
 
-\noindent where we use $\beta(p, q)$ instead of the true join because the smoothing algorithm is an additional layer of complexity (and is not needed to satisfy the increase in entropy). The minima and maxima of those expressions seem difficult to realize with unitaries. However, we suspect that nonlinear devices might help in achieving such behavior CITATION NEEDED.
+\noindent where we use $\beta(p, q)$ instead of the true join because the smoothing algorithm is an additional layer of complexity (and is not needed to satisfy the increase in entropy). The minima and maxima of those expressions seem difficult to realize with unitaries.
 
 % enft ecrire ca comme ca me donne des idees lol, peut-etre pas impossible enft
 
+
+
 \subsection{Other criteria}
 
-The previous discussion is not unique to quantum information and separability. Any other branch of physics working with coupled majorization relations but struggling to use them in practice might benefit from constructing the equivalent of a state $\rho_{A \wedge B}$ and computing the entropy of the resulting distribution. For example, another field that deals with majorization relations is the field of quantum thermodynamics, where allowed state transformations under thermal operations are bound to thermomajorization cones (called thermal cones), analogously to entanglement cones in LOCC \cite{junior_geometric_2022, korzekwa_structure_2017}. On the flip-side, this kind of entropic criterion based on the meet could also be used as an experimental sign\footnote{Not evidence, however, as the improved entropic criterion is still weaker than the majorization relation.} of an underlying majorization relation, in cases where one suspects that there is something deeper going on than only the entropic inequalities.
+The previous discussion is not unique to quantum information and separability. Any other branch of physics working with coupled majorization relations but struggling to use them in practice might benefit from constructing the equivalent of a state $\rho_{A \wedge B}$ and computing the entropy of the resulting distribution. For example, another field that deals with majorization relations is the field of quantum thermodynamics, where allowed state transformations under thermal operations are bound to thermomajorization cones (called thermal cones), analogously to entanglement cones in LOCC \cite{junior_geometric_2022, korzekwa_structure_2017}. On the flip-side, this kind of entropic criterion based on the meet could also be used as an experimental sign of an underlying majorization relation, in cases where one suspects that there is something deeper going on than only the entropic inequalities.
 
 
 
@@ -131,9 +132,9 @@ The improved criterion is not unique to Shannon entropy. All Rényi entropies $H
     \lambda^{AB} \prec \lambda^A \; \text{and} \; \lambda^{AB} \prec \lambda^{B} \; &\iff \; \lambda^{AB} \prec \lambda^A \wedge \lambda^B \;\\ &\implies \; H_\alpha(\lambda^{AB}) \geq H_\alpha(\lambda^A \wedge \lambda^B) \quad \forall \alpha \in \mathbb{R}^+.
 \end{align}
 
-A numerical analysis was carried out to figure out whether there exists an optimal $\alpha$ for which the improved criterion triggers the most amount of times, relative to the original criterion. This was simulated in the context of entanglement by generating random density matrices using QuTip with a specified tensor structure until the majorization criterion $\lambda^A \wedge \lambda^B \prec \lambda^{AB}$ is met. This way, 10,000 strongly entangled states are generated. Then, the Rényi-entropic criterion was used on each of these strongly entangled states by iterating over the value of $\alpha$, with a step of 0.2, and each entanglement detection was recorded. Finally, this process is repeated for several dimensions of interest. An implementation of this test is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}.
+A numerical analysis was carried out to figure out whether there exists an optimal $\alpha$ for which the improved criterion triggers the most amount of times, relative to the original criterion. This was simulated in the context of entanglement by generating random density matrices using QuTip with a specified tensor structure until the majorization criterion $\lambda^A \wedge \lambda^B \succ \lambda^{AB}$ is failed (and so we are guaranteed to not have a separable state). This way, 10,000 strongly entangled states are generated. Then, the Rényi-entropic criterion was used on each of these strongly entangled states by iterating over the value of $\alpha$, with a step of 0.2, and each entanglement detection was recorded. Finally, this process is repeated for several dimensions of interest. An implementation of this test is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}.
 
-Computationally, the eigenvalue calculations of the operators and reduced operators become very heavy as the dimensions increase, so the largest dimensions attempted were 3 by 6 before the computation time became prohibitive. The 2 by 2 case is not shown because incomparability is not possible in two dimensions and so the meet criterion reduces to the old one. The final results are shown in figures \ref{fig:renyi_comparison}.
+Computationally, the eigenvalue calculations of the operators and reduced operators become very heavy as the dimensions increase, so the largest dimensions attempted were $4 \times 4$ before the computation time became prohibitive. The $2 \times 2$ case is not shown because incomparability is not possible in two dimensions and so the meet criterion reduces to the old one. The final results are shown in figures \ref{fig:renyi_comparison}.
 
 \begin{figure}[ht] 
   \begin{subfigure}[b]{0.5\linewidth}
@@ -166,7 +167,8 @@ Computationally, the eigenvalue calculations of the operators and reduced operat
   \label{fig:renyi_comparison} 
 \end{figure}
 
-Interestingly, the Rényi simulation shows that there does seem to be an optimum $\alpha$. Moreover, it seems to be dimension-dependent (see shift between Figures \ref{fig:renyi_2x3} and \ref{fig:renyi_3x3}), with a clear optimum in dimension 3 $\times$ 3. Perhaps this hints at some deeper connection between Rényi entropy and majorization, but this research avenue was not explored further. It is also interesting to note that the improved criterion does not seem to show significant improvements according to the simulation. This might be because of a non-uniform density of quantum states in the $\Delta_{d-1}$ simplex, which might lead to a significant number of random density matrices being drawn close to the bottom of the lattice where both criteria can tell entanglement. Perhaps, instead, this might be due to reduced states of a density matrix not tending to be too imcomparable from each other, and thus being close to their meet\footnote{This is partly explained in Section \ref{sec:p_monotonicity} with Corollary \ref{cor:incomparability_separability}.}. This final idea leads nicely into the second part of this chapter, where we define and study new objects quantifying the incomparability between probability vectors.
+Interestingly, the Rényi simulation shows that there does seem to be an optimum $\alpha$. Moreover, it seems to be dimension-dependent (see shift between Figures \ref{fig:renyi_2x3} and \ref{fig:renyi_3x3}), with a clear optimum in dimension 3 $\times$ 3. Perhaps this hints at some deeper connection between Rényi entropy and majorization, but this research avenue was not explored further. It is also interesting to note that the improved criterion does not seem to show significant improvements according to the simulation. This might be because of a non-uniform density of quantum states in the $\Delta_{d-1}$ simplex, which might lead to a significant number of random density matrices being drawn close to the bottom of the lattice where both criteria can tell entanglement. Perhaps, instead, this might be due to reduced states of a density matrix not tending to be too imcomparable from each other, and thus being close to their meet%\footnote{This is partly explained in Section \ref{sec:p_monotonicity} with Corollary \ref{cor:incomparability_separability}.}
+. This final idea leads nicely into the second part of this chapter, where we define and study new objects quantifying the incomparability between probability vectors.
 
 
 
@@ -322,7 +324,7 @@ Essentially, this theorem simply states that our geometric intution concerning m
         \implies E^+ (p \parallel q) &= \min_{s' \succ q, p} d(p, s') \\
         &= \min_{s' \succ q, p} H(p) + H(s') - 2H(p \vee s') \\
         &= \min_{s' \succ q, p} H(p) + H(s') - 2H(s') \\
-        &= \min_{s' \succ q, p} H(p) - H(s').\\
+        &= \min_{s' \succ q, p} H(p) - H(s').
     \end{align}
 
     \noindent The Schur-concavity of the Shannon entropy implies that the maximum value of $H(s')$ for $s' \in \{v \mid v \succ p, q\}$\footnote{This is equivalent to saying $s' \in \mathcal{T}_+(p) \cap \mathcal{T}_+(q)$.}$ \subseteq \mathcal{P}^d$ is reached for a vector $s'$ that is majorized by all other vectors in the subset. By definition, that vector is the join $p \vee q$. \qedhere
@@ -442,13 +444,30 @@ We are now ready to prove the main result of this section, which again states th
 
 \section{Properties}
 
-For this section, we will denote bistochastic matrices of dimension $d\times d$ by the letter $D$. Recall that an equivalent definition of majorization is $p \prec q \iff \exists D \: | \: q = Dp$ (cf. section \ref{sec:bistochastic}). Now that we have defined our two incomparability functions and shown that they are equal to the (quasi)distance to the meet or join, let us show that they are monotones under a bistochastic degradation. Conversely, if they are increasing (resp. decreasing) monotones under a bistochastic degradation, they are a decreasing (resp. increasing) monotone under a LOCC degradation in the quantum picture. However, we are working with 2 states, and so we can study degradations of $p$ and of $q$ separately.
+For this section, we will denote bistochastic matrices of dimension $d\times d$ by the letter $D$. Recall that an equivalent definition of majorization is $p \prec q \iff \exists D \: | \: q = Dp$ (cf. section \ref{sec:bistochastic}). Now that we have defined our two incomparability functions and shown that they are equal to the (quasi)distance to the meet or join, let us show that they are monotones under a bistochastic degradation. An important consequence of such a property is that in the quantum picture, if they are increasing (resp. decreasing) monotones under a bistochastic degradation, they are a decreasing (resp. increasing) monotone under a LOCC degradation in the quantum picture. However, we are working with 2 states, and so we can study degradations of $p$ and of $q$ separately.
 
 
 
 \subsection{Monotonicity under bistochastic degradation of the probe} \label{sec:p_monotonicity}
 
-Let us start with studying the future incomparability function. If we can show that $E^+(Dp \parallel q)$ is greater than $E^+(p \parallel q)$ for any bistochastic matrix $D$ (implying $Dp \in \mathcal{T}_-(p)$), then we can promote our future incomparability function $E^+$ to an increasing monotone under bistochastic degradation of $p$, or alternatively to a decreasing monotone under LOCC degradation. Figure \ref{fig:future_p_monotonicity} shows why we geometrically expect this to be the case. The representation seems to indicate that the states with the lowest distance to $\mathcal{T}_+(q)$ are on the edge facing towards $q$. All of the states on the edge visually have the same distance to the cone, like $p'$. But remembering the hyperbolic metric induced by the entropic distance (cf. section \ref{sec:entropic_distances}), we deduce that $d(p', p' \vee q) \geq d(p, p \vee q)$ for any $p'$ on that edge.
+Let us start with studying the future incomparability function. If we can show that $E^+(Dp \parallel q)$ is greater than $E^+(p \parallel q)$ for any bistochastic matrix $D$ (implying $Dp \in \mathcal{T}_-(p)$), then we can promote our future incomparability function $E^+$ to an increasing monotone under bistochastic degradation of $p$, or alternatively to a decreasing monotone under LOCC degradation. Figure \ref{fig:future_p_monotonicity} shows why we geometrically expect this to be the case. The representation seems to indicate that the states with the lowest distance to $\mathcal{T}_+(q)$ are on the edge facing towards $q$. All of the states on the edge visually have the same distance to the cone, like $p'$. But remembering the hyperbolic metric induced by the entropic distance (cf. section \ref{sec:entropic_distances}), we deduce that $d(p', p' \vee q) \geq d(p, p \vee q)$ for any $p'$ on that edge. In order to rigorously prove monotonicity, we will first need the following lemma (cf. figure \ref{fig:hyperbolic_geometry}).
+
+\begin{lemma} \label{lem:incomparable_diamond}
+    In any incomparable diamond $p, q, p \wedge q, p \vee q$ we have $d(p, p \vee q) \leq d(q, p \wedge q)$.
+\end{lemma}
+
+\begin{proof}
+    Let $p, q \in \mathcal{P}^d$. We have
+    \begin{align}
+        d(p, p \vee q) &= H(p) + H(p \vee q) - 2H(p \vee (p \vee q))\\
+        &= H(p) - H(p \vee q)\\
+        &= H(p) + H(p \wedge q) - H(p \wedge q) - H(p \vee q)\\
+        \overset{\text{supermod}}&{\leq} H(p \wedge q) - H(q)\\
+        &= d(q, p \wedge q). \qedhere
+    \end{align} 
+\end{proof}
+
+This lemma is essentially just an equivalent way of stating supermodularity. We are now ready to prove the main theorem of this section.
 
 \begin{figure}[h!] % rajouter les 4 distances sur la figure ?
     \centering
@@ -495,33 +514,14 @@ Let us start with studying the future incomparability function. If we can show t
     \label{fig:future_p_monotonicity}
 \end{figure}
 
-\noindent In order to rigorously prove monotonicity, we will first need the following lemma (cf. figure \ref{fig:hyperbolic_geometry}).
-
-\begin{lemma} \label{lem:incomparable_diamond}
-    In any incomparable diamond $p, q, p \wedge q, p \vee q$ we have $d(p, p \vee q) \leq d(q, p \wedge q)$.
-\end{lemma}
-
-\begin{proof}
-    Let $p, q \in \mathcal{P}^d$. We have
-    \begin{align}
-        d(p, p \vee q) &= H(p) + H(p \vee q) - 2H(p \vee (p \vee q))\\
-        &= H(p) - H(p \vee q)\\
-        &= H(p) + H(p \wedge q) - H(p \wedge q) - H(p \vee q)\\
-        \overset{\text{supermod}}&{\leq} H(p \wedge q) - H(q)\\
-        &= d(q, p \wedge q). \qedhere
-    \end{align} 
-\end{proof}
-
-This lemma is essentially just an equivalent way of stating supermodularity. We are now ready to prove the main theorem of this section.
-
 \begin{theorem} \label{th:monotone_future_p}
-    There exists no bistochastic matrix $D$ such that $E^+ (Dp \parallel q) < E^+ (p \parallel q)$.
+    For all bistochastic matrices $D$, $E^+ (Dp \parallel q) \geq E^+ (p \parallel q)$.
 \end{theorem}
 
 This theorem essentially states that $E^+$ is an increasing monotone under bistochastic degradation of $p$. This proof is perhaps the trickiest of the chapter, so figure \ref{fig:future_p_monotonicity_construction} illustrates the different vectors of the construction on the lattice to help with comprehension.
 
 \begin{proof}
-    Let us show that the minimal value of $E^+ (p' \parallel q)$ (with $p' \prec p$) is realized for $p' = p$. Let $p'$ be a vector majorized by $p$, i.e. there exists a bistochastic matrix $D$ such that $p' = Dp$. Let $q'(p') = p' \vee q$, and let $p''(p') = p \wedge q'$ which are both functions of the variable to minimize over, $p'$. To avoid cluttering the expressions, we will simply write $p''$ and $q'$, but one should keep in mind that they are indeed functions of $p'$. By hypothesis and by definition of $q'$, $p'$ is majorized by both $p$ and $q'$, which is equivalent to $p'$ being majorized by $p \wedge q'$. We have
+    Let us show that the minimal value of $E^+ (p' \parallel q)$ (with $p' \prec p$) is realized for $p' = p$. Let $p'$ be a vector majorized by $p$, i.e. there exists a bistochastic matrix $D$ such that $p' = Dp$. Let $q'[p'] = p' \vee q$, and let $p''[p'] = p \wedge q'$ which are both functions of the variable to minimize over, $p'$. By hypothesis and by definition of $q'$, $p'$ is majorized by both $p$ and $q'$, which is equivalent to $p'$ being majorized by $p \wedge q'$. We have
 
     \begin{equation}
          d(p'', q') = H(p \wedge q') - H(q') \leq H(p') - H(q') = d(p', q'), \label{eq:construction}
@@ -531,10 +531,10 @@ This theorem essentially states that $E^+$ is an increasing monotone under bisto
 
     \begin{align}
         \min_{p' \prec p} E^+ (p' \parallel q) &= \min_{p' \prec p} d(p', p' \vee q)\\
-        &= \min_{p' \prec p} d(p', q')\\
-        \overset{\text{(\ref{eq:construction})}}&{=} \min_{p' \prec p} d(p'', q')\\
-        &= \min_{p' \prec p} d(p \wedge q', q')\\
-        \overset{\text{Lemma \ref{lem:incomparable_diamond}}}&{\geq} \min_{p' \prec p} d(p, p \vee q')\\
+        &= \min_{p' \prec p} d(p', q'[p'])\\
+        \overset{\text{(\ref{eq:construction})}}&{=} \min_{p' \prec p} d(p''[p'], q'[p'])\\
+        &= \min_{p' \prec p} d(p \wedge q'[p'], q'[p'])\\
+        \overset{\text{Lemma \ref{lem:incomparable_diamond}}}&{\geq} \min_{p' \prec p} d(p, p \vee q'[p'])\\
         &= \min_{p' \prec p} d(p, p \vee (p' \vee q))\\
         &= \min_{p' \prec p} d(p, (p \vee p') \vee q)\\
         &= d(p, p \vee q)\\
@@ -582,7 +582,6 @@ This theorem essentially states that $E^+$ is an increasing monotone under bisto
         \path [name intersections={of=P'--H and P--F, by=P''}];
         \node [fill=black,inner sep=1pt,label=180:$p''$] at (P'') {};
         
-
     \end{tikzpicture}
     \caption{Depiction of the lattice construction for the proof of theorem \ref{th:monotone_future_p}. Essentially, the purpose of $q'$ is only to define $p''$ from $q'$, which is guaranteed to be on the edge closest to $q$ where the (visually) closest points to $\mathcal{T}_+(q)$ lie no matter the choice of $p'$.}
     \label{fig:future_p_monotonicity_construction}
@@ -591,14 +590,14 @@ This theorem essentially states that $E^+$ is an increasing monotone under bisto
 This theorem is quite satisfying in the sense that it seems to indicate that our geometric intuitions on the lattice are valid. Moreover, we can now promote the future incomparability function to a future incomparability \textit{monotone}. Theorem \ref{th:monotone_future_p} has a few corollaries.
 
 \begin{corollary} \label{cor:incomparability_LOCC}
-    Let $\ket{\psi}$ and $\ket{\phi}$ be two pure quantum states, and let $\lambda_\psi$ and $\lambda_\phi$ be the associated Schmidt vectors. If $\ket{\psi} \overset{\text{LOCC}}{\longrightarrow} \ket{\phi}$ with probability 1, then $E^+ (\lambda_\psi \parallel \lambda_\alpha) \geq E^+ (\lambda_\phi \parallel \lambda_\alpha)$ with $\lambda_\alpha$ some probability vector.
+    Let $\ket{\psi}$ and $\ket{\phi}$ be two pure quantum states, and let $\lambda_\psi$ and $\lambda_\phi$ be the associated Schmidt vectors. If $\ket{\psi} \overset{\text{LOCC}}{\longrightarrow} \ket{\phi}$ with probability 1, then $E^+ (\lambda_\psi \parallel \lambda_\alpha) \geq E^+ (\lambda_\phi \parallel \lambda_\alpha)$ with $\lambda_\alpha$ some Schmidt vector.
 \end{corollary}
 
 \begin{corollary} \label{cor:incomparability_separability}
     Let $\rho_{AB}$ be a bipartite quantum state, and let $\rho_A$ and $\rho_B$ be the reduced states. Let $\lambda_{AB}, \lambda_A$ and $\lambda_B$ be the vectors of eigenvalues of their density matrices. Then, if $\rho_{AB}$ is separable, $E^+ (\lambda_{AB} \parallel \lambda_B) \geq E^+ (\lambda_A \parallel \lambda_B)$ and $E^+ (\lambda_{AB} \parallel \lambda_A) \geq E^+ (\lambda_B \parallel \lambda_A)$.
 \end{corollary}
 
-These corollaries, while not very useful per se, still hold some interpretational value, because they show that in the sense of our future incomparability monotone, some states must be more incomparable than others relatively to some set states. Corollary \ref{cor:incomparability_LOCC}, while involving some nondescript Schmidt vector $\lambda_\alpha$, essentially states it is not possible to create a state that is more incomparable to $\lambda_\alpha$ through LOCC than the original state $\lambda_\psi$. Corollary \ref{cor:incomparability_separability} is perhaps more interesting, and states that if a joint state is separable, then the joint state is more incomparable to each of the reduced states than the reduced states are to each other. The converse might partly explain the discussion at the end of chapter \ref{chap:criteria}: if a state is strongly entangled, then it is more incomparable to each of the reduced states than they are between each other. Therefore, such states tend to not have particularly incomparable $\lambda^A$ and $\lambda^B$, which also means that their meet is fairly close, and so the improved criterion involving the meet is not a significant improvement, especially considering that $\lambda^{AB}$ cannot be too close to them.
+These corollaries, while not very useful per se, still hold some interpretational value, because they show that in the sense of our future incomparability monotone, some states must be more incomparable than others relatively to some set states. Corollary \ref{cor:incomparability_LOCC}, while involving some nondescript Schmidt vector $\lambda_\alpha$, essentially states that it is not possible to create a state that is more incomparable to $\lambda_\alpha$ through LOCC than the original state $\lambda_\psi$. Corollary \ref{cor:incomparability_separability} is perhaps more interesting, and states that if a joint state is separable, then the joint state is more incomparable to each of the reduced states than the reduced states are to each other. %The converse might partly explain the discussion at the end of chapter \ref{chap:criteria}: if a state is strongly entangled, then it is more incomparable to each of the reduced states than they are between each other. Therefore, such states tend to not have particularly incomparable $\lambda^A$ and $\lambda^B$, which also means that their meet is fairly close, and so the improved criterion involving the meet is not a significant improvement, especially considering that $\lambda^{AB}$ cannot be too close to them. rip petit ange parti trop tot
 
 One would hope that the analogue of theorem \ref{th:monotone_future_p} would hold for the measure of past incomparability $E^-$, however it does not. The following counterexample shows that a bistochastic matrix $D$ such that $E^- (Dp \parallel q) < E^- (p \parallel q)$ can exist, but also that a bistochastic matrix $D'$ such that $E^- (D'p \parallel q) > E^- (p \parallel q)$ can exist too. Let $q = (0.6, 0.4)$, $p = (0.7, 0.29, 0.01)$, $p' = p \wedge q$ and $p'' = (0.7, 0.15, 0.15)$. One can verify that $p$ majorizes both $p'$ and $p''$, yet $E^- (p \parallel q) = 0.0939$ bits, $E^- (p' \parallel q) = 0$ bits and $E^- (p'' \parallel q) = 0.171$ bits. With figure FAIRE FIGURE it is not too hard to see that this is because the hyperbolic geometry makes distance in the wrong way in this case: sticking to the right edge for $p'$ makes $E^-$ increase, whereas with $p''$ one can go straight towards the past cone of $q$, making $E^-$ decrease, and so there is no monotonicity.
 
@@ -690,13 +689,13 @@ Let us now turn our attention to bistochastic degradations of $q$, and attempt t
 \end{figure}
 
 \begin{theorem} \label{th:monotone_future_q}
-    There exists no bistochastic matrix $D$ such that $E^+ (p \parallel Dq) > E^+ (p \parallel q)$.
+    For all bistochastic matrices $D$, $E^+ (p \parallel Dq) \leq E^+ (p \parallel q)$.
 \end{theorem}
 
 Let us turn our attention to $E^-$. This time around, the expected property for $E^-$ does hold, and we do have monotonicity in $q$. If we can show that $E^-(p \parallel Dq) > E^+(p \parallel q)$ for any bistochastic matrix $D$, then $E^-$ would be an increasing monotone, like we expect.
 
 \begin{theorem} \label{th:monotone_past_q}
-    There exists no bistochastic matrix $D$ such that $E^- (p \parallel Dq) < E^- (p \parallel q)$.
+    For all bistochastic matrices $D$, $E^- (p \parallel Dq) \geq E^- (p \parallel q)$.
 \end{theorem}
 
 To conclude this section, we will simply note that theorems \ref{th:monotone_future_q} and \ref{th:monotone_past_q} have similar corollaries to those of theorem \ref{th:monotone_future_p}.
@@ -727,7 +726,7 @@ Now that we have these monotones and have proved some monotonicity properties, w
 
 Both of these definitions have interesting properties that might be desirable depending on different use cases. For $F$, a nice property is that theorems \ref{th:monotone_future_q} and \ref{th:monotone_past_q} guarantee that $F$ is a decreasing monotone under bistochastic degradation of $q$. However, $F$ is not necessarily positive. It is unknown whether it is a monotone under bistochastic degradation of $p$.
 
-For $G$, the advantage is that it is positive, and it does satisfy equation (\ref{eq:ideal_incomparability}), because $E^+(p \parallel q) = 0 \iff p \in \mathcal{T}_+(q)$ and $E^-(p \parallel q) = 0 \iff p \in \mathcal{T}_-(q)$. The only region where $G(p \parallel q) \neq 0$ is $\mathcal{T}_\emptyset(q)$, which is a very nice property for a measure of incomparability. However, $G$ loses the monotonicity under bistochastic degradation of $q$. It is unknown whether it is a monotone under bistochastic degradation of $p$.
+For $G$, the advantage is that it is positive, and it does satisfy equation (\ref{eq:ideal_incomparability}), because $E^+(p \parallel q) = 0 \iff p \in \mathcal{T}_+(q)$ and $E^-(p \parallel q) = 0 \iff p \in \mathcal{T}_-(q)$. The only region where $G(p \parallel q) \neq 0$ is $\mathcal{T}_\emptyset(q)$, which is a very nice property for a measure of incomparability. However, $G$ loses the monotonicity under bistochastic degradation of $q$. It is however not a monotone under bistochastic degradation of $p$.
 
 \section{Discussion}
 

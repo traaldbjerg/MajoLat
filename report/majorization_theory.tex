@@ -133,28 +133,6 @@ We will be using the convention that $S^\downarrow_0 (v) = 0$ for any vector $v$
 
 At integer abscissa $i$, we see the values of $S_i^\downarrow (v)$ for each vector $v$. At each point, we can thus compare the value of the cumulative sums of each vector, which is precisely the same as an inequality of the majorization relation (\ref{eq:majorization}). From these figures, we quite quickly get the intuition that if one vector majorizes another (i.e. they are comparable), then all of the inequalities must be satisfied and the majorizer's curve must be above the majorized's curve at all points. If the two vectors are incomparable, then at least one inequality must fail, and so there must be a reversal in the largest cumulative sum, and the Lorenz curves must cross at least once.
 
-\subsection{Weak majorization}
-
-This section is based on \cite[pp. 10--15]{marshall_inequalities_2011}. It is sometimes useful to relax a bit the conditions on the majorization relation, in order to compare vectors that do not have the same sum. Two complementary notions can be defined, \textit{submajorization} and \textit{supermajorization}.
-
-\begin{definition}[Submajorization] \label{def:submajorization}
-    Let $p, q \in \mathbb{R}^d$ be two vectors of dimension $d$. We say that $p$ is submajorized by $q$, written $p \prec_w q$, if and only if
-    \begin{equation} \label{eq:submajorization}
-            S^\downarrow_k (q) \geq S^\downarrow_k (p) \quad \forall k = 1,...,d.
-    \end{equation}
-If the dimensions of the vectors do not match, one can always append zeroes to the one of lower dimension and apply the definition on the enlarged vector.
-\end{definition}
-
-\begin{definition}[Supermajorization] \label{def:supermajorization}
-    Let $p, q \in \mathbb{R}^d$ be two vectors of dimension $d$. We say that $p$ is supermajorized by $q$, written $p \prec^w q$, if and only if
-    \begin{equation} \label{eq:supermajorization}
-            S^\uparrow_k (q) \leq S^\uparrow_k (p) \quad \forall k = 1,...,d,
-    \end{equation}
-where $S^\uparrow_k(p)$ and $S^\uparrow_k (q)$ denote the $k^\text{th}$ non-decreasing cumulative sums\footnote{Notice that using the reverse ordering means that the first components of $p^\uparrow$ are the smallest components of $p$, and so the smallest components of $p$ should be greater than those of $q$ in order to be more uncertain. This is why the inequality in equation (\ref{eq:supermajorization}) is reversed.} of $p$ and $q$. If the dimensions of the vectors do not match, one can always append zeroes to the one of lower dimension and apply the definition on the enlarged vector.
-\end{definition}
-
-Essentially, these definitions are the same as majorization, but they remove the condition that $S_d(p) = S_d(q)$. This allows to compare objects that do not have the same 1-norm.
-
 
 
 \section{Schur-convex and Schur-concave functions}
@@ -256,7 +234,7 @@ In a similar fashion, the lub, the join, of two vectors $p, q \in \mathcal{P}^d$
 
 \subsection{Majorization cones and geometric intuition} \label{sec:majorization_cones}
 
-Before going further with the proof, let us first give a 2D visual representation of the lattice, which is very helpful in building intuition for using the lattice, first proposed in the field of thermomajorization \cite{korzekwa_structure_2017}. More accurate representations exist but are much more complicated, living in the canonical Weyl chamber of a $\Delta_{d-1}$ simplex \cite{junior_geometric_2022}. Nevertheless, the simple 2D depiction is very useful to think about, even if one has to be careful not to draw hasty conclusions from it.
+Before going further with the proof sketch, let us first give a 2D visual representation of the lattice, which is very helpful in building intuition for using the lattice, first proposed in the field of thermomajorization \cite{korzekwa_structure_2017}. More accurate representations exist but are much more complicated, living in the canonical Weyl chamber of a $\Delta_{d-1}$ simplex \cite{junior_geometric_2022}. Nevertheless, the simple 2D depiction is very useful to think about, even if one has to be careful not to draw hasty conclusions from it.
 
 \begin{definition}[Majorization cones] \label{def:majorization_cones}
     The set of states that majorize $p$ is called the \textit{future cone}\footnote{Our naming conventions and notations are for the most part entirely opposite to the thermomajorization conventions for reasons that will be made clear in section \ref{sec:nielsen}. Most notably, our future cone corresponds to their past cone and vice versa.}  $\mathcal{T}_+ (p)$. The set of states that are majorized by $p$ is called the \textit{past cone} $\mathcal{T}_- (p)$. The set of states that are neither in the past nor the future cone of $p$ is called the \textit{incomparable region} $\mathcal{T}_\emptyset (p)$.
@@ -365,19 +343,17 @@ In order to show that the quadruple $\langle \mathcal{P}^d, \prec, \wedge, \vee 
 
 \subsection{Constructing the join} \label{sec:join}
 
-We can proceed in a similar way for the join of two vectors $p \vee q$, and thinking in terms of Lorenz curves will once again give us the right idea to move forward. As a first attempt, let us take $p = (0.6, 0.2, 0.2)$ and $q = (0.45, 0.45, 0.1)$ again, both in $\mathcal{P}^3$. This time, the least ordered vector that still majorizes both $p$ and $q$ should have a Lorenz curve that hugs their curves from above, let us write it $\beta(p, q)$. Figure \ref{fig:join_naive_attempt} shows their Lorenz curves.
+We can proceed in a similar way for the join of two vectors $p \vee q$, and thinking in terms of Lorenz curves will once again give us the right idea to move forward. As a first attempt, let us take $p = (0.6, 0.2, 0.2)$ and $q = (0.45, 0.45, 0.1)$ again, both in $\mathcal{P}^3$. This time, the least ordered vector that still majorizes both $p$ and $q$ should have a Lorenz curve that hugs their curves from above, let us write it $\beta(p, q)$. Figure \ref{fig:join_naive_attempt} shows their Lorenz curves. Formally, we can define the vector $\beta(p, q) = (b_1, ..., b_d)$ as 
+\begin{align}
+    b_i &= \max \Big\{ \sum_{j=1}^{i} p_j , \sum_{j=1}^{i} q_j \Big\} - \sum_{j=1}^{i-1} b_j \label{eq:beta_bis} \\
+    &= \max \Big\{ \sum_{j=1}^{i} p_j , \sum_{j=1}^{i} q_j \Big\} - \max \Big\{ \sum_{j=1}^{i-1} p_j , \sum_{j=1}^{i-1} q_j \Big\}. \label{eq:beta}
+\end{align}
 
 \begin{figure}[h!] 
     \centering
     \includegraphics[scale=0.6]{images/join_naive_attempt.png}
     \caption{Representation of the $p = (0.6, 0.2, 0.2)$ and $q = (0.45, 0.45, 0.1)$ example, along with the prototype $\beta(p, q)$ lub vector.} \label{fig:join_naive_attempt}
 \end{figure}
-
-\noindent More formally, we can define the vector $\beta(p, q) = (b_1, ..., b_d)$ as 
-\begin{align}
-    b_i &= \max \Big\{ \sum_{j=1}^{i} p_j , \sum_{j=1}^{i} q_j \Big\} - \sum_{j=1}^{i-1} b_j \label{eq:beta_bis} \\
-    &= \max \Big\{ \sum_{j=1}^{i} p_j , \sum_{j=1}^{i} q_j \Big\} - \max \Big\{ \sum_{j=1}^{i-1} p_j , \sum_{j=1}^{i-1} q_j \Big\}. \label{eq:beta}
-\end{align}
 
 While this is a step in the right direction, things are unfortunately more complicated than for the meet, as this vector is not guaranteed to be sorted in nonincreasing order and is thus not necessarily in $\mathcal{P}^d$. In order to see why, let us take a slightly more complicated example with $p = (0.6, 0.15, 0.15, 0.1)$ and $q = (0.5, 0.25, 0.20, 0.05)$ and let us define $\beta'(p, q) = (\beta(p, q))^\downarrow \in \mathcal{P}^d$. We have
 \begin{align}

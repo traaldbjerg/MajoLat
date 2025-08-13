@@ -1,6 +1,6 @@
 \chapter{Quantification of incomparability for sets of states} \label{chap:volume}
 
-This chapter is a direct continuation of chapter \ref{chap:incomparability}. The question that this chapter tried to answer is the following: how can we generalize the notion of incomparability function of a probe state, relative to a \textit{set of reference states} ? For the rest of this master thesis, we will call this set of reference states the \textit{bank}. We will also focus on LOCC-reachability, which are confined to the $\mathcal{T}_+$ sets, and will only discuss the generalization of $E^+$. We did not attempt it, but we believe that reversing the whole discussion of this chapter is also possible for other theories such as quantum thermodynamics, which work with the $\mathcal{T}_-$ sets instead, on the condition to work with a negentropy-based $E^-$.
+This chapter is a direct continuation of chapter \ref{chap:incomparability}. The question that this chapter tried to answer is the following: how can we generalize the notion of incomparability function of a probe state, relative to a \textit{set of reference states} ? For the rest of this master thesis, we will call this set of reference states the \textit{bank}. Because we are interested in quantum applications and LOCC transformations, which are confined to the $\mathcal{T}_+$ sets, we will only discuss the generalization of $E^+$. We did not attempt it, but we believe that reversing the whole discussion of this chapter is also possible for other theories such as quantum thermodynamics, which work with the $\mathcal{T}_-$ sets instead. We suspect that this might require to use a negentropy-based $E^-$.
 
 
 
@@ -87,22 +87,11 @@ Several equivalent versions of theorem \ref{th:inclusion-exclusion} exist, but t
     where $p \bigvee\limits_{i \in J} q_i$ is defined as $p \vee q_{j_1} \vee \dots \vee q_{j_n}$ (with $\{j_1, \dots, j_n\} = J$), is the volume of the set of states that is only LOCC-reachable from $p$ but not from the bank of states $\{q_1, \dots, q_k\}$.
 \end{corollary}
 
-Let us now turn our attention to what it means for a set function to be volume-like. The main defining property is that such a function must be \textit{finitely additive}.
-
-\begin{definition}[Finite additivity CITATION NEEDED]
-    A set function $F: \Omega \rightarrow \mathbb{R}$ is finitely additive iff for all sets $A_i \subseteq \Omega, 1 \leq i \leq k$ that are mutually disjoint (i.e. $A_i \cap A_j = \emptyset \: \forall \: i \neq j$), we have
-    \begin{equation}
-        F\left(\bigcup\limits_{i = 1}^k A_i\right) = \sum_{i=1}^k F(A_i).
-    \end{equation}
-\end{definition}
-
-In most textbooks, the inclusion-exclusion principle is derived from the property of finite additivity. However, they are equivalent as one implies the other CITATION NEEDED.
-
 
 
 \subsection{Generalization of incomparability monotones to a bank of states}
 
-The volume of convex polytopes in Weyl chambers (which our majorization cones are) under a Euclidean measure can be computed explicitly. Unfortunately, no closed-form solution exists past dimension 3, although algorithms do exist to compute them in any dimension \cite{junior_geometric_2022}. However, compute time and memory requirements can quickly become limiting as the dimensions increase, rendering such methods difficult to use \cite{bueler_exact_2000} A REVERIFIER.
+The volume of convex polytopes in Weyl chambers (which our majorization cones are) under a Euclidean measure can be computed explicitly. Unfortunately, no closed-form solution exists past dimension 3, although algorithms do exist to compute them in any dimension \cite{junior_geometric_2022}. However, compute time and memory requirements can quickly become limiting as the dimensions increase, rendering exact methods difficult to use \cite{bueler_exact_2000}.
 
 There is an additional difficulty in the field of LOCC transformations: quantum states are not distributed evenly on the canonical Weyl chamber of a $\Delta_{d-1}$ simplex. This is because the Schmidt decomposition induces a non-euclidean measure, called a Haar measure (which essentially captures the density of quantum states in the Schmidt vector space). Volume formulae taking this Haar measure into account do exist, and are useful in quantifying things like the average entanglement in a region of density matrices \cite{zyczkowski_induced_2001}.
 
@@ -117,15 +106,61 @@ With this in mind, we postulate that Shannon entropy is itself a measure of the 
     \end{equation}
 \end{definition}
 
+A simple example with three states gives the following $E^+(p \parallel q_1, q_2) = H(p) - H(p \vee q_1) - H(p \vee q_2) + H(p \vee q_1 \vee q_2)$. This is better understood with the cone diagram in Figure \ref{fig:3_cone_example} (which now has a new Venn-like interpretation).
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[scale=0.9]
+        % draw cone of q1
+        \coordinate (Q1) at (2, 3);
+        \coordinate (Q1L) at (0, 0);
+        \coordinate (Q1R) at (4, 0);
+        \draw [name path=Q1--Q1L] (Q1) -- (Q1L);
+        \draw [name path=Q1--Q1R] (Q1) -- (Q1R);
+        \node [fill=black,inner sep=1pt,label=90:$q_1$] at (Q1) {};
+        % draw cone of q2
+        \coordinate (P) at (4, 4.5);
+        \coordinate (PL) at (1, 0);
+        \coordinate (PR) at (7, 0);
+        \draw [name path=P--PL] (P) -- (PL);
+        \draw [name path=P--PR] (P) -- (PR);
+        \node [fill=black,inner sep=1pt,label=90:$p$] at (P) {};
+        % draw cone of q3
+        \coordinate (Q2) at (5.5, 4.5);
+        \coordinate (Q2L) at (2.5, 0);
+        \coordinate (Q2R) at (7, 2.25);
+        \draw [name path=Q2--Q2L] (Q2) -- (Q2L);
+        \draw [name path=Q2--Q2R] (Q2) -- (Q2R);
+        \node [fill=black,inner sep=1pt,label=90:$q_2$] at (Q2) {};
+        % intersections
+        \path [name intersections={of=P--PL and Q1--Q1R,by=PVQ1}];
+        \path [name intersections={of=P--PR and Q2--Q2L,by=PVQ2}];
+        \path [name intersections={of=Q1--Q1R and Q2--Q2L,by=PVQ1VQ2}];
+        \node [fill=black,inner sep=1pt] at (PVQ1) {};
+        \node [inner sep=1pt, label=210:$p \vee q_1$] at (PVQ1) {};
+
+        \node [fill=black,inner sep=1pt,label=0:$p \vee q_2$] at (PVQ2) {};
+        \node [fill=black,inner sep=1pt,label=0:$p \vee q_1 \vee q_2$] at (PVQ1VQ2) {};
+
+        \fill[fill=red, opacity=0.2] (P) -- (PVQ1) -- (PVQ1VQ2) -- (PVQ2) -- cycle;
+        %\node [inner sep=0pt, label=270:{$E^+(p \parallel q_1, q_2)$}] at ($ (P) !.25! (PVQ1) !.25! (PVQ1VQ2) !.25! (PVQ2) $) {};
+
+
+    \end{tikzpicture}
+    \caption{Geometric representation of the volume $E^+(p \parallel q_1, q_2)$ (shaded in red) for 3 states $p, q_1, q_2 \in \mathcal{P}^d$. The analogy with Figure \ref{fig:venn_three} is quite clear: we add back $H(p \vee q_1 \vee q_2)$ because it is removed twice in the formula.}
+    \label{fig:3_cone_example}
+\end{figure}
+
+
 While this definition and postulate may not seem too far-fetched considering the previous discussion, this essentially means that if $E^+$ satisfies volume-like behavior, then a set function $\mu_0$ which sends cones onto the entropy of their tip $p$ is a valid pre-measure of the set $\mathcal{P}^d$. In other words, the volume of a cone would be entirely determined by its tip (meaning that $\mu_0$ would be a very unusual set function). That this might be possible is not too surprising however, because existing formulae for computing the volume of convex polytopes already only use the vertices of the polytope \cite{braden_surveyors_1986}. Moreover, algorithms to compute the location of the vertices of the majorization cone of any vector $p$ do exist, and Ref. \cite{junior_thermalcones_2022} even provides a Mathematica implementation (in the context of thermomajorization\footnote{It is interesting to note at this point that the volume of thermal cones has already been studied in Ref. \cite{junior_geometric_2022}, and that they also give an interpretation of the volume being akin to a resource. Moreover, they also propose a euclidean and Haar volume for entanglement cones. However, they studied the volume of individual cones, and thus did not attempt to characterize the volume uniquely accessible from a state. Finally, we were also interested in studying how the entropic volume might behave.} which is similar). Therefore, the volume of a majorization cone is entirely determined by its tip.
 
-Some work did go into studying the basics of measure theory and defining a rigorous set function which would send cones onto the entropy of their tip, which would then be a valid measure for majorization cones if it could verify the properties of countable additivity and positivity on the $\sigma$-algebra generated by the majorization cones. Such a result would be very interesting, and would give new insight into the nature of entropy on the majorization lattice.
+Some work did go into studying the basics of measure theory (a small overview of the essential notions is available in Appendix \ref{app:measure_theory}) and defining a rigorous set function which would send cones onto the entropy of their tip, which would then be a valid measure for majorization cones if it could verify the properties of countable additivity and positivity on the $\sigma$-algebra generated by the majorization cones. Such a result would be very interesting, and would give new insight into the nature of entropy on the majorization lattice.
 
-For this to be possible we need our set function to work on a given collection of subsets of $\mathcal{P}^d$ of interest. We are only really interested in the measure of the cones, however a measure must be defined on a $\sigma$-algebra\footnote{Or on a semi-ring, but this did not seem relevant in our context.} CITATION NEEDED. We can generate the $\sigma$-algebra from the true collection of interest: the $\sigma$-algebra of our majorization cones contains all the possible unions, complements and intersections of cones. Intersections are easy because $\mathcal{T}_+(p) \cap \mathcal{T}_+(q) = \mathcal{T}_+(p \vee q)$ (and so the collection of cones directly forms a $\pi$-system), but unions and complements of cones are not necessarily cones and so the naive set function which sends cones on the entropy of their tip is not directly defined for those. It is unfortunately not clear if and how one could extend the naive set function to the $\sigma$-algebra of cones. We believe that a recursive definition for an extended set function $\mu_{\text{ext}}$ sending a set $A$ to $\mu_0(A)$ if $A$ is a cone, and to $\mu_{\text{ext}}(A') +\mu_{\text{ext}}(A'') - \mu_{\text{ext}}(A' \cap A'')$ if $A$ is the union of 2 sets $A'$ and $A''$ might be enough, however proving countable additivity for such a recursive function seemed out of scope for this master thesis and was not studied further.
+For this to be possible we need our set function to work on a given collection of subsets of $\mathcal{P}^d$ of interest. We are only really interested in the measure of the cones, however a rigorous measure must at least be defined on a $\sigma$-algebra\footnote{Or on a semi-ring, but this did not seem relevant in our context.}. We can generate the $\sigma$-algebra from the true collection of interest: the $\sigma$-algebra of our majorization cones contains all the possible unions, complements and intersections of cones. Intersections are easy because $\mathcal{T}_+(p) \cap \mathcal{T}_+(q) = \mathcal{T}_+(p \vee q)$ (and so the collection of cones directly forms a $\pi$-system), but unions and complements of cones are not necessarily cones and so the naive set function which sends cones on the entropy of their tip is not directly defined for those. It is unfortunately not clear if and how one could extend the naive set function to the $\sigma$-algebra of cones. We believe that a recursive definition for an extended set function $\mu_{\text{ext}}$ sending a set $A$ to $\mu_0(A)$ if $A$ is a cone, and to $\mu_{\text{ext}}(A') +\mu_{\text{ext}}(A'') - \mu_{\text{ext}}(A' \cap A'')$ if $A$ is the union of 2 sets $A'$ and $A''$ might be enough, however proving countable additivity for such a recursive function seemed out of scope for this master thesis and was not studied further.
 
 
 
-\subsection{Properties} \label{sec:unique_entropy_properties}
+\subsection{Expected properties} \label{sec:unique_entropy_properties}
 
 Unfortunately, without a clear set function we cannot work on showing finite additivity, and so we will not show that a $H$-based set function is rigorously a volume. However, we will still attempt to show that our unique entropy function $E^+$ holds properties compatible with the geometrical intuition one could have for such a volume. For any $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$, we have
 
@@ -139,7 +174,7 @@ Unfortunately, without a clear set function we cannot work on showing finite add
     \item \textbf{Monotonicity in $q$:} $E^+(p \parallel q_1, \dots, Dq_i, \dots, q_k) \leq E^+(p \parallel q_1, \dots, q_i, \dots, q_k) \: \forall i \leq k$,  for any bistochastic matrix $D$. \label{prop:q_monotonicity}
 \end{enumerate}
 
-\noindent The key insight needed to prove these properties is given by the following lemma.
+\noindent The key insight needed to prove these properties is given by the following lemma (proven in appendix \ref{app:unique_entropy_properties}), which lends itself very well to induction proofs.
 
 \begin{lemma} \label{lem:induction_trick}
     Let $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$. Then,
@@ -148,55 +183,60 @@ Unfortunately, without a clear set function we cannot work on showing finite add
     \end{equation}
 \end{lemma}
 
-\begin{proof}
-    Let $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$. We have the following A REFORMATER
-    \begin{align}
-        E^+(p \parallel q_1, \dots, q_k, q_{k+1}) &= H(p) - H(p \vee q_1) - \dots - H(p \vee q_k) - H(p \vee q_{k+1}) \nonumber \\
-                                                  &\quad + H(p \vee q_1 \vee q_2) + \dots + H(p \vee q_{k-1} \vee q_k) + H(p \vee q_1 \vee q_{k+1}) \nonumber \\
-                                                  &\quad + \dots + H(p \vee q_k \vee q_{k+1}) + \dots\\
-                                                  &= \big(H(p) - H(p \vee q_1) - \dots - H(p \vee q_k) + H(p \vee q_1 \vee q_2)\nonumber \\
-                                                  &\quad + \dots + H(p \vee q_{k-1} \vee q_k) - \dots \big) \nonumber \\
-                                                  &\quad - \big(H(p \vee q_{k+1}) - H(p \vee q_1 \vee q_{k+1}) - \dots - H(p \vee q_k \vee q_{k+1})\nonumber \\
-                                                  &\quad + H(p \vee q_1 \vee q_2 \vee q_{k+1}) + \dots + H(p \vee q_{k-1} \vee q_k \vee q_{k+1}) - \dots\big). \label{eq:swapparoo_start}
-    \end{align}
-    By commutativity of the join, we can push $q_{k+1}$ next to $p$, and so equation (\ref{eq:swapparoo_start}) becomes
-    \begin{align}
-        E^+(p \parallel q_1, \dots, q_k, q_{k+1}) &= \big(H(p) - H(p \vee q_1) - \dots - H(p \vee q_k) + H(p \vee q_1 \vee q_2)\nonumber \\
-                                                  &\quad + \dots + H(p \vee q_{k-1} \vee q_k) - \dots \big) \nonumber \\
-                                                  &\quad - \big(H(p \vee q_{k+1}) - H(p \vee q_{k+1} \vee q_1 ) - \dots - H(p \vee q_{k+1} \vee q_k )\nonumber \\
-                                                  &\quad + H(p \vee q_{k+1} \vee q_1 \vee q_2 ) + \dots + H(p\vee q_{k+1} \vee q_{k-1} \vee q_k) - \dots\big). \label{eq:swapparoo_done}
-    \end{align}
-    Comparing terms one by one, we can see that the second half of the expression is exactly the same as the first half (which is equal to $E^+(p \parallel q_1, \dots, q_k)$) if $p$ is replaced by $p \vee q_{k+1}$, and so equation (\ref{eq:swapparoo_done}) becomes
-    \begin{equation}
-        E^+(p \parallel q_1, \dots, q_k, q_{k+1}) = E^+(p \parallel q_1, \dots, q_k) - E^+(p \vee q_{k+1} \parallel q_1, \dots, q_k). \qedhere
-    \end{equation}
-\end{proof}
-
-Such an expression lends itself very well to induction proofs. Let us prove the different properties. It turns out that only properties \ref{prop:positivity}, \ref{prop:p_monotonicity} and \ref{prop:q_monotonicity} are difficult to prove. The other proofs come fairly naturally from definition \ref{def:unique_entropy}, and can be found in appendix \ref{app:unique_entropy_properties}. Interestingly, properties \ref{prop:positivity}, \ref{prop:p_monotonicity} and \ref{prop:q_monotonicity} all imply each other, and so it is only necessary to prove one of the three to prove the others. Several avenues for the proof were attempted, however we did not manage to prove it definitely. The issue encountered is the following
+While, verified numerically, it turns out that only properties \ref{prop:positivity}, \ref{prop:p_monotonicity} and \ref{prop:q_monotonicity} are difficult to prove. The other proofs come fairly naturally from definition \ref{def:unique_entropy}, and can be found in appendix \ref{app:unique_entropy_properties}. Interestingly, properties \ref{prop:positivity}, \ref{prop:p_monotonicity} and \ref{prop:q_monotonicity} all imply each other, and so it is only necessary to prove one of the three to prove the others. Several avenues for the proof were attempted, however we did not manage to prove it definitely. The issue encountered is the following
 
 
 
 \subsection{New intuition for supermodularity from entropic volumes} \label{sec:supermodularity_intuition}
 
-If one could rigorously prove that an entropy-based set function would give a true measure on the $\sigma$-algebra of majorization cones, then one would immediately have a new proof of supermodularity of Shannon entropy. This is because any measure $\mu$ is monotone (similiar to resource monotonicity), in the sense that for any 2 sets $A, B$, if $A \subseteq B$, then $\mu(A) \leq \mu(B)$. Consider now figure FAIRE FIGURE. It is easy to see that we have
+If one could rigorously prove that an entropy-based set function would give a true measure on the $\sigma$-algebra of majorization cones, then one would immediately have a new proof of supermodularity of Shannon entropy. This is because any measure $\mu$ is monotone (similiar to resource monotonicity), in the sense that for any 2 sets $A, B$, if $A \subseteq B$, then $\mu(A) \leq \mu(B)$. Consider now figure \ref{fig:volumic_supermodularity}.
 
+\begin{figure}[h!]
+    \centering
+        \begin{tikzpicture}[scale=0.9]
+            % draw cone of p
+            \coordinate (P) at (-2,3);
+            \coordinate (PL) at (-4, 0);
+            \coordinate (PR) at (0,0);
+            \draw [name path=P--PL] (P) -- (PL);
+            \draw [name path=P--PR] (P) -- (PR);
+            \node [fill=black,inner sep=1pt,label=180:$p$] at (P) {};
+            % draw cone of q
+            \coordinate (Q) at (0,3);
+            \coordinate (QL) at (-2, 0);
+            \coordinate (QR) at (2,0);
+            \draw [name path=Q--QL] (Q) -- (QL);
+            \draw [name path=Q--QR] (Q) -- (QR);
+            \node [fill=black,inner sep=1pt,label=0:$q$] at (Q) {};
+            % draw the meet
+            \coordinate (PMQ) at (-1, 4.5);
+            \draw [name path=PMQ--P] (PMQ) -- (P);
+            \draw [name path=PMQ--Q] (PMQ) -- (Q);
+            \node [fill=black,inner sep=1pt,label=90:$p \wedge q$] at (PMQ) {};
+            % draw the join
+            \path [name intersections={of=P--PR and Q--QL,by=PVQ}];
+            \fill[fill=red, opacity=0.2] (P) -- (PL) -- (QR) -- (Q) -- (PVQ) -- cycle;
+            \node [fill=black,inner sep=1pt,label=0:$p \vee q$] at (PVQ) {};
+
+
+        \end{tikzpicture}
+        \caption{Depiction of the implication of supermodularity by monotonicity of $\mu$. The region $\mathcal{T}_+(p) \cup \mathcal{T}_+(q)$ is shaded in red. Clearly, $\mathcal{T}_+(p) \cup \mathcal{T}_+(q) \subseteq \mathcal{T}_+(p \wedge q)$, with equality iff $p \sim q$.}
+        \label{fig:volumic_supermodularity}
+\end{figure}
+
+It is easy to see that we have
 \begin{equation}
     \mathcal{T}_+(p) \cup \mathcal{T}_+(q) \subseteq \mathcal{T}_+(p \wedge q) \implies \mu\left(\mathcal{T}_+(p) \cup \mathcal{T}_+(q)\right) \leq \mu\left(\mathcal{T}_+(p \wedge q)\right).
 \end{equation}
-
 \noindent However, by the inclusion-exclusion principle, we have 
-
 \begin{equation}
     \mu\left(\mathcal{T}_+(p) \cup \mathcal{T}_+(q)\right) = \mu\left(\mathcal{T}_+(p)\right) + \mu\left(\mathcal{T}_+(q)\right) - \mu\left(\underbrace{\mathcal{T}_+(p) \cap \mathcal{T}_+(q)}_{= \mathcal{T}_+(p \vee q)}\right),
 \end{equation}
-
 \noindent where all the sets are valid majorization cones. If $\mu$ is such that it sends every cone on the entropy of its tip, we would get
-
 \begin{align}
     \mu\left(\mathcal{T}_+(p)\right) + \mu\left(\mathcal{T}_+(q)\right) - \mu\left(\mathcal{T}_+(p \vee q)\right) &\leq \mu\left(\mathcal{T}_+(p \wedge q)\right)\\
     \implies H(p) + H(q) - H(p \vee q) &\leq H(p \wedge q),
 \end{align}
-
 \noindent which is precisely the supermodularity property. While we have not shown rigorously that such a set function exists, we believe that the properties of $E^+$ are a good sign that such a measure is possible.
 
 
@@ -205,7 +245,7 @@ If one could rigorously prove that an entropy-based set function would give a tr
 
 \subsection{Definition}
 
-Let us assume Alice and Bob are have a pre-shared bank of entangled states $\{q_1, \dots, q_k\} = Q$, and let us assume they are required to use their bank of states for a LOCC protocol, in which they decide through a CC channel on successive target states that they need to construct, e.g. for some form of distributed quantum computing. We also assume that they have at least two different entangled states in their possession, i.e. they could have received some of their entangled states from one provider, and the rest from another provider with a different preparation standard. The problem we are trying to solve is the following. Suppose they decide that they need to construct a target with Schmidt vector $t$, and after looking in their bank, they realize that two states in their bank can reach $t$ through LOCC, e.g. $q_1 \prec t$ and $q_2 \prec t$. Should they use $q_1$ or $q_2$ to construct the target $t$ ?
+Let us assume Alice and Bob are have a pre-shared bank of entangled states $\{q_1, \dots, q_k\} = Q$, and let us assume they are required to use their bank of states for a LOCC protocol, in which they decide through a CC channel on successive target states that they need to construct, e.g. for some form of distributed quantum computing. In general, the states in their possession can be different, i.e. they could have received some of their entangled states from one provider, and the rest from another provider with a different preparation standard. The problem we are trying to solve is the following. Suppose they decide that they need to construct a target with Schmidt vector $t$, and after looking in their bank, they realize that two states in their bank can reach $t$ through LOCC, e.g. $q_1 \prec t$ and $q_2 \prec t$. Should they use $q_1$ or $q_2$ to construct the target $t$ ?
 
 As far as we know, while research has gone into finding and constructing a state which is the Optimal Common Resource (OCR) of a given set of possible targets $\{t_1, \dots, t_n\}$ in the sense that it can reach all of the possible targets (the OCR of the set is $\wedge_{i=1}^n t_i$) \cite{bosyk_optimal_2019, deside_probabilistic_2024}, not much research has gone into how to choose between states of a bank that does not exclusively contain OCRs. If the bank contains states less entangled than the OCR, but that can also reach a given target $t$, then it would be a waste to use up an OCR when a less entangled state could do the job. If several non-OCR states can reach $t$, how do Alice and Bob choose which to use ? We propose the following definition.
 
@@ -224,7 +264,7 @@ The simplest form of LOCC state selection strategy could be to use the least ent
 \begin{definition}[Entropic strategy]
     Let $Q$ be a bank of pre-shared entangled states, and let $t$ be a target state. The following algorithm decides which state $q \in Q$ to use to construct $t$.
     \begin{enumerate}
-        \item Initialize the set $Q' = \emptyset$. For each $q_i \in Q$, if $q_i \succ t$, add $q_i$ to $Q'$, which contains all the states that can reach the target.
+        \item Initialize the set $Q' = \emptyset$. For each $q_i \in Q$, if $q_i \prec t$, add $q_i$ to $Q'$, which contains all the states that can reach the target.
         \item For each $q_i \in Q'$, compute $a_i = H(q_i)$.
         \item Finally, construct $t$ using the state $q_i \in Q'$ with the lowest value of $a_i$.
     \end{enumerate}
@@ -291,7 +331,7 @@ Clearly, it would be a waste to use up $q_4$ or $q_5$, because they are majorize
 \begin{definition}[Unique entropy strategy] \label{strat:unique_entropy}
     Let $Q$ be a bank of pre-shared entangled states\footnote{A bank may contain several copies of the same state.}, and let $t$ be a target state. The following algorithm decides which state $q \in Q$ to use to construct $t$.
     \begin{enumerate}
-        \item Initialize the set $Q' = \emptyset$. For each $q_i \in Q$, if $q_i \succ t$, add $q_i$ to $Q'$, which contains all the states that can reach the target.
+        \item Initialize the set $Q' = \emptyset$. For each $q_i \in Q$, if $q_i \prec t$, add $q_i$ to $Q'$, which contains all the states that can reach the target.
         \item Initialize the set $Q'' = \emptyset$. For each $q_i \in Q'$, if $\nexists q_j \in Q' \: | \: q_i \prec q_j, q_i \neq q_j$ and if $q_i \notin Q''$\footnote{This ensures that if there are several copies of the same state, only one of them enters $Q''$, ensuring that the $E^+$ calculation at the next step does not yield 0 due to the copies.}, add $q_i$ to $Q''$, which contains only the least resourceful states that can reach the target.
         \item For each $q_i \in Q''$, compute $a_i = E^+(q_i \parallel Q'' \backslash q_i)$, and initialize $b_i = 1$; for each $q_j \in Q' \backslash q_i$, if $q_j \prec q_i$, increment $b_i$ by 1. \label{step:volume}
         \item Finally, construct $t$ using the state $q_i \in Q''$ with the lowest value of the ratio $c_i = \frac{a_i}{b_i}$.
@@ -332,6 +372,8 @@ Unfortunately, equation (\ref{eq:unique_entropy}) is computationally very demand
     \caption{Average number of succesful target constructions depending on the value of the strategy parameter $\alpha$ for a bank of 9 uniformly sampled states and 1 maximally entangled state, and 10 targets sampled with Dirichlet parameters $\left(2, \frac{1}{2}, \frac{1}{2}, \frac{1}{2}\right)$. Note that the $\alpha = 0$ extremity is the unique entropy strategy, and $\alpha = 1$ is similar to the entropic strategy, but also uses a redundancy factor $b$ and a weighted loss function $c$, in order to keep the strategies comparable.}
     \label{fig:strategy_comparison}
 \end{figure}
+
+It is interesting to note that in this scenario, the variations are not particularly large (less than 1\%). We were surprised that the unique entropy strategy performed worse than the entropic strategy. However, it is very interesting to see that there exists a nontrivial maximum at around $\alpha = 0.2$, where combining both the unique entropy loss function and the entropic loss function performs better than a simple entropic strategy. This seems to validate our lattice-based approach and the utility of $E^+$. Moreover, drastically different results can be reached by changing some of the state filtering choices in step \ref{step:volume}, and we believe that further research might lead to better filterings or weigthed loss functions which could further improve the performance of the different strategies. The results for some other filterings are shown in appendix \ref{app:alternative_filterings}.
 
 
 
