@@ -8,7 +8,7 @@
 
 \section{Cicalese and Vaccaro's original proof of supermodularity}
 
-A REFORMULER This section goes over the original proof of theorem \ref{th:shannon_supermodularity} for Shannon entropy, from Ref. \cite{cicalese_supermodularity_2002}. The proof is structured in two lemmas. Note that the convention $0 \log \frac{1}{0} = 0$ is used (an event that never happens does not contribute to entropy). We will first need the following definition.
+A REFORMULER This section goes over the original proof of Theorem \ref{th:shannon_supermodularity} for the Shannon entropy, from Ref. \cite{cicalese_supermodularity_2002}. The proof is structured in two lemmas. Note that the convention $0 \log \frac{1}{0} = 0$ is used (an event that never happens does not contribute to entropy). We will first need the following definition.
 
 \begin{appendix_definition}[Inversion point]
     Let $p, q \in \mathcal{P}^d$. We say that the index $i \in \{2, \ldots, n\}$ is an \emph{inversion point} for $p$ and $q$ if either
@@ -177,7 +177,7 @@ Nonetheless, this notion of distance is used to define mutual information betwee
 
 Again, this definition agrees with what we would expect intuitively from a notion of the information that two random variables contain about each other: if the variables are independent, and thus contain no information about each other whatsoever (as the outcome of one does not affect the other), then their joint distribution reduces to the product of the marginal distributions, and the relative entropy in the definition becomes 0. Then, the less independent the joint distribution becomes, the farther it becomes from the product distribution, and the more measuring the outcome of one variable can tell you about the outcome of the second. It is interesting to note that the mutual information is symmetric in its arguments.
 
-To finish this small incursion into classical information theory, it turns out that Shannon entropy is actually the only function that satisfies all the properties that one would expect from a measure of information, such as (non-exhaustive list):
+To finish this small incursion into classical information theory, it turns out that the Shannon entropy is actually the only function that satisfies all the properties that one would expect from a measure of information, such as (non-exhaustive list):
 
 \begin{itemize}
     \item $H(X) \geq 0$.
@@ -379,16 +379,77 @@ Let us turn our attention to $E^-$. This time around, the expected property for 
 
 
 
+\newpage
+
+\section{Notions of measure theory} \label{app:measure_theory}
+
+\setcounter{equation}{0}
+
+This section is based on Ref. \cite[pp. 8--16]{rudin_real_1987}. Measure theory is the mathematical field that studies the size of sets. It has applications in many fields, most notably in probability theory were probability measures are integral to proper definitions, but also in integration theory. A measure is a set function defined on a $\sigma$-algebra satisfying special properties. Let us define those notions.
+
+\begin{appendix_definition}[Set function] \label{def:set_function}
+    Let $\Omega$ be a set, and let $P(\Omega)$ be the power set of $\Omega$, i.e. the set containing all subsets of $\Omega$. Finally, let $\tilde{\Omega} \subseteq P(\Omega)$. Then
+    \begin{equation}
+        f: \tilde{\Omega} \rightarrow \mathbb{R}, A \mapsto f(A)
+    \end{equation}
+    is a set function. Essentially, it is a function that sends subsets of $\Omega$ to a number (we will limit ourselves to real numbers here).
+\end{appendix_definition}
+
+A measure, then, is a special set function that satisfies volume-like properties (which we will define soon). Thankfully, a measure does not necessarily need to be defined on absolutely all subsets of the universal set $\Omega$. Instead, we can choose to limit ourselves to a collection of subsets of interest, as long as they form a $\sigma$-algebra.
+
+\begin{appendix_definition}[$\sigma$-algebra] \label{def:sigma_algebra}
+    A collection $\Sigma$ of subsets of a set $\Omega$ is said to be a $\sigma$-algebra in $\Omega$ if $\Sigma$ has the following properties.
+    \begin{enumerate}
+        \item \underline{Contains the universal set:} $\Omega \in \Sigma$.
+        \item \underline{Closed under complements:} If $A \in \Sigma$, then $A^c \in \Sigma$, where $A^c$ is the complement of $A$ relative to $\Omega$.
+        \item \underline{Closed under countable unions:} If $A = \bigcup\limits_{i = 1}^\infty A_i$ and if $A_i \in \Sigma \: \forall \: i \mathbb{N}$, then $A \in \Sigma$.
+    \end{enumerate}
+    In other words, a collection $\Sigma$ of subsets of $\Omega$ is a $\sigma$-algebra if it is closed under countable unions and complements\footnote{And implicitly under countable intersections, as they can be constructed by using $\bigcap\limits_{i = 1}^\infty A_i = \left(\bigcup\limits_{i = 1}^\infty A_i^c\right)^c$ (finite intersections can be obtained from this formula by setting $A_i = A_1 \: \forall \: i > n$ for a chosen $n$).}.
+\end{appendix_definition}
+
+If $\Sigma$ is a $\sigma$-algebra in $\Omega$, then $\Omega$ is called a \textit{measurable space} and the elements of $\Sigma$ are said to be the \textit{measurable sets} of $\Omega$. Moreover, given a collection $S$ of subsets of interest of $\Omega$, a $\sigma$-algebra can be generated from $S$ by adding all of the countable unions and complements of the members of $S$ to the generated set, which we will write $\sigma(S)$. Note that if we require the collection of subsets to be closed under finite unions instead of countable unions, the collection is called an algebra over $\Omega$ instead of a $\sigma$-algebra. A related (simpler) notion is the notion of $\pi$-system.
+
+\begin{appendix_definition}[$\pi$-system] \label{def:pi_system}
+    A collection $\Pi$ of subsets of a set $\Omega$ is said to be a $\pi$-sustem in $\Omega$ if $\Pi$ has the following properties.
+    \begin{enumerate}
+        \item \underline{Nonempty:} $\Pi \neq \emptyset$.
+        \item \underline{Closed under finite intersections:} If $A = \bigcap\limits_{i = 1}^n A_i$ and if $A_i \in \Pi \: \forall \: i \leq n$, then $A \in \Pi$.
+    \end{enumerate}
+\end{appendix_definition}
+
+Such systems are fairly interesting to us, because it is easy to see that the collection of subsets ${\mathcal{T}_+(p) | p \in \mathcal{P}^d}$ of $\mathcal{P}^d$ form a $\pi$-system. This is because by definition of the join, the intersection of two future cones is the future cone of the join (the same discussion is possible with past cones and the meet), and so all possible intersections of future cones is already contained in the set of future cones, and so the collection is closed under finite intersections, satisfying Definition \ref{def:pi_system}.
+
+The final notion of interest we will discuss here is the notion of measure, which we have already mentioned before.
+
+\begin{appendix_definition}[Measure]
+    A set function $\mu$ defined on a $\sigma$-algebra $\Sigma$ is a measure on $\Sigma$ iff it is countably additive, i.e. if $\{A_i\}$ is a collection of \textit{disjoint} members of $\Sigma$, then
+    \begin{equation}
+        \mu\left(\bigcup\limits_{i = 1}^\infty A_i\right) = \sum_{i = 1}^{\infty} \mu(A_i)
+    \end{equation}
+\end{appendix_definition}
+
+We say that a \textit{measure space} is a measurable space which has a positive measure defined on the $\sigma$-algebra of its measurable sets. Measures also enjoy some useful properties.
+
+\begin{appendix_theorem}
+    Let $\mu$ be a positive measure over $\Sigma$. Then, $\mu$ has the following properties.
+    \begin{enumerate}
+        \item \underline{Emtpy volume:} $\mu(\emptyset) = 0$.
+        \item \underline{Finite additivity:} $\mu(A_1 \cup \dots \cup A_n) = \mu(A_1) + \dots + \mu(A_n)$ if $\{A_i\}$ is a set of pairwise disjoint elements of $\Sigma$.
+        \item \underline{Monotonicity:} $A \subseteq B \implies \mu(A) \leq \mu(B)$.
+    \end{enumerate}
+\end{appendix_theorem}
+
+
 
 \newpage
 
-\section{Proof of the basic properties of unique entropy} \label{app:unique_entropy_properties}
+\section{Proofs of the basic properties of unique entropy} \label{app:unique_entropy_properties}
 
 \setcounter{equation}{0}
 
 We prove here properties \ref{prop:commutativity}, \ref{prop:empty}, \ref{prop:p_absorption} and \ref{prop:q_absorption} from section \ref{sec:unique_entropy_properties}. The commutativity property \ref{prop:commutativity} is immediate by commutativity of the join, and so the ordering of the bank does not matter. This is what we would expect for an inclusion-exclusion formula, as the order in which we remove intersections of sets does not matter as long as we perform the full sum. Because the ordering of the bank is arbitrary, we can always make any vector the last vector of the bank, which is useful for proving properties \ref{prop:p_absorption}, \ref{prop:q_absorption} and \ref{prop:q_monotonicity} as showing the property for $i = k$ is sufficient.
 
-Property \ref{prop:empty} is immediate as well, because the join of the certain distribution $\overline{\delta}_d$ with any other vector remains the certain distribution. As such, all of the terms in equation (\ref{eq:unique_entropy}) are the entropy of $\overline{\delta}_d$, which is 0.  The key insight needed to prove the other properties is given by lemma \ref{lem:induction_trick}, which we prove here.
+Property \ref{prop:empty} is immediate as well, because the join of the certain distribution $\overline{\delta}_d$ with any other vector remains the certain distribution. As such, all of the terms in equation (\ref{eq:unique_entropy}) are the entropy of $\overline{\delta}_d$, which is 0.  The key insight needed to prove the other properties is given by Lemma \ref{lem:induction_trick}, which we prove here.
 
 \begin{proof}[Proof of Lemma \ref{lem:induction_trick}]
     Let $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$. Developing all of the terms in eq. (\ref{eq:unique_entropy}), and regrouping the combinations containing $q_{k+1}$, we get
@@ -427,12 +488,12 @@ Such an expression lends itself very well to induction proofs. Let us now prove 
 \end{appendix_lemma}
 
 \begin{proof}
-    The proof is immediate from lemma \ref{lem:induction_trick}. Because the ordering of the bank is arbitrary, let us first choose $i = k$, and so $p \succ q_k$. We have
+    The proof is immediate from Lemma \ref{lem:induction_trick}. Because the ordering of the bank is arbitrary, let us first choose $i = k$, and so $p \succ q_k$. We have
     \begin{align}
         E^+(p \parallel q_1, \dots, q_k) &= E^+(p \parallel q_1, \dots, q_{k-1}) - E^+(\underbrace{p \vee q_k}_{= p} \parallel q_1, \dots, q_{k-1})\\
                                          &= 0.
     \end{align}
-    The same result can be reached by comparing term by term the possible combinations of states in the bank\footnote{Exactly half of the terms in the sum contain $q_k$. Because each of those can be paired up with the same combination excluding $q_k$, we have terms of same absolute value but opposite sign, and so all of the terms cancel out.}. If $i \neq k$, commuting $q_i$ until it becomes the last vector of the bank and applying lemma \ref{lem:induction_trick} yields the same result. \qedhere
+    The same result can be reached by comparing term by term the possible combinations of states in the bank\footnote{Exactly half of the terms in the sum contain $q_k$. Because each of those can be paired up with the same combination excluding $q_k$, we have terms of same absolute value but opposite sign, and so all of the terms cancel out.}. If $i \neq k$, commuting $q_i$ until it becomes the last vector of the bank and applying Lemma \ref{lem:induction_trick} yields the same result. \qedhere
 \end{proof}
 
 This property is again quite intuitive, because if $p$ majorizes one of the vectors of the bank $q_i$, then $\mathcal{T}_+(p) \subseteq \mathcal{T}_+(q_i)$, and so $p$ holds no unique volume relative to the bank. The geometric interpretation of property \ref{prop:q_absorption} is very similar, and we have the following.
@@ -445,24 +506,15 @@ This property is again quite intuitive, because if $p$ majorizes one of the vect
 \end{appendix_lemma}
 
 \begin{proof}
-    Let $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$.  Because the ordering of the bank is arbitrary, let us first choose $i = k$, and so $q_{k+1} \succ q_k$. Using lemma \ref{lem:induction_trick} twice in a row, we get
+    Let $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$.  Because the ordering of the bank is arbitrary, let us first choose $i = k$, and so $q_{k+1} \succ q_k$. Using Lemma \ref{lem:induction_trick} twice in a row, we get
     \begin{align}
         E^+(p \parallel q_1, \dots, q_k, q_{k+1}) &= E^+(p \parallel q_1, \dots, q_k) - E^+(p \vee q_{k+1} \parallel q_1, \dots, q_k)\\
                                                   &= E^+(p \parallel q_1, \dots, q_k) - E^+(p \vee q_{k+1} \parallel q_1, \dots, q_{k-1})\nonumber\\
                                                   &\quad + E^+(p \vee \underbrace{q_{k+1} \vee q_k}_{= q_{k+1}} \parallel q_1, \dots, q_{k-1})\\
                                                   &= E^+(p \parallel q_1, \dots, q_k).
     \end{align}
-    The same result can be reached by comparing term by term the possible combinations of states in the bank\footnote{Exactly half of the combinations containing $q_{k+1}$ also contain $q_k$. Because each of those can be paired up with the same combination excluding $q_k$, we have terms of same absolute value but opposite sign, and so all of the terms containing $q_{k+1}$ cancel out.}. If $i \neq k$, commuting $q_i$ until it becomes the $k^\text{th}$ vector of the bank and applying lemma \ref{lem:induction_trick} twice yields the same result. 
+    The same result can be reached by comparing term by term the possible combinations of states in the bank\footnote{Exactly half of the combinations containing $q_{k+1}$ also contain $q_k$. Because each of those can be paired up with the same combination excluding $q_k$, we have terms of same absolute value but opposite sign, and so all of the terms containing $q_{k+1}$ cancel out.}. If $i \neq k$, commuting $q_i$ until it becomes the $k^\text{th}$ vector of the bank and applying Lemma \ref{lem:induction_trick} twice yields the same result. 
 \end{proof}
-
-
-
-\newpage
-
-\section{Notions of measure theory} \label{app:measure_theory}
-
-\setcounter{equation}{0}
-
 
 
 
