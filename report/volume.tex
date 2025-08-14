@@ -43,7 +43,7 @@ Thankfully, it is possible to generalize this idea further. For example, for thr
     V(A \backslash (B \cup C)) = V(A) - V(A \cap B) - V(A \cap C) + V(A \cap B \cap C),
 \end{equation}
 
-\noindent which is illustrated with Venn diagrams on figure \ref{fig:venn_three}.
+\noindent which is illustrated with Venn diagrams in Figure \ref{fig:venn_three}.
 
 \begin{figure}[h!] % code adapted from https://tex.stackexchange.com/questions/9681/how-to-draw-venn-diagrams-especially-complements-in-latex
     \centering
@@ -95,7 +95,7 @@ The volume of convex polytopes in Weyl chambers (which our majorization cones ar
 
 There is an additional difficulty in the field of LOCC transformations: quantum states are not distributed evenly on the canonical Weyl chamber of a $\Delta_{d-1}$ simplex. This is because the Schmidt decomposition induces a non-euclidean measure, called a Haar measure (which essentially captures the density of quantum states in the Schmidt vector space). Volume formulae taking this Haar measure into account do exist, and are useful in quantifying things like the average entanglement in a region of density matrices \cite{zyczkowski_induced_2001}.
 
-However, we will not study them further in this master thesis. Indeed, in terms of an entanglement QRT, it is not entirely clear why a Schmidt vector shared by many quantum states should be weighted more than a Schmidt vector that is shared by few quantum states. This is because states with the same Schmidt vector are equivalent up to a local change of basis, and can thus be interchanged without losing any resource. Of course, we are not trying to argue that assigning a non-uniform weight to Schmidt vectors is necessarily useless, but rather that it is not clear why there couldn't exist other relevant choices of weighting than the density of quantum states.
+However, we will not study them further in this master thesis. Indeed, in terms of an entanglement QRT, it is not entirely clear why a Schmidt vector shared by many quantum states should be weighted more than a Schmidt vector that is shared by few quantum states. This is because states with the same Schmidt vector are equivalent up to a local change of basis, and can thus be interchanged without losing any resource. Of course, we are not trying to argue that assigning a non-uniform weight to Schmidt vectors is necessarily useless, but rather that it is not clear why there couldn't exist other relevant choices of weighting than the density of LOCC-equivalent quantum states.
 
 With this in mind, we postulate that the Shannon entropy is itself a measure of the volume of majorization cones under some unknown measure. This makes our future incomparability monotone $E^+(p \parallel q) = H(p) - H(p \vee q)$ from Chapter \ref{chap:incomparability} much easier to interpret: it measures the volume of states that are reachable from $p$, but not from $q$. For this reason, it is perhaps more natural to call $E^+$ the \textit{unique entropy}. We propose the following generalization of $E^+$.
 
@@ -106,7 +106,7 @@ With this in mind, we postulate that the Shannon entropy is itself a measure of 
     \end{equation}
 \end{definition}
 
-A simple example with three states gives the following $E^+(p \parallel q_1, q_2) = H(p) - H(p \vee q_1) - H(p \vee q_2) + H(p \vee q_1 \vee q_2)$. This is better understood with the cone diagram in Figure \ref{fig:3_cone_example} (which now has a new Venn-like interpretation).
+A simple example with three states gives $E^+(p \parallel q_1, q_2) = H(p) - H(p \vee q_1) - H(p \vee q_2) + H(p \vee q_1 \vee q_2)$. This is better understood with the cone diagram in Figure \ref{fig:3_cone_example} (which now has a new Venn-like interpretation).
 
 \begin{figure}[h!]
     \centering
@@ -147,11 +147,11 @@ A simple example with three states gives the following $E^+(p \parallel q_1, q_2
 
 
     \end{tikzpicture}
-    \caption{Geometric representation of the unique entropy $E^+(p \parallel q_1, q_2)$ (shaded in red) for 3 states $p, q_1, q_2 \in \mathcal{P}^d$. The analogy with Figure \ref{fig:venn_three} is quite clear: we add back $H(p \vee q_1 \vee q_2)$ because it is removed twice in the formula.}
+    \caption{Geometric representation of the unique entropy $E^+(p \parallel q_1, q_2)$ (shaded in red) for 3 states $p, q_1, q_2 \in \mathcal{P}^d$. The analogy with Figure \ref{fig:venn_three} is quite clear: we add back $H(p \vee q_1 \vee q_2)$ because it is already removed twice in the formula.}
     \label{fig:3_cone_example}
 \end{figure}
 
-A small overview of the essentials of measure theory is available in Appendix \ref{app:measure_theory}. We will also denote the set of all future majorization cones by $\mathbb{T}_+$. While this definition and postulate may not seem too far-fetched considering the previous discussion, this essentially means that if $E^+$ behaves like a volume, then a set function $\mu_0$ which sends cones onto the entropy of their tip $p$ is a valid pre-measure of the set $\mathcal{P}^d$. In other words, the volume of a cone would be entirely determined by its tip (meaning that $\mu_0$ would be a very unusual set function). That this might be possible is not too surprising however, because existing formulae for computing the volume of convex polytopes already only use the vertices of the polytope \cite{braden_surveyors_1986}. Moreover, algorithms to compute the location of the vertices of the majorization cone of any vector $p$ do exist, and Ref. \cite{junior_thermalcones_2022} even provides a Mathematica implementation (in the context of thermomajorization\footnote{It is interesting to note at this point that the volume of thermal cones has already been studied in Ref. \cite{junior_geometric_2022}, and that they also give an interpretation of the volume being akin to a resource. Moreover, they also propose a euclidean and Haar volume for entanglement cones. However, they studied the volume of individual cones, and thus did not attempt to characterize the volume uniquely accessible from a state. Finally, we were also interested in studying how the entropic volume might behave.} which is similar). Therefore, the volume of a majorization cone is entirely determined by its tip.
+A small overview of the essentials of measure theory is available in Appendix \ref{app:measure_theory}. We will also denote the set of all future majorization cones by $\mathbb{T}_+$. While this definition and postulate may not seem too far-fetched considering the previous discussion, this essentially means that if $E^+$ behaves like a volume, then a set function $\mu_0$ which sends cones onto the entropy of their tip $p$ is a valid measure of the set $\mathcal{P}^d$. In other words, the volume of a cone would be entirely determined by its tip (meaning that $\mu_0$ would be an unusual set function). That this might be possible is not too surprising however, because existing formulae for computing the volume of convex polytopes already only use the vertices of the polytope \cite{braden_surveyors_1986}. Moreover, algorithms to compute the location of the vertices of the majorization cone of any vector $p$ do exist, and Ref. \cite{junior_thermalcones_2022} even provides a Mathematica implementation (in the context of thermomajorization\footnote{It is interesting to note at this point that the volume of thermal cones has already been studied in Ref. \cite{junior_geometric_2022}, and that they also give an interpretation of the volume being akin to a resource. Moreover, they also propose a euclidean and Haar volume for entanglement cones. However, they studied the volume of individual cones, and thus did not attempt to characterize the volume uniquely accessible from a state. Finally, we were also interested in studying how the entropic volume might behave.} which is similar). Therefore, the volume of a majorization cone is entirely determined by its tip.
 
 Some work did go into studying the basics of measure theory and defining a rigorous set function which would send cones onto the entropy of their tip, which would then be a valid measure for majorization cones if it could verify the properties of countable additivity and positivity on the $\sigma$-algebra (cf. Def. \ref{def:sigma_algebra}) generated by the majorization cones. Such a result would be very interesting, and would give new insight into the nature of entropy on the majorization lattice.
 
@@ -194,9 +194,9 @@ If one could rigorously prove that an entropy-based set function would give a tr
     \centering
         \begin{tikzpicture}[scale=0.9]
             % draw cone of p
-            \coordinate (P) at (-2,3);
+            \coordinate (P) at (-2.5, 2.25);
             \coordinate (PL) at (-4, 0);
-            \coordinate (PR) at (0,0);
+            \coordinate (PR) at (-1,0);
             \draw [name path=P--PL] (P) -- (PL);
             \draw [name path=P--PR] (P) -- (PR);
             \node [fill=black,inner sep=1pt,label=180:$p$] at (P) {};
@@ -240,7 +240,7 @@ It is easy to see that we have
 
 
 
-\section{LOCC state selection strategies} \label{sec:strategies}
+\section{Entanglement resource selection strategies} \label{sec:strategies}
 
 While most of this master thesis has been very mathematical, this section goes over the main quantum application we have found for the quantities studied in Chapters \ref{chap:incomparability} and \ref{chap:volume}.
 
@@ -252,17 +252,17 @@ Let us assume Alice and Bob are have a pre-shared bank of entangled states $\{q_
 
 As far as we know, while research has gone into finding and constructing a state which is the Optimal Common Resource (OCR) of a given set of possible targets $\{t_1, \dots, t_n\}$ in the sense that it can reach all of the possible targets (the OCR of the set is $\wedge_{i=1}^n t_i$) \cite{bosyk_optimal_2019, deside_probabilistic_2024}, the slightly different question of choosing between states of a bank that does not exclusively contain OCRs has not been studied much. If the bank contains states less entangled than the OCR, but that can also reach a given target $t$, then it would be a waste to use up an OCR when a less entangled state could do the job. If several non-OCR states can reach $t$, how do Alice and Bob choose which to use ? We propose the following definition.
 
-\begin{definition}[LOCC state selection strategy]
-    A LOCC state selection strategy is any decision algorithm that chooses which state from a pre-shared entanglement bank $Q$ to use to construct a target entangled state $t$ through LOCC, e.g. by minimising some loss function.
+\begin{definition}[Entanglement resource selection strategy]
+    An entanglement resource selection strategy is any decision algorithm that chooses which state from a pre-shared entanglement bank $Q$ to use to construct a target entangled state $t$ through LOCC, e.g. by minimising some loss function.
 \end{definition}
 
-The goal of a good LOCC state selection strategy is then to run out of states capable of reaching successive targets (on which we might have no knowledge over) as slow as possible \textit{on average}. We will assume that after transformation, the LOCC state is consumed (for a quantum computing task the state needs to be measured at the end of the quantum circuit to get a result)\footnote{In practice, the measurement might not need to fully determine the state. For instance, a valid measurement on a ququart could be to measure whether it is in the subspace generated by $\{\ket{0}, \ket{1}\}$ or in the subspace generated by $\{\ket{2}, \ket{3}\}$. Such a measurement would not break a superposition (and thus reduce entanglement of a joint state) if the ququart is in a $\alpha\ket{0} + \beta\ket{1}$ superposition. We will not treat such cases.}.
+The goal of a good resource selection strategy is then to run out of states capable of reaching successive targets (on which we might have no knowledge over) as slow as possible \textit{on average}. We will assume that after transformation, the LOCC state is consumed (for a quantum computing task the state needs to be measured at the end of the quantum circuit to get a result)\footnote{In practice, the measurement might not need to fully determine the state. For instance, a valid measurement on a ququart could be to measure whether it is in the subspace generated by $\{\ket{0}, \ket{1}\}$ or in the subspace generated by $\{\ket{2}, \ket{3}\}$. Such a measurement would not break a superposition (and thus reduce entanglement of a joint state) if the ququart is in a $\alpha\ket{0} + \beta\ket{1}$ superposition. We will not treat such cases.}.
 
 
 
 \subsection{Entropic strategy}
 
-The simplest form of LOCC state selection strategy could be to use the least entangled state that can reach $t$. This simple idea yields the following algorithm, which we use as a benchmark.
+The simplest form of resource selection strategy could be to use the least entangled state that can reach $t$. This simple idea yields the following algorithm, which we use as a benchmark.
 
 \begin{definition}[Entropic strategy]
     Let $Q$ be a bank of pre-shared entangled states, and let $t$ be a target state. The following algorithm decides which state $q \in Q$ to use to construct $t$.
@@ -284,7 +284,7 @@ $\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q \backslash q_i} \mathcal{T}
 
 \begin{figure}[h!]
     \centering
-    \begin{tikzpicture}[scale=0.9]
+    \begin{tikzpicture}[scale=0.7]
         % draw cone of q1
         \coordinate (Q1) at (2, 3);
         \coordinate (Q1L) at (0, 0);
@@ -329,7 +329,7 @@ $\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q \backslash q_i} \mathcal{T}
     \label{fig:5_cone_example}
 \end{figure}
 
-Clearly, it would be a waste to use up $q_4$ or $q_5$, because they are majorized by $q_1$ and $q_2$ (respectively), and can therefore reach all of the states that $q_1$ and $q_2$ can reach, respectively. However, $E^+(q_1 \parallel Q \backslash q_1) = E^+(q_2 \parallel Q \backslash q_2) = 0$ because their cones are contained in the cones of $q_4$ and $q_5$, and so without additional restriction on the bank a unique entropy criterion is not sufficient. The approach also fails if we have several copies of the same state, because then all the copies have zero unique entropy. We propose the following LOCC state selection strategy which solves both of these problems.
+Clearly, it would be a waste to use up $q_4$ or $q_5$, because they are majorized by $q_1$ and $q_2$ (respectively), and can therefore reach all of the states that $q_1$ and $q_2$ can reach, respectively. However, $E^+(q_1 \parallel Q \backslash q_1) = E^+(q_2 \parallel Q \backslash q_2) = 0$ because their cones are contained in the cones of $q_4$ and $q_5$, and so without additional restriction on the bank a unique entropy criterion is not sufficient. The approach also fails if we have several copies of the same state, because then all the copies have zero unique entropy. Therefore, all states should not be considered in the unique entropy calculation, and we call the selection algorithm to choose which states to keep in the calculation a \textit{state filter}. Most of the subtility in strategies based on unique entropy relies in the filtering approach. With this in mind, we propose the following strategy.
 
 \begin{definition}[Unique entropy strategy] \label{strat:unique_entropy}
     Let $Q$ be a bank of pre-shared entangled states\footnote{A bank may contain several copies of the same state.}, and let $t$ be a target state. The following algorithm decides which state $q \in Q$ to use to construct $t$.
@@ -357,7 +357,7 @@ Essentially, the parameter $b$, which we will call the \textit{redundacy factor}
 
 \subsection{Mixed strategies}
 
-We also define an additional variation, which mixes bith proposed loss functions with a specific ratio that can be adjusted.
+We also define an additional variation, which mixes both proposed loss functions with a specific ratio that can be adjusted.
 
 \begin{definition}[Mixed strategy] \label{strat:mixed}
     Choose $\alpha \in [0, 1]$. The mixed strategy is the same as the unique entropy strategy (cf. Definition \ref{strat:unique_entropy}), except that the loss function is replaced with $a_i = \alpha H(q_i) + (1 - \alpha) E^+(q_i \parallel Q'' \backslash q_i)$ in step \ref{step:volume}.
@@ -367,16 +367,16 @@ We also define an additional variation, which mixes bith proposed loss functions
 
 \subsection{Comparison and statistical sampling}
 
-Unfortunately, equation (\ref{eq:unique_entropy}) is computationally very demanding. Most of the time, property \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is not too large. However, sometimes a target such that many states fall into $Q''$ is generated, and the unique entropy computation is costly. We would have liked to simulate LOCC state selection strategies and create a curve of the average success ratio between the volumic and the entropic strategy depending on the $\alpha$ parameter of the mixed strategy, but this was not realistic. An implementation of the LOCC state selection strategy and successive attemps (nicknamed "games") to survive against successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}. To compare the strategies depending on the mixed strategy parameter $\alpha$, a bank of 9 states sampled uniformly on the $\Delta_{d-1}$ simplex and a maximally entangled state and a sequence of 10 targets are generated. A skew parameter allows to control the Dirichlet distribution from which the targets are sampled: if the sampling is uniform then all strategies perform very poorly because strongly entangled targets are likely to be sampled and are quickly not constructible depending on how many states have already been used. The same bank and same sequence of targets are given to algorithm \ref{strat:mixed} for each value of $\alpha$ (with a step of 0.01). This way we simulated 600000 games, and the average number of succesful targets for each value of $\alpha$ was recorded. The results of this process are shown in Figure \ref{fig:strategy_comparison}.
+An implementation of the resource selection strategy and successive attemps (nicknamed "games") to not fail to construct successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}\footnote{\url{https://github.com/traaldbjerg/MajoLat}}. To compare the strategies depending on the mixed strategy parameter $\alpha$, a bank of 9 states sampled uniformly on the $\Delta_{d-1}$ simplex and a maximally entangled state and a sequence of 10 targets are generated. A skew parameter allows to control the Dirichlet distribution from which the targets are sampled: if the sampling is uniform then all strategies perform very poorly because strongly entangled targets are likely to be sampled and are quickly not constructible depending on how many states have already been used. The same bank and same sequence of targets are given to algorithm \ref{strat:mixed} for each value of $\alpha$ (with a step of 0.01). This way we simulated 200000 games, and the average number of succesful targets for each value of $\alpha$ was recorded. The results of this process are shown in Figure \ref{fig:strategy_comparison}.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.7]{images/locc_game_100000_4_10_1_0.01_2.png}
+    \includegraphics[scale=0.7]{images/cool_locc_30_0.2_True.png}
     \caption{Average number of succesful target constructions depending on the value of the strategy parameter $\alpha$ for a bank of 9 uniformly sampled states and 1 maximally entangled state, and 10 targets sampled with Dirichlet parameters $\left(2, \frac{1}{2}, \frac{1}{2}, \frac{1}{2}\right)$. Note that the $\alpha = 0$ extremity is the unique entropy strategy, and $\alpha = 1$ is similar to the entropic strategy, but also uses a redundancy factor $b$ and a weighted loss function $c$, in order to keep the strategies comparable.}
     \label{fig:strategy_comparison}
 \end{figure}
 
-It is interesting to note that in this scenario, the variations are not particularly large (less than 1\%). We were surprised that the unique entropy strategy performed worse than the entropic strategy. However, it is very interesting to see that there exists a nontrivial maximum at around $\alpha = 0.2$, where combining both the unique entropy loss function and the entropic loss function performs better than a simple entropic strategy. This seems to validate our lattice-based approach and the utility of $E^+$. Moreover, drastically different results can be reached by changing some of the state filtering choices in step \ref{step:volume}, and we believe that further research might lead to better filterings or weigthed loss functions which could further improve the performance of the different strategies. The results for some other filterings are shown in appendix \ref{app:alternative_filterings}.
+Unfortunately, equation (\ref{eq:unique_entropy}) is computationally very demanding. Most of the time, property \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is not too large. However, sometimes a target such that many states fall into $Q''$ is generated, and the unique entropy computation is costly. It is interesting to note that in this scenario, the variations are not particularly large (less than 1\%). We were surprised that the unique entropy strategy performed worse than the entropic strategy. However, it is very interesting to see that there exists a nontrivial maximum at around $\alpha = 0.3$, where combining both the unique entropy loss function and the entropic loss function performs better than a simple entropic strategy. This seems to validate our lattice-based approach and the utility of $E^+$. Moreover, drastically different results can be reached by changing some of the state filtering choices in step \ref{step:volume}, and we believe that further research might lead to better filterings or weigthed loss functions which could further improve the performance of the different strategies. The results for some other filterings are shown in appendix \ref{app:alternative_filterings}.
 
 
 
@@ -384,4 +384,4 @@ It is interesting to note that in this scenario, the variations are not particul
 
 While the generalization of incomparability monotones to sets of states is conceptually interesting, the application to LOCC state selection strategies is unfortunately hampered by the computational complexity of such a formula. Our numerical simulations did not seem to show significant differences between the entropic strategy and the volumic strategy, which is fairly disappointing. The sampling was drawn using the uniform Dirichlet distribution, which samples probability distributions uniformly in the $\Delta_{d-1}$ simplex. Perhaps altering the $\alpha$ coefficients of the distribution in order to draw targets closer to the bottom on average might yield better results. The computation time for unique entropy might also be improved using approximation techniques for inclusion-exclusion formulae, which are famously computationally demanding.
 
-However, unique entropy being able to quantify the redundancy of a state relative to a bank is still quite interesting. We believe that many other quantities measuring redundancy could be defined from the lattice, yielding similar applications. Studying the idea of an entropic measure is also interesting, and could be another avenue of research, mostly because interesting properties of the Shannon entropy might be explained or discovered this way, like we discussed with supermodularity in Section \ref{sec:supermodularity_intuition}.
+However, unique entropy being able to quantify the redundancy of a state relative to a bank is still quite interesting. We believe that many other quantities measuring redundancy could be defined from the lattice, yielding similar applications. Studying the idea of an entropic measure is also interesting, and could be another avenue of research, mostly because interesting properties of the Shannon entropy might be explained or discovered this way, just like we discussed with supermodularity in Section \ref{sec:supermodularity_intuition}.

@@ -385,7 +385,7 @@ Let us turn our attention to $E^-$. This time around, the expected property for 
 
 \setcounter{equation}{0}
 
-This section is based on Ref. \cite[pp. 8--16]{rudin_real_1987}. Measure theory is the mathematical field that studies the size of sets. It has applications in many fields, most notably in probability theory were probability measures are integral to proper definitions, but also in integration theory. A measure is a set function defined on a $\sigma$-algebra satisfying special properties. Let us define those notions.
+This section is based on Ref. \cite[pp. 8--16]{rudin_real_1987}. Measure theory is the mathematical field that studies the size of sets. It has applications in many fields, most notably in probability theory where probability measures are integral to proper definitions, but also in integration theory. A measure is a set function defined on a $\sigma$-algebra satisfying special properties. Let us define those notions.
 
 \begin{appendix_definition}[Set function] \label{def:set_function}
     Let $\Omega$ be a set, and let $P(\Omega)$ be the power set of $\Omega$, i.e. the set containing all subsets of $\Omega$. Finally, let $\tilde{\Omega} \subseteq P(\Omega)$. Then
@@ -402,7 +402,7 @@ A measure, then, is a special set function that satisfies volume-like properties
     \begin{enumerate}
         \item \underline{Contains the universal set:} $\Omega \in \Sigma$.
         \item \underline{Closed under complements:} If $A \in \Sigma$, then $A^c \in \Sigma$, where $A^c$ is the complement of $A$ relative to $\Omega$.
-        \item \underline{Closed under countable unions:} If $A = \bigcup\limits_{i = 1}^\infty A_i$ and if $A_i \in \Sigma \: \forall \: i \mathbb{N}$, then $A \in \Sigma$.
+        \item \underline{Closed under countable unions:} If $A = \bigcup\limits_{i = 1}^\infty A_i$ and if $A_i \in \Sigma \: \forall \: i \in \mathbb{N}$, then $A \in \Sigma$.
     \end{enumerate}
     In other words, a collection $\Sigma$ of subsets of $\Omega$ is a $\sigma$-algebra if it is closed under countable unions and complements\footnote{And implicitly under countable intersections, as they can be constructed by using $\bigcap\limits_{i = 1}^\infty A_i = \left(\bigcup\limits_{i = 1}^\infty A_i^c\right)^c$ (finite intersections can be obtained from this formula by setting $A_i = A_1 \: \forall \: i > n$ for a chosen $n$).}.
 \end{appendix_definition}
@@ -410,19 +410,21 @@ A measure, then, is a special set function that satisfies volume-like properties
 If $\Sigma$ is a $\sigma$-algebra in $\Omega$, then $\Omega$ is called a \textit{measurable space} and the elements of $\Sigma$ are said to be the \textit{measurable sets} of $\Omega$. Moreover, given a collection $S$ of subsets of interest of $\Omega$, a $\sigma$-algebra can be generated from $S$ by adding all of the countable unions and complements of the members of $S$ to the generated set, which we will write $\sigma(S)$. Note that if we require the collection of subsets to be closed under finite unions instead of countable unions, the collection is called an algebra over $\Omega$ instead of a $\sigma$-algebra. A related (simpler) notion is the notion of $\pi$-system.
 
 \begin{appendix_definition}[$\pi$-system] \label{def:pi_system}
-    A collection $\Pi$ of subsets of a set $\Omega$ is said to be a $\pi$-sustem in $\Omega$ if $\Pi$ has the following properties.
+    A collection $\Pi$ of subsets of a set $\Omega$ is said to be a $\pi$-system in $\Omega$ if $\Pi$ has the following properties.
     \begin{enumerate}
         \item \underline{Nonempty:} $\Pi \neq \emptyset$.
         \item \underline{Closed under finite intersections:} If $A = \bigcap\limits_{i = 1}^n A_i$ and if $A_i \in \Pi \: \forall \: i \leq n$, then $A \in \Pi$.
     \end{enumerate}
 \end{appendix_definition}
 
-Such systems are fairly interesting to us, because it is easy to see that the collection of subsets ${\mathcal{T}_+(p) | p \in \mathcal{P}^d}$ of $\mathcal{P}^d$ form a $\pi$-system. This is because by definition of the join, the intersection of two future cones is the future cone of the join (the same discussion is possible with past cones and the meet), and so all possible intersections of future cones is already contained in the set of future cones, and so the collection is closed under finite intersections, satisfying Definition \ref{def:pi_system}.
+\begin{appendix_remark} 
+    $\pi$-systems are fairly interesting to us, because it is easy to see that the collection of subsets of $\mathcal{P}^d$ $\{\mathcal{T}_+(p) \: | \: p \in \mathcal{P}^d\}$  is a $\pi$-system. This is because by definition of the join, the intersection of two future cones is the future cone of the join (the same discussion is possible with past cones and the meet), and so all possible intersections of future cones is already contained in the set of future cones, and so the collection is closed under finite intersections, satisfying Def. \ref{def:pi_system}.
+\end{appendix_remark}
 
 The final notion of interest we will discuss here is the notion of measure, which we have already mentioned before.
 
 \begin{appendix_definition}[Measure]
-    A set function $\mu$ defined on a $\sigma$-algebra $\Sigma$ is a measure on $\Sigma$ iff it is countably additive, i.e. if $\{A_i\}$ is a collection of \textit{disjoint} members of $\Sigma$, then
+    A set function $\mu$, defined on a $\sigma$-algebra $\Sigma$, is a measure on $\Sigma$ iff it is countably additive, i.e. if $\{A_i\}$ is a collection of \textit{disjoint} members of $\Sigma$, then
     \begin{equation}
         \mu\left(\bigcup\limits_{i = 1}^\infty A_i\right) = \sum_{i = 1}^{\infty} \mu(A_i)
     \end{equation}
@@ -438,6 +440,8 @@ We say that a \textit{measure space} is a measurable space which has a positive 
         \item \underline{Monotonicity:} $A \subseteq B \implies \mu(A) \leq \mu(B)$.
     \end{enumerate}
 \end{appendix_theorem}
+
+An interesting notion is that measures automatically give a well-defined notion of the amount of elements in a set, i.e. a volume. Moreover, a measure automatically verifies the inclusion-exclusion principle (cf. Theorem \ref{th:inclusion-exclusion}).
 
 
 

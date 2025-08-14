@@ -173,8 +173,8 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = p 
     \end{align}
     where we have used the fact that the cumulative sum of any $d$-dimensional vector is always less or equal to 1 to write equation (\ref{eq:subadditivity_max_trick}). Therefore, for the majorization relation $S^\downarrow_k(B) \geq S^\downarrow_k(A)$ to be verified, it is enough to show that for any choice of $l$ that we haven't treated yet,
     \begin{align}
-                          S^\downarrow_{k-1}(p) + S^\downarrow_{k-1}(q) &\geq \max_{0\leq l \leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right)\\
-                                                                        \iff 0 &\geq \max_{0\leq l \leq k} \left(S^\downarrow_l (p) - S^\downarrow_{k-1}(p) + S^\downarrow_{k-l} (q) - S^\downarrow_{k-1}(q)\right), \label{eq:subadditivity_leq}
+                          S^\downarrow_{k-1}(p) + S^\downarrow_{k-1}(q) &\geq \max_{0 < l < k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right)\\
+                                                                        \iff 0 &\geq \max_{0 < l < k} \left(S^\downarrow_l (p) - S^\downarrow_{k-1}(p) + S^\downarrow_{k-l} (q) - S^\downarrow_{k-1}(q)\right), \label{eq:subadditivity_leq}
     \end{align}
     and so the majorization inequality is satisfied if we show that the RHS of eq. (\ref{eq:subadditivity_leq}) is less than or equal to 0.
     \begin{enumerate}[resume]
