@@ -75,8 +75,8 @@ def random_strongly_entangled_state(dim1, dim2, entropic=False):
 
 def compare_renyi_criteria(num_states=10000, dim1=2, dim2=2, max_alpha=10, alpha_step=0.1): # see section 4.1.3
     Path.mkdir(Path("results"), exist_ok=True)
-    csv_path = Path("results/renyi_comparison_{}_{}_{}_{}.csv".format(dim1, dim2, max_alpha, alpha_step))
-    png_path = Path("results/renyi_comparison_{}_{}_{}_{}.png".format(dim1, dim2, max_alpha, alpha_step))
+    csv_path = Path("results/renyi_comparison_{}_{}_{}_{}_{}.csv".format(num_states, dim1, dim2, max_alpha, alpha_step))
+    png_path = Path("results/renyi_comparison_{}_{}_{}_{}_{}.png".format(num_states, dim1, dim2, max_alpha, alpha_step))
 
     
     max_alpha = int(round(max_alpha/alpha_step))
@@ -128,7 +128,7 @@ def compare_renyi_criteria(num_states=10000, dim1=2, dim2=2, max_alpha=10, alpha
 if __name__ == "__main__":
     #dimension_list = [(2, 2), (2, 3), (3, 3), (3, 4), (3, 5), (3, 6)]#, (4, 4), (4, 6), (4, 8)] # dimensions to test, eigenvalue calculations quickly become expensive
     dimension_list = [(4, 4)]
-    num_states = 10000
+    num_states = 50000
     max_alpha = 30
     alpha_step = 0.2
     for dims in dimension_list: # loop over dimensions of interest

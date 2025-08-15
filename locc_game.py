@@ -87,7 +87,7 @@ def LOCC_target_game(dims, bank, alpha=0, targets=[], distribution=None, redunda
 
 # execution
 if __name__ == "__main__":
-    tries = 300000
+    tries = 400000
     entropic_successes = 0
     unique_entropy_successes = 0
     bank_size = 10
