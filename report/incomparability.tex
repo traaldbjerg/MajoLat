@@ -124,40 +124,40 @@ The improved criterion is not unique to the Shannon entropy. All Rényi entropie
 
 A numerical analysis was carried out to figure out whether there exists an optimal $\alpha$ for which the improved criterion triggers the most amount of times, relative to the original criterion. This was simulated in the context of entanglement by generating random density matrices using QuTip with a specified tensor structure until the majorization criterion $\lambda^A \wedge \lambda^B \succ \lambda^{AB}$ is failed (and so we are guaranteed to not have a separable state). This way, 10,000 strongly entangled states are generated. Then, the Rényi-entropic criterion was used on each of these strongly entangled states by iterating over the value of $\alpha$, with a step of 0.2, and each entanglement detection was recorded. Finally, this process is repeated for several dimensions of interest. An implementation of this test is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}\footnote{\url{https://github.com/traaldbjerg/MajoLat}}.
 
-Computationally, the eigenvalue calculations of the operators and reduced operators become very heavy as the dimensions increase, so the largest dimensions attempted were $4 \times 4$ before the computation time became prohibitive. The $2 \times 2$ case is not shown because incomparability is not possible in two dimensions and so the meet criterion reduces to the old one. The final results are shown in figures \ref{fig:renyi_comparison}.
+Computationally, the eigenvalue calculations of the operators and reduced operators become very heavy as the dimensions increase, so the largest dimensions attempted were $4 \times 4$ before the computation time became prohibitive. The $2 \times 2$ case is not shown because incomparability is not possible in two dimensions and so the meet criterion reduces to the old one. The final results are shown in Figures \ref{fig:renyi_comparison}.
 
 \begin{figure}[ht] 
   \begin{subfigure}[b]{0.5\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{images/renyi_comparison_2_3_30_0.2.png} 
-    \caption{Entanglement detection ratios as a function of $\alpha$ for dimensions 2 $\times$ 3.} 
+    \includegraphics[width=0.95\linewidth]{images/renyi_comparison_2_3_30_0.2.png} 
+    \caption{Dimensions 2 $\times$ 3.} 
     \label{fig:renyi_2x3} 
     \vspace{2ex}
   \end{subfigure}%% 
   \begin{subfigure}[b]{0.5\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{images/renyi_comparison_3_3_30_0.2.png} 
-    \caption{Entanglement detection ratios as a function of $\alpha$ for dimensions 3 $\times$ 3.} 
+    \includegraphics[width=0.95\linewidth]{images/renyi_comparison_3_3_30_0.2.png} 
+    \caption{Dimensions 3 $\times$ 3.} 
     \label{fig:renyi_3x3} 
     \vspace{2ex}
   \end{subfigure} 
   \begin{subfigure}[b]{0.5\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{images/renyi_comparison_3_4_30_0.2.png} 
-    \caption{Entanglement detection ratios as a function of $\alpha$ for dimensions 3 $\times$ 4.} 
-    \label{fig:renyi_3x4} 
+    \includegraphics[width=0.95\linewidth]{images/renyi_comparison_3_6_30_0.2.png} 
+    \caption{Dimensions 3 $\times$ 6.} 
+    \label{fig:renyi_3x6} 
   \end{subfigure}%%
   \begin{subfigure}[b]{0.5\linewidth}
     \centering
-    \includegraphics[width=\linewidth]{images/renyi_comparison_3_6_30_0.2.png} 
-    \caption{Entanglement detection ratios as a function of $\alpha$ for dimensions 3 $\times$ 6.} 
-    \label{fig:renyi_3x6} 
+    \includegraphics[width=0.95\linewidth]{images/renyi_comparison_4_4_30_0.2.png} 
+    \caption{Dimensions 4 $\times$ 4.} 
+    \label{fig:renyi_4x4} 
   \end{subfigure} 
-  \caption{Comparison of the entanglement criteria for various subsystem dimensions.}
+  \caption{Comparison of the entanglement detection ratios for the old and new entropic criteria for various subsystem dimensions, depending on the value of the R\'enyi order parameter $\alpha$. 10000 strongly entangled states were generated, and the R\'enyi criterion was applied to each of them for each value of $\alpha$ between 0 and 30, with a step of 0.2. The only exception is the $4 \times 4$ case, where only 1000 states were sampled due to the very long computation times (which explains the larger statistical fluctuations for curve \ref{fig:renyi_4x4}).}
   \label{fig:renyi_comparison} 
 \end{figure}
 
-Interestingly, the Rényi simulation shows that there does seem to be an optimum $\alpha$. Moreover, it seems to be dimension-dependent (see shift between Figures \ref{fig:renyi_2x3} and \ref{fig:renyi_3x3}), with a clear optimum in dimension 3 $\times$ 3. Perhaps this hints at some deeper connection between Rényi entropy and majorization, but this research avenue was not explored further. It is also interesting to note that the improved criterion does not seem to show significant improvements according to the simulation. This might be because of a non-uniform density of quantum states in the $\Delta_{d-1}$ simplex, which might lead to a significant number of random density matrices being drawn close to the bottom of the lattice where both criteria can tell entanglement. Perhaps, instead, this might be due to reduced states of a density matrix not tending to be too imcomparable from each other, and thus being close to their meet%\footnote{This is partly explained in Section \ref{sec:p_monotonicity} with Corollary \ref{cor:incomparability_separability}.}
+Interestingly, the Rényi simulation shows that there does seem to be an optimum $\alpha$ where the meet criterion seems to perform better than the old criterion (the difference then vanishes again at large values of $\alpha$), which seems to be dimension-dependent. Perhaps this hints at some deeper connection between Rényi entropy and majorization, but this research avenue was not explored further. It is also interesting to note that the improved criterion does not seem to show significant improvements according to the simulation. This might be because of a non-uniform density of quantum states in the $\Delta_{d-1}$ simplex, which might lead to a significant number of random density matrices being drawn close to the bottom of the lattice where both criteria can tell entanglement. Perhaps, instead, this might be due to reduced states of a density matrix not tending to be too imcomparable from each other, and thus being close to their meet%\footnote{This is partly explained in Section \ref{sec:p_monotonicity} with Corollary \ref{cor:incomparability_separability}.}
 . This final idea leads nicely into the second part of this chapter, where we define and study new objects quantifying the incomparability between probability vectors.
 
 
@@ -262,7 +262,7 @@ Considering the previous discussion, there are 2 notions of incomparability we c
         %\node [inner sep=0pt, label=0:$\mathcal{T}_\emptyset (q)$] at (1.5, 0) {};
     
     \end{tikzpicture}
-    \caption{Depiction of the geometrical intuition behind the closest "free state" approach.}
+    \caption{Depiction of the definition of the future incomparability function, $E^+(p \parallel q)$, which is the entropic distance from $p$ to the closest point of the future cone of $q$. Visually, we expect that point to be the join.}
     \label{fig:future_closest_intuition}
 \end{figure}
 
@@ -357,7 +357,7 @@ One could attempt the same definition for a \textit{past incomparability} functi
         %\node [inner sep=0pt, label=0:$\mathcal{T}_\emptyset (q)$] at (1.5, 0) {};
     
     \end{tikzpicture}
-    \caption{Depiction of the geometrical intuition behind the closest "free state" approach.}
+    \caption{Depiction of the definition of the past incomparability function, $E^-(p \parallel q)$, which is the entropic quasidistance from $p$ to the closest point of the past cone of $q$. Visually, we expect that point to be the meet.}
     \label{fig:past_closest_intuition}
 \end{figure}
 
@@ -423,7 +423,7 @@ We are now ready to prove the main result of this section, which again states th
 
 \section{Properties}
 
-For this section, we will denote bistochastic matrices of dimension $d\times d$ by the letter $D$. Recall that an equivalent definition of majorization is $p \prec q \iff \exists D \: | \: q = Dp$ (cf. Section \ref{sec:bistochastic}). Now that we have defined our two incomparability functions and shown that they are equal to the (quasi)distance to the meet or join, let us show that they are monotones under a bistochastic degradation. An important consequence of such a property is that in the quantum picture, if they are increasing (resp. decreasing) monotones under a bistochastic degradation, they are a decreasing (resp. increasing) monotone under a LOCC degradation in the quantum picture. However, we are working with 2 states, and so we can study degradations of $p$ and of $q$ separately.
+We are now interested in the behavior of our incomparability functions under LOCC transformations of Schmidt vectors. For this section, we will denote bistochastic matrices of dimension $d \times d$ by the letter $D$. Recall that an equivalent definition of majorization is $p \prec q \iff \exists D \: | \: q = Dp$ (cf. Section \ref{sec:bistochastic}). Now that we have defined our two incomparability functions and shown that they are equal to the (quasi)distance to the meet or join, let us show that they are monotones under a bistochastic degradation. An important consequence of such a property is that in the quantum picture, if they are increasing (resp. decreasing) monotones under a bistochastic degradation, they are a decreasing (resp. increasing) monotone under a LOCC degradation in the quantum picture. However, we are working with 2 states, and so we can study degradations of $p$ and of $q$ separately.
 
 
 
@@ -489,7 +489,7 @@ This lemma is essentially just an equivalent way of stating supermodularity. We 
         \draw[dotted] [name path=P''--J, color=gray] (P'') -- (J);
 
     \end{tikzpicture}
-    \caption{Depiction of the expected monotonicity in $p$ of $E^+$. The dotted red half-cone contains all possible bistochastic degradations of $p$.}
+    \caption{Depiction of the expected monotonicity in $p$ of $E^+$. The dotted red half-cone contains all possible bistochastic degradations of $p$. Visually, on the edge closest to $q$, like $p'$, have the smallest distance to the future cone of $q$. Other choices of degradation, like $p''$, clearly increase the distance to the cone.}
     \label{fig:future_p_monotonicity}
 \end{figure}
 
@@ -576,13 +576,51 @@ This theorem is quite satisfying in the sense that it seems to indicate that our
 
 These corollaries, while not very useful by themselves, still hold some interpretational value, because they show that in the sense of our future incomparability monotone, some states must be more incomparable than others relatively to some set states. Corollary \ref{cor:incomparability_LOCC}, while involving some nondescript Schmidt vector $\lambda_\alpha$, essentially states that it is not possible to create a state that is more incomparable to $\lambda_\alpha$ through LOCC than the original state $\lambda_\psi$. Corollary \ref{cor:incomparability_separability} is perhaps more interesting, and states that if a joint state is separable, then the joint state is more incomparable to each of the reduced states than the reduced states are to each other. %The converse might partly explain the discussion at the end of chapter \ref{chap:criteria}: if a state is strongly entangled, then it is more incomparable to each of the reduced states than they are between each other. Therefore, such states tend to not have particularly incomparable $\lambda^A$ and $\lambda^B$, which also means that their meet is fairly close, and so the improved criterion involving the meet is not a significant improvement, especially considering that $\lambda^{AB}$ cannot be too close to them. rip petit ange parti trop tot
 
-One would hope that the analogue of Theorem \ref{th:monotone_future_p} would hold for the measure of past incomparability $E^-$, however it does not. The following counterexample shows that a bistochastic matrix $D$ such that $E^- (Dp \parallel q) < E^- (p \parallel q)$ can exist, but also that a bistochastic matrix $D'$ such that $E^- (D'p \parallel q) > E^- (p \parallel q)$ can exist too. Let $q = (0.6, 0.4)$, $p = (0.7, 0.29, 0.01)$, $p' = p \wedge q$ and $p'' = (0.7, 0.15, 0.15)$. One can verify that $p$ majorizes both $p'$ and $p''$, yet $E^- (p \parallel q) = 0.0939$ bits, $E^- (p' \parallel q) = 0$ bits and $E^- (p'' \parallel q) = 0.171$ bits. With Figure  it is not too hard to see that this is because the hyperbolic geometry makes distances increase in the wrong way in this case: we can of course make $E^-$ decrease by going straight towards the past cone of $q$, but the issue arises when sticking to the left edge, as the hyperbolic geometry makes $E^-$ increase, and so there is no monotonicity.
+One would hope that the analogue of Theorem \ref{th:monotone_future_p} would hold for the measure of past incomparability $E^-$, however it does not. The following counterexample shows that a bistochastic matrix $D$ such that $E^- (Dp \parallel q) < E^- (p \parallel q)$ can exist, but also that a bistochastic matrix $D'$ such that $E^- (D'p \parallel q) > E^- (p \parallel q)$ can exist too. Let $q = (0.6, 0.4)$, $p = (0.7, 0.29, 0.01)$, $p' = p \wedge q$ and $p'' = (0.7, 0.15, 0.15)$. One can verify that $p$ majorizes both $p'$ and $p''$, yet $E^- (p \parallel q) = 0.0939$ bits, $E^- (p' \parallel q) = 0$ bits and $E^- (p'' \parallel q) = 0.171$ bits. With Figure \ref{fig:past_p_monotonicity_intuition} it is not too hard to see that this is because the hyperbolic geometry makes distances increase in the wrong way in this case.
 
-\begin{figure}[h!]
+\begin{figure}[h!] % rajouter les 4 distances sur la figure ?
     \centering
     \begin{tikzpicture}[scale=0.9]
-        
+        % draw cone of q
+        \coordinate (Q) at (0, 2);
+        \coordinate (QL) at (-2,5);
+        \coordinate (QR) at (2, 5);
+        \draw [name path=Q--QL] (Q) -- (QL);
+        \draw [name path=Q--QR] (Q) -- (QR);
+        % drawfill future cone of q
+        \fill[fill=blue, opacity=0.2] (Q) -- (QL) -- (QR) -- cycle;
+        % draw cone of p
+        \coordinate (P) at (-2, 1.5);
+        \coordinate (PL) at (-4.333, 5);
+        \coordinate (PR) at (0.333, 5);
+        \draw[dotted] [name path=P--PL, color=red] (P) -- (PL);
+        \draw[dotted] [name path=P--PR, color=red] (P) -- (PR);
+        % draw top right leg for p
+        \coordinate (PRT) at (0.333, 5);
+        \draw[draw=none] [name path=P--PRT] (P) -- (PRT);
+        \path [name intersections={of=P--PRT and Q--QL, by=L}];
+        \draw[dotted] [name path=P--L, color=gray] (P) -- (L) node[midway, below, sloped] {$d(p, p \wedge q)$};
+        % add p' and p''
+        \coordinate (P') at (-3, 3);
+        \coordinate (P'') at (-1.5, 3.5);
+        % ghost draw top right cone leg for p' and p''
+        \coordinate (P'RT) at (-1.666, 5);
+        \coordinate (P''RT) at (-0.5, 5);
+        \draw[draw=none] [name path=P'--P'RT] (P') -- (P'RT);
+        \draw[draw=none] [name path=P''--P''RT] (P'') -- (P''RT);
+        \path [name intersections={of=P'--P'RT and Q--QL, by=I}];
+        \path [name intersections={of=P''--P''RT and Q--QL, by=J}];
+        \draw[dotted] [name path=P'--I, color=gray] (P') -- (I) node[midway, above, sloped] {$d(p', p' \wedge q)$};
+        \draw[dotted] [name path=P''--J, color=gray] (P'') -- (J);
+        % draw nodes at the end to prevent dotted drawings on them
+        \node [fill=black,inner sep=1pt,label=0:$q$] at (Q) {};
+        \node [inner sep=0pt, label=90:$\mathcal{T}_- (q)$] at (0, 3.5) {};
+        \node [fill=black,inner sep=1pt,label=225:$p$] at (P) {};
+        \node [fill=black,inner sep=1pt,label=225:$p'$] at (P') {};
+        \node [fill=black,inner sep=1pt,label=145:$p''$] at (P'') {};
     \end{tikzpicture}
+    \caption{Depiction of why monotonicity in $p$ of $E^-$ fails. The dotted red half-cone contains all possible bistochastic degradations of $p$.  We can of course make $E^-$ decrease by going straight towards the past cone of $q$, but the issue arises when sticking to the left edge, as the hyperbolic geometry makes $E^-$ slightly increase. This explains why there is no monotonicity in $p$.}
+    \label{fig:past_p_monotonicity_intuition}
 \end{figure}
 
 

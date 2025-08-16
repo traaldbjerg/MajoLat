@@ -157,7 +157,7 @@ It is interesting to note that these definitions are all very consistent with ea
         D(p \parallel q) &= \sum_{x \in \mathcal{X}} p(x) \frac{p(x)}{q(x)}\\
                 &= E_p\left[\log \frac{p(x)}{q(x)}\right],
     \end{align}
-    with conventions $0 \log \frac{0}{0} = 0$, and $p \log \frac{p}{0} = \infty$ and $0 \log \frac{0}{q} = 0$ by continuity arguments.
+    with conventions $0 \log \frac{0}{0} = 0$, $p \log \frac{p}{0} = \infty$ and $0 \log \frac{0}{q} = 0$ by continuity arguments.
 \end{appendix_definition}
 
 This quantity can be understood as measuring how far from each other the two distributions $p$ and $q$ are. If they are identical, i.e. $p(x) = q(x) \: \forall x \in \mathcal{X}$, then all of the terms in the sum are $\log \frac{p(x)}{p(x)} = \log 1 = 0$ and the relative entropy is simply 0. It is important to note however that this quantity is not a proper notion of distance, as it is not symmetric in its arguments, and fails the triangular inequality. % fort similaire a Cover and Thomas, faudrait reformuler un peu
@@ -313,7 +313,7 @@ This section is based on Refs. \cite{vidal_entanglement_1999} and \cite{nielsen_
 
 \newpage
 
-\section{Proofs of monotonicity under bistochastic degradation of the reference} \label{app:q_monotonicity}
+\section{Proofs of monotonicity of the incomparability functions under bistochastic degradation of the reference} \label{app:q_monotonicity}
 
 \setcounter{equation}{0}
 
@@ -430,7 +430,7 @@ The final notion of interest we will discuss here is the notion of measure, whic
     \end{equation}
 \end{appendix_definition}
 
-We say that a \textit{measure space} is a measurable space which has a positive measure defined on the $\sigma$-algebra of its measurable sets. Measures also enjoy some useful properties.
+We say that a \textit{measure space} is a measurable space which has a positive measure defined on the $\sigma$-algebra of its measurable sets. Alternatively, one can also define a measure on a semi-ring, but this did not seem as relevant in our context. Measures also enjoy some useful properties.
 
 \begin{appendix_theorem}
     Let $\mu$ be a positive measure over $\Sigma$. Then, $\mu$ has the following properties.
@@ -441,13 +441,13 @@ We say that a \textit{measure space} is a measurable space which has a positive 
     \end{enumerate}
 \end{appendix_theorem}
 
-An interesting notion is that measures automatically give a well-defined notion of the amount of elements in a set, i.e. a volume. Moreover, a measure automatically verifies the inclusion-exclusion principle (cf. Theorem \ref{th:inclusion-exclusion}).
+An interesting notion is that measures automatically give a well-defined notion of the amount of elements in a set, i.e. a volume. Finally, the notion that we are perhaps most interested in is that a measure automatically verifies the inclusion-exclusion principle (cf. Theorem \ref{th:inclusion-exclusion}).
 
 
 
 \newpage
 
-\section{Proofs of the basic properties of unique entropy} \label{app:unique_entropy_properties}
+\section{Proofs of the basic properties of the uniqueness entropy} \label{app:unique_entropy_properties}
 
 \setcounter{equation}{0}
 
@@ -484,7 +484,7 @@ Property \ref{prop:empty} is immediate as well, because the join of the certain 
 
 Such an expression lends itself very well to induction proofs. Let us now prove the remaining properties. For property \ref{prop:p_absorption}, we have the following.
 
-\begin{appendix_lemma}[Absorption in $p$ of unique entropy]
+\begin{appendix_lemma}[Absorption in $p$ of the uniqueness entropy]
     Let $p, q_1, \dots, q_k \in \mathcal{P}^d$. If $\exists i \leq k \: | \: p \succ q_i$, then
     \begin{equation}
         E^+(p \parallel q_1, \dots, q_k) = 0.
@@ -502,7 +502,7 @@ Such an expression lends itself very well to induction proofs. Let us now prove 
 
 This property is again quite intuitive, because if $p$ majorizes one of the vectors of the bank $q_i$, then $\mathcal{T}_+(p) \subseteq \mathcal{T}_+(q_i)$, and so $p$ holds no unique volume relative to the bank. The geometric interpretation of property \ref{prop:q_absorption} is very similar, and we have the following.
 
-\begin{appendix_lemma}[Absorption in $q$ of unique entropy]
+\begin{appendix_lemma}[Absorption in $q$ of the uniqueness entropy]
     Let $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$. If $\exists i \leq k \: | \: q_{k+1} \succ q_i$, then
     \begin{equation}
         E^+(p \parallel q_1, \dots, q_k, q_{k+1}) = E^+(p \parallel q_1, \dots, q_k).

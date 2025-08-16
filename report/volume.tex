@@ -97,10 +97,10 @@ There is an additional difficulty in the field of LOCC transformations: quantum 
 
 However, we will not study them further in this master thesis. Indeed, in terms of an entanglement QRT, it is not entirely clear why a Schmidt vector shared by many quantum states should be weighted more than a Schmidt vector that is shared by few quantum states. This is because states with the same Schmidt vector are equivalent up to a local change of basis, and can thus be interchanged without losing any resource. Of course, we are not trying to argue that assigning a non-uniform weight to Schmidt vectors is necessarily useless, but rather that it is not clear why there couldn't exist other relevant choices of weighting than the density of LOCC-equivalent quantum states.
 
-With this in mind, we postulate that the Shannon entropy is itself a measure of the volume of majorization cones under some unknown measure. This makes our future incomparability monotone $E^+(p \parallel q) = H(p) - H(p \vee q)$ from Chapter \ref{chap:incomparability} much easier to interpret: it measures the volume of states that are reachable from $p$, but not from $q$. For this reason, it is perhaps more natural to call $E^+$ the \textit{unique entropy}. We propose the following generalization of $E^+$.
+With this in mind, we postulate that the Shannon entropy is itself a measure of the volume of majorization cones under some unknown measure. This makes our future incomparability monotone $E^+(p \parallel q) = H(p) - H(p \vee q)$ from Chapter \ref{chap:incomparability} much easier to interpret: it measures the volume of states that are reachable from $p$, but not from $q$. For this reason, it is perhaps more natural to call $E^+$ the \textit{uniqueness entropy}. We propose the following generalization of $E^+$.
 
-\begin{definition}[Unique entropy] \label{def:unique_entropy}
-    Let $p, q_1, \dots, q_k \in \mathcal{P}^d$. The unique entropy of $p$ relative to the bank $\{q_1, \dots, q_k\}$, which we note $E^+(p \parallel q_1, \dots, q_k)$, is defined as 
+\begin{definition}[Uniqueness entropy] \label{def:unique_entropy}
+    Let $p, q_1, \dots, q_k \in \mathcal{P}^d$. The uniqueness entropy of $p$ relative to the bank $\{q_1, \dots, q_k\}$, which we note $E^+(p \parallel q_1, \dots, q_k)$, is defined as 
     \begin{equation} \label{eq:unique_entropy}
         E^+(p \parallel q_1, \dots, q_k) = H(p) + \sum_{\emptyset \neq J \subseteq \{1, \dots, k\}} (-1)^{|J|} \: H\left(p \bigvee\limits_{i \in J} q_i\right).
     \end{equation}
@@ -147,21 +147,21 @@ A simple example with three states gives $E^+(p \parallel q_1, q_2) = H(p) - H(p
 
 
     \end{tikzpicture}
-    \caption{Geometric representation of the unique entropy $E^+(p \parallel q_1, q_2)$ (shaded in red) for 3 states $p, q_1, q_2 \in \mathcal{P}^d$. The analogy with Figure \ref{fig:venn_three} is quite clear: we add back $H(p \vee q_1 \vee q_2)$ because it is already removed twice in the formula.}
+    \caption{Geometric representation of the uniqueness entropy $E^+(p \parallel q_1, q_2)$ (shaded in red) for 3 states $p, q_1, q_2 \in \mathcal{P}^d$. The analogy with Figure \ref{fig:venn_three} is quite clear: we add back $H(p \vee q_1 \vee q_2)$ because it is already removed twice in the formula.}
     \label{fig:3_cone_example}
 \end{figure}
 
-A small overview of the essentials of measure theory is available in Appendix \ref{app:measure_theory}. We will also denote the set of all future majorization cones by $\mathbb{T}_+$. While this definition and postulate may not seem too far-fetched considering the previous discussion, this essentially means that if $E^+$ behaves like a volume, then a set function $\mu_0$ which sends cones onto the entropy of their tip $p$ is a valid measure of the set $\mathcal{P}^d$. In other words, the volume of a cone would be entirely determined by its tip (meaning that $\mu_0$ would be an unusual set function). That this might be possible is not too surprising however, because existing formulae for computing the volume of convex polytopes already only use the vertices of the polytope \cite{braden_surveyors_1986}. Moreover, algorithms to compute the location of the vertices of the majorization cone of any vector $p$ do exist, and Ref. \cite{junior_thermalcones_2022} even provides a Mathematica implementation (in the context of thermomajorization\footnote{It is interesting to note at this point that the volume of thermal cones has already been studied in Ref. \cite{junior_geometric_2022}, and that they also give an interpretation of the volume being akin to a resource. Moreover, they also propose a euclidean and Haar volume for entanglement cones. However, they studied the volume of individual cones, and thus did not attempt to characterize the volume uniquely accessible from a state. Finally, we were also interested in studying how the entropic volume might behave.} which is similar). Therefore, the volume of a majorization cone is entirely determined by its tip.
+A small overview of the essentials of measure theory is available in Appendix \ref{app:measure_theory}. We will also denote the set of all future majorization cones by $\mathbb{T}_+$. While this definition and postulate may not seem too far-fetched considering the previous discussion, this essentially means that if $E^+$ behaves like a volume, then a set function $\mu_0$ which sends cones onto the entropy of their tip $p$ is a valid measure of the set $\mathcal{P}^d$. In other words, the volume of a cone would be entirely determined by its tip (meaning that $\mu_0$ would be an unusual set function). That this might be possible is not too surprising however, because existing formulae for computing the volume of convex polytopes already only use the vertices of the polytope \cite{braden_surveyors_1986}. Moreover, algorithms to compute the location of the vertices of the majorization cone of any vector $p$ do exist, and Ref. \cite{junior_geometric_2022} even provides a Mathematica implementation\footnote{\url{https://github.com/AdeOliveiraJunior/Thermal-Cones}} (in the context of thermomajorization\footnote{It is interesting to note at this point that the volume of thermal cones has already been studied in Ref. \cite{junior_geometric_2022}, and that they also give an interpretation of the volume being akin to a resource. Moreover, they also propose a euclidean and Haar volume for entanglement cones. However, they studied the volume of individual cones, and thus did not attempt to characterize the volume uniquely accessible from a state.} which is similar). Therefore, the volume of a majorization cone is entirely determined by its tip.
 
 Some work did go into studying the basics of measure theory and defining a rigorous set function which would send cones onto the entropy of their tip, which would then be a valid measure for majorization cones if it could verify the properties of countable additivity and positivity on the $\sigma$-algebra (cf. Def. \ref{def:sigma_algebra}) generated by the majorization cones. Such a result would be very interesting, and would give new insight into the nature of entropy on the majorization lattice.
 
-For this to be possible we need our set function to work on a given collection of subsets of $\mathcal{P}^d$ of interest. We are only really interested in the measure of the cones, however a rigorous measure must at least be defined on a $\sigma$-algebra\footnote{Or on a semi-ring, but this did not seem relevant in our context.}. We can generate the $\sigma$-algebra from the true collection of interest: the $\sigma$-algebra of our majorization cones contains all the possible unions, complements and intersections of cones. Intersections are easy because $\mathcal{T}_+(p) \cap \mathcal{T}_+(q) = \mathcal{T}_+(p \vee q)$ (and so they form a $\pi$-system), but unions and complements of cones are not necessarily cones and so the naive set function which sends cones on the entropy of their tip is not directly defined for those. Moreover, for $\mu_0$ to be a measure, it needs to be countably additive. However, countable additivity can only be shown for disjoint sets, but the set of future cones does not contain a single pairwise disjoint set\footnote{No future cone is disjoint because they are all guaranteed to at least contain $\overline{\delta}_d$.} (but the $\sigma$-algebra generated from the majorization cones, $\sigma(\mathbb{T_+})$ does contain disjoint sets). It is unfortunately not clear if and how one could extend the naive set function to $\sigma(\mathbb{T_+})$. We believe that a recursive definition for an extended set function $\mu_{\text{ext}}$ sending a set $A$ to $\mu_0(A)$ if $A$ is a cone, and to $\mu_{\text{ext}}(A') +\mu_{\text{ext}}(A'') - \mu_{\text{ext}}(A' \cap A'')$ if $A$ is the union of 2 sets $A'$ and $A''$ might be enough, however proving countable additivity for such a recursive function seemed out of scope for this master thesis and was not studied further.
+For this to be possible we need our set function to work on a given collection of subsets of $\mathcal{P}^d$ of interest. We are only really interested in the measure of the cones, however a rigorous measure must at least be defined on a $\sigma$-algebra. We can generate the $\sigma$-algebra from the true collection of interest: the $\sigma$-algebra of our majorization cones contains all the possible unions, complements and intersections of cones. Intersections are easy because $\mathcal{T}_+(p) \cap \mathcal{T}_+(q) = \mathcal{T}_+(p \vee q)$ (and so they form a $\pi$-system), but unions and complements of cones are not necessarily cones and so the naive set function which sends cones on the entropy of their tip is not directly defined for those. Moreover, for $\mu_0$ to be a measure, it needs to be countably additive. However, countable additivity can only be shown for disjoint sets, but the set of future cones does not contain a single pairwise disjoint set\footnote{No future cone is disjoint because they are all guaranteed to at least contain $\overline{\delta}_d$.} (but the $\sigma$-algebra generated from the majorization cones, $\sigma(\mathbb{T_+})$ does contain disjoint sets). It is unfortunately not clear if and how one could extend the naive set function to $\sigma(\mathbb{T_+})$. We believe that a recursive definition for an extended set function $\mu_{\text{ext}}$ sending a set $A$ to $\mu_0(A)$ if $A$ is a cone, and to $\mu_{\text{ext}}(A') +\mu_{\text{ext}}(A'') - \mu_{\text{ext}}(A' \cap A'')$ if $A$ is the union of 2 sets $A'$ and $A''$ might be enough, however proving countable additivity for such a recursive function seemed out of scope for this master thesis and was not studied further.
 
 
 
 \subsection{Expected properties} \label{sec:unique_entropy_properties}
 
-Unfortunately, without a clear set function we cannot work on showing finite additivity, and so we will not show that an entropy-based set function is rigorously a volume. However, we will still attempt to show that our unique entropy function $E^+$ holds properties compatible with the geometrical intuition one could have for such a volume. For any $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$, we have
+Unfortunately, without a clear set function we cannot work on showing finite additivity, and so we will not show that an entropy-based set function is rigorously a volume. However, we will still attempt to show that our uniqueness entropy function $E^+$ holds properties compatible with the geometrical intuition one could have for such a volume. For any $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$, we have
 
 \begin{enumerate}
     \item \textbf{Commutativity:} $E^+(p \parallel q_1, \dots, q_i, \dots, q_j, \dots, q_k) = E^+(p \parallel q_1, \dots, q_j, \dots, q_i, \dots, q_k)$ for any $i \neq j$. \label{prop:commutativity}
@@ -182,7 +182,62 @@ Unfortunately, without a clear set function we cannot work on showing finite add
     \end{equation}
 \end{lemma}
 
-While, verified numerically, it turns out that only properties \ref{prop:positivity}, \ref{prop:p_monotonicity} and \ref{prop:q_monotonicity} are difficult to prove. The other proofs come fairly naturally from definition \ref{def:unique_entropy}, and can be found in Appendix \ref{app:unique_entropy_properties}. Interestingly, properties \ref{prop:positivity}, \ref{prop:p_monotonicity} and \ref{prop:q_monotonicity} all imply each other, and so it is only necessary to prove one of the three to prove the others. Several avenues for the proof were attempted, however we did not manage to prove it definitely. The issue encountered is the following
+While, verified numerically, it turns out that only properties \ref{prop:positivity}, \ref{prop:p_monotonicity} and \ref{prop:q_monotonicity} are difficult to prove. The other proofs come fairly naturally from definition \ref{def:unique_entropy}, and can be found in Appendix \ref{app:unique_entropy_properties}. Note that property \ref{prop:commutativity} implies that the ordering of the bank is arbitrary, and so we can always make any vector the last vector of the bank, which is useful for proving properties \ref{prop:p_absorption}, \ref{prop:q_absorption} and \ref{prop:q_monotonicity} as showing the property for $i = k$ is sufficient. We will need a small lemma, which is immediate from commutativity, associativity and idempotency of the join (cf. Section \ref{sec:algebraic_properties}).
+
+\begin{lemma} \label{lem:idempotency_trick}
+    Let $p, q_1, \dots, q_k, \in \mathcal{P}^d$. Then,
+    \begin{equation}
+        E^+(p \parallel q_1, \dots, q_{k-1}, q_k) = E^+(p \parallel q_1, \dots, q_{k-1}, p \vee q_k).
+    \end{equation}
+\end{lemma}
+
+\begin{theorem}[Monotonicity in $p$ and $q$ of the uniqueness entropy] \label{th:double_monotonicity}
+    Let $p, q_1, \dots, q_k \in \mathcal{P}^d$. Then, for all bistochastic matrices $D$,
+    \begin{equation}
+        \begin{system}
+            E^+(p \parallel q_1, \dots, q_k) \leq E^+(Dp \parallel q_1, \dots, q_k)\\
+            E^+(p \parallel q_1, \dots, q_k) \geq E^+(p \parallel q_1, \dots, Dq_k).
+        \end{system}
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    Let us assume that for $k = i$, $E^+(p \parallel q_1, \dots, q_k)$ is monotone in $q$. Let us show that this implies that it is also monotone in $q$ for $k = i+1$. By using Lemma \ref{lem:induction_trick}, for any bistochastic matrix $D$ we get
+    \begin{equation}
+        E^+(p \parallel q_1, \dots, q_i, Dq_{i+1}) = E^+(p \parallel q_1, \dots, q_i) - E^+(p \vee Dq_{i+1} \parallel q_1, \dots, q_i),
+    \end{equation}
+    which is greater than 0 if $E^+(p \parallel q_1, \dots, q_k)$ is monotone in $p$\footnote{No matter the choice of $D$,  because $\forall r, \; p \vee r \succ p.$} for $k = i$ (because $p \prec p \vee {q_{i+1}}$). Let us now show that $E^+(p \parallel q_1, \dots, q_k)$ being monotone in $q$ for $k = i$ implies that it is also monotone in $p$ for $k = i$. Let us first assume that $p \prec q_i$, i.e. $\exists D' \: | \: D' q_i = p$, and consider the following statement, which is true because of property \ref{prop:q_absorption}.
+    \begin{align}
+        E^+(Dp \parallel q_1, \dots, q_i, p) &= E^+(Dp \parallel q_1, \dots, D'q_i, p) \\
+        E^+(Dp \parallel q_1, \dots, q_i) - E^+(Dp \vee p \parallel q_1, \dots, q_i) &= E^+(Dp \parallel q_1, \dots, q_{i-1}, p)\nonumber\\
+        &\quad - E^+(\underbrace{Dp \vee D'q_i}_{=p} \parallel q_1, \dots, q_{i-1}, p)\\
+        E^+(Dp \parallel q_1, \dots, q_i) - E^+(p \parallel q_1, \dots, q_i) &= E^+(Dp \parallel q_1, \dots, q_{i-1}, p), \label{eq:monotone_p}
+    \end{align}
+    where the last term vanishes by property \ref{prop:p_absorption}. To show monotonicity in $p$, we only need to show that the LHS of (\ref{eq:monotone_p}) is greater than 0. By hypothesis, we know that $E^+(Dp \parallel q_1, \dots, q_{i-1}, p)$ is monotone in the bank. In particular,
+    \begin{equation}
+        E^+(Dp \parallel q_1, \dots, q_{i-1}, p) \geq E^+(Dp \parallel q_1, \dots, q_{i-1}, Dp) = 0,
+    \end{equation}
+    and so the LHS of (\ref{eq:monotone_p}) is greater than 0. Moreover, Lemma \ref{lem:idempotency_trick} guarantees that if $q_i$ does not majorize $p$, we can simply replace it by $p \vee q_i$, which does majorize $p$. Therefore, we can lift the $p \prec q_i$ restriction. We have thus shown that if $E^+(p \parallel q_1, \dots, q_k)$ is monotone in $q$ for $k = i$, then it is too for $k = i+1$, and it is also monotone in $p$ for $k = i$. Finally, Theorem \ref{th:monotone_future_q} provides the base case for $k = 1$, and so it is monotone in $p$ and $q$ for all $k \in \mathbb{N}$. \qedhere
+\end{proof}
+
+\noindent With this new result, the last property is easy to show.
+
+\begin{theorem}[Positivity of the uniqueness entropy]
+    Let $p, q_1, \dots, q_k \in \mathcal{P}^d$. Then,
+    \begin{equation}
+        E^+(p \parallel q_1, \dots, q_k) \geq 0.
+    \end{equation}
+\end{theorem}
+
+\begin{proof}
+    Let us assume that $E^+(p \parallel q_1, \dots, q_k) \geq 0$ for $k = i$. Let us show that it is also true for $k = i+1$. Using Lemma \ref{lem:induction_trick}, we get
+    \begin{equation}
+        E^+(p \parallel q_1, \dots, q_i, q_{i+1}) = E^+(p \parallel q_1, \dots, q_i) - E^+(\underbrace{p \vee q_{i+1}}_{\succ p} \parallel q_1, \dots, q_i),
+    \end{equation}
+    which is greater than 0 by positivity of both terms and Theorem \ref{th:double_monotonicity} applied on the second term of the LHS. Finally, $E^+(p \parallel q_1) = H(p) - H(p \vee q_1)$ is trivially greater or equal to 0, providing us with the base case $k = 1$, and so positivity is verified for all $k \in \mathbb{N}$. \qedhere
+\end{proof}
+
+In the quantum picture, corollaries analoguous to those of Theorems \ref{th:monotone_future_p} and \ref{th:monotone_future_q} are also applicable here, e.g. a state can reach less unique states relative to a bank after a LOCC transformation, \dots
 
 
 
@@ -231,12 +286,12 @@ It is easy to see that we have
 \begin{equation}
     \mu\left(\mathcal{T}_+(p) \cup \mathcal{T}_+(q)\right) = \mu\left(\mathcal{T}_+(p)\right) + \mu\left(\mathcal{T}_+(q)\right) - \mu\left(\underbrace{\mathcal{T}_+(p) \cap \mathcal{T}_+(q)}_{= \mathcal{T}_+(p \vee q)}\right),
 \end{equation}
-\noindent where all the sets are valid majorization cones. If $\mu$ is such that it sends every cone on the entropy of its tip, we would get
+\noindent where all the sets on the RHS are valid majorization cones. If $\mu$ is such that it sends every cone on the entropy of its tip, we would get
 \begin{align}
     \mu\left(\mathcal{T}_+(p)\right) + \mu\left(\mathcal{T}_+(q)\right) - \mu\left(\mathcal{T}_+(p \vee q)\right) &\leq \mu\left(\mathcal{T}_+(p \wedge q)\right)\\
     \implies H(p) + H(q) - H(p \vee q) &\leq H(p \wedge q),
 \end{align}
-\noindent which is precisely the supermodularity property. While we have not shown rigorously that such a set function exists, we believe that the properties of $E^+$ are a good sign that such a measure is possible.
+\noindent which is precisely the supermodularity property (cf. Theorem \ref{th:shannon_supermodularity}). While we have not shown rigorously that such a set function exists, we believe that the properties of $E^+$ are a good sign that such a measure is possible.
 
 
 
@@ -279,8 +334,8 @@ This simple strategy essentially uses up the least resourceful state each time. 
 
 \subsection{Volumic strategy}
 
-Let us now turn to the main application of $E^+$. A state $q_i$ with a high unique entropy relative to the rest of the bank $Q \backslash q_i$ is inherently valuable because it can reach many states that the rest of the bank can't reach. If we have no knowledge over the future targets to construct, we would want to avoid using up a state with a high $E^+$ as long as possible, because if we use it up instead of a state that has a low unique entropy, we have a higher risk that at a later step in the protocol a target would fall in the region
-$\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q \backslash q_i} \mathcal{T}_+(q_j)\right)$, which would now be unreachable. However, directly computing the unique entropy of all the states that can reach $t$ and deciding based on that alone is not sufficient. Consider a bank of 5 entangled states with which to construct a target $t$, represented in figure \ref{fig:5_cone_example}.
+Let us now turn to the main application of $E^+$. A state $q_i$ with a high uniqueness entropy relative to the rest of the bank $Q \backslash q_i$ is inherently valuable because it can reach many states that the rest of the bank can't reach. If we have no knowledge over the future targets to construct, we would want to avoid using up a state with a high $E^+$ as long as possible, because if we use it up instead of a state that has a low uniqueness entropy, we have a higher risk that at a later step in the protocol a target would fall in the region
+$\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q \backslash q_i} \mathcal{T}_+(q_j)\right)$, which would now be unreachable. However, directly computing the uniqueness entropy of all the states that can reach $t$ and deciding based on that alone is not sufficient. Consider a bank of 5 entangled states with which to construct a target $t$, represented in figure \ref{fig:5_cone_example}.
 
 \begin{figure}[h!]
     \centering
@@ -329,9 +384,9 @@ $\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q \backslash q_i} \mathcal{T}
     \label{fig:5_cone_example}
 \end{figure}
 
-Clearly, it would be a waste to use up $q_4$ or $q_5$, because they are majorized by $q_1$ and $q_2$ (respectively), and can therefore reach all of the states that $q_1$ and $q_2$ can reach, respectively. However, $E^+(q_1 \parallel Q \backslash q_1) = E^+(q_2 \parallel Q \backslash q_2) = 0$ because their cones are contained in the cones of $q_4$ and $q_5$, and so without additional restriction on the bank a unique entropy criterion is not sufficient. The approach also fails if we have several copies of the same state, because then all the copies have zero unique entropy. Therefore, all states should not be considered in the unique entropy calculation, and we call the selection algorithm to choose which states to keep in the calculation a \textit{state filter}. Most of the subtility in strategies based on unique entropy relies in the filtering approach. With this in mind, we propose the following strategy.
+Clearly, it would be a waste to use up $q_4$ or $q_5$, because they are majorized by $q_1$ and $q_2$ (respectively), and can therefore reach all of the states that $q_1$ and $q_2$ can reach, respectively. However, $E^+(q_1 \parallel Q \backslash q_1) = E^+(q_2 \parallel Q \backslash q_2) = 0$ because their cones are contained in the cones of $q_4$ and $q_5$, and so without additional restriction on the bank a uniqueness entropy criterion is not sufficient. The approach also fails if we have several copies of the same state, because then all the copies have zero uniqueness entropy. Therefore, all states should not be considered in the uniqueness entropy calculation, and we call the selection algorithm to choose which states to keep in the calculation a \textit{state filter}. Most of the subtility in strategies based on the uniqueness entropy relies in the filtering approach. With this in mind, we propose the following strategy.
 
-\begin{definition}[Unique entropy strategy] \label{strat:unique_entropy}
+\begin{definition}[Uniqueness entropy strategy] \label{strat:unique_entropy}
     Let $Q$ be a bank of pre-shared entangled states\footnote{A bank may contain several copies of the same state.}, and let $t$ be a target state. The following algorithm decides which state $q \in Q$ to use to construct $t$.
     \begin{enumerate}
         \item Initialize the set $Q' = \emptyset$. For each $q_i \in Q$, if $q_i \prec t$, add $q_i$ to $Q'$, which contains all the states that can reach the target.
@@ -344,9 +399,10 @@ Clearly, it would be a waste to use up $q_4$ or $q_5$, because they are majorize
 \noindent It is interesting to note at this stage that this decision algorithm is computationaly more demanding than the entropic strategy.
 
 Essentially, the parameter $b$, which we will call the \textit{redundacy factor}, is used here to take into account the number of times one can reach a region. For example, if one of the high $E^+$ states left in $Q''$ has many copies (or majorized states), then it makes sense to use it to construct the target instead of a lower $E^+$ state with few copies, because using it up makes that region of the bank significantly weaker. Other strategies might choose a different $a$, which we will call the \textit{loss function}. Moreover, the decision criterion is comparing the values of $c$, which we will call the \textit{weighted loss function}, and could also be changed in other strategies\footnote{For example, one could choose $c = \frac{a}{b^2}$, which might yield a different behavior of the strategy in some cases.}.% For instance, we propose the following variation of the strategy.
+This algorithm mostly consists of state filters, where the sets $Q, Q', Q''$ are only defined to compare the states with those that we want. It is important to note however that the choices made here are fairly arbitrary.
 
 %\begin{definition}[Euclidean volume strategy]
-%    The euclidean volume strategy is the same as the unique entropy strategy (cf. definition \ref{strat:unique_entropy}), except that the loss function is replaced with $a_i = V\left(\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q'' \backslash q_i} \mathcal{T}_+(q_j)\right)\right)$ in step \ref{step:volume}. The euclidean volume can be computed using the formula
+%    The euclidean volume strategy is the same as the uniqueness entropy strategy (cf. definition \ref{strat:unique_entropy}), except that the loss function is replaced with $a_i = V\left(\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q'' \backslash q_i} \mathcal{T}_+(q_j)\right)\right)$ in step \ref{step:volume}. The euclidean volume can be computed using the formula
 %\begin{equation}
 %    V(\mathcal{T}_+(p)) = , % find gauss area formula
 %\end{equation}
@@ -360,28 +416,23 @@ Essentially, the parameter $b$, which we will call the \textit{redundacy factor}
 We also define an additional variation, which mixes both proposed loss functions with a specific ratio that can be adjusted.
 
 \begin{definition}[Mixed strategy] \label{strat:mixed}
-    Choose $\alpha \in [0, 1]$. The mixed strategy is the same as the unique entropy strategy (cf. Definition \ref{strat:unique_entropy}), except that the loss function is replaced with $a_i = \alpha H(q_i) + (1 - \alpha) E^+(q_i \parallel Q'' \backslash q_i)$ in step \ref{step:volume}.
+    Choose $\alpha \in [0, 1]$. The mixed strategy is the same as the uniqueness entropy strategy (cf. Definition \ref{strat:unique_entropy}), except that the loss function is replaced with $a_i = \alpha H(q_i) + (1 - \alpha) E^+(q_i \parallel Q'' \backslash q_i)$ in step \ref{step:volume}.
 \end{definition}
 
 
 
 \subsection{Comparison and statistical sampling}
 
-An implementation of the resource selection strategy and successive attemps (nicknamed "games") to not fail to construct successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}\footnote{\url{https://github.com/traaldbjerg/MajoLat}}. To compare the strategies depending on the mixed strategy parameter $\alpha$, a bank of 9 states sampled uniformly on the $\Delta_{d-1}$ simplex and a maximally entangled state and a sequence of 10 targets are generated. A skew parameter allows to control the Dirichlet distribution from which the targets are sampled: if the sampling is uniform then all strategies perform very poorly because strongly entangled targets are likely to be sampled and are quickly not constructible depending on how many states have already been used. The same bank and same sequence of targets are given to algorithm \ref{strat:mixed} for each value of $\alpha$ (with a step of 0.01). This way we simulated 200000 games, and the average number of succesful targets for each value of $\alpha$ was recorded. The results of this process are shown in Figure \ref{fig:strategy_comparison}.
+An implementation of the resource selection strategy and successive attemps (nicknamed "games") to not fail to construct successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}\footnote{\url{https://github.com/traaldbjerg/MajoLat}}. To compare the strategies depending on the mixed strategy parameter $\alpha$, a bank of 9 states sampled uniformly on the $\Delta_{d-1}$ simplex and a maximally entangled state and a sequence of 10 targets are generated. A skew parameter allows to control the Dirichlet distribution from which the targets are sampled: if the sampling is uniform then all strategies perform very poorly because strongly entangled targets are likely to be sampled and are quickly not constructible depending on how many states have already been used. The same bank and same sequence of targets are given to algorithm \ref{strat:mixed} for each value of $\alpha$ (with a step of 0.01). This way we simulated 600000 games, and the average number of succesful targets for each value of $\alpha$ was recorded. The results of this process are shown in Figure \ref{fig:strategy_comparison}.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.7]{images/cool_locc_30_0.2_True.png}
-    \caption{Average number of succesful target constructions depending on the value of the strategy parameter $\alpha$ for a bank of 9 uniformly sampled states and 1 maximally entangled state, and 10 targets sampled with Dirichlet parameters $\left(2, \frac{1}{2}, \frac{1}{2}, \frac{1}{2}\right)$. Note that the $\alpha = 0$ extremity is the unique entropy strategy, and $\alpha = 1$ is similar to the entropic strategy, but also uses a redundancy factor $b$ and a weighted loss function $c$, in order to keep the strategies comparable.}
+    \includegraphics[scale=0.6]{images/cool_locc_30_0.2_True.png}
+    \caption{Average number of succesful target constructions depending on the value of the strategy parameter $\alpha$ for a bank of 9 uniformly sampled states and 1 maximally entangled state, and 10 targets sampled with Dirichlet parameters $\left(2, \frac{1}{2}, \frac{1}{2}, \frac{1}{2}\right)$. Note that the $\alpha = 0$ extremity is the uniqueness entropy strategy, and $\alpha = 1$ is similar to the entropic strategy, but also uses a redundancy factor $b$ and a weighted loss function $c$, in order to keep the strategies comparable. For both curves, 600000 games were simulated.}
     \label{fig:strategy_comparison}
 \end{figure}
 
-Unfortunately, equation (\ref{eq:unique_entropy}) is computationally very demanding. Most of the time, property \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is not too large. However, sometimes a target such that many states fall into $Q''$ is generated, and the unique entropy computation is costly. It is interesting to note that in this scenario, the variations are not particularly large (less than 1\%). We were surprised that the unique entropy strategy performed worse than the entropic strategy. However, it is very interesting to see that there exists a nontrivial maximum at around $\alpha = 0.3$, where combining both the unique entropy loss function and the entropic loss function performs better than a simple entropic strategy. This seems to validate our lattice-based approach and the utility of $E^+$. Moreover, drastically different results can be reached by changing some of the state filtering choices in step \ref{step:volume}, and we believe that further research might lead to better filterings or weigthed loss functions which could further improve the performance of the different strategies. The results for some other filterings are shown in appendix \ref{app:alternative_filterings}.
-
-
-
 \section{Discussion}
 
-While the generalization of incomparability monotones to sets of states is conceptually interesting, the application to LOCC state selection strategies is unfortunately hampered by the computational complexity of such a formula. Our numerical simulations did not seem to show significant differences between the entropic strategy and the volumic strategy, which is fairly disappointing. The sampling was drawn using the uniform Dirichlet distribution, which samples probability distributions uniformly in the $\Delta_{d-1}$ simplex. Perhaps altering the $\alpha$ coefficients of the distribution in order to draw targets closer to the bottom on average might yield better results. The computation time for unique entropy might also be improved using approximation techniques for inclusion-exclusion formulae, which are famously computationally demanding.
+Unfortunately, equation (\ref{eq:unique_entropy}) is computationally very demanding (which is why we didn't go over 10 states for the games, as otherwise the number of combinations is sometimes very large). Most of the time, property \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is not too large. However, sometimes a target such that many states fall into $Q''$ is generated, and the uniqueness entropy computation is costly. It is interesting to note that in this scenario, the variations are not particularly large (less than 1\%). We were surprised that the uniqueness entropy strategy performed worse than the entropic strategy. However, it is very interesting to see that there exists a nontrivial maximum at around $\alpha = 0.3$, where combining both the uniqueness entropy loss function and the entropic loss function performs better than a simple entropic strategy. This seems to validate our lattice-based approach and the utility of $E^+$. Moreover, drastically different results can be reached by changing some of the state filtering choices in step \ref{step:volume}, and we believe that further research might lead to better filterings or weigthed loss functions which could further improve the performance of the different strategies. The results for some other filterings are shown in appendix \ref{app:alternative_filterings}.
 
-However, unique entropy being able to quantify the redundancy of a state relative to a bank is still quite interesting. We believe that many other quantities measuring redundancy could be defined from the lattice, yielding similar applications. Studying the idea of an entropic measure is also interesting, and could be another avenue of research, mostly because interesting properties of the Shannon entropy might be explained or discovered this way, just like we discussed with supermodularity in Section \ref{sec:supermodularity_intuition}.

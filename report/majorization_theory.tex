@@ -207,7 +207,7 @@ The Shannon entropy is a special case of the R\'enyi entropy and is obtained as 
 
 \section{The majorization lattice} \label{sec:majorization_lattice}
 
-\subsection{Lattice structures}
+\subsection{Lattice structures} \label{sec:lattice_structures}
 
 This section is based on \cite{cicalese_supermodularity_2002}. The majorization relation creates a proper partial ordering on the set of \textit{ordered} probability vectors $\mathcal{P}^d$. With the ordering induced by the majorization relation, the set of ordered vectors $\{z | z_1 \geq z_2 \geq ... \geq z_d\}$ becomes a lattice.
 
@@ -409,7 +409,7 @@ Lemmas \ref{lem:meet} and \ref{lem:join} conclude the proof sketch for the set $
 
 
  
-\subsection{Algebraic properties of the meet and join}
+\subsection{Algebraic properties of the meet and join} \label{sec:algebraic_properties}
 
 This section is based on Ref. \cite[pp. 39--41]{davey_introduction_2002}. In any lattice, the meet and the join can also be seen as two operations\footnote{This yields an equivalent definition of a lattice, which can be defined as a triple $\langle \mathcal{L}, \wedge, \vee \rangle$ with operations $\wedge, \vee$ acting on elements of $\mathcal{L}$. If they satisfy the properties listed above, an ordering $\sqsubseteq$ can then be derived from the triple by defining $a \sqsubseteq b \iff a \wedge b = a$.}
 acting on elements of a set $\mathcal{L}$, which enjoy some useful properties.
@@ -537,7 +537,7 @@ This quantity can be compared to $d'(p, q) = 2 H(p \wedge q) - H(p) - H(q)$, and
     \iff 2 H(p \wedge q) + 2 H(p \vee q) &\geq 2 H(p) + 2 H(q),
 \end{align}
 
-which is always true by supermodularity, and so the triangular inequality always fails for incomparable $p$ and $q$, and is saturated otherwise. As such, one can not use it as a rigorous notion of distance, but it still has a few applications nonetheless.
+which is always true by supermodularity, and so the triangular inequality always fails for incomparable $p$ and $q$ and is saturated otherwise. As such, one can not use it as a rigorous notion of distance, but it still has a few applications nonetheless.
 
 \begin{figure}[h!]
     \centering
