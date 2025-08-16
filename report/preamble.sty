@@ -69,7 +69,7 @@
 \usepackage{textcomp}
 \usepackage{calc}
 \usepackage[normalem]{ulem}
-\usepackage[acronym, nopostdot, nogroupskip, style=list, toc, nonumberlist]{glossaries}
+%\usepackage[acronym, nopostdot, nogroupskip, style=list, toc, nonumberlist]{glossaries}
 % Load the Bruface standard
 %\usepackage{BrufaceTitlepageStyle} % utiliser la page non bruface a la place
 \usepackage{braket}
@@ -134,18 +134,18 @@ giveninits
 
 \addbibresource{references.bib}
 
-\renewenvironment{theglossary}%
-    {\begin{list}{}
-      {%
-        \setlength\labelwidth{0pt}%
-        \setlength\itemindent{-\leftmargin}%
-        \setlength\itemsep{5pt}%
-        \setlength\parsep{0pt}%
-        \let\makelabel\descriptionlabel}%
-      }
-      {\end{list}}
+%\renewenvironment{theglossary}%
+%    {\begin{list}{}
+%      {%
+%        \setlength\labelwidth{0pt}%
+%        \setlength\itemindent{-\leftmargin}%
+%        \setlength\itemsep{5pt}%
+%        \setlength\parsep{0pt}%
+%        \let\makelabel\descriptionlabel}%
+%      }
+%      {\end{list}}
 
-\makeglossaries
+%\makeglossaries
 
 \AtEveryBibitem{
     \clearfield{urlyear}
@@ -155,6 +155,7 @@ giveninits
         \clearfield{pages}
         \clearfield{pagetotal}
         \clearfield{series}
+        \clearfield{volume}
     }{
         \clearlist{publisher}
         \clearlist{location}

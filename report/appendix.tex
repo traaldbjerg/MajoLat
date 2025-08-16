@@ -6,12 +6,12 @@
 
 
 
-\section{Cicalese and Vaccaro's original proof of supermodularity}
+\section{Cicalese and Vaccaro's original proof of supermodularity} \label{app:supermodularity}
 
-A REFORMULER This section goes over the original proof of Theorem \ref{th:shannon_supermodularity} for the Shannon entropy, from Ref. \cite{cicalese_supermodularity_2002}. The proof is structured in two lemmas. Note that the convention $0 \log \frac{1}{0} = 0$ is used (an event that never happens does not contribute to entropy). We will first need the following definition.
+This section goes over the original proof of Theorem \ref{th:shannon_supermodularity} for the Shannon entropy, from Ref. \cite{cicalese_supermodularity_2002}. The proof is structured in two lemmas. Note that the convention $0 \log \frac{1}{0} = 0$ is used (an event that never happens does not contribute to entropy). We will first need the following definition.
 
 \begin{appendix_definition}[Inversion point]
-    Let $p, q \in \mathcal{P}^d$. We say that the index $i \in \{2, \ldots, n\}$ is an \emph{inversion point} for $p$ and $q$ if either
+    Let $p, q \in \mathcal{P}^d$. We say that the index $i \in \{2, \ldots, n\}$ is an \textit{inversion point} for $p$ and $q$ if either
 \begin{equation}
     \sum_{l=1}^{i} p_l < \sum_{l=1}^{i} q_l \quad \text{and} \quad \sum_{l=1}^{i-1} p_l > \sum_{l=1}^{i-1} q_l    
 \end{equation}
@@ -21,7 +21,7 @@ or, vice versa, if
 \end{equation}
 \end{appendix_definition}
 
-Let $2 \leq i_1 < i_2 < \cdots < i_k \leq n$ be all and the only inversion points for $p, q \in \mathcal{P}^d$. Moreover, let
+\noindent Let $2 \leq i_1 < i_2 < \cdots < i_k \leq n$ be all and the only inversion points for $p, q \in \mathcal{P}^d$, and let
 \begin{equation}
     t = (t_1, \ldots, t_n) = p \wedge q
 \end{equation}
@@ -30,7 +30,7 @@ and
     s = (s_1, \ldots, s_n) = \beta(p, q).
 \end{equation}
 
-The proof of the theorem will be an immediate consequence of the following two claims, where we assume $i_0 = 0$ and $i_{k+1} = n + 1$ for the sake of definiteness. 
+The first lemma is the following, where we assume $i_0 = 0$ and $i_{k+1} = n + 1$ for the sake of definiteness.
 
 \begin{appendix_lemma} \label{lem:shannon_1}
     For each inversion point $i_r$, $r = 0, \ldots, k$, we have
@@ -43,28 +43,25 @@ The proof of the theorem will be an immediate consequence of the following two c
     \begin{equation}
         \sum_{l=1}^{i_r} p_l > \sum_{l=1}^{i_r} q_l.
     \end{equation}
-
     Then
     \begin{equation}
-        \sum_{l=1}^{i_r} s_l = \sum_{l=1}^{i_r} p_l
+        \sum_{l=1}^{i_r} s_l = \sum_{l=1}^{i_r} p_l,
     \end{equation}
     and for all $s = i_r + 1, \ldots, i_{r+1} - 1$, we also have
     \begin{equation}
         s_s = \sum_{l=1}^{s} p_l - \sum_{l=1}^{s} q_l = p_s.
     \end{equation}
-
     Accordingly, we have
     \begin{equation}
-        \sum_{l=1}^{i_r} t_l = \sum_{l=1}^{i_r} q_l
+        \sum_{l=1}^{i_r} t_l = \sum_{l=1}^{i_r} q_l,
     \end{equation}
-
     and for all $s = i_r + 1, \ldots, i_{r+1} - 1$, we have
     \begin{equation}
         t_s = \sum_{l=0}^{s} q_l - \sum_{l=0}^{s} t_l = q_s. \qedhere
     \end{equation}
 \end{proof}
 
-As an immediate consequence of lemma \ref{lem:shannon_1}, we have
+As an immediate consequence of Lemma \ref{lem:shannon_1}, we have
 \begin{equation}
     \sum_{l=i_r+1}^{i_{r+1}-1} \left( p_l \log \frac{1}{p_l} + q_l \log \frac{1}{q_l} - t_l \log \frac{1}{t_l} \right) = 0.
 \end{equation}
@@ -75,48 +72,47 @@ As an immediate consequence of lemma \ref{lem:shannon_1}, we have
         s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} > p_{i_r} \log \frac{1}{p_{i_r}} + q_{i_r} \log \frac{1}{q_{i_r}},
     \end{equation}
     where $p_{i_r}, q_{i_r}, s_{i_r}, t_{i_r} > 0$.
-\end{appendix_lemma} 
+\end{appendix_lemma}
 
 \begin{proof}
     Let us write $p, q, s, t$ instead of $p_{i_r}, q_{i_r}, s_{i_r}, t_{i_r}$, respectively. Without loss of generality let us assume that for the inversion point $i_r$ it holds that
     \begin{equation}
         \sum_{l=1}^{i_r} p_l > \sum_{l=1}^{i_r} q_l \quad \text{and} \quad \sum_{l=1}^{i_r-1} p_l < \sum_{l=1}^{i_r-1} q_l.
     \end{equation}
-
     It follows that $s > p$ and $q > t$, so $s > t$. Moreover, it is not hard to see that $s + t = p + q$. Let $s = q + \Delta$, then $t = p - \Delta$ and $s + t = p + q$. Then we have
     \begin{align}
         s \log \frac{1}{s} + t \log \frac{1}{t} - p \log \frac{1}{p} - q \log \frac{1}{q}
         &= - (s \log s + t \log t) + p \log p + q \log q \\
-        &= - (q + \Delta) \log (q + \Delta) - (p - \Delta) \log (p - \Delta) + p \log p + q \log q \\
-        &= (q \log q + p \log p) - \left( (q + \Delta) \log (q + \Delta) + (p - \Delta) \log (p - \Delta) \right) \\
-        &\geq (q + p + \Delta) \log \left( \frac{(q + p + \Delta)^2}{(q + \Delta)(p - \Delta)} \right) \quad \text{(by Jensen's inequality)} \\
+        &= - (q + \Delta) \log (q + \Delta) - (p - \Delta) \log (p - \Delta)\nonumber\\
+        &\quad + p \log p + q \log q \\
+        &= (q \log q + p \log p) - \left( (q + \Delta) \log (q + \Delta) \right.\nonumber\\
+        &\quad \left. + (p - \Delta) \log (p - \Delta) \right) \\
+        &\overset{\text{Jensen}}{\geq} (q + p + \Delta) \log \left( \frac{(q + p + \Delta)^2}{(q + \Delta)(p - \Delta)} \right) \label{eq:jensen_step} \\
         &= (q + p + \Delta) \log \left( \frac{s + t + \Delta}{s + \Delta} \cdot \frac{s + t + \Delta}{t - \Delta} \right) \\
         &= (q + p + \Delta) \log \left( \frac{(s + t + \Delta)^2}{(s + \Delta)(t - \Delta)} \right) > 0,
     \end{align}
-    since $s > t$ and $\Delta < t$.
-
-    The remaining case $s \leq t$ is completely symmetric, provided that we set $s = p + \Delta$ and $t = q - \Delta$. \qedhere
+    since $s > t$ and $\Delta < t$. The remaining case $s \leq t$ is completely symmetric, provided that we set $s = p + \Delta$ and $t = q - \Delta$. \qedhere
 \end{proof}
 
-We are now ready to prove theorem \ref{th:shannon_supermodularity}. 
+Note that Eq. (\ref{eq:jensen_step}) invokes Jensen's inequality. We have not gone over it in this master thesis, but it is sufficient to know that in the discrete case it is essentially a less general form of Karamata's inequality (Lemma \ref{lem:karamata}). We are now ready to prove Theorem \ref{th:shannon_supermodularity}.
 
-\begin{proof}[Proof of theorem \ref{th:shannon_supermodularity}]
+\begin{proof}[Proof of Theorem \ref{th:shannon_supermodularity}]
     We have
     \begin{align}
         H(s) + H(t) - H(p) - H(q)
         &= \sum_{l=1}^{k} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} - p_l \log \frac{1}{p_l} - q_l \log \frac{1}{q_l} \right) \\
         &= \sum_{r=1}^{k} \left( \sum_{l=i_r+1}^{i_{r+1}-1} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} \right)
-        + s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} \right. \\
+        + s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} \right. \nonumber\\
         &\quad \left. - p_{i_r} \log \frac{1}{p_{i_r}} - q_{i_r} \log \frac{1}{q_{i_r}} 
-        - \sum_{l=i_r+1}^{i_{r+1}-1} \left( p_l \log \frac{1}{p_l} + q_l \log \frac{1}{q_l} \right) \right) \\
+        - \sum_{l=i_r+1}^{i_{r+1}-1} \left( p_l \log \frac{1}{p_l} + q_l \log \frac{1}{q_l} \right) \right) \nonumber \\
         &\quad + \sum_{l=1}^{i_1 - 1} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} 
-        - p_l \log \frac{1}{p_l} - q_l \log \frac{1}{q_l} \right) \\
+        - p_l \log \frac{1}{p_l} - q_l \log \frac{1}{q_l} \right) \nonumber \\
         &\quad + \sum_{l=i_k+1}^{n} \left( s_l \log \frac{1}{s_l} + t_l \log \frac{1}{t_l} 
         - p_l \log \frac{1}{p_l} - q_l \log \frac{1}{q_l} \right) \\
-        &= \sum_{r=1}^{k} \left( s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} 
-        - p_{i_r} \log \frac{1}{p_{i_r}} - q_{i_r} \log \frac{1}{q_{i_r}} \right) 
-        \quad \text{(by lemma \ref{lem:shannon_1})} \\
-        &> 0 \quad \text{(by lemma \ref{lem:shannon_2}).} \qedhere
+        &\overset{\text{Lemma \ref{lem:shannon_1}}}{=} \sum_{r=1}^{k} \left( s_{i_r} \log \frac{1}{s_{i_r}} + t_{i_r} \log \frac{1}{t_{i_r}} 
+        - p_{i_r} \log \frac{1}{p_{i_r}} \right.\nonumber\\
+        &\quad \quad \quad \quad \quad \quad \quad \left.- q_{i_r} \log \frac{1}{q_{i_r}} \right) \\
+        &\overset{\text{Lemma \ref{lem:shannon_2}}}{>} 0. \qedhere
     \end{align}
 \end{proof}
 
@@ -129,7 +125,7 @@ We are now ready to prove theorem \ref{th:shannon_supermodularity}.
 
 \setcounter{equation}{0}
 
-This section is based on \cite[pp. 16--22]{cover_elements_2006}. In practice, we are often concerned with more than one process at a given time, and so defining the uncertainty of two variables $X$, $Y$ is interesting. Moreover, knowing how much measuring one variable reduces the uncertainty on the second one (and so how much information on the second process we gain) on average is valuable as well. These concepts are captured by \textit{joint entropy}, \textit{conditional entropy} and \textit{mutual information}.
+This section is based on Ref. \cite[pp. 16--22]{cover_elements_2006}. In practice, we are often concerned with more than one process at a given time, and so defining the uncertainty of two variables $X$, $Y$ is interesting. Moreover, knowing how much measuring one variable reduces the uncertainty on the second one (and so how much information on the second process we gain) on average is valuable as well. These concepts are captured by \textit{joint entropy}, \textit{conditional entropy} and \textit{mutual information}.
 
 \begin{appendix_definition}[Joint entropy]
     Let $X$ and $Y$ be random variables over alphabets $\mathcal{X}$ and $\mathcal{Y}$ with joint probability distribution $p(x, y)$. Then the joint entropy $H(X, Y)$ of $X$ and $Y$ is defined as
@@ -196,7 +192,7 @@ To finish this small incursion into classical information theory, it turns out t
 
 \setcounter{equation}{0}
 
-Let us take a qubit, and let us try to find the difference between the states $\rho$ and $\rho'$ from the coin-flip example in section \ref{sec:density_matrices}. In the computational basis, they are written
+Let us take a qubit, and let us try to find the difference between the states $\rho$ and $\rho'$ from the coin-flip example in Section \ref{sec:density_matrices}. In the computational basis, they are written
 \begin{align}
     \rho &= 1/2 \ket{0}\bra{0} + 1/2 \ket{1}\bra{1} = \left(\begin{matrix}
         1/2 & 0\\
@@ -265,7 +261,7 @@ This is interesting, because this example showcases a fundamental difference bet
 
 \subsection{Weak majorization}
 
-This section is based on \cite[pp. 10--15]{marshall_inequalities_2011}. It is sometimes useful to relax a bit the conditions on the majorization relation, in order to compare vectors that do not have the same sum. Two complementary notions can be defined, \textit{submajorization} and \textit{supermajorization}.
+This section is based on Ref. \cite[pp. 10--15]{marshall_inequalities_2011}. It is sometimes useful to relax a bit the conditions on the majorization relation, in order to compare vectors that do not have the same sum. Two complementary notions can be defined, \textit{submajorization} and \textit{supermajorization}.
 
 \begin{appendix_definition}[Submajorization] \label{def:submajorization}
     Let $p, q \in \mathbb{R}^d$ be two vectors of dimension $d$. We say that $p$ is submajorized by $q$, written $p \prec_w q$, if and only if
@@ -280,7 +276,7 @@ If the dimensions of the vectors do not match, one can always append zeroes to t
     \begin{equation} \label{eq:supermajorization}
             S^\uparrow_k (q) \leq S^\uparrow_k (p) \quad \forall k = 1,...,d,
     \end{equation}
-where $S^\uparrow_k(p)$ and $S^\uparrow_k (q)$ denote the $k^\text{th}$ non-decreasing cumulative sums\footnote{Notice that using the reverse ordering means that the first components of $p^\uparrow$ are the smallest components of $p$, and so the smallest components of $p$ should be greater than those of $q$ in order to be more uncertain. This is why the inequality in equation (\ref{eq:supermajorization}) is reversed.} of $p$ and $q$. If the dimensions of the vectors do not match, one can always append zeroes to the one of lower dimension and apply the definition on the enlarged vector.
+where $S^\uparrow_k(p)$ and $S^\uparrow_k (q)$ denote the $k^\text{th}$ non-decreasing cumulative sums\footnote{Notice that using the reverse ordering means that the first components of $p^\uparrow$ are the smallest components of $p$, and so the smallest components of $p$ should be greater than those of $q$ in order to be more uncertain. This is why the inequality in Eq. (\ref{eq:supermajorization}) is reversed.} of $p$ and $q$. If the dimensions of the vectors do not match, one can always append zeroes to the one of lower dimension and apply the definition on the enlarged vector.
 \end{appendix_definition}
 
 Essentially, these definitions are the same as majorization, but they remove the condition that $S_d(p) = S_d(q)$. This allows to compare objects that do not have the same 1-norm.
@@ -289,7 +285,7 @@ Essentially, these definitions are the same as majorization, but they remove the
 
 \subsection{Vidal's theorem} \label{sec:vidal}
 
-This section is based on Refs. \cite{vidal_entanglement_1999} and \cite{nielsen_majorization_2001}. Until now, only deterministic entanglement transformations have been discussed, i.e. transformations that succeed with probability one. However, a more general notion of entanglement transformations is the class of \textit{probabilistic} entanglement transformations. In the context of LOCC, we will denote the class of LOCC transformations that succeed with probability $p$ by LOCC$_p$. As such, the class of deterministic LOCC transformations we have discussed until now is simply LOCC$_1$. Probabilistic transformations are powerful, because they can break the majorization condition of theorem \ref{th:nielsen}, meaning that such transformations can sometimes gain entanglement, even though the operations in themselves are not nonlocal in nature. While this may seem strange, the key lies in the word \textit{sometimes}: such a protocol has probability $p$ of succeeding, but when it fails with probability $1-p$, the resulting state is less entangled, and \textit{on average} the amount of entanglement is (at most) preserved. The following theorem gives the maximal success probability with which a state can be transformed into another.
+This section is based on Refs. \cite{vidal_entanglement_1999} and \cite{nielsen_majorization_2001}. Until now, only deterministic entanglement transformations have been discussed, i.e. transformations that succeed with probability one. However, a more general notion of entanglement transformations is the class of \textit{probabilistic} entanglement transformations. In the context of LOCC, we will denote the class of LOCC transformations that succeed with probability $p$ by LOCC$_p$. As such, the class of deterministic LOCC transformations we have discussed until now is simply LOCC$_1$. Probabilistic transformations are powerful, because they can break the majorization condition of Theorem \ref{th:nielsen}, meaning that such transformations can sometimes gain entanglement, even though the operations in themselves are not nonlocal in nature. While this may seem strange, the key lies in the word \textit{sometimes}: such a protocol has probability $p$ of succeeding, but when it fails with probability $1-p$, the resulting state is less entangled, and \textit{on average} the amount of entanglement is (at most) preserved. The following theorem gives the maximal success probability with which a state can be transformed into another.
 
 \begin{appendix_theorem}[Vidal's theorem] \label{th:vidal}
     Let $\ket{\phi}$ and $\ket{\psi}$ be two pure states of a bipartite system $AB$. Then,
@@ -317,7 +313,7 @@ This section is based on Refs. \cite{vidal_entanglement_1999} and \cite{nielsen_
 
 \setcounter{equation}{0}
 
-We prove here theorems \ref{th:monotone_future_q} and \ref{th:monotone_past_q} from section \ref{sec:q_monotonicity}. Starting with the future incomparability function, if we can show that $E^+(p \parallel Dq) < E^+(p \parallel q)$ for any bistochastic matrix $D$, then $E^+$ would be a decreasing monotone, like we expect. We first need a preliminar lemma.
+We prove here Theorems \ref{th:monotone_future_q} and \ref{th:monotone_past_q} from Section \ref{sec:q_monotonicity}. Starting with the future incomparability function, if we can show that $E^+(p \parallel Dq) < E^+(p \parallel q)$ for any bistochastic matrix $D$, then $E^+$ would be a decreasing monotone, like we expect. We first need a preliminar lemma.
 
 \begin{appendix_lemma} \label{lem:monotone_future_q}
     For any $p, q \in \mathcal{P}^d$, we have
@@ -333,13 +329,13 @@ We prove here theorems \ref{th:monotone_future_q} and \ref{th:monotone_past_q} f
     \end{equation} 
 \end{proof}
 
-\noindent This lemma is all we need to prove theorem \ref{lem:monotone_future_q} concerning the monotonicity of $E^+$ under bistochastic degradation of $q$.
+\noindent This lemma is all we need to prove Theorem \ref{lem:monotone_future_q} concerning the monotonicity of $E^+$ under bistochastic degradation of $q$.
 
-\begin{proof}[Proof of theorem \ref{th:monotone_future_q}]
+\begin{proof}[Proof of Theorem \ref{th:monotone_future_q}]
     Let us show that the maximum value of $E^+(p \parallel q')$ (with $q' \prec q$) is realized for $q'= q$.
     \begin{align}
-        \max_{q' \prec q} E^+ (p \parallel q') &= \max_{q' \prec q} d(p, p \vee q')\\
-        &= \max_{q' \prec q} H(p) - H(p \vee q')\\
+        \max_{q' \: | \: q' \prec q} E^+ (p \parallel q') &= \max_{q' \prec q} d(p, p \vee q')\\
+        &= \max_{q' \: | \: q' \prec q} H(p) - H(p \vee q')\\
         \overset{\text{Lemma \ref{lem:monotone_future_q}}}&{=} H(p) - H(p \vee q)\\
         &= d(p, p \vee q)\\
         &= E^+ (p \parallel q),
@@ -363,13 +359,13 @@ Let us turn our attention to $E^-$. This time around, the expected property for 
     \end{equation} 
 \end{proof}
 
-\noindent This lemma is all we need to prove theorem \ref{th:monotone_past_q} concerning the monotonicity of $E^-$ under bistochastic degradation of $q$.
+\noindent This lemma is all we need to prove Theorem \ref{th:monotone_past_q} concerning the monotonicity of $E^-$ under bistochastic degradation of $q$.
 
-\begin{proof}[Proof of theorem \ref{th:monotone_past_q}]
+\begin{proof}[Proof of Theorem \ref{th:monotone_past_q}]
     Let $q'$ be a vector majorized by $q$, i.e. there exists a bistochastic matrix $D$ such that $q' = Dq$.
     \begin{align}
-        \min_{q' \prec q} E^- (p \parallel q') &= \min_{q' \prec q} d(p, p \wedge q')\\
-        &= \min_{q' \prec q} H(p \wedge q') - H(p)\\
+        \min_{q' \: | \: q' \prec q} E^- (p \parallel q') &= \min_{q' \: | \: q' \prec q} d(p, p \wedge q')\\
+        &= \min_{q' \: | \: q' \prec q} H(p \wedge q') - H(p)\\
         \overset{\text{Lemma \ref{lem:monotone_past_q}}}&{=} H(p \wedge q) - H(p)\\
         &= d(p, p \wedge q)\\
         &= E^- (p \parallel q),
@@ -451,12 +447,12 @@ An interesting notion is that measures automatically give a well-defined notion 
 
 \setcounter{equation}{0}
 
-We prove here properties \ref{prop:commutativity}, \ref{prop:empty}, \ref{prop:p_absorption} and \ref{prop:q_absorption} from section \ref{sec:unique_entropy_properties}. The commutativity property \ref{prop:commutativity} is immediate by commutativity of the join, and so the ordering of the bank does not matter. This is what we would expect for an inclusion-exclusion formula, as the order in which we remove intersections of sets does not matter as long as we perform the full sum. Because the ordering of the bank is arbitrary, we can always make any vector the last vector of the bank, which is useful for proving properties \ref{prop:p_absorption}, \ref{prop:q_absorption} and \ref{prop:q_monotonicity} as showing the property for $i = k$ is sufficient.
+We prove here properties \ref{prop:commutativity}, \ref{prop:empty}, \ref{prop:p_absorption} and \ref{prop:q_absorption} from Section \ref{sec:unique_entropy_properties}. The commutativity property \ref{prop:commutativity} is immediate by commutativity of the join, and so the ordering of the bank does not matter. This is what we would expect for an inclusion-exclusion formula, as the order in which we remove intersections of sets does not matter as long as we perform the full sum. Because the ordering of the bank is arbitrary, we can always make any vector the last vector of the bank, which is useful for proving properties \ref{prop:p_absorption}, \ref{prop:q_absorption} and \ref{prop:q_monotonicity} as showing the property for $i = k$ is sufficient.
 
-Property \ref{prop:empty} is immediate as well, because the join of the certain distribution $\overline{\delta}_d$ with any other vector remains the certain distribution. As such, all of the terms in equation (\ref{eq:unique_entropy}) are the entropy of $\overline{\delta}_d$, which is 0.  The key insight needed to prove the other properties is given by Lemma \ref{lem:induction_trick}, which we prove here.
+Property \ref{prop:empty} is immediate as well, because the join of the certain distribution $\overline{\delta}_d$ with any other vector remains the certain distribution. As such, all of the terms in Eq. (\ref{eq:unique_entropy}) are the entropy of $\overline{\delta}_d$, which is 0.  The key insight needed to prove the other properties is given by Lemma \ref{lem:induction_trick}, which we prove here.
 
 \begin{proof}[Proof of Lemma \ref{lem:induction_trick}]
-    Let $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$. Developing all of the terms in eq. (\ref{eq:unique_entropy}), and regrouping the combinations containing $q_{k+1}$, we get
+    Let $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$. Developing all of the terms in Eq. (\ref{eq:unique_entropy}), and regrouping the combinations containing $q_{k+1}$, we get
     \begin{align}
         E^+(p \parallel q_1, \dots, q_k, q_{k+1}) &= H(p) - \Big[H(p \vee q_1) + \dots + H(p \vee q_k) + H(p \vee q_{k+1})\Big] \nonumber \\
                                                   &\quad + \Big[H(p \vee q_1 \vee q_2) + \dots + H(p \vee q_{k-1} \vee q_k) + H(p \vee q_1 \vee q_{k+1}) \nonumber \\
@@ -468,7 +464,7 @@ Property \ref{prop:empty} is immediate as well, because the join of the certain 
                                                   &\quad + \big[H(p \vee q_1 \vee q_2 \vee q_{k+1}) + \dots + H(p \vee q_{k-1} \vee q_k \vee q_{k+1})\big]\nonumber \\
                                                   &\quad - \dots + (-1)^{k} H(p \vee \dots \vee q_k \vee q_{k+1})\Big). \label{eq:swapparoo_start}
     \end{align}
-    By commutativity of the join, we can push $q_{k+1}$ next to $p$, and so equation (\ref{eq:swapparoo_start}) becomes
+    By commutativity of the join, we can push $q_{k+1}$ next to $p$, and so Eq. (\ref{eq:swapparoo_start}) becomes
     \begin{align}
         E^+(p \parallel q_1, \dots, q_k, q_{k+1}) &= \Big(H(p) - \big[H(p \vee q_1) + \dots + H(p \vee q_k)\big] + \big[H(p \vee q_1 \vee q_2)\nonumber \\
                                                   &\quad + \dots + H(p \vee q_{k-1} \vee q_k)\big] - \dots + (-1)^{k} H(p \vee \dots \vee q_{k-1} \vee q_{k})\Big) \nonumber \\
@@ -476,7 +472,7 @@ Property \ref{prop:empty} is immediate as well, because the join of the certain 
                                                   &\quad + \big[H(p \vee q_{k+1} \vee q_1 \vee q_2) + \dots + H(p \vee q_{k+1} \vee q_{k-1} \vee q_k)\big]\nonumber \\
                                                   &\quad - \dots + (-1)^{k} H(p \vee q_{k+1} \vee \dots \vee q_k)\Big).  \label{eq:swapparoo_done}
     \end{align}
-    Comparing terms one by one, we can see that the second half of the expression is exactly the same as the first half (which is equal to $E^+(p \parallel q_1, \dots, q_k)$) if $p$ is replaced by $p \vee q_{k+1}$, and so equation (\ref{eq:swapparoo_done}) becomes
+    Comparing terms one by one, we can see that the second half of the expression is exactly the same as the first half (which is equal to $E^+(p \parallel q_1, \dots, q_k)$) if $p$ is replaced by $p \vee q_{k+1}$, and so Eq. (\ref{eq:swapparoo_done}) becomes
     \begin{equation}
         E^+(p \parallel q_1, \dots, q_k, q_{k+1}) = E^+(p \parallel q_1, \dots, q_k) - E^+(p \vee q_{k+1} \parallel q_1, \dots, q_k). \qedhere
     \end{equation}

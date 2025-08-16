@@ -1,6 +1,6 @@
 \chapter{Majorization theory} \label{chap:majorization}
 
-Notations and definitions for majorization theory mostly follow Ref. \cite{marshall_inequalities_2011}, except for the reordering convention $p^\downarrow$ (cf. section \ref{sec:cumulative}) and notations for the majorization lattice which come from Ref. \cite{cicalese_supermodularity_2002}.
+Definitions for majorization theory mostly follow Ref. \cite{marshall_inequalities_2011}. The notations for majorization and the majorization lattice, as well as the reordering convention $p^\downarrow$ (cf. Section \ref{sec:cumulative}) mostly come from Ref. \cite{cicalese_supermodularity_2002}.
 
 
 
@@ -88,7 +88,7 @@ From this theorem, we can see that the effect of a bistochastic matrix on a vect
     \end{equation}
 \end{theorem}
 
-Because a distribution loses certainty after being applied a bistochastic matrix, we will often say that the vector has gone through a \textit{bistochastic degradation}. One can take theorem \ref{th:bistochastic_majorization} as a definition of the majorization relation, as the notion of a vector being more disordered is perhaps clearer in the bistochastic matrix picture. Then, the nature of the convex combination % Serge: expliquer ce que c'est
+Because a distribution loses certainty after being applied a bistochastic matrix, we will often say that the vector has gone through a \textit{bistochastic degradation}. One can take Theorem \ref{th:bistochastic_majorization} as a definition of the majorization relation, as the notion of a vector being more disordered is perhaps clearer in the bistochastic matrix picture. Then, the nature of the convex combination % Serge: expliquer ce que c'est
 of entries would have given us the set of inequalities (\ref{eq:majorization}). Let's take the same example as earlier, $p = (0.6, 0.4)$ and $q = (0.9, 0.1)$. Then we can find that $D = \Big(\begin{smallmatrix}
                                                                                                     5/8 & 3/8 \\
                                                                                                     3/8 & 5/8
@@ -174,7 +174,7 @@ Essentially, this inequality states that if $b = Da$ with $D$ a bistochastic mat
 \subsection{Shannon entropy} \label{sec:schur_shannon}
 
 This section is based on Refs. \cite[p. 101]{marshall_inequalities_2011} and \cite[p. 88]{cover_elements_2006}. % pas sur que citer un exercice soit hyper acceptable mdr
-The Shannon entropy $H(p) \coloneqq - \sum_{i = 1}^{d} p_i \log p_i$ is a foundational quantity in classical information theory (cf. section \ref{sec:classical_information}). $H(p)$ essentially captures the uncertainty content of a random process distributed over a probability distribution $p$. We therefore expect it to be linked to majorization theory which gives a partial order on the uncertainty of different probability distributions. The following lemma establishes this link through Schur-concavity.
+The Shannon entropy $H(p) \coloneqq - \sum_{i = 1}^{d} p_i \log p_i$ is a foundational quantity in classical information theory (cf.Ssection \ref{sec:classical_information}). $H(p)$ essentially captures the uncertainty content of a random process distributed over a probability distribution $p$. We therefore expect it to be linked to majorization theory which gives a partial order on the uncertainty of different probability distributions. The following lemma establishes this link through Schur-concavity.
 
 \begin{lemma}[Schur-concavity of the Shannon entropy]
     For any $p, q \in \mathcal{P}^d$,
@@ -188,7 +188,7 @@ This property of the Shannon entropy is fairly intuitive: the Shannon entropy ca
 
 \subsection{Rényi entropies}
 
-This section is based on \cite{cover_elements_2006}. A generalization of the Shannon entropy is the concept of Renyi entropies, which are a class of functions that can all be used to quantify the uncertainty of a random variable.
+This section is based on \cite{rényi_measures_1961}. A generalization of the Shannon entropy is the concept of R\'enyi entropies, which are a class of functions that can all be used to quantify the uncertainty of a random variable.
 
 \begin{definition}[R\'enyi entropy] \label{def:renyi_entropies}
     Let $p$ be a probability distribution of dimension $d$. Then, its R\'enyi entropy of order $\alpha$ is
@@ -197,9 +197,9 @@ This section is based on \cite{cover_elements_2006}. A generalization of the Sha
     \end{equation}
 \end{definition}
 
-The Shannon entropy is a special case of the R\'enyi entropy and is obtained as the limit of $H_\alpha$ as $\alpha$ goes to 1. Other values also hold specific interpretations, but we will not go over them here.
+The Shannon entropy is a special case of the R\'enyi entropy and is obtained as the limit of $H_\alpha$ as $\alpha$ goes to 1. Other values also hold specific interpretations, but we will not go over them here. A classical result is the following, proven using the Schur-Ostrowski criterion \cite[p. 84]{marshall_inequalities_2011}.
 
-\begin{lemma}[Schur-concavity of the R\'enyi entropy CITATION NEEDED]
+\begin{lemma}[Schur-concavity of the R\'enyi entropy]
     All R\'enyi entropies of order $\alpha \geq 0$ are Schur-concave.    
 \end{lemma}
 
@@ -222,7 +222,7 @@ A simple example of a lattice is the set $\mathbb{N}$ of natural numbers ordered
 
 It was shown that the set $\mathcal{P}^d$ endowed with the partial ordering $\prec$ is a lattice. As the lattice is a central part of this master thesis, we will go through the main ideas behind the proof, which hinges on defining the correct greatest lower bound (glb) $p \wedge q$, which is called the \textit{meet} of $p$ and $q$, and the correct least upper bound (lub) $p \vee q$, which is called the \textit{join}.
 
-Let us first go through what it means for a vector to be the glb, the meet, of two vectors $p, q \in \mathcal{P}^d$. Intuitively, the glb of $p$ and $q$ in terms of majorization is the most ordered vector that is majorized by both $p$ and $q$. While this may not seem very interesting at a first glance, recall that two vectors may be incomparable, meaning that both $p \nprec q$ and $p \nsucc q$ are true. Even if they are incomparable, the subset of vectors that are majorized by both $p$ and $q$ is nonempty\footnote{It is guaranteed to at least contain the uniform distribution $\overline{1}_d = (\frac{1}{d}, \dots, \frac{1}{d})$ since it is majorized by every other distribution.} and has a supremum, $p \wedge q$, \textit{which majorizes every other vector in the subset}. Note that an equivalent definition of a lattice is to require that every partially ordered subset has a supremum and infimum \cite[p. 19]{marshall_inequalities_2011}. Since the two definitions are equivalent, we can consider this to be a property of the lattice, guaranteeing the existence of the supremum $p \wedge q$.
+Let us first go through what it means for a vector to be the glb, the meet, of two vectors $p, q \in \mathcal{P}^d$. Intuitively, the glb of $p$ and $q$ in terms of majorization is the most ordered vector that is majorized by both $p$ and $q$. While this may not seem very interesting at a first glance, recall that two vectors may be incomparable, meaning that both $p \nprec q$ and $p \nsucc q$ are true. Even if they are incomparable, the subset of vectors that are majorized by both $p$ and $q$ is nonempty\footnote{It is guaranteed to at least contain the flat distribution $\overline{1}_d = (\frac{1}{d}, \dots, \frac{1}{d})$ since it is majorized by every other distribution.} and has a supremum, $p \wedge q$, \textit{which majorizes every other vector in the subset}. Note that an equivalent definition of a lattice is to require that every partially ordered subset has a supremum and infimum \cite[p. 34]{davey_introduction_2002}. Since the two definitions are equivalent, we can consider this to be a property of the lattice, guaranteeing the existence of the supremum $p \wedge q$.
 
 In a similar fashion, the lub, the join, of two vectors $p, q \in \mathcal{P}^d$ is the least ordered vector that majorizes both $p$ and $q$. The subset of vectors that majorize both $p$ and $q$ is nonempty\footnote{It is guaranteed to at least contain the certain distribution $\overline{\delta}_d = (1, 0, \dots, 0)$ since it majorizes every other distribution.} and has an infimum, $p \vee q$, \textit{which is majorized by every other vector in the subset}. Moreover, the same property as before guarantees the existence of the infimum.
 
@@ -237,7 +237,7 @@ In a similar fashion, the lub, the join, of two vectors $p, q \in \mathcal{P}^d$
 Before going further with the proof sketch, let us first give a 2D visual representation of the lattice, which is very helpful in building intuition for using the lattice, first proposed in the field of thermomajorization \cite{korzekwa_structure_2017}. More accurate representations exist but are much more complicated, living in the canonical Weyl chamber of a $\Delta_{d-1}$ simplex \cite{junior_geometric_2022}. Nevertheless, the simple 2D depiction is very useful to think about, but one should not draw hasty conclusions from it.
 
 \begin{definition}[Majorization cones] \label{def:majorization_cones}
-    The set of states that majorize $p$ is called the \textit{future cone}\footnote{Our naming conventions and notations are for the most part entirely opposite to the thermomajorization conventions for reasons that will be made clear in section \ref{sec:nielsen}. Most notably, our future cone corresponds to their past cone and vice versa.}  $\mathcal{T}_+ (p)$. The set of states that are majorized by $p$ is called the \textit{past cone} $\mathcal{T}_- (p)$. The set of states that are neither in the past nor the future cone of $p$ is called the \textit{incomparable region} $\mathcal{T}_\emptyset (p)$.
+    The set of states that majorize $p$ is called the \textit{future cone}\footnote{Our naming conventions and notations are for the most part entirely opposite to the thermomajorization conventions for reasons that will be made clear in section \ref{sec:nielsen}. Most notably, our future cone corresponds to their past cone and vice versa. Moreover, entropy goes down from past to future because it will be linked to entanglement going down under LOCC.}  $\mathcal{T}_+ (p)$. The set of states that are majorized by $p$ is called the \textit{past cone} $\mathcal{T}_- (p)$. The set of states that are neither in the past nor in the future cone of $p$ is called the \textit{incomparable region} $\mathcal{T}_\emptyset (p)$.
 \end{definition}
 
 Figures \ref{fig:maj_cones_example} and \ref{fig:meet_join_example} show examples of the 2D depiction of vectors $p, d \in \mathcal{P}^d$ on the lattice and their majorization cones, as well as their meet and join.
@@ -264,15 +264,25 @@ Figures \ref{fig:maj_cones_example} and \ref{fig:meet_join_example} show example
             % fill draw the incomparable region of p mais pas hyper clair
             %\filldraw[draw=black, fill=gray, opacity=0.2] (A) -- (E) -- (C) -- cycle;
             %\filldraw[draw=black, fill=gray, opacity=0.2] (D) -- (E) -- (B) -- cycle;
-            \node [inner sep=0pt, label=0:$\mathcal{T}_\emptyset (p)$] at (1.5, 0) {};
+            \node [inner sep=0pt, label=0:$\mathcal{T}_\emptyset (p)$] at (1, 0) {};
+            % x and y
+            \coordinate (X) at (-0.2, 0.8);
+            \coordinate (Y) at (0.1, -0.8);
+            \node [fill=black, inner sep=1pt, label=90:$x$] at (X) {};
+            \node [fill=black, inner sep=1pt, label=270:$y$] at (Y) {};
             % create the entropy arrow
             \coordinate (F) at (-3, -2);
             \coordinate (G) at (-3, 2);
             \draw[->] (F) -- (G);
             \node [inner sep=0pt, label=0:Entropy] at (-3, 0) {};
+            % create the LOCC arrow
+            \coordinate (H) at (3, -2);
+            \coordinate (I) at (3, 2);
+            \draw[->] (I) -- (H);
+            \node [inner sep=0pt, label=0:LOCC] at (3, 0) {};
             
         \end{tikzpicture}
-        \caption{Depiction of the majorization cones of a nondescript vector $p \in \mathcal{P}^d$. The future cone $\mathcal{T}_+(p)$ and past cone $\mathcal{T}_-(p)$ of $p$ have been shaded red and blue, respectively. The incomparable region to $p$, $\mathcal{T}_\emptyset(p)$ is shaded white. The arrow shows the direction in which $H(p)$ increases.}
+        \caption{Depiction of the majorization cones of a nondescript vector $p \in \mathcal{P}^d$. The future cone $\mathcal{T}_+(p)$ and past cone $\mathcal{T}_-(p)$ of $p$ have been shaded red and blue, respectively. The incomparable region to $p$, $\mathcal{T}_\emptyset(p)$ is shaded white. The arrow shows the direction in which $H(p)$ increases. We also see that $x \prec p \prec y$.}
         \label{fig:maj_cones_example}
     \end{minipage}
     \hfill
@@ -314,7 +324,7 @@ Figures \ref{fig:maj_cones_example} and \ref{fig:meet_join_example} show example
     \end{minipage}
 \end{figure}
 
-In classical and quantum information, the lattice is usually drawn with more disordered vectors at the top and more ordered vectors at the bottom because the entropy of a state is considered a resource (cf. section \ref{sec:QRT}). This means that the uniform distribution sits at the very top of the diagram, and the certain distribution at the very bottom. One should therefore be careful, because the majorization relation runs from top to bottom, which is the opposite of what one would picture at first (a greatest lower bound looks like a least upper bound and vice-versa). While this is inconvenient for this chapter, this convention will make more sense later down the road.
+In classical and quantum information, the lattice is usually drawn with more disordered vectors at the top and more ordered vectors at the bottom because the entropy of a state is considered a resource (cf. Section \ref{sec:QRT}). This means that the uniform distribution sits at the very top of the diagram, and the certain distribution at the very bottom. One should therefore be careful, because the majorization relation runs from top to bottom, which is the opposite of what one would picture at first (a greatest lower bound looks like a least upper bound and vice-versa). While this is inconvenient for this chapter, this convention will make more sense later down the road.
 
 
 
@@ -360,7 +370,7 @@ While this is a step in the right direction, things are unfortunately more compl
     \beta'(p, q) &= (0.6, 0.2, 0.15, 0.05) \in \mathcal{P}^4.
 \end{align}
 
-Figure \ref{fig:first_join_attempt} shows the Lorenz curves of $p, q, \beta(p, q)$ and $\beta'(p, q)$. It is immediate to see that $p, q \prec \beta'(p, q)$, but while $\beta'(p, q)$  is indeed an upper bound on $p$ and $q$ it is not necessarily majorized by all of the vectors in $\mathcal{T}_+(p) \cap \mathcal{T}_+(q)$. Intuitively, we can still find a Lorenz curve below $\beta'(p, q)$ by choosing the shortest chord (a straight line) between $b'_1$ and $b'_3$, i.e. by smoothing over the concave dent in $\beta(p, q)$. This idea yields the vector $\beta''(p, q) = (0.6, 0.175, 0.175, 0.05)$ which is clearly majorized by $\beta'(p, q)$, as shown in figure \ref{fig:second_join_attempt}.
+Figure \ref{fig:first_join_attempt} shows the Lorenz curves of $p, q, \beta(p, q)$ and $\beta'(p, q)$. It is immediate to see that $p, q \prec \beta'(p, q)$, but while $\beta'(p, q)$  is indeed an upper bound on $p$ and $q$ it is not necessarily majorized by all of the vectors in $\mathcal{T}_+(p) \cap \mathcal{T}_+(q)$. Intuitively, we can still find a Lorenz curve below $\beta'(p, q)$ by choosing the shortest chord (a straight line) between $b'_1$ and $b'_3$, i.e. by smoothing over the concave dent in $\beta(p, q)$. This idea yields the vector $\beta''(p, q) = (0.6, 0.175, 0.175, 0.05)$ which is clearly majorized by $\beta'(p, q)$, as shown in Figure \ref{fig:second_join_attempt}.
 
 \begin{figure}[h!]
     \centering
@@ -422,17 +432,17 @@ acting on elements of a set $\mathcal{L}$, which enjoy some useful properties.
     \item Absorption: $a \wedge (a \vee b) = a, \; a \vee (a \wedge b) = a \quad \forall a, b \in \mathcal{L}$.
 \end{itemize}
 
-While it is fairly clear how the algorithms from sections \ref{sec:meet} and \ref{sec:join} lead to commutativity, associativity, and idempotency, it might not be as clear why they lead to the absorption rule. Recall definition \ref{def:lattice} and the interpretation of glb and lub of the meet and join respectively. Then it becomes clearer that the first absorption rule for the majorization lattice states that \textit{the most ordered vector that is majorized by both $a$ and some vector that majorizes $a$ (and $b$) is none other than $a$}. Similarly, the second absorption rules states that \textit{the least ordered vector that majorizes both $a$ and some vector that is majorized by $a$ (and $b$) is $a$}. Yet another way to understand it is that this boils down to Corollary \ref{cor:comp_meet_join}: $a$ is necessarily comparable to $a \vee b$ (resp. $a \wedge b$) since by definition $a \prec a \vee b$ (resp. $a \succ a \wedge b$), and when two vectors are comparable their meet (resp. join) is simply the least ordered (resp. most ordered) of the two vectors, being $a$ in this case.
+While it is fairly clear how the algorithms from Sections \ref{sec:meet} and \ref{sec:join} lead to commutativity, associativity, and idempotency, it might not be as clear why they lead to the absorption rule. Recall Definition \ref{def:lattice} and the interpretation of glb and lub of the meet and join respectively. Then it becomes clearer that the first absorption rule for the majorization lattice states that \textit{the most ordered vector that is majorized by both $a$ and some vector that majorizes $a$ (and $b$) is none other than $a$}. Similarly, the second absorption rules states that \textit{the least ordered vector that majorizes both $a$ and some vector that is majorized by $a$ (and $b$) is $a$}. Yet another way to understand it is that this boils down to Corollary \ref{cor:comp_meet_join}: $a$ is necessarily comparable to $a \vee b$ (resp. $a \wedge b$) since by definition $a \prec a \vee b$ (resp. $a \succ a \wedge b$), and when two vectors are comparable their meet (resp. join) is simply the least ordered (resp. most ordered) of the two vectors, being $a$ in this case.
 
 % parler du fait que les proprietes sont logiques dans la vision geometrique aussi ?
 
-These properties are extremely helpful when working on proofs on the lattice, and will appear often in chapters \ref{chap:incomparability} and \ref{chap:volume}.
+These properties are extremely helpful when working on proofs on the lattice, and will appear often in Chapters \ref{chap:incomparability} and \ref{chap:volume}.
 
 
 
 \section{Properties of the Shannon entropy on the lattice}
 
-This section is based on Refs. \cite{cicalese_supermodularity_2002} and \cite{cicalese_information_2013}. The Schur-concavity of the Shannon entropy, which preserves the ordering of the majorization relation, has already been discussed in section \ref{sec:schur_shannon}. However, the Shannon entropy enjoys additional properties on the majorization lattice: \textit{supermodularity} and \textit{subadditivity}.
+This section is based on Refs. \cite{cicalese_supermodularity_2002} and \cite{cicalese_information_2013}. The Schur-concavity of the Shannon entropy, which preserves the ordering of the majorization relation, has already been discussed in Section \ref{sec:schur_shannon}. However, the Shannon entropy enjoys additional properties on the majorization lattice: \textit{supermodularity} and \textit{subadditivity}.
 
 
 
@@ -454,7 +464,7 @@ This section is based on Refs. \cite{cicalese_supermodularity_2002} and \cite{ci
     Note that if $p \sim q$, there is trivially equality.
 \end{theorem}
 
-This property is quite useful when working on the lattice. The original proof is long and hinges on unintuitive index tricks, however one of the first results of this master thesis is to prove a generalization of theorem \ref{th:shannon_supermodularity} which is applicable to a broader class of functions than only the Shannon entropy. As such we will leave the proof for section \ref{sec:alternative_supermodularity}. We will also encounter the reverse concept of \textit{submodularity} later on.
+This property is quite useful when working on the lattice. The original proof is long and hinges on unintuitive index tricks, however one of the first results of this master thesis is to prove a generalization of Theorem \ref{th:shannon_supermodularity} which is applicable to a broader class of functions than only the Shannon entropy. The original proof is available in Appendix \ref{app:supermodularity}, but we will leave our proof for Section \ref{sec:alternative_supermodularity}. We will also encounter the reverse concept of \textit{submodularity} later on.
 
 \begin{definition} \label{def:submodularity}
     A function $f$ defined on a lattice $\langle \mathcal{L}, \sqsubseteq, \wedge, \vee \rangle$ is \textit{submodular} iff for any $a, b \in \mathcal{L}$, $-f$ is supermodular. Alternatively,
@@ -481,7 +491,7 @@ This property is quite useful when working on the lattice. The original proof is
     \end{equation}
 \end{theorem}
 
-One of the first results of this master thesis is to prove a stronger version of theorem \ref{th:shannon_subadditivity} which is applicable to a broader class of functions than only the Shannon entropy. As such, Theorem \ref{th:shannon_subadditivity} becomes a corollary of our theorem. We will leave the proof for Section \ref{sec:alternative_subadditivity}. We will also encounter the reverse concept of \textit{superadditivity} later on.
+One of the first results of this master thesis is to prove a stronger version of Theorem \ref{th:shannon_subadditivity} which is applicable to a broader class of functions than only the Shannon entropy. As such, Theorem \ref{th:shannon_subadditivity} becomes a corollary of our theorem. We will leave the proof for Section \ref{sec:alternative_subadditivity}. We will also encounter the reverse concept of \textit{superadditivity} later on.
 
 \begin{definition}[Superadditivity] \label{def:superadditivity}
     A real-valued function $f$ defined on a lattice $\langle \mathcal{L}, \sqsubseteq, \wedge, \vee \rangle$ is \textit{superadditive} iff for any $a, b \in \mathcal{L}$, $-f$ is subadditive. Alternatively,
@@ -494,7 +504,7 @@ One of the first results of this master thesis is to prove a stronger version of
 
 \subsection{Entropic distance on the lattice} \label{sec:entropic_distances}
 
-Entropy can be used to define an entropic distance on the lattice, which allows us to quantify how far away two probability vectors are from each other on the lattice. We will use it quite a lot in chapter \ref{chap:incomparability} to quantify the amount of incomparability between 2 probability vectors.
+Entropy can be used to define an entropic distance on the lattice, which allows us to quantify how far away two probability vectors are from each other on the lattice. We will use it quite a lot in Chapter \ref{chap:incomparability} to quantify the amount of incomparability between 2 probability vectors.
 
 \begin{definition}[Entropic distance] \label{def:entropic_distance}
     For all $p, q \in \mathcal{P}^d$, we define
@@ -522,7 +532,7 @@ We will also use a quasidistance going through the meet instead of the join.
     \end{equation}
 \end{definition}
 
-This notion of distance is unfortunately not as foolproof as the first one, which goes through the join. In particular, while it does satisfy symmetry and positivity, it fails the triangular inequality in some cases. For example, consider $p, q \in \mathcal{P}^d$. One can show that in general, $d'(p, q) \nleq d'(p, p \wedge q) + d'(p \wedge q, q)$. We have
+This notion of distance\footnote{Note that if $p \sim q$, then $d'(p, q) = d(p, q)$.} is unfortunately not as foolproof as the first one, which goes through the join. In particular, while it does satisfy symmetry and positivity, it fails the triangular inequality in some cases. For example, consider $p, q \in \mathcal{P}^d$. One can show that in general, $d'(p, q) \nleq d'(p, p \wedge q) + d'(p \wedge q, q)$. We have
 \begin{align}
     d'(p, p \wedge q) + d'(p \wedge q, q) &= 2 H(p \wedge (p \vee q)) - H(p) - H(p \vee q)\nonumber \\
                                           &\quad + 2 H((p \vee q) \wedge q) - H(p \vee q) - H(q)\\
@@ -541,7 +551,7 @@ which is always true by supermodularity, and so the triangular inequality always
 
 \begin{figure}[h!]
     \centering
-    \begin{tikzpicture}[scale=0.9]
+    \begin{tikzpicture}[scale=0.6]
         % draw cone of p
         \coordinate (A) at (-2, 1);
         \coordinate (B) at (2, -1);
@@ -553,9 +563,9 @@ which is always true by supermodularity, and so the triangular inequality always
         \draw [name path=D--A] (D) -- (A) node[midway, below, sloped] {$d(p, p \vee q)$};
         %\path [name intersections={of=A--B and C--D,by=E}];
         \node [fill=black,inner sep=1pt,label=0:$p$] at (A) {};
-        \node [fill=black,inner sep=1pt,label=0:$q$] at (B) {};
+        \node [fill=black,inner sep=1pt,label=180:$q$] at (B) {};
         \node [fill=black,inner sep=1pt,label=0:$p \wedge q$] at (C) {};
-        \node [fill=black,inner sep=1pt,label=0:$p \vee q$] at (D) {};
+        \node [fill=black,inner sep=1pt,label=270:$p \vee q$] at (D) {};
         % draw cone of q
         \coordinate (F) at (-0.666,3);
         \coordinate (G) at (3.333, -3);
@@ -563,11 +573,15 @@ which is always true by supermodularity, and so the triangular inequality always
         \coordinate (H) at (0.666,-3);
         \coordinate (I) at (4.666,3);
     \end{tikzpicture}
-    \caption{Depiction of the incomparability diamond $p, q, p \wedge q, p \vee q$ generated by two incomparable vectors $p, q \in \mathcal{P}^d$. Supermodularity implies that $d(p, p\vee q) = H(p) - H(p \vee q) \leq d(q, q \wedge p) = H(p \wedge q) - H(q)$, which seems to indicate some form of hyperbolic metric on the lattice where segments higher up are larger despite the parallel lines.} 
+    \caption{Depiction of the region (nicknamed \textit{incomparability diamond}) $p, q, p \wedge q, p \vee q$ generated by two incomparable vectors $p, q \in \mathcal{P}^d$. Supermodularity implies that $d(p, p\vee q) = H(p) - H(p \vee q) \leq d(q, q \wedge p) = H(p \wedge q) - H(q)$, which seems to indicate some form of hyperbolic metric on the lattice where segments higher up are larger despite the parallel lines.} 
     \label{fig:hyperbolic_geometry}
 \end{figure}
 
-An interpretation of these notions of distance is given in figure \ref{fig:hyperbolic_geometry}. Notably, the distance $d$ seems to induce some form of hyperbolic metric in the majorization lattice, in the sense that two segments that look identical in our geometrical representation (due to parallel lines) are not according to this notion of distance. In general, segments become larger the higher they are on the lattice. This intuition is helpful to understand some results of chapter \ref{chap:incomparability}. Finally, the following lemma will help us see another unusual property of this entropic distance, represented on figure \ref{fig:triangular_lemma}.
+An interpretation of these notions of distance is given in Figure \ref{fig:hyperbolic_geometry}. Notably, the distance $d$ seems to induce some form of hyperbolic metric in the majorization lattice, in the sense that two segments that look identical in our geometrical representation (due to parallel lines) are not according to this notion of distance. In general, segments become larger the higher they are on the lattice. This intuition is helpful to understand some results of Chapter \ref{chap:incomparability}.
+
+\newpage
+
+Finally, the following lemma will help us see another unusual property of this entropic distance, represented on Figure \ref{fig:triangular_lemma}.
 
 \begin{lemma} (Cicalese, Gargano and Vaccaro, 2013 \cite{cicalese_information_2013}) \label{lem:comp_future} 
     The join $p \vee q$ of two probability vectors $p, q \in \mathcal{P}^d$ saturates the triangular inequality for the entropic distance $d(p, q) = H(p) + H(q) - 2H(p \vee q)$.
