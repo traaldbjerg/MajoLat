@@ -7,15 +7,15 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
 from pathlib import Path
 
-# functions needed for the test (except the first one)
+# functions needed for the test (the first one is not used for the test but is left as an example of qutip usage)
 def random_separable_mixed_state(dim1, dim2, num_terms=5):
     """
     Generate a random separable mixed state in the tensor product space of dim1 x dim2.
     This state is created as a convex combination of tensor products of mixed states.
     
     Parameters:
-    dim1: Dimension of subsystem 1 (e.g., qubit = 2)
-    dim2: Dimension of subsystem 2 (e.g., qubit = 2)
+    dim1: Dimension of subsystem 1 (e.g. qubit = 2)
+    dim2: Dimension of subsystem 2 (e.g. qubit = 2)
     num_terms: Number of product states to sum over
     
     Returns:
@@ -45,8 +45,8 @@ def random_strongly_entangled_state(dim1, dim2, entropic=False):
     This state is created as a convex combination of tensor products of mixed states.
     
     Parameters:
-    dim1: Dimension of subsystem 1 (e.g., qubit = 2)
-    dim2: Dimension of subsystem 2 (e.g., qubit = 2)
+    dim1: Dimension of subsystem 1 (e.g. qubit = 2)
+    dim2: Dimension of subsystem 2 (e.g. qubit = 2)
     
     Returns:
     An entangled density matrix as a Qobj object.
@@ -73,11 +73,20 @@ def random_strongly_entangled_state(dim1, dim2, entropic=False):
 
     return state
 
-def compare_renyi_criteria(num_states=10000, dim1=2, dim2=2, max_alpha=10, alpha_step=0.1): # see section 4.1.3
-    Path.mkdir(Path("results"), exist_ok=True)
-    csv_path = Path("results/renyi_comparison_{}_{}_{}_{}_{}.csv".format(num_states, dim1, dim2, max_alpha, alpha_step))
-    png_path = Path("results/renyi_comparison_{}_{}_{}_{}_{}.png".format(num_states, dim1, dim2, max_alpha, alpha_step))
+def compare_renyi_criteria(num_states=10000, dim1=2, dim2=2, max_alpha=30, alpha_step=0.1):
+    """Implements the Renyi criteria simulation from section 4.1.3 in the manuscript.
 
+    Args:
+        num_states (int, optional): number of strongly entangled states to generate for the comparison. Defaults to 10000.
+        dim1 (int, optional): dimensions of subsystem 1. Defaults to 2.
+        dim2 (int, optional): dimensions of subsystem 2. Defaults to 2.
+        max_alpha (int, optional): specifices the end of the range of the order paramater alpha. Defaults to 30.
+        alpha_step (float, optional): specifices the step between each alpha value. Defaults to 0.1.
+        
+    Returns:
+        results_new (array of float): entanglement detection ratio for the meet-based entropic criterion.
+        results_old (array of float): entanglement detection ratio for the old entropic criterion.
+    """
     
     max_alpha = int(round(max_alpha/alpha_step))
     results_new = np.zeros(max_alpha)
@@ -98,38 +107,47 @@ def compare_renyi_criteria(num_states=10000, dim1=2, dim2=2, max_alpha=10, alpha
     
     results_new[:] /= num_states
     results_old[:] /= num_states
-    with open(file=csv_path, mode="w") as f:
-        writer = csv.writer(f)
-        writer.writerow(results_new)
-        writer.writerow(results_old)
-
-    # plot results
-    fig, ax = plt.subplots()
-    x = np.linspace(0, max_alpha*alpha_step, max_alpha)
-    ax.plot(x, results_new, color="blue", label="Detection ratio by new entropic criterion") # plot number of only new detections
-    ax.plot(x, results_old, color="orange", label="Detection ratio by old entropic criterion") # plot number of only new detections
+    return results_new, results_old
     
-    ax.set_xlabel("Alpha")
-    ax.set_ylabel("Detection ratio")
-    ax.set_title("Entanglement detection as a function of alpha for dimensions {} x {}".format(dim1, dim2))
-    ax.legend()
-    ax.tick_params(which='major', width=1.00, length=5)
-    ax.tick_params(which='minor', width=0.75, length=2.5)
-    ax.xaxis.set_major_locator(ticker.AutoLocator())
-    ax.xaxis.set_minor_locator(ticker.AutoMinorLocator())
-    ax.grid(True)
-    ax.set_xlim(0, max_alpha*alpha_step)
-    ax.set_ylim(0, 1)
-    plt.savefig(png_path)
-    #plt.show()
 
 
 # execution
 if __name__ == "__main__":
-    #dimension_list = [(2, 2), (2, 3), (3, 3), (3, 4), (3, 5), (3, 6)]#, (4, 4), (4, 6), (4, 8)] # dimensions to test, eigenvalue calculations quickly become expensive
-    dimension_list = [(4, 4)]
-    num_states = 50000
-    max_alpha = 30
-    alpha_step = 0.2
+    # dimensions to test, eigenvalue calculations quickly become expensive (add as needed)
+    dimension_list = [(2, 2), (2, 3), (3, 3), (3, 4), (3, 5), (3, 6)]#, (4, 4), (4, 6), (4, 8)] 
+    num_states = 50000 # number of states to generate for the simulation
+    max_alpha = 30 # end of the range for the order parameter alpha
+    alpha_step = 0.2 # step between each value of alpha
     for dims in dimension_list: # loop over dimensions of interest
-        compare_renyi_criteria(num_states, dims[0], dims[1], max_alpha=max_alpha, alpha_step=alpha_step)
+        results_new, results_old = compare_renyi_criteria(num_states, dims[0], dims[1], max_alpha=max_alpha, alpha_step=alpha_step)
+        
+        Path.mkdir(Path("results"), exist_ok=True)
+        csv_path = Path("results/renyi_comparison_{}_{}_{}_{}_{}.csv".format(num_states, dims[0], dims[1],
+                                                                                max_alpha, alpha_step))
+        png_path = Path("results/renyi_comparison_{}_{}_{}_{}_{}.png".format(num_states, dims[0], dims[1],
+                                                                                max_alpha, alpha_step))        
+
+        with open(file=csv_path, mode="w") as f:
+            writer = csv.writer(f)
+            writer.writerow(results_new)
+            writer.writerow(results_old)
+
+        # plot results
+        fig, ax = plt.subplots()
+        x = np.linspace(0, max_alpha*alpha_step, max_alpha)
+        ax.plot(x, results_new, color="blue", label="Detection ratio by new entropic criterion") # plot number of only new detections
+        ax.plot(x, results_old, color="orange", label="Detection ratio by old entropic criterion") # plot number of only new detections
+        
+        ax.set_xlabel("Alpha")
+        ax.set_ylabel("Detection ratio")
+        ax.set_title("Entanglement detection as a function of alpha for dimensions {} x {}".format(dim1, dim2))
+        ax.legend()
+        ax.tick_params(which='major', width=1.00, length=5)
+        ax.tick_params(which='minor', width=0.75, length=2.5)
+        ax.xaxis.set_major_locator(ticker.AutoLocator())
+        ax.xaxis.set_minor_locator(ticker.AutoMinorLocator())
+        ax.grid(True)
+        ax.set_xlim(0, max_alpha*alpha_step)
+        ax.set_ylim(0, 1)
+        plt.savefig(png_path)
+        #plt.show()

@@ -8,6 +8,19 @@ import matplotlib.pyplot as plt
 
 # functions needed for the game
 def generate_bank(dims, total, ocr=0, distribution=None):
+    """Generates a bank of ProbVectors of the specified dimension, according to the specified skew of the Dirichlet distribution.
+
+    Args:
+        dims (int): dimension of the distribution (and so of the entangled subsystems)
+        total (int): total number of states to construct
+        ocr (int, optional): number of OCRs to add to the bank (with no prior knowledge on the targets,
+                             the OCR is the maximally entangled state). Defaults to 0.
+        distribution (list of ints, optional): parameters with which to skew the Dirichlet distribution the states
+                                               are sampled from. Defaults to None.
+
+    Returns:
+        b (list of ProbVector): generated bank of size total, among which ocr OCR.
+    """
     if distribution == None:
         distribution = np.ones(dims) # sample uniformly
     b = []
@@ -17,14 +30,31 @@ def generate_bank(dims, total, ocr=0, distribution=None):
         b.append(mj.ProbVector([1/dims for _ in range(dims)]))
     return b
 
-def LOCC_target_game(dims, bank, alpha=0, targets=[], distribution=None, redundancy=True): # see definition 6.5
+def LOCC_target_game(dims, bank, alpha=0, targets=[], distribution=None, redundancy=True): # see definition 5.5
+    """Implements the mixed RSSS with or without redundancy factor. The filtering step must be manually tweaked at the moment,
+       but implementing the filter as an additional function argument might soon be implemented.
+
+    Args:
+        dims (int): Dimension of the distribution (and so of the entangled subsystems)
+        bank (list of ProbVector): set of states to choose from to construct the targets through LOCC
+        alpha (int, optional): value of the strategy parameter alpha. Defaults to 0 (which is the pure uniqueness strategy).
+        targets (list of ProbVector, optional): list of successive targets to construct. Defaults to [].
+                                                Successive targets are sampled until failure according to distribution
+                                                if not specified.
+        distribution (list of floats, optional): distribution with which to skew the Dirichlet distribution for
+                                                 target sampling. Defaults to None.
+        redundancy (bool, optional): whether to use the redundancy factor or set it to 1. Defaults to True.
+
+    Returns:
+        successes (int): number of successful target constructions for the simulation.
+    """
     successes = 0
     indexes = [_ for _ in range(len(bank))]
     target_indexes = [_ for _ in range(len(targets))]
     if target_indexes == []:
         targets = [mj.ProbVector(np.random.dirichlet(distribution))]
         target_indexes = [0]
-        #print(target_list)
+        #print(target_list) # debug
         endless = True
     else:
         endless = False
@@ -36,7 +66,7 @@ def LOCC_target_game(dims, bank, alpha=0, targets=[], distribution=None, redunda
                 can_reach.append(i)
         if can_reach == []:
             break # game is over if target non-reachable
-        #print(can_reach)
+        #print(can_reach) # debug
         # step 2 of algo -- eliminate all non-minimal states and copies of minimal states
         index_record = [] # keep track of all majorized states to remove them
         for i in range(1,len(can_reach)):
@@ -49,7 +79,7 @@ def LOCC_target_game(dims, bank, alpha=0, targets=[], distribution=None, redunda
         lowest_reach = can_reach # index list too
         for i in index_record:
             lowest_reach.pop(i)
-        #print(lowest_reach)
+        #print(lowest_reach) # debug
         # step 3 of algo -- compute weighted loss function
         a = []
         b = []
@@ -58,9 +88,11 @@ def LOCC_target_game(dims, bank, alpha=0, targets=[], distribution=None, redunda
         for i in lowest_reach:
             if alpha == 1: # save on computation time
                 a.append(mj.entropy(bank[i])) # loss function
-            else: # entropy is not that heavy computationally so not the end of the world to include it if alpha = 0
+            else: # entropy is not that heavy computationally so no need to separate the alpha = 0 case
+                # this is the step where the filtering happens. must be manually tweaked for now
+                # for instance, lowest_reach could be replaced with can_reach for another filtering
                 a.append(alpha * mj.entropy(bank[i]) + (1 - alpha) * mj.unique_entropy(bank[i],
-                                                                                    [bank[_] for _ in lowest_reach if _ != i])) # loss function
+                                                                        [bank[_] for _ in lowest_reach if _ != i])) # loss function
             if redundancy:
                 b.append(0)
                 for j in can_reach: # redundancy factor
@@ -72,13 +104,12 @@ def LOCC_target_game(dims, bank, alpha=0, targets=[], distribution=None, redunda
             current_index += 1
         # step 4 -- construct target if possible
         index_min = np.argmin(c) # find index of least valuable state
-        #print(indexes)
-        #print(lowest_reach)
-        #print(index_min)
+        #print(lowest_reach) # debug
+        #print(index_min) # debug
         indexes.remove(lowest_reach[index_min]) # pop the state used to construct the target
         target_indexes.pop() # pop the last target
         if endless:
-            targets = [mj.ProbVector(np.random.dirichlet(distribution))] # regenerate another target
+            targets = [mj.ProbVector(np.random.dirichlet(distribution))] # generate the next target
             target_indexes = [0]
         successes += 1
 
@@ -96,11 +127,11 @@ if __name__ == "__main__":
     skew = 2
     target_distribution = [skew]
     target_distribution.extend([1/skew for _ in range(dims-1)]) # skew targets toward bottom of simplex
-    #print(target_distribution)
+    #print(target_distribution) # debug
     step = 0.01
     successes = np.array([0 for _ in range(int(round(1/step) + 1))], dtype=np.float64)
     redundancy = False
-    #print(successes)
+    #print(successes) # debug
 
     Path.mkdir(Path("results"), exist_ok=True)
     csv_path = Path("results/locc_game_{}_{}_{}_{}_{}_{}_{}.csv".format(tries, dims, bank_size, ocr, step, skew, redundancy))
@@ -109,15 +140,13 @@ if __name__ == "__main__":
     for game in tqdm(range(tries), desc="Comparing strategies"): 
         bank = generate_bank(dims, bank_size, ocr)
         targets = generate_bank(dims, bank_size, distribution=target_distribution)
-        #bank_copy = copy.deepcopy(bank)
-        #targets_copy = copy.deepcopy(targets)
-        for alpha in range(int(round(1/step) + 1)):
-            successes[alpha] += LOCC_target_game(dims, bank, alpha=alpha*step, targets=targets, redundancy=True) # try the different strategies
-            #bank = copy.deepcopy(bank_copy) # revert to old state (not very clean, probably more efficient to only keep track of indices in LOCC_target_game)
-            #targets = copy.deepcopy(targets_copy)
+
+        for alpha in range(int(round(1/step) + 1)): # try the different strategies
+            successes[alpha] += LOCC_target_game(dims, bank, alpha=alpha*step, targets=targets, redundancy=True)
+
 
     successes[:] /= tries
-    #print(successes)
+    #print(successes) # debug
     with open(file=csv_path, mode="w") as f:
         writer = csv.writer(f)
         writer.writerow(successes)
@@ -129,14 +158,9 @@ if __name__ == "__main__":
     
     ax.set_xlabel("Alpha")
     ax.set_ylabel("Average number of targets constructed")
-    ax.set_title("Average number of targets constructed as a function of the strategy parameter alpha")
-    #ax.legend()
-    #ax.tick_params(which='major', width=1.00, length=5)
-    #ax.tick_params(which='minor', width=0.75, length=2.5)
-    #ax.xaxis.set_major_locator(ticker.AutoLocator())
-    #ax.xaxis.set_minor_locator(ticker.AutoMinorLocator())
+    ax.set_title("Average number of targets constructed as a function of the strategy parameter of the mixed RSSS")
     ax.grid(True)
     ax.set_xlim(0, 1)
-    #ax.set_ylim(0, 1)
+    #ax.set_ylim(0, 1) # debug
     plt.savefig(png_path)
     plt.show()

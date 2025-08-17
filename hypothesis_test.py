@@ -7,6 +7,19 @@ import itertools
 
 
 def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, bank_size=4, hypothesis=True):
+    """Implements a generic hypothesis test through statistical sampling. The code should be tweaked manually to change the hypothesis.
+
+    Args:
+        dimensions (int, optional): _description_. Defaults to 5.
+        tries (int, optional): _description_. Defaults to 10000.
+        ratio (int, optional): _description_. Defaults to 0.
+        comp (int, optional): _description_. Defaults to 0.
+        bank_size (int, optional): _description_. Defaults to 4.
+        hypothesis (bool, optional): _description_. Defaults to True.
+
+    Returns:
+        _type_: _description_
+    """
     record = 0
     for _ in tqdm(range(tries), desc="Testing hypothesis"):
         p = mj.ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
@@ -48,4 +61,8 @@ if __name__ == "__main__":
     hypothesis = True
 
     hypothesis, comp = generate_attempts(dimensions=dimensions, tries=tries, ratio=ratio, comp=comp, bank_size=bank_size, hypothesis=hypothesis)
+    print(hypothesis)
+    
+if __name__ == "__main__":
+    hypothesis, comp = generate_attempts()
     print(hypothesis)

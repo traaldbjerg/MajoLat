@@ -17,7 +17,7 @@ The second result of this master thesis is to improve some entropic criteria tie
     H(\lambda^{AB}) \geq H(\lambda^A) \quad \text{and} \quad H(\lambda^{AB}) \geq H(\lambda^B). \label{eq:old_criterion}
 \end{equation}
 
-These entropic inequalities\footnote{Historically, these entropic inequalities (expressed equivalently in von Neumann entropies) were known before the strengthening to a majorization relation \cite{cerf_negative_1997, nielsen_separable_2001}.} are of course not as strong as the majorization relations we deduced them from, as illustrated in the example from section \ref{sec:majorization_separability_criterion}. Using the lattice, however, the entropic condition can be strengthened. The relations $\lambda^{AB} \prec \lambda^A$ and $\lambda^{AB} \prec \lambda^{B}$ mean that $\lambda^{AB}$ is majorized by both $\lambda^A$ and $\lambda^B$. By definition, the meet of $\lambda^A$ and $\lambda^B$ is the vector $\lambda^A \wedge \lambda^B$ that majorizes all the vectors that are majorized by both $\lambda^A$ and $\lambda^B$. This fact can also be restated as 
+These entropic inequalities\footnote{Historically, these entropic inequalities (expressed equivalently in von Neumann entropies) were known before the strengthening to a majorization relation \cite{cerf_negative_1997, nielsen_separable_2001}.} are of course not as strong as the majorization relations we deduced them from, as illustrated in the example from Section \ref{sec:majorization_separability_criterion}. Using the lattice, however, the entropic condition can be strengthened. The relations $\lambda^{AB} \prec \lambda^A$ and $\lambda^{AB} \prec \lambda^{B}$ mean that $\lambda^{AB}$ is majorized by both $\lambda^A$ and $\lambda^B$. By definition, the meet of $\lambda^A$ and $\lambda^B$ is the vector $\lambda^A \wedge \lambda^B$ that majorizes all the vectors that are majorized by both $\lambda^A$ and $\lambda^B$. This fact can also be restated as 
 \begin{equation}
     \mathcal{T}_-(\lambda^A) \cap \mathcal{T}_-(\lambda^B) = \mathcal{T}_-(\lambda^A \wedge \lambda^B),
 \end{equation}
@@ -217,7 +217,7 @@ Unfortunately, the second difference with usual resource monotones is that the s
     \label{fig:convex_mixture_incomp}
 \end{figure}
 
-This problem unfortunately prevents us from achieving a monotone obeying equation (\ref{eq:ideal_incomparability}), at least directly. However, we can define two separate notions of incomparability, one as the minimal distance to the future cone of $q$ and the other as the minimal distance to the past cone of $q$.
+This problem unfortunately prevents us from achieving a monotone obeying Eq. (\ref{eq:ideal_incomparability}), at least directly. However, we can define two separate notions of incomparability, one as the minimal distance to the future cone of $q$ and the other as the minimal distance to the past cone of $q$.
 
 \subsection{Future incomparability function}
 
@@ -726,7 +726,7 @@ Let us turn our attention to $E^-$. This time around, the expected property for 
 To conclude this section, we will simply note that Theorems \ref{th:monotone_future_q} and \ref{th:monotone_past_q} have similar corollaries to those of Theorem \ref{th:monotone_future_p}.
 
 \begin{remark}
-    While Theorems \ref{th:monotone_future_q} and \ref{th:monotone_past_q} imply that the maximal value of $E^+$ and the minimal value of $E^-$ are reached for the identity degradation of $q$, other degradations can also lead to the same value. This is made clearer by comparing the figure for $p$ monotonicity \ref{fig:future_p_monotonicity} and the figures for $q$ monotonicity \ref{fig:future_q_monotonicity}, \ref{fig:past_q_monotonicity}, and we can see that the situation in $p$ and $q$ is a bit different. In $p$, the minimal value is reached \textit{only} for $Dp = p$, whereas in $q$ there are other states in $\mathcal{T}_-(q)$ that lead to the same value of the incomparability monotone. 
+    While Theorems \ref{th:monotone_future_q} and \ref{th:monotone_past_q} imply that the maximal value of $E^+$ and the minimal value of $E^-$ are reached for the identity degradation of $q$, other degradations can also lead to the same value. This is made clearer by comparing Figure \ref{fig:future_p_monotonicity} for $p$ monotonicity and Figures \ref{fig:future_q_monotonicity}, \ref{fig:past_q_monotonicity} for $q$ monotonicity, and we can see that the situation in $p$ and $q$ is a bit different. In $p$, the minimal value is reached \textit{only} for $Dp = p$, whereas in $q$ there are other states in $\mathcal{T}_-(q)$ that lead to the same value of the incomparability monotone. 
 \end{remark}
 
 
@@ -751,7 +751,7 @@ Now that we have these monotones and have proved some monotonicity properties, w
 
 Both of these definitions have interesting properties that might be desirable depending on different use cases. For $F$, a nice property is that Theorems \ref{th:monotone_future_q} and \ref{th:monotone_past_q} guarantee that $F$ is a decreasing monotone under bistochastic degradation of $q$, and numerical testing seems to indicate that it is monotone under bistochastic degradation of $p$ (which seems intuitive in the geometrical representation). However, $F$ is not necessarily positive.
 
-For $G$, the advantage is that it is positive, and it does satisfy equation (\ref{eq:ideal_incomparability}), because $E^+(p \parallel q) = 0 \iff p \in \mathcal{T}_+(q)$ and $E^-(p \parallel q) = 0 \iff p \in \mathcal{T}_-(q)$. The only region where $G(p \parallel q) \neq 0$ is $\mathcal{T}_\emptyset(q)$, which is a very nice property for a measure of incomparability. However, $G$ loses the monotonicity under bistochastic degradation of $p$ and $q$.
+For $G$, the advantage is that it is positive, and it does satisfy Eq. (\ref{eq:ideal_incomparability}), because $E^+(p \parallel q) = 0 \iff p \in \mathcal{T}_+(q)$ and $E^-(p \parallel q) = 0 \iff p \in \mathcal{T}_-(q)$. The only region where $G(p \parallel q) \neq 0$ is $\mathcal{T}_\emptyset(q)$, which is a very nice property for a measure of incomparability. However, $G$ loses the monotonicity under bistochastic degradation of $p$ and $q$.
 
 
 

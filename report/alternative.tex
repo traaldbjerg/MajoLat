@@ -28,7 +28,7 @@ We will work with concatenated probability vectors. We will need the following d
     \end{equation}
 \end{definition}
 
-\noindent Alternatively, $F$ is sum-concave if $-F$ is sum-convex. Moreover, note that lemma \ref{lem:karamata} implies that all sum-convex functions (resp. sum-concave) are Schur-convex (resp. Schur-concave).
+\noindent Alternatively, $F$ is sum-concave if $-F$ is sum-convex. Moreover, note that Lemma \ref{lem:karamata} implies that all sum-convex functions (resp. sum-concave) are Schur-convex (resp. Schur-concave).
 
 
 
@@ -60,7 +60,7 @@ We will work with concatenated probability vectors. We will need the following d
         S^\downarrow_k (A) = \max_{0\leq l\leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right), \\
         S^\downarrow_k (B) = \max_{0\leq m\leq k} \left(S^\downarrow_{k-m} (r)+ S^\downarrow_m (s)\right). \label{eq:max_supermod}
     \end{gather} % si plusieurs l ou m sont possibles c'est pas grave pck on a quand meme le max de la somme je pense
-    Recall equations (\ref{eq:alpha_bis}) and (\ref{eq:beta_bis}), from which we immediately deduce\footnote{This is the step where the $\beta(p, q) = p \vee q$ limitation comes into play: the expression in terms of maxima of cumulative sums of $\beta(p, q)$ was defined with the unordered vector, but majorization relations require the ordered vector. As such, we cannot use the maximum relation directly if $\beta(p, q) \neq \beta^\downarrow(p, q)$, on which this proof hinges.}
+    Recall Eqs. (\ref{eq:alpha_bis}) and (\ref{eq:beta_bis}), from which we immediately deduce\footnote{This is the step where the $\beta(p, q) = p \vee q$ limitation comes into play: the expression in terms of maxima of cumulative sums of $\beta(p, q)$ was defined with the unordered vector, but majorization relations require the ordered vector. As such, we cannot use the maximum relation directly if $\beta(p, q) \neq \beta^\downarrow(p, q)$, on which this proof hinges.}
     \begin{gather}
         S^\downarrow_i (r) = \min \left\{S^\downarrow_i (p), S^\downarrow_i (q)\right\}, \\
         S^\downarrow_i (s) = \max \left\{S^\downarrow_i (p), S^\downarrow_i (q)\right\}.
@@ -148,7 +148,7 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = p 
         S^\downarrow_k (A) = \max_{0\leq l\leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right), \\
         S^\downarrow_k (B) = 1 + S^\downarrow_{k-1}(r).
     \end{gather} % si plusieurs l ou m sont possibles c'est pas grave pck on a quand meme le max de la somme je pense
-    Recall equation (\ref{eq:alpha_bis}), from which we immediately deduce
+    Recall Eq. (\ref{eq:alpha_bis}), from which we immediately deduce
     \begin{equation}
         S^\downarrow_i (r) = \min \left\{S^\downarrow_i (p), S^\downarrow_i (q)\right\}.
     \end{equation}
@@ -171,7 +171,7 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = p 
                           &\geq \max \left\{S^\downarrow_{k-1}(p), S^\downarrow_{k-1}(q)\right\} + \min \left\{S^\downarrow_{k-1}(p), S^\downarrow_{k-1}(q)\right\} \label{eq:subadditivity_max_trick}\\
                           &= S^\downarrow_{k-1}(p) + S^\downarrow_{k-1}(q),
     \end{align}
-    where we have used the fact that the cumulative sum of any $d$-dimensional vector is always less or equal to 1 to write equation (\ref{eq:subadditivity_max_trick}). Therefore, for the majorization relation $S^\downarrow_k(B) \geq S^\downarrow_k(A)$ to be verified, it is enough to show that for any choice of $l$ that we haven't treated yet,
+    where we have used the fact that the cumulative sum of any $d$-dimensional vector is always less or equal to 1 to write Eq. (\ref{eq:subadditivity_max_trick}). Therefore, for the majorization relation $S^\downarrow_k(B) \geq S^\downarrow_k(A)$ to be verified, it is enough to show that for any choice of $l$ that we haven't treated yet,
     \begin{align}
                           S^\downarrow_{k-1}(p) + S^\downarrow_{k-1}(q) &\geq \max_{0 < l < k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right)\\
                                                                         \iff 0 &\geq \max_{0 < l < k} \left(S^\downarrow_l (p) - S^\downarrow_{k-1}(p) + S^\downarrow_{k-l} (q) - S^\downarrow_{k-1}(q)\right), \label{eq:subadditivity_leq}
@@ -211,7 +211,7 @@ It is interesting to note that the appearance of the additional term $F(\overlin
 
 \subsection{Corollaries}
 
-Theorem \ref{th:shannon_subadditivity} concerning the subadditivity of $H$ becomes a corollary of theorem \ref{th:alternative_subadditivity}, because $H$ is sum-concave from its definition.
+Theorem \ref{th:shannon_subadditivity} concerning the subadditivity of $H$ becomes a corollary of Theorem \ref{th:alternative_subadditivity}, because $H$ is sum-concave from its definition.
 
 Just like with supermodularity, the above proof can be reused for a sum-convex function $f$ (because $-f$ is sum-concave) by simply reversing the final Karamata inequality, giving the following corollary.
 

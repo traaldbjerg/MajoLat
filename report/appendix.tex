@@ -9,7 +9,7 @@
 
 \section{Cicalese and Vaccaro's original proof of supermodularity} \label{app:supermodularity}
 
-This section goes over the original proof of Theorem \ref{th:shannon_supermodularity} for the Shannon entropy, from Ref. \cite{cicalese_supermodularity_2002}. The proof is structured in two lemmas. Note that the convention $0 \log \frac{1}{0} = 0$ is used (an event that never happens does not contribute to entropy). We will first need the following definition.
+This section goes over the original proof of Theorem \ref{th:shannon_supermodularity} for the Shannon entropy, taken from Ref. \cite{cicalese_supermodularity_2002}. The proof is structured in two lemmas. Note that the convention $0 \log \frac{1}{0} = 0$ is used (an event that never happens does not contribute to entropy). We will first need the following definition.
 
 \begin{appendix_definition}[Inversion point]
     Let $p, q \in \mathcal{P}^d$. We say that the index $i \in \{2, \ldots, n\}$ is an \textit{inversion point} for $p$ and $q$ if either
@@ -180,7 +180,7 @@ To finish this small incursion into classical information theory, it turns out t
     \item $H(X) \geq 0$.
     \item $H(X, Y) = H(Y, X)$.
     \item $H(X, Y) = H(X) + H(Y|X)$.
-    \item \textbf{Subadditivity}\footnote{This subadditivity has nothing to do with the subadditivity on the lattice.}\textbf{:} $H(X, Y) \leq H(X) + H(Y)$ with equality iff $X$ and $Y$ are independent.
+    \item \textbf{Subadditivity}\footnote{This subadditivity is not related to the subadditivity on the lattice.}\textbf{:} $H(X, Y) \leq H(X) + H(Y)$ with equality iff $X$ and $Y$ are independent.
     \item $H(X|Y) \leq H(X)$, which directly implies that $I(X, Y) \geq 0$, with equality iff $X$ and $Y$ are independent.
 \end{itemize}
 
@@ -448,9 +448,9 @@ An interesting notion is that measures automatically give a well-defined notion 
 
 \setcounter{equation}{0}
 
-We prove here properties \ref{prop:commutativity}, \ref{prop:empty}, \ref{prop:p_absorption} and \ref{prop:q_absorption} from Section \ref{sec:unique_entropy_properties}. The commutativity property \ref{prop:commutativity} is immediate by commutativity of the join, and so the ordering of the bank does not matter. This is what we would expect for an inclusion-exclusion formula, as the order in which we remove intersections of sets does not matter as long as we perform the full sum. Because the ordering of the bank is arbitrary, we can always make any vector the last vector of the bank, which is useful for proving properties \ref{prop:p_absorption}, \ref{prop:q_absorption} and \ref{prop:q_monotonicity} as showing the property for $i = k$ is sufficient.
+We prove here Props. \ref{prop:commutativity}, \ref{prop:empty}, \ref{prop:p_absorption} and \ref{prop:q_absorption} from Section \ref{sec:unique_entropy_properties}. The commutativity Prop. \ref{prop:commutativity} is immediate by commutativity of the join, and so the ordering of the bank does not matter. This is what we would expect for an inclusion-exclusion formula, as the order in which we remove intersections of sets does not matter as long as we perform the full sum. Because the ordering of the bank is arbitrary, we can always make any vector the last vector of the bank, which is useful for proving Props. \ref{prop:p_absorption}, \ref{prop:q_absorption} and \ref{prop:q_monotonicity} as showing the property for $i = k$ is sufficient.
 
-Property \ref{prop:empty} is immediate as well, because the join of the certain distribution $\overline{\delta}_d$ with any other vector remains the certain distribution. As such, all of the terms in Eq. (\ref{eq:unique_entropy}) are the entropy of $\overline{\delta}_d$, which is 0.  The key insight needed to prove the other properties is given by Lemma \ref{lem:induction_trick}, which we prove here.
+Prop. \ref{prop:empty} is immediate as well, because the join of the certain distribution $\overline{\delta}_d$ with any other vector remains the certain distribution. As such, all of the terms in Eq. (\ref{eq:unique_entropy}) are the entropy of $\overline{\delta}_d$, which is 0.  The key insight needed to prove the other properties is given by Lemma \ref{lem:induction_trick}, which we prove here.
 
 \begin{proof}[Proof of Lemma \ref{lem:induction_trick}]
     Let $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$. Developing all of the terms in Eq. (\ref{eq:unique_entropy}), and regrouping the combinations containing $q_{k+1}$, we get
@@ -479,7 +479,7 @@ Property \ref{prop:empty} is immediate as well, because the join of the certain 
     \end{equation}
 \end{proof}
 
-Such an expression lends itself very well to induction proofs. Let us now prove the remaining properties. For property \ref{prop:p_absorption}, we have the following.
+Such an expression lends itself very well to induction proofs. Let us now prove the remaining properties. For Prop. \ref{prop:p_absorption}, we have the following.
 
 \begin{appendix_lemma}[Absorption in $p$ of the uniqueness entropy]
     Let $p, q_1, \dots, q_k \in \mathcal{P}^d$. If $\exists i \leq k \: | \: p \succ q_i$, then
@@ -497,7 +497,7 @@ Such an expression lends itself very well to induction proofs. Let us now prove 
     The same result can be reached by comparing term by term the possible combinations of states in the bank\footnote{Exactly half of the terms in the sum contain $q_k$. Because each of those can be paired up with the same combination excluding $q_k$, we have terms of same absolute value but opposite sign, and so all of the terms cancel out.}. If $i \neq k$, commuting $q_i$ until it becomes the last vector of the bank and applying Lemma \ref{lem:induction_trick} yields the same result. \qedhere
 \end{proof}
 
-This property is again quite intuitive, because if $p$ majorizes one of the vectors of the bank $q_i$, then $\mathcal{T}_+(p) \subseteq \mathcal{T}_+(q_i)$, and so $p$ holds no unique volume relative to the bank. The geometric interpretation of property \ref{prop:q_absorption} is very similar, and we have the following.
+This property is again quite intuitive, because if $p$ majorizes one of the vectors of the bank $q_i$, then $\mathcal{T}_+(p) \subseteq \mathcal{T}_+(q_i)$, and so $p$ holds no unique volume relative to the bank. The geometric interpretation of Prop. \ref{prop:q_absorption} is very similar, and we have the following.
 
 \begin{appendix_lemma}[Absorption in $q$ of the uniqueness entropy]
     Let $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$. If $\exists i \leq k \: | \: q_{k+1} \succ q_i$, then
@@ -521,7 +521,7 @@ This property is again quite intuitive, because if $p$ majorizes one of the vect
 
 \newpage
 
-\section{Simulations of alternative filterings for LOCC state selection strategies} \label{app:alternative_filterings}
+\section{Simulation for alternative filterings for the mixed strategy} \label{app:alternative_filterings}
 
 \setcounter{equation}{0}
 
@@ -539,7 +539,7 @@ As mentioned in Section \ref{sec:strategies_discussion}, the performance of the 
     \end{enumerate}
 \end{appendix_definition}
 
-Note that in step \ref{step:volume_variant}, the uniqueness entropy is computed relative to $Q'_i$ relative to $Q''$. This behavior is acutally closer to what we initially thought would work best for the uniqueness strategy, however Figure \ref{fig:variant_results} shows that it actually performs strictly worse than the entropic strategy (with the additional redundancy factor), and the curve showcases no interesting maximum.
+Note that in step \ref{step:volume_variant}, the uniqueness entropy is computed relative to $Q'_i$ relative to $Q''$. This behavior is actually closer to what we originally envisioned for the uniqueness strategy, however Figure \ref{fig:variant_results} shows that it actually performs strictly worse than the entropic strategy (with the additional redundancy factor), and the curve showcases no interesting maximum.
 
 \begin{figure}[h!]
     \centering
@@ -548,4 +548,4 @@ Note that in step \ref{step:volume_variant}, the uniqueness entropy is computed 
     \label{fig:variant_results}
 \end{figure}
 
-In Section \ref{sec:strategies_discussion} we showed that improvements over the naive individual strategy are possible using the uniqueness entropy, and perhaps more generally with other lattice-based quantities. However, considering how much of a difference there is between Figures \ref{fig:strategy_comparison} and \ref{fig:variant_results} for such a small change in the filtering process, we hope that other filtering choices could lead to even better improvements than the naive entropic strategy. We were recently made aware of the relevance of the field of dynamic optimization in this context, and hope that it might hold answers to this problem.
+In Section \ref{sec:strategies_discussion} we showed that improvements over the naive individual strategy are possible using the uniqueness entropy, and perhaps more generally with other lattice-based quantities. However, considering how much of a difference there is between Figures \ref{fig:strategy_comparison} and \ref{fig:variant_results} for such a small change in the filtering process, we hope that other filtering choices could lead to even better improvements over the naive entropic strategy. We were recently made aware of the relevance of the field of dynamic optimization in this context, and hope that it might hold answers to this problem.

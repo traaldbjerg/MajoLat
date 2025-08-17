@@ -1,6 +1,6 @@
 \chapter{Quantification of incomparability for sets of states} \label{chap:volume}
 
-This chapter is a direct continuation of chapter \ref{chap:incomparability}. The question that this chapter tries to answer is the following: how can we generalize the notion of incomparability function of a probe state, relative to a \textit{set of reference states} ? For the rest of this master thesis, we will call this set of reference states the \textit{bank}. Because we are interested in quantum applications and LOCC transformations, which are confined to the $\mathcal{T}_+$ sets, we will only discuss the generalization of $E^+$. We did not attempt it, but we believe that reversing the whole discussion of this chapter is also possible for other theories such as quantum thermodynamics, which work with the $\mathcal{T}_-$ sets instead.% We suspect that this might require to use a negentropy-based $E^-$.
+This chapter is a direct continuation of Chapter \ref{chap:incomparability}. The question that this chapter tries to answer is the following: how can we generalize the notion of incomparability function of a probe state, relative to a \textit{set of reference states} ? For the rest of this master thesis, we will call this set of reference states the \textit{bank}. Because we are interested in quantum applications and LOCC transformations, which are confined to the $\mathcal{T}_+$ sets, we will only discuss the generalization of $E^+$. We did not attempt it, but we believe that reversing the whole discussion of this chapter is also possible for other theories such as quantum thermodynamics, which work with the $\mathcal{T}_-$ sets instead.% We suspect that this might require to use a negentropy-based $E^-$.
 
 
 
@@ -31,7 +31,7 @@ Let us remain in the 2 state context for now. Incomparability seems to enable \t
     \label{fig:venn_two}
 \end{figure}
 
-The key insight which we will use extensively for this chapter, which to our knowledge has not been used in the QRT field before, is that $\mathcal{T}_+(p) \cap \mathcal{T}_+(q) = \mathcal{T}_+(p \vee q)$ (we had briefly mentioned this relationship in Figure \ref{fig:meet_join_example}). It is very important to note at this stage that while visually similar, the notation for the lattice-theoretic meet and join $\wedge$ and $\vee$ should not be confused with the notations for the set-theoretic union and intersection $\cup$ and $\cap$. With this insight, we can rewrite equation (\ref{eq:2_set_exclusion}) with $A = \mathcal{T}_+(p)$ and $B = \mathcal{T}_+(q)$ as
+The key insight which we will use extensively for this chapter, which to our knowledge has not been used in the QRT field before, is that $\mathcal{T}_+(p) \cap \mathcal{T}_+(q) = \mathcal{T}_+(p \vee q)$ (we had briefly mentioned this relationship in Figure \ref{fig:meet_join_example}). It is very important to note at this stage that while visually similar, the notation for the lattice-theoretic meet and join $\wedge$ and $\vee$ should not be confused with the notations for the set-theoretic union and intersection $\cup$ and $\cap$. With this insight, we can rewrite Eq. (\ref{eq:2_set_exclusion}) with $A = \mathcal{T}_+(p)$ and $B = \mathcal{T}_+(q)$ as
 
 \begin{equation}
     V(\mathcal{T}_+(p) \backslash \mathcal{T}_+(q)) = V(\mathcal{T}_+(p)) - V(\mathcal{T}_+(p \vee q)).
@@ -97,7 +97,7 @@ There is an additional difficulty in the field of LOCC transformations: quantum 
 
 However, we will not study them further in this master thesis. Indeed, in terms of an entanglement QRT, it is not entirely clear why a Schmidt vector shared by many quantum states should be weighted more than a Schmidt vector that is shared by few quantum states. This is because states with the same Schmidt vector are equivalent up to a local change of basis, and can thus be interchanged without losing any resource. Of course, we are not trying to argue that assigning a non-uniform weight to Schmidt vectors is necessarily useless, but rather that it is not clear why there couldn't exist other relevant choices of weighting than the density of LOCC-equivalent quantum states.
 
-With this in mind, we postulate that the Shannon entropy is itself a measure of the volume of majorization cones under some unknown measure. This makes our future incomparability monotone $E^+(p \parallel q) = H(p) - H(p \vee q)$ from Chapter \ref{chap:incomparability} much easier to interpret: according to equation (\ref{eq:unique_entropy}) it measures the volume of states that are reachable from $p$, but not from $q$. For this reason, it is perhaps more natural to call $E^+$ the \textit{uniqueness entropy}. We propose the following generalization of $E^+$.
+With this in mind, we postulate that the Shannon entropy is itself a measure of the volume of majorization cones under some unknown measure. This makes our future incomparability monotone $E^+(p \parallel q) = H(p) - H(p \vee q)$ from Chapter \ref{chap:incomparability} much easier to interpret: according to Eq. (\ref{eq:unique_entropy}) it measures the volume of states that are reachable from $p$, but not from $q$. For this reason, it is perhaps more natural to call $E^+$ the \textit{uniqueness entropy}. We propose the following generalization of $E^+$.
 
 \begin{definition}[Uniqueness entropy] \label{def:unique_entropy}
     Let $p, q_1, \dots, q_k \in \mathcal{P}^d$. The uniqueness entropy of $p$ relative to the bank $\{q_1, \dots, q_k\}$, which we note $E^+(p \parallel q_1, \dots, q_k)$, is defined as 
@@ -161,7 +161,7 @@ For this to be possible we need our set function to work on a given collection o
 
 \subsection{Expected properties} \label{sec:unique_entropy_properties}
 
-Unfortunately, without a clear set function we cannot work on showing finite additivity, and so we will not show that an entropy-based set function is rigorously a volume. However, we will still attempt to show that our uniqueness entropy function $E^+$ holds properties compatible with the geometrical intuition one could have for such a volume. For any $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$, we have
+Unfortunately, without a clear set function we cannot work on showing finite additivity, and so we will not show that an entropy-based set function is rigorously a volume. However, we will still attempt to show that our uniqueness entropy $E^+$ holds properties compatible with the geometrical intuition one could have for such a volume. For any $p, q_1, \dots, q_k, q_{k+1} \in \mathcal{P}^d$, we have
 
 \begin{enumerate}
     \item \textbf{Commutativity:} $E^+(p \parallel q_1, \dots, q_i, \dots, q_j, \dots, q_k) = E^+(p \parallel q_1, \dots, q_j, \dots, q_i, \dots, q_k)$ for any $i \neq j$. \label{prop:commutativity}
@@ -182,7 +182,7 @@ Unfortunately, without a clear set function we cannot work on showing finite add
     \end{equation}
 \end{lemma}
 
-It turns out that only properties \ref{prop:positivity}, \ref{prop:p_monotonicity} and \ref{prop:q_monotonicity} are difficult to prove. The other proofs come fairly naturally from Definition \ref{def:unique_entropy}, see Appendix \ref{app:unique_entropy_properties}. Note that property \ref{prop:commutativity} implies that the ordering of the bank is arbitrary, and so we can always make any vector the last vector of the bank, which is useful for proving properties \ref{prop:p_absorption}, \ref{prop:q_absorption} and \ref{prop:q_monotonicity} as showing the property for $i = k$ is sufficient. In order to prove properties \ref{prop:positivity}, \ref{prop:p_monotonicity} and \ref{prop:q_monotonicity}, we will need a small lemma.
+It turns out that only Props. \ref{prop:positivity}, \ref{prop:p_monotonicity} and \ref{prop:q_monotonicity} are difficult to prove. The other proofs come fairly naturally from Definition \ref{def:unique_entropy}, see Appendix \ref{app:unique_entropy_properties}. Note that Prop. \ref{prop:commutativity} implies that the ordering of the bank is arbitrary, and so we can always make any vector the last vector of the bank, which is useful for proving Props. \ref{prop:p_absorption}, \ref{prop:q_absorption} and \ref{prop:q_monotonicity} as showing the property for $i = k$ is sufficient. In order to prove Props. \ref{prop:positivity}, \ref{prop:p_monotonicity} and \ref{prop:q_monotonicity}, we will need an additional small lemma.
 
 \begin{lemma} \label{lem:idempotency_trick}
     Let $p, q_1, \dots, q_k, \in \mathcal{P}^d$. Then,
@@ -212,18 +212,18 @@ It turns out that only properties \ref{prop:positivity}, \ref{prop:p_monotonicit
         &\: +  E^+(p \vee Dq_{i+1} \parallel q_1, \dots, q_i)\\
         = \: &E^+(p \vee Dq_{i+1} \parallel q_1, \dots, q_i) - E^+(p \vee q_{i+1} \parallel q_1, \dots, q_i),
     \end{align}
-    which is greater or equal to 0 if $E^+(p \parallel q_1, \dots, q_i)$ is monotone in $p$ for $i$ (because $p \vee q_{i+1} \succ p \vee Dq_{i+1}$ is true for any $D$ \cite[p. 35]{davey_introduction_2002}). Let us now show that $E^+(p \parallel q_1, \dots, q_i)$ being monotone in $q$ for $i$ implies that it is also monotone in $p$ for $i$. Let us first assume that $p \prec q_i$, i.e. $\exists D' \: | \: D' q_i = p$, and consider the following statement, which is true because of property \ref{prop:q_absorption}.
+    which is greater or equal to 0 if $E^+(p \parallel q_1, \dots, q_i)$ is monotone in $p$ for $i$ (because $p \vee q_{i+1} \succ p \vee Dq_{i+1}$ is true for any $D$ \cite[p. 35]{davey_introduction_2002}). Let us now show that $E^+(p \parallel q_1, \dots, q_i)$ being monotone in $q$ for $i$ implies that it is also monotone in $p$ for $i$. Let us first assume that $p \prec q_i$, i.e. $\exists D' \: | \: D' q_i = p$, and consider the following statement, which is true $\forall \: D$ because of Prop. \ref{prop:q_absorption}.
     \begin{align}
         E^+(Dp \parallel q_1, \dots, q_i, p) &= E^+(Dp \parallel q_1, \dots, D'q_i, p) \\
         \implies E^+(Dp \parallel q_1, \dots, q_i) - E^+(Dp \vee p \parallel q_1, \dots, q_i) &= E^+(Dp \parallel q_1, \dots, q_{i-1}, p)\nonumber\\
         &\quad - E^+(\underbrace{Dp \vee D'q_i}_{=p} \parallel q_1, \dots, q_{i-1}, p)\\
         \implies E^+(Dp \parallel q_1, \dots, q_i) - E^+(p \parallel q_1, \dots, q_i) &= E^+(Dp \parallel q_1, \dots, q_{i-1}, p), \label{eq:monotone_p}
     \end{align}
-    where the term $E^+(p \parallel q_1, \dots, q_{i-1}, p)$ vanishes by property \ref{prop:p_absorption}. To show monotonicity in $p$, we only need to show that the RHS of (\ref{eq:monotone_p}) is greater or equal to 0. By hypothesis, we know that $E^+(Dp \parallel q_1, \dots, q_{i-1}, p)$ is monotone in $q$. In particular, applied on the vector $p$ in the bank,
+    where the term $E^+(p \parallel q_1, \dots, q_{i-1}, p)$ vanishes by Prop. \ref{prop:p_absorption}. To show monotonicity in $p$, we only need to show that the RHS of (\ref{eq:monotone_p}) is greater or equal to 0. By hypothesis, we know that $E^+(Dp \parallel q_1, \dots, q_{i-1}, p)$ is monotone in $q$. In particular, applied on the vector $p$ in the bank,
     \begin{equation}
         E^+(Dp \parallel q_1, \dots, q_{i-1}, p) \geq E^+(Dp \parallel q_1, \dots, q_{i-1}, Dp) = 0
     \end{equation}
-    by property \ref{prop:p_absorption}, and so the RHS of (\ref{eq:monotone_p}) is greater or equal to 0. Moreover, Lemma \ref{lem:idempotency_trick} guarantees that if $q_i$ does not majorize $p$, we can simply replace it with $p \vee q_i$, which does majorize $p$. Therefore, we can lift the $p \prec q_i$ restriction. We have thus shown that if $E^+(p \parallel q_1, \dots, q_i)$ is monotone in $q$ for some value of $i$, then it is too in $p$ for $i$, which implies monotonicity in $q$ for $i+1$. Finally, Theorem \ref{th:monotone_future_q} provides the base case for $i = 1$, and so it is monotone in $p$ and $q$ for all $i \in \mathbb{N}$. \qedhere
+    by Prop. \ref{prop:p_absorption}, and so the RHS of (\ref{eq:monotone_p}) is greater or equal to 0. Moreover, Lemma \ref{lem:idempotency_trick} guarantees that if $q_i$ does not majorize $p$, we can simply replace it with $p \vee q_i$, which does majorize $p$. Therefore, we can lift the $p \prec q_i$ restriction. We have thus shown that if $E^+(p \parallel q_1, \dots, q_i)$ is monotone in $q$ for some value of $i$, then it is too in $p$ for $i$, which implies monotonicity in $q$ for $i+1$. Finally, Theorem \ref{th:monotone_future_q} provides the base case for $i = 1$, and so it is monotone in $p$ and $q$ for all $i \in \mathbb{N}$. \qedhere
 \end{proof}
 
 \noindent With this new result, the last missing property is easy to show.
@@ -352,21 +352,21 @@ $\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q \backslash q_i} \mathcal{T}
         \coordinate (Q1R) at (4, 0);
         \draw [name path=Q1--Q1L, color=gray] (Q1) -- (Q1L);
         \draw [name path=Q1--Q1R, color=gray] (Q1) -- (Q1R);
-        \node [fill=black,inner sep=1pt,label=0:$q_1$, color=gray] at (Q1) {};
+        \node [fill=black,inner sep=1pt,label=90:$q_1$, color=gray] at (Q1) {};
         % draw cone of q2
         \coordinate (Q2) at (5, 4.5);
         \coordinate (Q2L) at (2, 0);
         \coordinate (Q2R) at (7, 1.5);
         \draw [name path=Q2--Q2L, color=orange] (Q2) -- (Q2L);
         \draw [name path=Q2--Q2R, color=orange] (Q2) -- (Q2R);
-        \node [fill=black,inner sep=1pt,label=110:$q_2$, color=orange] at (Q2) {};
+        \node [fill=black,inner sep=1pt,label=90:$q_2$, color=orange] at (Q2) {};
         % draw cone of q3
         \coordinate (Q3) at (6.5, 6);
         \coordinate (Q3L) at (2.5, 0);
         \coordinate (Q3R) at (7, 5.25);
         \draw [name path=Q3--Q3L, color=blue] (Q3) -- (Q3L);
         \draw [name path=Q3--Q3R, color=blue] (Q3) -- (Q3R);
-        \node [fill=black,inner sep=1pt,label=90:$q_3$, color=blue] at (Q3) {};
+        \node [fill=black,inner sep=1pt,label=0:$q_3$, color=blue] at (Q3) {};
         % draw cone of q4
         \coordinate (Q4) at (2, 6);
         \coordinate (Q4L) at (-2, 0);
@@ -382,15 +382,23 @@ $\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q \backslash q_i} \mathcal{T}
         \draw [name path=Q5--Q5R, color=green] (Q5) -- (Q5R);
         \node [fill=black,inner sep=1pt,label=0:$q_5$, color=green] at (Q5) {};
         % draw target
-        \coordinate (T) at (2.95, 1);
+        \coordinate (T) at (3.25, 0.5);
         \node [fill=black,inner sep=1pt,label=225:$t$] at (T) {};
+        % construct relevant intersections
+        \path [name intersections={of=Q1--Q1R and Q2--Q2L,by=Q1VQ2}];
+        \path [name intersections={of=Q1--Q1R and Q3--Q3L,by=Q1VQ3}];
+        \path [name intersections={of=Q2--Q2R and Q3--Q3L,by=Q2VQ3}];
+        % fill regions
+        \fill[fill=gray, opacity=0.15] (Q1) -- (Q1VQ2) -- (Q2L) -- (Q1L) -- cycle;
+        \fill[fill=orange, opacity=0.15] (Q2) -- (Q2VQ3) -- (Q1VQ3) -- (Q1VQ2) -- cycle;
+        \fill[fill=blue, opacity=0.15] (Q3) -- (Q3R) -- (Q2R) -- (Q2VQ3) -- cycle;
 
     \end{tikzpicture}
-    \caption{Geometric representation of a bank of 5 states, and the target $t$ to construct using one of the states of the bank. The color of the future cones is only to help keep track of which is which.}
+    \caption{Geometric representation of a bank of 5 states, and the target $t$ to construct using one of the states of the bank. The shaded regions show some uniqueness entropies we can use to choose the state to consume (hinting here that $q_2$ is the least valuable state). The exact entropy depends on which states are kept in the reference set, which we call a \textit{state filtering}.}
     \label{fig:5_cone_example}
 \end{figure}
 
-Clearly, it would be a waste to use up $q_4$ or $q_5$, because they are majorized by $q_1$ and $q_2$ (respectively), and can therefore reach all of the states that $q_1$ and $q_2$ can reach, respectively. However, $E^+(q_1 \parallel Q \backslash q_1) = E^+(q_2 \parallel Q \backslash q_2) = 0$ because their cones are contained in the cones of $q_4$ and $q_5$, and so without additional restriction on the bank a uniqueness entropy criterion is not sufficient. The approach also fails if we have several copies of the same state, because then all the copies have zero uniqueness entropy. Therefore, all states should not be considered in the uniqueness entropy calculation, and we call the selection algorithm to choose which states to keep in the calculation a \textit{state filter}. Most of the subtility in strategies based on the uniqueness entropy relies in the filtering approach. With this in mind, we propose the following strategy.
+Clearly, it would be a waste to use up $q_4$ or $q_5$, because they are majorized by $q_1$ and $q_2$ (respectively), and can therefore reach all of the states that $q_1$ and $q_2$ can reach, respectively. However, $E^+(q_1 \parallel Q \backslash q_1) = E^+(q_2 \parallel Q \backslash q_2) = 0$ because their cones are contained in the cones of $q_4$ and $q_5$, and so without additional restriction on the bank a uniqueness entropy criterion is not sufficient. The approach also fails if we have several copies of the same state, because then all the copies have zero uniqueness entropy. Therefore, all states should not be considered in the uniqueness entropy calculation, and we call the selection algorithm to choose which states to keep in the calculation a \textit{state filtering}. Most of the subtilities in our strategies lie in the filtering. With this in mind, we propose the following strategy.
 
 \begin{definition}[Uniqueness strategy] \label{strat:uniqueness}
     Let $Q$ be a bank of pre-shared entangled states\footnote{A bank may contain several copies of the same state.}, and let $t$ be a target state. The following algorithm decides which state $q \in Q$ to use to construct $t$.
@@ -429,17 +437,17 @@ We also define an additional variation, which mixes both proposed loss functions
 
 \subsection{Comparison and statistical sampling}
 
-A simulation of the RSSS and successive attemps (nicknamed "games") to not fail to construct successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}\footnote{\url{https://github.com/traaldbjerg/MajoLat}}. To compare the strategies depending on the mixed strategy parameter $\alpha$, a bank of 9 states sampled uniformly on the $\Delta_{d-1}$ simplex and a maximally entangled state and a sequence of 10 targets are generated. A skew parameter allows to control the Dirichlet distribution from which the targets are sampled: if the sampling is uniform then all strategies perform very poorly because strongly entangled targets are likely to be sampled and are quickly not constructible depending on how many states have already been used. The same bank and same sequence of targets are given to Algorithm \ref{strat:mixed} for each value of $\alpha$ (with a step of 0.01). This way we simulated 600000 games, and the average number of succesful targets for each value of $\alpha$ was recorded, both for the standard version of Def. \ref{strat:mixed}, and a variation where we set $b_i = 1 \: \forall \: i$ in step \ref{step:volume} to test whether the redundancy factor is useful or not. The results of this process are shown in Figure \ref{fig:strategy_comparison}.
+A simulation of the RSSS and successive attemps (nicknamed "games") to not fail to construct successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}\footnote{\url{https://github.com/traaldbjerg/MajoLat}}. To compare the strategies depending on the mixed strategy parameter $\alpha$, a bank of 9 states sampled uniformly on the $\Delta_{d-1}$ simplex and a maximally entangled state and a sequence of 10 targets are generated. A skew parameter allows to control the Dirichlet distribution from which the targets are sampled: if the sampling is uniform then all strategies perform very poorly because strongly entangled targets are likely to be sampled and are quickly not constructible depending on how many states have already been used. For states of dimension 4, the same bank and same sequence of targets are given to Algorithm \ref{strat:mixed} for each value of $\alpha$ (with a step of 0.01). This way we simulated 600000 games, and the average number of succesful targets for each value of $\alpha$ was recorded, both for the standard version of Def. \ref{strat:mixed}, and a variation where we set $b_i = 1 \: \forall \: i$ in step \ref{step:volume} to test whether the redundancy factor is useful or not. The results of this process are shown in Figure \ref{fig:strategy_comparison}.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.7]{images/locc_comparison.png}
-    \caption{Average number of succesful target constructions depending on the value of the strategy parameter $\alpha$ for a bank of 9 uniformly sampled states and 1 maximally entangled state, and 10 targets sampled with Dirichlet parameters $\left(2, \frac{1}{2}, \frac{1}{2}, \frac{1}{2}\right)$. The blue curve corresponds to the algorithm of Definition \ref{strat:uniqueness}, and the orange curve was initially a test to see if the redundancy parameter is helpful or not, and it seems not to be, which was a bit surprising. Note that on the blue curve the $\alpha = 0$ extremity is the uniqueness strategy, and $\alpha = 1$ is similar to the entropic strategy, but also uses a redundancy factor $b$ and a weighted loss function $c$. For both curves, 600000 games were simulated. The entropic strategy as in Def. \ref{strat:individual} is found on the orange curve, at $\alpha = 1$, and so the curve having a maximum towards $\alpha = 0.3$ shows that we outperform the naive strategy.}
+    \includegraphics[scale=0.65]{images/locc_comparison.png}
+    \caption{Average number of succesful target constructions depending on the value of the strategy parameter $\alpha$ for a bank of 9 uniformly sampled states (dimension 4) and 1 maximally entangled state, and 10 targets sampled with Dirichlet parameters $\left(2, \frac{1}{2}, \frac{1}{2}, \frac{1}{2}\right)$. The blue curve corresponds to the algorithm of Definition \ref{strat:uniqueness}, and the orange curve was initially a test to see if the redundancy parameter is helpful or not, and it seems not to be, which was a bit surprising. Note that on the blue curve the $\alpha = 0$ extremity is the uniqueness strategy, and $\alpha = 1$ is similar to the individual strategy, but also uses a redundancy factor $b$ and a weighted loss function $c$. For both curves, 600000 games were simulated. The entropic strategy as in Def. \ref{strat:individual} is found on the orange curve, at $\alpha = 1$, and so the curve having a maximum towards $\alpha = 0.3$ shows that we outperform the naive strategy.}
     \label{fig:strategy_comparison}
 \end{figure}
 
 \section{Discussion} \label{sec:strategies_discussion}
 
-Equation (\ref{eq:unique_entropy}) is computationally very demanding (which is why we didn't go over 10 states for the games, as otherwise the number of combinations is sometimes very large). Most of the time, property \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is low enough that the computation time is manageable. However, sometimes a target such that many states fall into $Q''$ is generated, and the uniqueness entropy computation is costly.
+Eq. (\ref{eq:unique_entropy}) is computationally very demanding (which is why we didn't go over 10 states for the games, as otherwise the number of combinations is sometimes very large). Most of the time, Prop. \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is low enough that the computation time is manageable. However, sometimes a target such that many states fall into $Q''$ is generated, and the uniqueness entropy computation is costly.
 
-Although the variations are not very large (less than 1\%), we were surprised that the uniqueness strategy performed worse than the entropic strategy. However, it is very interesting to see that there exists a nontrivial maximum at around $\alpha = 0.3$, where combining both the uniqueness entropy loss function and the entropic loss function performs better than a simple individual strategy. This seems to validate our lattice-based approach and the utility of $E^+$, and the mathematical theory of incomparability that we have discussed in this manuscript. Moreover, drastically different results can be reached by changing some of the state filtering choices in step \ref{step:volume}, and we believe that further research might lead to better filterings or weigthed loss functions which could further improve the performance of the different strategies. The results for another filtering is shown in Appendix \ref{app:alternative_filterings}.
+Although the variations are not very large (less than 1\%), we were surprised that the uniqueness strategy performed worse than the entropic strategy. However, it is very interesting to see that there exists a nontrivial maximum at around $\alpha = 0.3$, where combining both the uniqueness entropy loss function and the entropic loss function performs better than a simple individual strategy. This seems to validate our lattice-based approach and the utility of $E^+$, and the mathematical theory of incomparability that we have discussed in this manuscript. Moreover, drastically different results can be reached by changing some of the state filtering choices in step \ref{step:volume}, and we believe that further research might lead to better filterings or weigthed loss functions which could further improve the performance of the different strategies. The results for another filtering (which is closer to our original vision) is shown in Appendix \ref{app:alternative_filterings}.
