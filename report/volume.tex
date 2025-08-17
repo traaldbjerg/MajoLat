@@ -249,7 +249,7 @@ In the quantum picture, corollaries analoguous to those of Theorems \ref{th:mono
 
 \subsection{New intuition for supermodularity from entropic volumes} \label{sec:supermodularity_intuition}
 
-If one could rigorously prove that an entropy-based set function would give a true measure on the $\sigma$-algebra of majorization cones, then one would immediately have a new proof of supermodularity of the Shannon entropy. This is because any measure $\mu$ is monotone (similiar to resource monotonicity), in the sense that for any 2 sets $A, B$, if $A \subseteq B$, then $\mu(A) \leq \mu(B)$. Consider now Figure \ref{fig:volumic_supermodularity}.
+If one could rigorously prove that an entropy-based set function would give a true measure on the $\sigma$-algebra of majorization cones, then one would immediately have a new proof of supermodularity of the Shannon entropy. This is because any measure $\mu$ is monotone (cf. Theorem \ref{th:measure_properties}), in the sense that for any 2 sets $A, B$, if $A \subseteq B$, then $\mu(A) \leq \mu(B)$. Consider now Figure \ref{fig:volumic_supermodularity}.
 
 \begin{figure}[h!]
     \centering
@@ -321,11 +321,11 @@ The goal of a good RSSS is then to run out of states capable of reaching success
 
 
 
-\subsection{Entropic strategy}
+\subsection{Individual strategy}
 
 The simplest form of RSSS could be to use the least entangled state that can reach $t$. This simple idea yields the following algorithm, which we use as a benchmark.
 
-\begin{definition}[Entropic strategy]
+\begin{definition}[Individual strategy] \label{strat:individual}
     Let $Q$ be a bank of pre-shared entangled states, and let $t$ be a target state. The following algorithm decides which state $q \in Q$ to use to construct $t$.
     \begin{enumerate}
         \item Initialize the set $Q' = \emptyset$. For each $q_i \in Q$, if $q_i \prec t$, add $q_i$ to $Q'$, which contains all the states that can reach the target.
@@ -338,7 +338,7 @@ This simple strategy essentially uses up the least resourceful state each time. 
 
 
 
-\subsection{Volumic strategy}
+\subsection{Uniqueness strategy}
 
 Let us now turn to the main application of $E^+$. A state $q_i$ with a high uniqueness entropy relative to the rest of the bank $Q \backslash q_i$ is inherently valuable because it can reach many states that the rest of the bank can't reach. If we have no knowledge over the future targets to construct, we would want to avoid using up a state with a high $E^+$ as long as possible, because if we use it up instead of a state that has a low uniqueness entropy, we have a higher risk that at a later step in the protocol a target would fall in the region
 $\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q \backslash q_i} \mathcal{T}_+(q_j)\right)$, which would now be unreachable. However, directly computing the uniqueness entropy of all the states that can reach $t$ and deciding based on that alone is not sufficient. Consider a bank of 5 entangled states with which to construct a target $t$, represented in Figure \ref{fig:5_cone_example}.
@@ -392,7 +392,7 @@ $\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q \backslash q_i} \mathcal{T}
 
 Clearly, it would be a waste to use up $q_4$ or $q_5$, because they are majorized by $q_1$ and $q_2$ (respectively), and can therefore reach all of the states that $q_1$ and $q_2$ can reach, respectively. However, $E^+(q_1 \parallel Q \backslash q_1) = E^+(q_2 \parallel Q \backslash q_2) = 0$ because their cones are contained in the cones of $q_4$ and $q_5$, and so without additional restriction on the bank a uniqueness entropy criterion is not sufficient. The approach also fails if we have several copies of the same state, because then all the copies have zero uniqueness entropy. Therefore, all states should not be considered in the uniqueness entropy calculation, and we call the selection algorithm to choose which states to keep in the calculation a \textit{state filter}. Most of the subtility in strategies based on the uniqueness entropy relies in the filtering approach. With this in mind, we propose the following strategy.
 
-\begin{definition}[Uniqueness entropy strategy] \label{strat:unique_entropy}
+\begin{definition}[Uniqueness strategy] \label{strat:uniqueness}
     Let $Q$ be a bank of pre-shared entangled states\footnote{A bank may contain several copies of the same state.}, and let $t$ be a target state. The following algorithm decides which state $q \in Q$ to use to construct $t$.
     \begin{enumerate}
         \item Initialize the set $Q' = \emptyset$. For each $q_i \in Q$, if $q_i \prec t$, add $q_i$ to $Q'$, which contains all the states that can reach the target.
@@ -405,7 +405,7 @@ Clearly, it would be a waste to use up $q_4$ or $q_5$, because they are majorize
 \noindent It is interesting to note at this stage that this decision algorithm is computationaly more demanding than the entropic strategy.
 
 Essentially, the parameter $b$, which we will call the \textit{redundacy factor}, is used here to take into account the number of times one can reach a region. For example, if one of the high $E^+$ states left in $Q''$ has many copies (or majorized states), then it makes sense to use it to construct the target instead of a lower $E^+$ state with few copies, because using it up makes that region of the bank significantly weaker. Other strategies might choose a different $a$, which we will call the \textit{loss function}. Moreover, the decision criterion is comparing the values of $c$, which we will call the \textit{weighted loss function}, and could also be changed in other strategies\footnote{For example, one could choose $c = \frac{a}{b^2}$, which might yield a different behavior of the strategy in some cases.}.% For instance, we propose the following variation of the strategy.
-This algorithm mostly consists of state filters, where the sets $Q, Q', Q''$ are only defined to compare the states with those that we want. It is important to note however that the choices made here are fairly arbitrary.
+This algorithm mostly consists of state filters, where the sets $Q, Q', Q''$ are only defined to compare the states with those that we want. It is important to note however that the choices made here are fairly arbitrary and might be improved upon.
 
 %\begin{definition}[Euclidean volume strategy]
 %    The euclidean volume strategy is the same as the uniqueness entropy strategy (cf. definition \ref{strat:unique_entropy}), except that the loss function is replaced with $a_i = V\left(\mathcal{T}_+(q_i) \backslash \left(\cup_{q_j \in Q'' \backslash q_i} \mathcal{T}_+(q_j)\right)\right)$ in step \ref{step:volume}. The euclidean volume can be computed using the formula
@@ -422,22 +422,24 @@ This algorithm mostly consists of state filters, where the sets $Q, Q', Q''$ are
 We also define an additional variation, which mixes both proposed loss functions with a specific ratio that can be adjusted.
 
 \begin{definition}[Mixed strategy] \label{strat:mixed}
-    Choose $\alpha \in [0, 1]$. The mixed strategy is the same as the uniqueness entropy strategy (cf. Definition \ref{strat:unique_entropy}), except that the loss function is replaced with $a_i = \alpha H(q_i) + (1 - \alpha) E^+(q_i \parallel Q'' \backslash q_i)$ in step \ref{step:volume}.
+    Choose $\alpha \in [0, 1]$. The mixed strategy is the same as the uniqueness strategy (cf. Definition \ref{strat:uniqueness}), except that the loss function is replaced with $a_i = \alpha H(q_i) + (1 - \alpha) E^+(q_i \parallel Q'' \backslash q_i)$ in step \ref{step:volume}.
 \end{definition}
 
 
 
 \subsection{Comparison and statistical sampling}
 
-A simulation of the RSSS and successive attemps (nicknamed "games") to not fail to construct successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}\footnote{\url{https://github.com/traaldbjerg/MajoLat}}. To compare the strategies depending on the mixed strategy parameter $\alpha$, a bank of 9 states sampled uniformly on the $\Delta_{d-1}$ simplex and a maximally entangled state and a sequence of 10 targets are generated. A skew parameter allows to control the Dirichlet distribution from which the targets are sampled: if the sampling is uniform then all strategies perform very poorly because strongly entangled targets are likely to be sampled and are quickly not constructible depending on how many states have already been used. The same bank and same sequence of targets are given to algorithm \ref{strat:mixed} for each value of $\alpha$ (with a step of 0.01). This way we simulated 600000 games, and the average number of succesful targets for each value of $\alpha$ was recorded. The results of this process are shown in Figure \ref{fig:strategy_comparison}.
+A simulation of the RSSS and successive attemps (nicknamed "games") to not fail to construct successive targets is available on the \href{https://github.com/traaldbjerg/MajoLat}{GitHub for the project}\footnote{\url{https://github.com/traaldbjerg/MajoLat}}. To compare the strategies depending on the mixed strategy parameter $\alpha$, a bank of 9 states sampled uniformly on the $\Delta_{d-1}$ simplex and a maximally entangled state and a sequence of 10 targets are generated. A skew parameter allows to control the Dirichlet distribution from which the targets are sampled: if the sampling is uniform then all strategies perform very poorly because strongly entangled targets are likely to be sampled and are quickly not constructible depending on how many states have already been used. The same bank and same sequence of targets are given to Algorithm \ref{strat:mixed} for each value of $\alpha$ (with a step of 0.01). This way we simulated 600000 games, and the average number of succesful targets for each value of $\alpha$ was recorded, both for the standard version of Def. \ref{strat:mixed}, and a variation where we set $b_i = 1 \: \forall \: i$ in step \ref{step:volume} to test whether the redundancy factor is useful or not. The results of this process are shown in Figure \ref{fig:strategy_comparison}.
 
 \begin{figure}[h!]
     \centering
-    \includegraphics[scale=0.6]{images/cool_locc_30_0.2_True.png}
-    \caption{Average number of succesful target constructions depending on the value of the strategy parameter $\alpha$ for a bank of 9 uniformly sampled states and 1 maximally entangled state, and 10 targets sampled with Dirichlet parameters $\left(2, \frac{1}{2}, \frac{1}{2}, \frac{1}{2}\right)$. Note that the $\alpha = 0$ extremity is the uniqueness entropy strategy, and $\alpha = 1$ is similar to the entropic strategy, but also uses a redundancy factor $b$ and a weighted loss function $c$, in order to keep the strategies comparable. For both curves, 600000 games were simulated.}
+    \includegraphics[scale=0.7]{images/locc_comparison.png}
+    \caption{Average number of succesful target constructions depending on the value of the strategy parameter $\alpha$ for a bank of 9 uniformly sampled states and 1 maximally entangled state, and 10 targets sampled with Dirichlet parameters $\left(2, \frac{1}{2}, \frac{1}{2}, \frac{1}{2}\right)$. The blue curve corresponds to the algorithm of Definition \ref{strat:uniqueness}, and the orange curve was initially a test to see if the redundancy parameter is helpful or not, and it seems not to be, which was a bit surprising. Note that on the blue curve the $\alpha = 0$ extremity is the uniqueness strategy, and $\alpha = 1$ is similar to the entropic strategy, but also uses a redundancy factor $b$ and a weighted loss function $c$. For both curves, 600000 games were simulated. The entropic strategy as in Def. \ref{strat:individual} is found on the orange curve, at $\alpha = 1$, and so the curve having a maximum towards $\alpha = 0.3$ shows that we outperform the naive strategy.}
     \label{fig:strategy_comparison}
 \end{figure}
 
-\section{Discussion}
+\section{Discussion} \label{sec:strategies_discussion}
 
-Equation (\ref{eq:unique_entropy}) is computationally very demanding (which is why we didn't go over 10 states for the games, as otherwise the number of combinations is sometimes very large). Most of the time, property \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is not too large. However, sometimes a target such that many states fall into $Q''$ is generated, and the uniqueness entropy computation is costly. It is interesting to note that in this scenario, the variations are not particularly large (less than 1\%). We were surprised that the uniqueness entropy strategy performed worse than the entropic strategy. However, it is very interesting to see that there exists a nontrivial maximum at around $\alpha = 0.3$, where combining both the uniqueness entropy loss function and the entropic loss function performs better than a simple entropic strategy. This seems to validate our lattice-based approach and the utility of $E^+$, and the mathematical theory of incomparability that we have discussed in this manuscript. Moreover, drastically different results can be reached by changing some of the state filtering choices in step \ref{step:volume}, and we believe that further research might lead to better filterings or weigthed loss functions which could further improve the performance of the different strategies. The results for some other filterings are shown in appendix \ref{app:alternative_filterings}.
+Equation (\ref{eq:unique_entropy}) is computationally very demanding (which is why we didn't go over 10 states for the games, as otherwise the number of combinations is sometimes very large). Most of the time, property \ref{prop:q_absorption} allows most states to vanish from the computation and the number of combinations is low enough that the computation time is manageable. However, sometimes a target such that many states fall into $Q''$ is generated, and the uniqueness entropy computation is costly.
+
+Although the variations are not very large (less than 1\%), we were surprised that the uniqueness strategy performed worse than the entropic strategy. However, it is very interesting to see that there exists a nontrivial maximum at around $\alpha = 0.3$, where combining both the uniqueness entropy loss function and the entropic loss function performs better than a simple individual strategy. This seems to validate our lattice-based approach and the utility of $E^+$, and the mathematical theory of incomparability that we have discussed in this manuscript. Moreover, drastically different results can be reached by changing some of the state filtering choices in step \ref{step:volume}, and we believe that further research might lead to better filterings or weigthed loss functions which could further improve the performance of the different strategies. The results for another filtering is shown in Appendix \ref{app:alternative_filterings}.

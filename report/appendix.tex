@@ -3,6 +3,7 @@
 \addcontentsline{toc}{chapter}{Appendices}
 \renewcommand{\thesection}{\Alph{section}}
 \renewcommand{\theequation}{\thesection.\arabic{equation}}
+\renewcommand{\thefigure}{H.\arabic{figure}} \quad \setcounter{figure}{0} % not very clean but it will do
 
 
 
@@ -94,7 +95,7 @@ As an immediate consequence of Lemma \ref{lem:shannon_1}, we have
     since $s > t$ and $\Delta < t$. The remaining case $s \leq t$ is completely symmetric, provided that we set $s = p + \Delta$ and $t = q - \Delta$. \qedhere
 \end{proof}
 
-Note that Eq. (\ref{eq:jensen_step}) invokes Jensen's inequality. We have not gone over it in this master thesis, but it is sufficient to know that in the discrete case it is essentially a less general form of Karamata's inequality (Lemma \ref{lem:karamata}). We are now ready to prove Theorem \ref{th:shannon_supermodularity}.
+Note that Eq. (\ref{eq:jensen_step}) invokes Jensen's inequality. We have not gone over it in this master thesis, but it is sufficient to know that in the discrete case it is essentially a (less general) form of Karamata's inequality (Lemma \ref{lem:karamata}). We are now ready to prove Theorem \ref{th:shannon_supermodularity}.
 
 \begin{proof}[Proof of Theorem \ref{th:shannon_supermodularity}]
     We have
@@ -428,7 +429,7 @@ The final notion of interest we will discuss here is the notion of measure, whic
 
 We say that a \textit{measure space} is a measurable space which has a positive measure defined on the $\sigma$-algebra of its measurable sets. Alternatively, one can also define a measure on a semi-ring, but this did not seem as relevant in our context. Measures also enjoy some useful properties.
 
-\begin{appendix_theorem}
+\begin{appendix_theorem} \label{th:measure_properties}
     Let $\mu$ be a positive measure over $\Sigma$. Then, $\mu$ has the following properties.
     \begin{enumerate}
         \item \underline{Emtpy volume:} $\mu(\emptyset) = 0$.
@@ -524,3 +525,27 @@ This property is again quite intuitive, because if $p$ majorizes one of the vect
 
 \setcounter{equation}{0}
 
+For the sake of brevity, we will also define special subsets of the bank. If $\tilde{Q}$ is a subset of the bank, then $\tilde{Q}_i$ is the subset of states $\{q \in \tilde{Q} \: | \: q \nprec q_i\} \subseteq \tilde{Q}$. This implies that $\tilde{Q}_i$ does not contain $q_i$ either, since $q_i \prec q_i$ is always true.
+
+As mentioned in Section \ref{sec:strategies_discussion}, the performance of the mixed strategy greatly varies if we choose other state filterings in step \ref{step:volume} of Def. \ref{strat:uniqueness}. We propose the following variation.
+
+\begin{appendix_definition} \label{strat:uniqueness_variant}
+    Choose $\alpha \in [0, 1]$. Let $Q$ be a bank of pre-shared entangled states, and let $t$ be a target state. The following algorithm decides which state $q \in Q$ to use to construct $t$.
+    \begin{enumerate}
+        \item Initialize the set $Q' = \emptyset$. For each $q_i \in Q$, if $q_i \prec t$, add $q_i$ to $Q'$, which contains all the states that can reach the target.
+        \item Initialize the set $Q'' = \emptyset$. For each $q_i \in Q'$, if $\nexists q_j \in Q' \: | \: q_i \prec q_j, q_i \neq q_j$ and if $q_i \notin Q''$, add $q_i$ to $Q''$, which contains only the least resourceful states that can reach the target.
+        \item For each $q_i \in Q''$, compute $a_i = \alpha H(q_i) + (1 - \alpha) E^+(q_i \parallel Q'_i)$, and initialize $b_i = 1$; for each $q_j \in Q' \backslash q_i$, if $q_j \prec q_i$, increment $b_i$ by 1. \label{step:volume_variant}
+        \item Finally, construct $t$ using the state $q_i \in Q''$ with the lowest value of the ratio $c_i = \frac{a_i}{b_i}$.
+    \end{enumerate}
+\end{appendix_definition}
+
+Note that in step \ref{step:volume_variant}, the uniqueness entropy is computed relative to $Q'_i$ relative to $Q''$. This behavior is acutally closer to what we initially thought would work best for the uniqueness strategy, however Figure \ref{fig:variant_results} shows that it actually performs strictly worse than the entropic strategy (with the additional redundancy factor), and the curve showcases no interesting maximum.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[scale=0.65]{images/locc_counter.png}
+    \caption{Average number of succesful target constructions depending on the value of the strategy parameter $\alpha$ for a bank of 9 uniformly sampled states and 1 maximally entangled state, and 10 targets sampled with Dirichlet parameters $\left(2, \frac{1}{2}, \frac{1}{2}, \frac{1}{2}\right)$, sampled over 10000 games. Clearly, the uniqueness entropy is only detrimental for this variant. It has little impact until $\alpha \approx 0.45$, and then the sharp drop seems to indicate that uniqueness entropy becomes significant enough in the loss function under this filtering to kick in and change the selection of states. This can be explained by the fact that more states make it into $Q'_i$ than into $Q''$ (from the original algorithm), and so the value of the uniqueness entropy is generally lower this time.}
+    \label{fig:variant_results}
+\end{figure}
+
+In Section \ref{sec:strategies_discussion} we showed that improvements over the naive individual strategy are possible using the uniqueness entropy, and perhaps more generally with other lattice-based quantities. However, considering how much of a difference there is between Figures \ref{fig:strategy_comparison} and \ref{fig:variant_results} for such a small change in the filtering process, we hope that other filtering choices could lead to even better improvements than the naive entropic strategy. We were recently made aware of the relevance of the field of dynamic optimization in this context, and hope that it might hold answers to this problem.
