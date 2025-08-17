@@ -169,8 +169,8 @@ Unfortunately, without a clear set function we cannot work on showing finite add
     \item \textbf{Absorption in $p$:} $E^+(p \parallel q_1, \dots, q_k) = 0$ if $\exists i \leq k \: | \: p \succ q_i$. \label{prop:p_absorption}
     \item \textbf{Absorption in $q$:} $E^+(p \parallel q_1, \dots, q_k, q_{k+1}) = E^+(p \parallel q_1, \dots, q_k)$ if $\exists i \leq k \: | \: q_{k+1} \succ q_i$. \label{prop:q_absorption}
     \item \textbf{Positivity:} $E^+(p \parallel q_1, \dots, q_k) \geq 0$. \label{prop:positivity}
-    \item \textbf{Monotonicity in $p$:} $E^+(Dp \parallel q_1, \dots, q_k) \geq E^+(p \parallel q_1, \dots, q_k)$ for any bistochastic matrix $D$. \label{prop:p_monotonicity}
-    \item \textbf{Monotonicity in $q$:} $E^+(p \parallel q_1, \dots, Dq_i, \dots, q_k) \leq E^+(p \parallel q_1, \dots, q_i, \dots, q_k) \: \forall i \leq k$,  for any bistochastic matrix $D$. \label{prop:q_monotonicity}
+    \item \textbf{Increasing monotonicity in $p$:} $E^+(Dp \parallel q_1, \dots, q_k) \geq E^+(p \parallel q_1, \dots, q_k)$ for any bistochastic matrix $D$. \label{prop:p_monotonicity}
+    \item \textbf{Decreasing monotonicity in $q$:} $E^+(p \parallel q_1, \dots, Dq_i, \dots, q_k) \leq E^+(p \parallel q_1, \dots, q_i, \dots, q_k) \: \forall i \leq k$,  for any bistochastic matrix $D$. \label{prop:q_monotonicity}
 \end{enumerate}
 
 \noindent The key insight needed to prove these properties is given by the following lemma (proven in Appendix \ref{app:unique_entropy_properties}), which lends itself very well to induction proofs.
@@ -195,7 +195,7 @@ It turns out that only Props. \ref{prop:positivity}, \ref{prop:p_monotonicity} a
 \end{proof}
 
 \begin{theorem}[Monotonicity in $p$ and $q$ of the uniqueness entropy] \label{th:double_monotonicity_uniqueness}
-    Let $p, q_1, \dots, q_k \in \mathcal{P}^d$. Then, for any bistochastic matrix $D$,
+    Let $p, q_1, \dots, q_k \in \mathcal{P}^d$. Then, for any bistochastic matrix $D$, $E^+$ is an increasing monotone in $p$ and a decreasing monotone in $q$. Formally,
     \begin{equation}
         \begin{system}
             E^+(p \parallel q_1, \dots, q_k) \leq E^+(Dp \parallel q_1, \dots, q_k)\\
@@ -205,25 +205,25 @@ It turns out that only Props. \ref{prop:positivity}, \ref{prop:p_monotonicity} a
 \end{theorem}
 
 \begin{proof}
-    We will do an induction proof. Let us first assume that $E^+(p \parallel q_1, \dots, q_i)$ is monotone in $q$ for some value of $i$, and let us show that this property then propagates to $i+1$, meaning that $E^+(p \parallel q_1, \dots, q_i, q_{i+1}) - E^+(p \parallel q_1, \dots, q_i, Dq_{i+1}) \geq 0$. First, by using Lemma \ref{lem:induction_trick}, for any bistochastic matrix $D$ we get
+    We will do an induction proof. Let us first assume that $E^+(p \parallel q_1, \dots, q_i)$ is monotonically decreasing in $q$ for some value of $i$, and let us show that this property then propagates to $i+1$, meaning that $E^+(p \parallel q_1, \dots, q_i, q_{i+1}) - E^+(p \parallel q_1, \dots, q_i, Dq_{i+1}) \geq 0$. First, by using Lemma \ref{lem:induction_trick}, for any bistochastic matrix $D$ we get
     \begin{align}
         &E^+(p \parallel q_1, \dots, q_i, q_{i+1}) - E^+(p \parallel q_1, \dots, q_i, Dq_{i+1})\nonumber \\
         = \: &E^+(p \parallel q_1, \dots, q_i) - E^+(p \vee q_{i+1} \parallel q_1, \dots, q_i) - E^+(p \parallel q_1, \dots, q_i)\nonumber\\
         &\: +  E^+(p \vee Dq_{i+1} \parallel q_1, \dots, q_i)\\
         = \: &E^+(p \vee Dq_{i+1} \parallel q_1, \dots, q_i) - E^+(p \vee q_{i+1} \parallel q_1, \dots, q_i),
     \end{align}
-    which is greater or equal to 0 if $E^+(p \parallel q_1, \dots, q_i)$ is monotone in $p$ for $i$ (because $p \vee q_{i+1} \succ p \vee Dq_{i+1}$ is true for any $D$ \cite[p. 35]{davey_introduction_2002}). Let us now show that $E^+(p \parallel q_1, \dots, q_i)$ being monotone in $q$ for $i$ implies that it is also monotone in $p$ for $i$. Let us first assume that $p \prec q_i$, i.e. $\exists D' \: | \: D' q_i = p$, and consider the following statement, which is true $\forall \: D$ because of Prop. \ref{prop:q_absorption}.
+    which is greater or equal to 0 if $E^+(p \parallel q_1, \dots, q_i)$ is monotonically increasing in $p$ for $i$ (because $p \vee q_{i+1} \succ p \vee Dq_{i+1}$ is true for any $D$ \cite[p. 35]{davey_introduction_2002}). Let us now show that $E^+(p \parallel q_1, \dots, q_i)$ being monotonically decreasing in $q$ for $i$ implies that it is also monotonically increasing in $p$ for $i$. Let us first assume that $p \prec q_i$, i.e. $\exists D' \: | \: D' q_i = p$, and consider the following statement, which is true $\forall \: D$ because of Prop. \ref{prop:q_absorption}.
     \begin{align}
         E^+(Dp \parallel q_1, \dots, q_i, p) &= E^+(Dp \parallel q_1, \dots, D'q_i, p) \\
         \implies E^+(Dp \parallel q_1, \dots, q_i) - E^+(Dp \vee p \parallel q_1, \dots, q_i) &= E^+(Dp \parallel q_1, \dots, q_{i-1}, p)\nonumber\\
         &\quad - E^+(\underbrace{Dp \vee D'q_i}_{=p} \parallel q_1, \dots, q_{i-1}, p)\\
         \implies E^+(Dp \parallel q_1, \dots, q_i) - E^+(p \parallel q_1, \dots, q_i) &= E^+(Dp \parallel q_1, \dots, q_{i-1}, p), \label{eq:monotone_p}
     \end{align}
-    where the term $E^+(p \parallel q_1, \dots, q_{i-1}, p)$ vanishes by Prop. \ref{prop:p_absorption}. To show monotonicity in $p$, we only need to show that the RHS of (\ref{eq:monotone_p}) is greater or equal to 0. By hypothesis, we know that $E^+(Dp \parallel q_1, \dots, q_{i-1}, p)$ is monotone in $q$. In particular, applied on the vector $p$ in the bank,
+    where the term $E^+(p \parallel q_1, \dots, q_{i-1}, p)$ vanishes by Prop. \ref{prop:p_absorption}. To show increasing monotonicity in $p$, we only need to show that the RHS of (\ref{eq:monotone_p}) is greater or equal to 0. By hypothesis, we know that $E^+(Dp \parallel q_1, \dots, q_{i-1}, p)$ is monotonically decreasing in $q$. In particular, applied on the vector $p$ in the bank,
     \begin{equation}
         E^+(Dp \parallel q_1, \dots, q_{i-1}, p) \geq E^+(Dp \parallel q_1, \dots, q_{i-1}, Dp) = 0
     \end{equation}
-    by Prop. \ref{prop:p_absorption}, and so the RHS of (\ref{eq:monotone_p}) is greater or equal to 0. Moreover, Lemma \ref{lem:idempotency_trick} guarantees that if $q_i$ does not majorize $p$, we can simply replace it with $p \vee q_i$, which does majorize $p$. Therefore, we can lift the $p \prec q_i$ restriction. We have thus shown that if $E^+(p \parallel q_1, \dots, q_i)$ is monotone in $q$ for some value of $i$, then it is too in $p$ for $i$, which implies monotonicity in $q$ for $i+1$. Finally, Theorem \ref{th:monotone_future_q} provides the base case for $i = 1$, and so it is monotone in $p$ and $q$ for all $i \in \mathbb{N}$. \qedhere
+    by Prop. \ref{prop:p_absorption}, and so the RHS of (\ref{eq:monotone_p}) is greater or equal to 0. Moreover, Lemma \ref{lem:idempotency_trick} guarantees that if $q_i$ does not majorize $p$, we can simply replace it with $p \vee q_i$, which does majorize $p$. Therefore, we can lift the $p \prec q_i$ restriction. We have thus shown that if $E^+(p \parallel q_1, \dots, q_i)$ is monotone in $q$ for some value of $i$, then it is too in $p$ for $i$, which implies monotonicity in $q$ for $i+1$. Finally, Theorem \ref{th:monotone_future_q} provides the base case for $i = 1$, and so it is monotonically increasing and decreasing in $p$ and $q$ (respectively) for all $i \in \mathbb{N}$. \qedhere
 \end{proof}
 
 \noindent With this new result, the last missing property is easy to show.
@@ -236,11 +236,11 @@ It turns out that only Props. \ref{prop:positivity}, \ref{prop:p_monotonicity} a
 \end{theorem}
 
 \begin{proof}
-    We will do a proof by induction. Let us assume that $E^+(p \parallel q_1, \dots, q_k) \geq 0$ for some value of $i$, and let us show that the property propagates to $i+1$. Using Lemma \ref{lem:induction_trick}, we get
+    Using Lemma \ref{lem:induction_trick}, we have
     \begin{equation}
-        E^+(p \parallel q_1, \dots, q_i, q_{i+1}) = E^+(p \parallel q_1, \dots, q_i) - E^+(\underbrace{p \vee q_{i+1}}_{\succ p} \parallel q_1, \dots, q_i),
+        E^+(p \parallel q_1, \dots, q_i) = E^+(p \parallel q_1, \dots, q_{i-1}) - E^+(\underbrace{p \vee q_{i}}_{\succ p} \parallel q_1, \dots, q_{i-1}),
     \end{equation}
-    which is greater or equal to 0 by positivity of both terms and Theorem \ref{th:double_monotonicity_uniqueness} applied on the second term of the LHS. Finally, $E^+(p \parallel q_1) = H(p) - H(p \vee q_1)$ is trivially greater or equal to 0, providing us with the base case $i = 1$, and so positivity is verified for all $i \in \mathbb{N}$. \qedhere
+    which is greater or equal to 0 because of the increasing monotonicity in $p$ (cf. Theorem \ref{th:double_monotonicity_uniqueness}) applied on the second term of the LHS, for any value of $i$. \qedhere
 \end{proof}
 
 In the quantum picture, corollaries analoguous to those of Theorems \ref{th:monotone_future_p} and \ref{th:monotone_future_q} are also applicable here, e.g. if the volumic intuition is rigorously proven, an entangled state can never reach more unique states (relative to a bank) after any LOCC transformation than before.
