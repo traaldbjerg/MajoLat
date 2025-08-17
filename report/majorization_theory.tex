@@ -167,7 +167,9 @@ Conversely, a function $f$ is (Schur-)concave if $-f$ is (Schur-)convex. Additio
     This can be restated as saying that the function $\sum_i f$ is Schur-convex.
 \end{lemma}
 
-Essentially, this inequality states that if $b = Da$ with $D$ a bistochastic matrix, then $a$ has entries that are more spread out (think of the certain distribution), whereas $b$ has entries closer to the middle of the interval (think of the flat distribution), and so, by definition of a convex (resp. concave) function, on average $f(b_i)$ is less (resp. more) than $f(a_i)$.
+%Essentially, this inequality states that if $b = Da$ with $D$ a bistochastic matrix, then $a$ has entries that are more spread out (think of the certain distribution), whereas $b$ has entries closer to the middle of the interval (think of the flat distribution), and so, by definition of a convex (resp. concave) function, on average $f(b_i)$ is less (resp. more) than $f(a_i)$.
+
+It is interesting to note that a statement very similar to Lemma \ref{lem:karamata} can also be seen as a definition of majorization. The statement is the following: if $\sum_{i=1}^d f(p_i) \leq \sum_{i=1}^d f(q_i)$ for \textit{any convex function} $f$, then $p \prec q$.
 
 
 
