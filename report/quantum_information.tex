@@ -1,0 +1,471 @@
+\chapter{Quantum information} \label{chap:quantum_information}
+
+\section{From classical to quantum information} \label{sec:classical_information}
+
+In this section, we will only deal with discrete random variables and probability mass functions, however these notions can be generalized to continous variables and probability density functions. Moreover, we will also assume some familiarity with quantum mechanics, such as the elementary postulates, Hilbert spaces, Dirac notation, and superpositions.
+
+
+
+\subsection{Information and entropy}
+
+This section is based on Ref. \cite[pp. 1--56]{cover_elements_2006} and Ref. \cite[pp. 500--506]{nielsen_quantum_2010}. Classical information theory is concerned with the transmission and compression of information. For example, it provides bounds for the best possible lossless compression of information, as well as for the most amount of information that can be passed through a noisy channel without losses (asymptotically). Information, being a fairly abstract concept, can be hard to define. A generally accepted vision of information is to see it as the resolution of \textit{uncertainty} contained in a random variable $X$ \textit{before} measurement.
+
+Let us illustrate this notion of uncertainty with a simple example. Say you have a friend who just finished taking a statistics exam with a very simple marking grid: you can either get 0, 10 or 20 out of 20. Having already passed statistics, you use data from the previous years to determine that the distribution for these marks is 70\%, 20\%, and 10\% respectively for teacher 1 (who isn't very nice). The question is the following: what is the most efficient way on average to ask your friend what mark they got? An efficient first question would be whether or not they got 0/20. There is then a 70\% chance that the answer is yes, and you would not need to ask a second question, which is quite efficient. If the answer is no, a second efficient question would be whether they got 10/20, etc.
+
+Now, imagine that they took the exam with teacher 2 who is much nicer, and actually gives those same marks with an equal probability of 1/3 instead. In that case, you could once again start by asking whether they got 0, but this time the answer would be no 2/3 of the time, and you would be much more likely to have to ask follow-up questions. In this sense, the mark of your friend is more uncertain \textit{from the start} under teacher 2 than under teacher 1.
+
+Similarly, this intuition of the number of binary questions can be though of as the \textit{average} number of bits of the \textit{shortest} representation of the outcome of a random process, i.e. the average number of binary answers. The idea this time is that it is efficient to assign a short description to an outcome that happens often. This notion of uncertainty can be formalized with the notion of Shannon entropy.
+
+\begin{definition}[Shannon entropy]
+    Let $X$ be a random variable over an alphabet $\mathcal{X}$, with outcome $x \in \mathcal{X}$ having probability $p(x)$. Then, the entropy $H(X)$ (also written $H(p)$) of $X$ is defined as
+    \begin{align}
+        H(X) &= - \sum_{x \in \mathcal{X}} p(x) \log(p(x)) \\
+             &= - E[\log p(x)],
+    \end{align}
+    with the convention that $0 \log 0 = 0$ (an event that never happens should not contribute).
+\end{definition}
+
+Usually, the logarithm is taken in base 2, and the entropy is said to be measured in bits. Less commonly, the logarithm can be taken in base $e$, and the entropy is then in units of nats. It is interesting to note that this definition is very consistent, as the vision of entropy being the expected value of the random variable $\log \frac{1}{p(x)}$ holds even for compositions of random variables, which Appendix \ref{app:shannon_compositions} quickly goes over. Going back to our statistics exam example, the marks from teacher 1 and 2 are distributed along $p = (0.7, 0.2, 0.1)$ and $q = \left(\frac{1}{3}, \frac{1}{3}, \frac{1}{3}\right)$ respectively. We have $H(p) = - 3 \cdot \frac{1}{3} \log \frac{1}{3} = \log 3 = 1.585$ bits, and $H(q) = - \frac{7}{10} \log \frac{7}{10} - \frac{2}{10} \log \frac{2}{10} - \frac{1}{10} \log \frac{1}{10} = 1.157$ bits, and so a less certain process has higher entropy.
+
+\begin{remark}
+    This is consistent with the intuition that we built in Chapter \ref{chap:majorization}: the first distribution is more uncertain than the second because $p \prec q$. By Schur-concavity of $H$ we directly get $H(p) \geq H(q)$.
+\end{remark}
+
+\begin{remark}
+    Let $X$ be a random variable with $d$ possible outcomes. Then, the flat distribution has maximal entropy: $H(X) \leq H\left(\overline{1}_d\right) = \log d$. Again, this well-known fact from information theory ties in nicely with the fact that the flat distribution is majorized by every other distribution.
+\end{remark}
+
+\begin{remark}
+    The entropy of a random variable $X$ only depends on its probability distribution, not on the actual values associated with specific outcomes.
+\end{remark}
+
+Recall the question that we asked above: what is the average length of the shortest description of a random process distributed along $p$? It turns out that the answer to this question is $H(p)$. A naive idea would be to assign the code 0 if our friend got 0/20, 1 if they got 10/20, and 01 if they got 20/20. Then, in the case of teacher 1, on average, we expect to use $7/10 + 2/10 + 2 \cdot 1/10 = 1.1$ bits $< H(p)$. Why did we beat the Shannon entropy with this simple code ? The answer is that our code is not uniquely decodable (which is a hypothesis of the theory), and is thus not a very good code. Imagine we receive the string 0100 for the results of several students. Are the scores 20/20, 0/20, 0/20, or are they 0/20, 10/20, 0/20, 0/20?
+
+A better idea would be to use codes such that no code is a prefix for another code, such as 0 for 0/20, 10 for 10/20, and 11 for 20/20. This is called a Huffman code, which can be proven to be the optimal family of codes \cite[p. 123]{cover_elements_2006}. In this case, we expect to use $7/10 + 2 \cdot 2/10 + 2 \cdot 1/10 = 1.3$ bits on average, which is close to $H(p)$ with a small overhead due to the constraint of an integer representation. However, we can get arbitrarily close to $H(p)$ per symbol on average if we code larger strings \cite[p. 114]{cover_elements_2006}. This is perhaps the most intuitive interpretation of entropy. As such, one should be careful with the fact that entropy is exact only in the asymptotic limit. Moreover, underlying hypotheses in the theory can sometimes be broken in practice\footnote{A famous example is the 56 kbit/s modem which broke the theoretical channel capacity for analog modems by cleverly using an asymmetrical digital/analog channel and thus changing the signal/noise ratio \cite{cover_elements_2006}.}. %redemander l'anecdote a papa
+
+% bon tout ceci est a remanier lol mais vsy il y a quelques bases, je pense faudrait donner un peu plus d'exemples et d'applications
+
+
+
+\subsection{Density matrices} \label{sec:density_matrices}
+
+This section is based on Ref. \cite[pp. 98--108]{nielsen_quantum_2010}. Extending the notion of information to a quantum setting, where states can be in a superposition of several states depending on the basis choice, is not a trivial question. In order to do this, we first need to go through a few mathematical preliminaries. 
+
+For the rest of this master thesis, we will be considering computational states of a qubit, $\ket{0}$ and $\ket{1}$. The actual implementation of those states matters little for our purposes, be it an optical implementation with vertically and horizontally polarized photons, the spin of an ion vacancy in a crystalline lattice, phonon vibrations of ions in an ion trap, \dots It is useful to define the \textit{dual basis} of the computational states of a qubit. The basis vectors read
+\begin{align}
+    \ket{+} &= \frac{1}{\sqrt{2}} (\ket{0} + \ket{1})\\
+    \ket{-} &= \frac{1}{\sqrt{2}} (\ket{0} - \ket{1}).
+\end{align}
+
+The most general notion of quantum state is the notion of density operator, which captures both superpositions and classical uncertainty. Imagine that we have a device that internally flips a fair coin and prepares the state $\ket{0}$ if the result is heads, and the state $\ket{1}$ otherwise. However, the device does not tell you the result of the coin flip, and so you do not know whether it prepared one state or the other. Let us call this state $\rho$. It is tempting to assign $\ket{\psi} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1}) = \ket{+}$ (the relative phase is set to 0 for simplicity's sake) to our unknown state, however it does not capture the physics of our state correctly: if we sent $\rho$ through an interferometer (assuming an optical implementation), the state would not interfere with itself, whereas a state in a superposition would (like $\ket{\psi}$). A description in terms of state vectors is therefore not sufficient, as we need to be capable of capturing the classical uncertainty introduced by the coin flip\footnote{It is actually still possible to capture this phenomenon correctly with state vectors by entangling the output state vector with a virtual environment, in a process called \textit{purification} (of the mixed state) \cite[p. 110]{nielsen_quantum_2010}.}.
+
+\begin{definition}[Density operator]
+    Suppose that a quantum system is in a state $\ket{\psi_i}$ with probability $p_i$. The set $\{p_i, \ket{\psi_i}\}$ is called an \textit{ensemble of pure states}. The density operator $\rho$ (also called density matrix) for the system is defined as
+    \begin{equation}
+        \rho = \sum_i p_i \ket{\psi_i}\bra{\psi_i}.
+    \end{equation}
+\end{definition}
+
+If the sum contains only one term, the state is said to be \textit{pure}, i.e. one can describe it with a single state vector. Otherwise, the state is said to be \textit{mixed}, because it can be seen as a \textit{classical mixture} of pure states. We will also use the convention that when we speak of nondescript mixed states, we explicitly mean states that are not pure (for some authors mixed states include pure states). The two states mentioned in our coin-flip example can be written
+\begin{align}
+    \rho &= 1/2 \ket{0}\bra{0} + 1/2 \ket{1}\bra{1} = \left(\begin{matrix}
+        1/2 & 0\\
+        0 & 1/2
+    \end{matrix}\right),\\
+    \rho' &= \ket{\psi}\bra{\psi} = \ket{+}\bra{+} = \frac{1}{\sqrt{2}}(\ket{0} + \ket{1})\frac{1}{\sqrt{2}}(\bra{0} + \bra{1}) = \left(\begin{matrix}
+        1/2 & 1/2\\
+        1/2 & 1/2
+    \end{matrix}\right).
+\end{align}
+
+Here, $\rho$ is a mixed state, but $\rho'$ is a pure state. The fact that their density matrices are not the same is thus a first sign that we have captured the difference in their behavior.
+
+It is possible to fully forego the notion of state vectors in the definition of density operators. In doing so, it turns out that for an operator $O$ to be a valid density operator, the only requirements are to be a positive operator, and to have $\tr O = 1$. In order to use this new description for quantum states and to understand that it can correctly capture this new type of behavior, the postulates of quantum mechanics must be reformulated in the language of density operators, in order to define how measurements and unitaries act on such states.
+
+\begin{postulate} \label{pos:state} % tres similaire a NC, a reformuler
+    The state of an isolated physical system is completely described by its density operator, acting on the state space of the system. If the system is in state $\rho_i$ with probability $p_i$, then the density operator for the system is $\sum_i p_i \rho_i$ (a convex combination of density operators is still a density operator).
+\end{postulate}
+
+\begin{postulate} \label{pos:evolution}
+    The time evolution of a closed quantum system is described by unitary transformation. The state of the system at time $t_2$, $\rho(t_2)$, is related to the state of the system at time $t_1$, $\rho(t_1)$, according to the following expression
+    \begin{equation}
+        \rho(t_2) = U \rho(t_1) U^\dagger,
+    \end{equation}
+    where $U$ is a unitary operator which in general depends on $t_1$ and $t_2$.
+\end{postulate}
+
+\begin{postulate} \label{pos:measurement}
+    Quantum measurements are described by a set of measurement operators $\{M_m\}$ which act on the state space of the system, where the index $m$ labels the possible measurement ouctomes. If the system is in the state $\rho$ at time of measurement, then the probability of result $m$ is\footnote{Note that the trace is cyclic, and so $\tr(M_m^\dagger M_m \rho) = \tr(M_m \rho M_m^\dagger)$, but the former expression is used because it sometimes simplifies calculations thanks to matching bras and kets.} 
+    \begin{equation}
+        p(m) = \tr(M_m^\dagger M_m \rho),
+    \end{equation}
+    and the system is left in the state
+    \begin{equation}
+        \rho' = \frac{M_m \rho M_m^\dagger}{\tr(M_m^\dagger M_m \rho)}.
+    \end{equation}
+    Moreover, the measurement operators must satisfy
+    \begin{equation}
+        \sum_m M_m^\dagger M_m = I,
+    \end{equation}
+    which is called the completeness relation.
+\end{postulate}
+
+Postulate \ref{pos:measurement} is illustrated with our coin-flip example in Appendix \ref{app:mixed_example}. The most striking difference between a pure state and a mixed state is that for a pure state, there always exists a choice of measurement operators under which the outcome can be guaranteed, i.e. one of the outcomes has probability 1. However, for a mixed state, no matter the choice of measurement operators, the outcome cannot be guaranteed. In this sense, mixed states are fundamentally uncertain.
+
+
+
+\subsection{Von Neumann entropy}
+
+This section is based on Ref. \cite[pp. 510--527]{nielsen_quantum_2010}. With the notion of density operator, quantum analogues for information-theoretic quantities can be defined. In classical information theory, the Shannon entropy describes the uncertainty of a probability distribution. Instead of a probability distribution, however, we are working with a density operator, which contains the probabilities to be in each state. It is thus quite natural to attempt to use the same definition for these density operators.
+
+\begin{definition}[Von Neumann entropy]
+    Let $\rho$ be a density operator. The von Neumann entropy $S(\rho)$ of this quantum state is defined as
+    \begin{equation}
+        S(\rho) = - \tr(\rho \log \rho),
+    \end{equation}
+    where the logarithm of an operator $O$ is another operator $\log O$ such that its exponential $e^{\log O} = O$, and the exponential of an operator is defined with the usual power series.
+\end{definition}
+
+This definition is a direct generalization of the Shannon entropy to density matrices. We will not prove them, but it turns out that it has all of the properties one would expect from a measure of uncertainty. Two interesting properties are
+\begin{itemize}
+    \item $S(\rho) \geq 0$, with equality iff $\rho$ is a pure state.
+    \item In a $d$-dimensional Hilbert space, $S(\rho) \leq \log d$, with equality iff $\rho = \frac{I}{d}$ (where $I$ is the identity operator), which is called the \textit{fully mixed state}.
+\end{itemize}
+
+These properties show an interpretation of von Neumann entropy: $S(\rho)$ quantifies how mixed a state is. If the outcome of measuring $\rho$ can be made certain by choosing a specific measurement basis (and so $\rho$ is pure), then $\rho$ contains no uncertainty, and $S(\rho) = 0$.
+
+
+
+\section{Theory of entanglement} \label{sec:entanglement}
+
+\subsection{Composite systems}
+
+This section is based on Ref. \cite[pp. 71--75, 93--96]{nielsen_quantum_2010}. In quantum mechanics, state vectors describe the state of a system. However, it is sometimes useful to describe composite systems made of smaller subsystems, each in their own specific states. For example, say that we have two systems in states $\ket{\psi}_A$ and $\ket{\phi}_B$, where the indices $A$ and $B$ denote each subsystem, usually nicknamed Alice's system and Bob's system. Note that the 2 systems need not span the same Hilbert space, i.e. $\mathcal{H}^A = \mathcal{H}^B$ is not necessarily true, which means that the systems can be of different natures and different dimensions (e.g. Alice could hold a qubit and Bob a qutrit). The joint system $AB$, called a \textit{bipartite system} because it is made up of two subsystems\footnote{We will mostly concern ourselves with bipartite systems, but of course one could also decide to consider that a system is made of more subsystems than 2. We can sometimes still use a bipartite description because an $ABC$ tripartite system can also be considered a bipartite system with subsystems $A$ and $BC$ (which is itself a bipartite system), etc.}, is a valid quantum system as well, and so one would expect that it can be fully described by the states of the individual subsystems $\ket{\psi}_A$ and $\ket{\phi}_B$. This description is done using tensor products, which are a way of building larger vector spaces from smaller vector spaces in a way that still preserves the structure of the individual smaller vector spaces.
+
+\begin{definition}[Tensor product of vector spaces]
+    Let $V$ and $W$ be two vector spaces, of dimension $m$ and $n$ respectively. The tensor product of $V$ and $W$, written $V \otimes W$, is a $mn$-dimensional vector space, whose vectors are tensor products $\ket{v} \otimes \ket{w}$ (often abbreviated $\ket{v}\ket{w}, \ket{v, w}$ or $\ket{vw}$) of elements $\ket{v} \in V$ and $\ket{w} \in W$. If $\ket{i}$ and $\ket{j}$ are orthonormal bases of $V$ and $W$, then $\ket{i} \otimes \ket{j}$ forms an orthonormal basis for $V \otimes W$ too.
+\end{definition}
+
+\noindent This notion of tensor product is used for an additional postulate on composite systems.
+
+\begin{postulate} \label{pos:composite}
+    Let $\mathcal{H}^i$ be the Hilbert space of subsystem $i$, numbered 1 through $n$. Then, the Hilbert space of the composite system $\mathcal{H}^c$ is the tensor product of the Hilbert spaces of the individual subsystems, i.e. $\mathcal{H}^c = \mathcal{H}^1 \otimes \mathcal{H}^2 \otimes \dots \otimes \mathcal{H}^n$. Moreover, if each subsystem $i$ is prepared in state $\rho_i$, then the joint system is in state $\rho_1 \otimes \rho_2 \otimes \dots \otimes \rho_n$.
+\end{postulate}
+
+This formal definition and this postulate are perhaps better understood with a simple example. Imagine Alice holds a qubit in the state $\ket{+}_A = \frac{1}{\sqrt{2}}(\ket{0}_A + \ket{1}_A)$, and Bob holds a qubit in the state $\ket{-}_B = \frac{1}{\sqrt{2}}(\ket{0}_B - \ket{1}_B)$, where the system indices are added for now to keep track of the systems. $\mathcal{H}^A$ and $\mathcal{H}^B$ can both be described in a computational basis $\ket{0}_i, \ket{1}_i$ with $i = A, B$. Then, the Hilbert space of the joint system $\mathcal{H}^{AB}$ has a basis $\ket{0}_A \otimes \ket{0}_B, \ket{0}_A \otimes \ket{1}_B, \ket{1}_A \otimes \ket{0}_B, \ket{1}_A \otimes \ket{1}_B$, or in shorthand notation $\ket{00}_{AB}, \ket{01}_{AB}, \ket{10}_{AB}, \ket{11}_{AB}$. The composite description is thus quite intuitive: the joint system is simply described by the state of each subsystem, e.g. a joint state $\ket{01}_{AB}$ simply means that system A is in state $\ket{0}_A$ and system B is in state $\ket{1}_B$. In our slightly more complicated example with the $\ket{+}$ and $\ket{-}$ states, the joint state becomes
+
+\begin{equation}
+    \ket{+-}_{AB} = \frac{1}{2}(\ket{0}_A + \ket{1}_A) \otimes (\ket{0}_B - \ket{1}_B) = \frac{1}{2}(\ket{00}_{AB} - \ket{01}_{AB} + \ket{10}_{AB} - \ket{11}_{AB}).
+\end{equation}
+
+
+
+\subsection{Partial trace} \label{sec:partial_trace}
+
+This section is based on Ref. \cite[pp. 105--109]{nielsen_quantum_2010}. From now on, we will omit subsystem indices, as they should be clear from context. Imagine that we have the $AB$ system in the state $\ket{\Phi^+} \coloneqq \frac{1}{\sqrt{2}}(\ket{00} + \ket{11})$. What is an accurate description of Alice's qubit from her point of view, if she has no knowledge of Bob's qubit, i.e. what measurement statistics will she observe if she measures her qubit ? Will she have a coherent superposition $\ket{+}$, or will she have a mixed state $\frac{1}{2}\ket{0}\bra{0} + \frac{1}{2} \ket{1}\bra{1}$, which cannot interfere with itself?  In order to answer this question, we will have to go back to a density operator representation to make sure that we can capture both superpositions and classical mixtures. We are essentially looking to build a reduced density operator $\rho^A$ from the composite density operator $\rho^{AB}$, by discarding system $B$ which Alice has no knowledge over. This is done with an operation called the \textit{partial trace}.
+
+%j'ai pas vraiment defini ce que c'est un produit tensoriel sur des operateurs, faudrait le faire argh
+
+\begin{definition}[Partial trace] % tres similaire a NC, a reformuler !
+    The partial trace over a subsystem $B$ is a map of operators on a joint system $AB$, defined as
+    \begin{equation}
+        \tr_B (\ket{a_1}\bra{a_2} \otimes \ket{b_1}\bra{b_2}) \coloneqq \ket{a_1}\bra{a_2} \tr(\ket{b_1}\bra{b_2}),
+    \end{equation}
+    where $\ket{a_1}$ and $\ket{a_2}$ are any two elements of the state space of subsystem $A$, and $\ket{b_1}$ and $\ket{b_2}$ are any two elements of the state space of subsystem $B$, and where the trace operation on the right-hand side (RHS) is the usual trace for system $B$. The system $B$ is said to be \textit{traced out}.
+\end{definition}
+
+Essentially, the partial trace maps the joint operator $\ket{a_1}\bra{a_2} \otimes \ket{b_1}\bra{b_2}$ acting on $\mathcal{H}^{AB}$ to a new operator $\ket{a_1}\bra{a_2} \tr(\ket{b_1}\bra{b_2})$, which only acts on the Hilbert space of the subsystem $A$, $\mathcal{H}^A$. Using this partial trace, the reduced density operators can be defined.
+
+\begin{definition}[Reduced density operator]
+    Let $AB$ be a joint system in state $\rho^{AB}$. The reduced density operator of subsystem $A$ is defined as
+    \begin{equation}
+        \rho^A = \tr_B(\rho^{AB}).
+    \end{equation}
+\end{definition}
+
+While it may not be obvious from the definition, the reduced density operator does lead to the correct measurement statistics on each subsystem, signalling that it is an accurate description of their state. We will not do it here, but this can be proven by studying the effects of measurement operators on the joint and reduced density operators. However, we can convince ourselves with a simple example that the reduced density operators work as expected. Let $\rho^{AB} = \rho^A \otimes \rho^B$, then we have
+\begin{align}
+    \tr_B \rho^{AB} &= \tr_B (\rho^A \otimes \rho^B)\\
+                    &= \rho^A \tr(\rho^B)\\
+                    &= \rho^A,
+\end{align}
+
+\noindent which is the expected result. Similarly, tracing out $A$ gives $\rho^B$. While this may seem trivial, these notions become much more interesting when studying states that can not be described as the tensor product of subsystems. In fact, the previous example $\ket{\Phi^+} \coloneqq \frac{1}{2}(\ket{00} + \ket{11})$ was not chosen innocently: it is such a state. Even though it lives in the $\mathcal{H}^A \otimes \mathcal{H}^B$ Hilbert space, there is no basis choice for $\mathcal{H}^A$ and $\mathcal{H}^B$ which turns this state into a product state, i.e. a state such that $\rho^{AB} = \rho^A \otimes \rho^B$. In particular, tracing out system $B$, we get
+\begin{align}
+    \tr_B \ket{\Phi^+}\bra{\Phi^+} &= \frac{1}{2} \tr_B \big((\ket{00} + \ket{11})(\bra{00} + \bra{11})\big)\\
+                                   &= \frac{1}{2} \tr_B \Big[\ket{00}\bra{00} + \ket{00}\bra{11} + \ket{11}\bra{00} + \ket{11}\bra{11}\Big]\\
+                                   &= \frac{1}{2} \tr_B \Big[\ket{0}\bra{0} \otimes \ket{0}\bra{0} + \ket{0}\bra{1} \otimes \ket{0}\bra{1} + \ket{1}\bra{0} \otimes \ket{1}\bra{0}\nonumber\\
+                                   &\quad \quad + \ket{1}\bra{1} \otimes \ket{1}\bra{1}\Big]\\
+                                   &= \frac{1}{2} \Big[\ket{0}\bra{0}\tr(\ket{0}\bra{0}) + \ket{0}\bra{1}\tr(\ket{0}\bra{1}) + \ket{1}\bra{0}\tr(\ket{1}\bra{0}) \nonumber\\
+                                   &\quad \quad + \ket{1}\bra{1}\tr(\ket{1}\bra{1})\Big]\\
+                                   &= \frac{1}{2} \Big[\ket{0}\bra{0} + \ket{1}\bra{1}\Big]\\
+                                   &= \frac{I}{2},
+\end{align}
+
+\noindent which is the maximally mixed state. Similarly, tracing out system $A$ also gives $I/2$. This result is quite counterintuitive: the joint system is in a perfectly known state (a projective measurement of $AB$ on the state $\ket{\Phi^+}$ succeeds with probability 1), yet Alice's qubit is in an uncertain state from her point of view! This surprising property is a sign of \textit{entanglement}.
+
+
+
+\subsection{Entangled states}
+
+This section is based on Refs. \cite{horodecki_quantum_2009} and \cite{brunner_bell_2014}. An entangled state is a composite state that is not a product state, i.e. it can not be written $\rho^{AB} = \rho^A \otimes \rho^B$. The name stems from the fact that only a global description captures the state without additional uncertainty, and so the state of each subsystem is linked to the state of the other subsystem even if they are spatially separated. Analogously, product states are also called \textit{separable} states, because studying separated subsystems (tracing one out) does not introduce uncertainty into the reduced states. It is useful to define the \textit{Bell basis} for the joint Hilbert space of two qubits. The basis vectors read
+\begin{align}
+    \ket{\Phi^+} &= \frac{1}{\sqrt{2}} (\ket{00} + \ket{11})\\
+    \ket{\Phi^-} &= \frac{1}{\sqrt{2}} (\ket{00} - \ket{11})\\
+    \ket{\Psi^+} &= \frac{1}{\sqrt{2}} (\ket{01} + \ket{10})\\
+    \ket{\Psi^-} &= \frac{1}{\sqrt{2}} (\ket{01} - \ket{10}),
+\end{align}
+
+\noindent which are all entangled states. %The name entangled is perhaps clearer with these states as example. Consider state $\ket{\Phi^+}$, and imagine Alice measures her half of the entangled state. If she measures her state to be $\ket{0}$ (resp. $\ket{1}$), then the joint state is left in the state $\ket{00}$ (resp. $\ket{11}$), and with such an entangled state Alice can influence Bob's qubit simply by acting on her half of the state, which showcases nonlocal properties of such states. What is even more striking is that quantum mechanics does not predict a delay between Alice's measurement and the effect on the joint state, and so the effect on Bob's qubit is \textit{instantaneous}.
+
+Any one of these states is often called an Einstein-Podolsky-Rosen (EPR) pair, because those authors famously were the first to use the predicted properties of entangled\footnote{Although the term \textit{entangled} was only coined by Schrödinger a few months later.} states to argue that they were so absurd that they deemed them impossible, indicating that quantum mechanics must then be an incomplete theory because it theoretically allows entangled states \cite{einstein_can_1935}. Since then such states have been realized experimentally, disproving the EPR argument, but the name stuck, perhaps to honor their thought experiment which sparked so much debate and discoveries. Two fundamental properties are the following.
+
+\begin{enumerate} % il me faut une reference qui parle rigoureusement de ceci, NC en parle pas beaucoup
+    \item \textbf{Quantum nonlocality:} Bell's inequalities cannot be violated without entanglement. Note that all entangled states do not necessarily violate Bell's inequalities, e.g. Werner states (mixed states of the form $p\ket{\Psi^-}\bra{\Psi^-} + (1-p)\frac{I}{p}$) showcase entanglement but can admit a Local Hidden-Variable Model (LHVM) or not, depending on the value of $p$. However, the entangled states that do violate the inequalities do not admit a LHVM, and are inherently nonlocal.
+    \item \textbf{Monogamy:} if systems $A$ and $B$ are maximally\footnote{This notion is formalized in Section \ref{sec:nielsen}.} entangled, then $A$ and $B$ cannot be entangled at all with a third party $C$. This effect is strictly quantum: if two systems $A$ and $B$ are classically correlated, nothing prevents them from having the same correlations with system $C$.
+\end{enumerate}
+
+These properties are counterintuitive. Let us explore go through an example. Let us assume that Alice and Bob share an EPR pair $\ket{\Phi^+}$. Imagine that Bob measures his half of the entangled pair in the computational basis $\ket{0}, \ket{1}$, and measures his state to be $\ket{1}$. Then the joint state has been reduced to $\ket{11}$. Now, if Alice measures her qubit after Bob's measurement, she will also measure her qubit to be in the state $\ket{1}$, showcasing the inherent nonlocality of such a state: Bob influenced Alice's qubit by exploiting the joint quantum state. What is even more striking is that quantum mechanics does not predict a delay for the reduction of the joint state: the effect is \textit{instantaneous}.
+
+With such processes, can Alice immediately know the result of Bob's measurement, enabling faster-than-light communication ? The key that saves causality is that until Bob tells Alice that he has measured his qubit, if Alice measures her half of the pair she cannot know whether she was the one responsible for breaking the superposition with her measurement, or whether Bob was. Moreover, since the (classical) message from Bob is bound by the speed of light, no information can reach Alice faster than light, and causality is preserved.
+
+In the last decades, the properties of entangled states have been of great interest as they enable powerful applications, such as post-quantum cryptography, secure key distribution, quantum teleportation, dense coding, \dots This master thesis does not focus on these specific applications, and mostly focuses on entangled state manipulation in general. It is however interesting to note that manipulating entangled states in clever ways is of very high interest for all of these applications.
+
+The surprising property of entanglement that a joint state can be more certain globally than locally can be formalized into a theorem.
+
+\begin{theorem}[Entropic separability criterion \cite{cerf_negative_1997, horodecki_informationtheoretic_1996}] \label{th:entropic_criterion}
+    Let $\rho^{AB}$ be the state of a bipartite system $AB$, and $\rho^A$ and $\rho^B$ the reduced states of subsystems $A$ and $B$. Then, $\rho^{AB}$ is an entangled state if 
+    \begin{equation}
+        S(\rho^{AB}) < S(\rho^A) \quad \text{or} \quad S(\rho^{AB}) < S(\rho^B).
+    \end{equation}
+\end{theorem}
+
+This theorem can be understood fairly intuitively from our previous remark. It simply states that a state is entangled if the joint state is more certain than the reduced states, i.e. not having knowledge over one subsystem prevents you from having certainty on the other subsystem. It is important to note however that the implication only goes one way, and so some lightly entangled states do not satisfy the entropic inequality.
+
+
+
+\subsection{Schmidt decomposition} \label{sec:schmidt}
+
+This section is based on Ref. \cite[pp. 109--111]{nielsen_quantum_2010}. A powerful tool to describe entangled states is the \textit{Schmidt decomposition}.
+
+\begin{theorem}[Schmidt decomposition]
+    Let $\ket{\psi}$ be the state of a composite system $AB$. Then, there exist orthonormal bases $\ket{i_A}$ and $\ket{i_B}$ for subsystems $A$ and $B$ respectively such that
+    \begin{equation}
+        \ket{\psi} = \sum_i \sqrt{\lambda_i} \ket{i_A} \ket{i_B},
+    \end{equation}
+    where the $\lambda_i$ are real numbers called \textit{Schmidt coefficients} which satisfy $\sum_i \lambda_i = 1$, and where the RHS is called the Schmidt decomposition of $\ket{\psi}$.
+\end{theorem}
+
+A related quantity is the \textit{Schmidt number} (or \textit{Schmidt rank}) of the decomposition of a joint state $\ket{\psi}$, defined as the number of non-zero Schmidt coefficients of the decomposition. We will also often put the non-zero Schmidt coefficients of a joint state $\ket{\psi}$ in a vector $\lambda = (\lambda_1, \dots, \lambda_n) \in \mathcal{P}^n$ for a state of Schmidt rank $n$. We will call this vector the \textit{Schmidt vector} of $\ket{\psi}$.
+
+\begin{corollary}
+    If $\ket{\psi}$ is a product state, then its Schmidt rank is 1.
+\end{corollary}
+
+This corollary directly implies that entangled states all have non-trivial Schmidt vectors. Moreover, the Schmidt vector has an interesting interpretation in terms of information theory, which will be made clearer with the following corollary.
+
+\begin{corollary} \label{cor:reduced_schmidt} % en gros NC page 110 en bas, mais dans le langage de la purification d'etats
+    Let $\ket{\psi}$ have Schmidt vector $\lambda$. Then $\{\lambda_i\}$ is the set of eigenvalues of the reduced density matrices of both Alice and Bob.
+\end{corollary}
+
+\begin{proof}
+    \begin{align}
+        \ket{\psi} &= \sum_{i} \sqrt{\lambda_i} \ket{i_A} \otimes \ket{i_B}\\
+        \implies \rho_\psi &= \sum_{i, j} \sqrt{\lambda_i \lambda_j} \ket{i_A}\bra{j_A} \otimes \ket{i_B}\bra{j_B}\\
+        \implies \tr_B(\rho_\psi) &= \sum_{i, j} \sqrt{\lambda_i \lambda_j} \ket{i_A}\bra{j_A} \tr(\ket{i_B} \bra{j_B})\\
+                                  &= \sum_{i, j} \sqrt{\lambda_i \lambda_j} \ket{i_A}\bra{j_A} \delta_{ij}\\
+                                  &= \sum_{i} \lambda_i \ket{i_A}\bra{i_A},
+    \end{align}
+    the $\tr_A$ case being symmetric. \qedhere
+\end{proof}
+
+As we have seen before, the reduced state of a perfectly known joint state can be mixed, meaning that the result of measuring it is uncertain. Let Alice and Bob share an entangled state $\ket{\psi}$ with Schmidt vector $\lambda$. How much uncertainty on Bob's system does Alice resolve by assigning a local description to her half of the state, i.e. by measuring it ? Using our information-theoretic intuition, we can interpret the uncertainty to be  $H(\lambda)$ (in the asymptotic limit), with $\lambda$ the probability distribution for each local state. This means that Alice needs on average $H(\lambda)$ yes/no measurements in her half of the Schmidt basis to determine the state Bob holds (and her own), with an additional overhead due to an integer constraint (which vanishes as the number of measured systems increase).
+
+
+
+\subsection{Majorization separability criterion} \label{sec:majorization_separability_criterion}
+
+As we have seen in Section \ref{sec:schur_shannon}, majorization relations directly imply entropic inequalities. As such, an entropic inequality can sometimes be the sign of an underlying majorization relation, which we will call a \textit{majorization precursor}\footnote{This is not a standard denomination.}. Finding majorization precursors to existing inequalities is an active research domain. In the case of entanglement, the entropic criterion in Theorem \ref{th:entropic_criterion} can be strengthened to a majorization criterion.
+
+\begin{theorem}[Majorization separability criterion \cite{nielsen_separable_2001}] \label{th:majorization_separability_criterion}
+    Let $\rho^{AB}$ be the state of a bipartite system $AB$, $\rho^A$ and $\rho^B$ the reduced states of subsystems $A$ and $B$, and $\lambda^{AB}$, $\lambda^A$ and $\lambda^B$ are their vectors of eigenvalues, sorted in decreasing order. Then, $\rho^{AB}$ is an entangled state if 
+    \begin{equation}
+        \lambda^{AB} \nsucc \lambda^A \quad \text{or} \quad \lambda^{AB} \nsucc \lambda^B.
+    \end{equation}
+\end{theorem}
+
+The interpretation of this theorem is identical to the entropic version, but stated with more sophisticated tools to characterize disorder. Once again, the implication only goes one way and so this criterion cannot tell some lightly entangled states apart from separable states. However, this theorem is still a strengthening of the entropic separability criterion, which covers cases that the entropic criterion could not conclude on.
+
+This theorem is a first glimpse of the power of majorization as a tool in quantum information. Other powerful applications exist, notably in the field of entanglement transformations, which are of high interest in distributed quantum computation and quantum communications.
+
+
+
+\section{Entanglement transformations}
+
+\subsection{Quantum Resource Theories} \label{sec:QRT}
+
+This section is based on Ref. \cite{chitambar_quantum_2019}. Resource theories are originally economic theories, stemming from the simple idea that an object is more valuable if it is difficult to acquire. Resource theories, then, are a theory of \textit{interconversions} between objects, e.g. if an object is worth more money than another, you can sell it to acquire the second. Essentially, a resource theory consists of 2 concepts from which resources can be defined.
+
+\begin{itemize}
+    \item Free operations: set of permissible operations in the theory, each mapping a set of states to another set of states, e.g. sell an object for its monetary value and buy back another object of lower monetary value (the reverse operation is not necessarily achievable and is thus not a free operation).
+    \item Free states: set of states that can be accessed from any state in the theory using free operations, e.g. any object that can bought by selling any other object in the theory (which would be an object of value \texteuro 0).
+\end{itemize}
+
+A state is said to contain at least as much resource as a second state if it can be converted into the second state using the free operations of the theory, i.e. anything that can be done with the second state can be done with the first. We will often say that the second state is \textit{reachable} from the first. In the monetary example, the resource of an object could simply be quantified by its monetary value in \texteuro.
+
+Resource theories have been applied in many fields, including quantum information. In a quantum setting, a resource theory is called a \textit{Quantum Resource Theory} (QRT), involving objects and processes at atomic and subatomic levels. % tres similaire en formulation a Chitambar et Gour
+Most notably, the theory of entanglement is a QRT, but other examples exist, such as the theories of quantum coherence, quantum thermodynamics or non-Gaussianity in bosonic systems. Just like in the monetary example, an entanglement QRT allows us to say that one state is more entangled than a second state if it can be transformed into the second using the free operations of the theory.
+
+Let us define the notions of \textit{free operations} and \textit{free states} more formally, which are defined on Hilbert spaces for a QRT.
+
+\begin{definition}[Quantum Resource Theory] % verbatim de Chitambar et Gour, a reformuler
+    Let $\mathcal{O}$ be a mapping that assigns to any two input/output physical systems $A$ and $B$, with corresponding Hilbert spaces $\mathcal{H}^A$ and $\mathcal{H}^B$, a unique set of completely positive and trace-preserving (CPTP) operations $\mathcal{O}(A \rightarrow B) \coloneqq \mathcal{O}(\mathcal{H}^A \rightarrow \mathcal{H}^B) \subset \mathcal{Q}(A \rightarrow B)$. Let $\mathcal{F}$ be the induced mapping $\mathcal{F} \coloneqq \mathcal{O}(\mathbb{C} \rightarrow \mathcal{H})$, where $\mathcal{H}$ is an arbitrary Hilbert space. Then the tuple $\mathcal{R} = (\mathcal{F}, \mathcal{O})$ is called a \textit{Quantum Resource Theory} if the following two conditions hold:
+
+    \begin{enumerate}
+        \item For any physical system $A$ the set $\mathcal{O}(A \rightarrow A)$ contains the identity map $\verb|id|^A$.
+        \item For any three physical systems $A$, $B$ and $C$, if $\Phi \in \mathcal{O}(A \rightarrow B)$ and $\Lambda \in \mathcal{O}(B \rightarrow C)$, then $\Lambda \circ \Phi \in \mathcal{O}(A \rightarrow C)$.
+    \end{enumerate}
+
+    \noindent In a QRT, the set $\mathcal{F}(\mathcal{H}) \subset \mathcal{S}(\mathcal{H})$ defines the set of \textit{free states} acting on $\mathcal{H}$, and the elements belonging to $\mathcal{S}(\mathcal{H}) \backslash \mathcal{F}(\mathcal{H})$ are called \textit{resource states}. Likewise, the CPTP maps in $\mathcal{O}(A \rightarrow B)$ are called \textit{free operations}, and the CPTP maps that are not in $\mathcal{O}(A \rightarrow B)$ are called \textit{dynamical resources}.
+\end{definition}
+
+Property 2 makes preorders arise quite naturally in QRTs. Let us define $\alpha \reach{\mathcal{O}} \beta$ as meaning "$\beta$ can be reached from $\alpha$ using free operations from $\mathcal{O}$". Then, for any $\rho, \sigma, \gamma \in \mathcal{S}(A)$, $\rho \reach{\mathcal{O}} \sigma$ and $\sigma \reach{\mathcal{O}} \gamma \implies \rho \reach{\mathcal{O}} \gamma$. However, for any $\rho, \sigma \in \mathcal{S}(A)$, $\rho \reach{\mathcal{O}} \sigma$ and $\sigma \reach{\mathcal{O}} \rho$ does not necessarily mean $\rho = \sigma$, so in general we only have a preorder and not a full partial order, e.g. if an apple and an orange were worth the same amount of money (and so could be converted back and forth by selling and rebuying), it wouldn't mean that an apple is an orange. Another useful concept tied to reachability is the notion of \textit{resource monotone}.
+
+\begin{definition}[Resource monotone]
+    A resource monotone is a function $F: \mathcal{H} \rightarrow \mathbb{R}$ such that
+    \begin{equation}
+        \rho \reach{\mathcal{O}} \sigma \implies F(\rho) \geq F(\sigma).
+    \end{equation}
+\end{definition}
+
+Essentially, a resource monotone is a function of the states of the theory that can only decrease under free operations. It is thus a way of quantifying the amount of resource contained in different states. Notice however that the implication only goes one way, because some states may be incomparable under the preorder $\reach{\mathcal{O}}$.
+
+\begin{remark}
+    While the monetary example is helpful in understanding the basic idea of resource theory, it does not fully capture the richness of such theories. This is essentially because the value of an object is directly a resource monotone which can always be compared between states, and so the preorder $\reach{\text{sell/buy}}$ is promoted to a \textit{total order}. In general, additional richness arises in theories where $\reach{\mathcal{O}}$ remains a preorder, because some states can then be incomparable, holding a similar amount of resource, each in a different way. If the preorder supports a meet and a join, a lattice can then be defined. 
+\end{remark}
+
+The definition of a QRT may be quite formal, but the game here is essentially to find the set of free operations $\mathcal{O}(A \rightarrow B)$ that correctly captures the possible physical processes we can apply to the states in our possession. In general, starting from the free operations is the more natural way to proceed, as they give a single set of free states associated to the operations. The opposite approach is sometimes applied, for example in the theory of quantum coherence, but has the disadvantage that several different choices of free operations can lead to the same free states, and so a choice for the set of free operations must be made.
+
+The definition of QRT is perhaps best understood with an example. In the theory of entanglement such an example arises when we confine ourselves to a practically relevant set of operations, called \textit{Local Operations and Classical Communications} (LOCC), which is at the center of this master thesis, along with the majorization lattice.
+
+% parler de la golden rule ici ? i.e. O sait pas envoyer un etat dans F vers un etat pas dans F ?
+
+
+
+\subsection{Local Operations and Classical Communications} \label{sec:LOCC}
+
+This section is based on Ref. \cite[pp. 19--21]{chitambar_quantum_2019}% and \cite{chitambar_everything_2014} ?
+. For the rest of this master thesis, we assume a bipartite setting, and that Alice and Bob both possess a quantum computer capable of applying arbitrary\footnote{To be more rigorous, one should say capable of approaching to arbitrary precision any given unitary.} \textit{Local Operations} (LO) to the quantum states in their possession, i.e. of applying a unitary only on their reduced state but not on the full joint state, which may be entangled\footnote{How Alice and Bob came into possession of shared entangled states matters little for our purposes. They could either have met physically, made some of their qubits interact in a way that entangled them, then separated their computers physically again. Alternatively, entangled photons coming from a nondescript source (see generation techniques in Section II.B.7 of Ref. \cite{weedbrook_gaussian_2012}) could be sent separately to the two parties using a QC channel, and stored. While more convenient logistically, the second approach requires a QC channel. Both approaches require a good quantum memory (i.e. capability of storing the qubit in its state without losing it due to noise).}. The actual implementation of the computer and of those states matters is not particularly important to us. Moreover, we will also assume that Alice and Bob can use a Classical Communications (CC) channel to send messages to each other (which they can use to decide collaboratively on which local unitaries to apply on each end). Hence, the paradigm we are working with is called \textit{Local Operations and Classical Communications} (LOCC). We will also limit ourselves to pure states, because mixed states are by definition noisy states that are a liability in quantum computations, i.e. any usable quantum computer should have low enough decoherence rates that the qubit states can be considered pure.
+
+That this physical setting is relevant is not surprising, as classical communication channels are readily available with modern technological standards, whereas Quantum Communication (QC) channels are still in very early development stages. As such, it is reasonable to limit ourselves to the information-related tasks achievable using LOCC. LO and Quantum Communications\footnote{The LOQC abreviation usually stands for Linear Optical Quantum Computing, so we will avoid using it to denote something else here.} is a more powerful paradigm, but technological relevance is not expected to be achieved soon. Moreover, given the technological challenge, QC channels are expected to be very expensive to communicate on, further hindering the usage of LO and Quantum Communications.  Finally, LO and Quantum Communications operations are a less natural set of operations to study the properties of entangled states, because nonlocal properties can be caused by the operations (sending quantum systems allows to create entanglement).
+%Considering that LOCC operations are capable of achieving quantum teleportation, i.e. any quantum state can be transmitted from Alice to Bob using entangled states and classical communications, Alice and Bob can implement \textit{any} physical evolution of their joint system given a sufficient supply of pre-shared entanglement. % chitambar 2014 dit ca mais je trouve ca un peu bizarre etant donne que litteralement tous les unitaires globaux sont pas constructibles (topologiquement ferme il dit) ? (enft il y a peut etre pas de contradiction, juste tu peux pas augmenter l'intrication totale mais cv pas dire que tu peux pas faire une evolution universelle d'un sous-systeme a condition de depenser assez d'intrication sur le cote)
+
+Conversely, by definition LOCC operations are only local in nature, and thus cannot increase nonlocal properties on average (cf. Sections \ref{sec:nielsen} and \ref{sec:vidal}). As such, LOCC is the natural framework with which to study entanglement as a resource, considering that any nonlocal properties showcased will be due to the entangled states themselves, and not due to any manipulation.
+
+Given the experimental conditions given above, the free operations of LOCC can be defined as being made of successive rounds of local measurements followed by a global broadcast of the measurement result, which can be used to determine the next local measurements to perform. % je devrais definir les Kraus operators quelque part aussi
+Concatenating the successive operators for the measurements on each party into a single measurement operator $M$, we get that every multipartite LOCC map $\Lambda$ will have the form
+\begin{equation}
+    \Lambda (\cdot) = \sum_{k} \left(\otimes^N_{i=1} M^{A_i}_{k, i}\right) (\cdot) \left(\otimes^N_{i=1} M^{A_i}_{k, i}\right)^\dagger, \label{eq:LOCC_map}
+\end{equation}
+
+\noindent where $M^{A_i}_{k, i}$ acts on the Hilbert space of party $A_i$, i.e. $A_1$ denotes Alice, $A_2$ denotes Bob, etc. The bipartite case arises for $N=2$. Eq. (\ref{eq:LOCC_map}) hides some of the complexity induced by the number of communication rounds by concatenating the successive measurement operators into a single set of operators, however it is interesting to note that the properties and the form of the set LOCC are still an active area of research, notably concerning the question of round complexity.
+
+Without surprise, from these free operations, the free states are simply the set of separable states, denoted SEP$(\mathcal{H})$. A simple way to see this is that one can generate any separable state from any joint state by discarding the joint state entirely, and generating each piece of the reduced states directly. Such an operation can be expressed in the form of Eq. (\ref{eq:LOCC_map}), and so $\text{SEP}(\mathcal{H}) \subseteq \mathcal{F}(\mathcal{H})$. Moreover, it can be shown by an invariance argument that $\text{SEP}(\mathcal{H}) = \mathcal{F}(\mathcal{H})$. Essentially, the idea is that it can % ok enft jsp si c'est facile j'ai pas fait le calcul, mollo sur les declarations comme ca ?
+be shown that $\text{SEP}(\mathcal{H}) \reach{\text{LOCC}} \text{SEP}(\mathcal{H})$, but since by definition every free state is reachable from any other state (including free states) by LOCC, then $\text{SEP}(\mathcal{H})$ being the image of itself under the mapping LOCC means that it must contain all free states. % eventuellement a developper en annexe ?
+
+
+
+\subsection{Majorization criterion for deterministic transformations} \label{sec:nielsen}
+
+This section is based on Ref. \cite{nielsen_conditions_1999}. We now know that the theory of entanglement with the mapping LOCC yields a QRT, and so entanglement can be seen as a resource. Thankfully additional results exist giving the conditions under which a state is reachable from another (without having to try every possible LOCC map until one works).
+
+\begin{theorem}[Nielsen's theorem] \label{th:nielsen}
+    Let $\ket{\phi}$ and $\ket{\psi}$ be two pure states of a bipartite system $AB$. Then,
+    \begin{equation}
+        \ket{\psi} \reach{\text{LOCC}} \ket{\phi} \iff \lambda_\psi \prec \lambda_\phi,
+    \end{equation}
+    where $\lambda_\psi$ and $\lambda_\phi$ are the Schmidt vectors of $\ket{\psi}$ and $\ket{\phi}$, respectively.
+\end{theorem}
+
+% ecrire la preuve ?
+
+This theorem is the second time we encounter majorization in the theory of entanglement. This theorem is very powerful, and confirms some of our suspicions. From our QRT discussion we expect SEP$(\mathcal{H})$ to only be able to reach itself. Theorem \ref{th:nielsen} is clearly compatible with this result, because separable states have Schmidt vector $\lambda = \overline{\delta}_d = (1, 0, \dots, 0)$, which majorizes every distribution. As such, LOCC only allows you to convert a state $\ket{\psi}$ with Schmidt vector $\lambda_\psi = \overline{\delta}_d$ into another target state $\ket{\phi}$ with Schmidt vector $\lambda_\phi = \overline{\delta}_d$, i.e. separable states can only reach other separable states. As such, the states with the least amount of entanglement resource are the free states, as expected. In QRT terminology, we say that such states are \textit{minimally entangled} (which is consistent with the fact that they are not entangled). 
+
+\begin{remark}
+    Two states with identical Schmidt coefficients can always be converted back and forth without loss of entanglement. This is consistent with the idea that they are equivalent up to a local change of basis which is a local operation.
+\end{remark}
+
+The same logic can be applied to find the state with the maximal amount of entanglement resource, i.e. the state that can be transformed into any other entangled state using LOCC: the Schmidt vector $\lambda_\psi = \overline{1}_d = \left(\frac{1}{d}, \dots, \frac{1}{d}\right)$ is majorized by every other Schmidt vector, and so the condition of Theorem \ref{th:nielsen} is fulfilled no matter the target Schmidt vector $\lambda_\phi$. In QRT terminology, we say that states with $\lambda = \overline{1}_d$ are \textit{maximally entangled}.
+
+Just like other resource theories, free operations can only make a state less resourceful. In our case, LOCC can transform a strongly entangled state (in the sense that its Schmidt vector is close to the flat distribution and can thus reach many other states) into a lightly entangled state, but not vice versa. We will say that after transformation, the state has been \textit{degraded}. Keep in mind however that a bistochastic degradation (cf. Section \ref{sec:bistochastic}) of the Schmidt vector would make the state more resourceful, and not less. To avoid any confusion, we will always attempt to precise which type of degradation we speak of if not clear from context. Finally, we can particularise the idea of resource monotone to an entanglement monotone in the context of LOCC.
+
+\begin{definition}[Entanglement monotone]
+    An entanglement monotone is a function $F: \mathcal{H} \rightarrow \mathbb{R}$ such that
+    \begin{equation}
+        \ket{\psi} \reach{\text{LOCC}} \ket{\phi} \implies F(\ket{\psi}) \geq F(\ket{\phi}).
+    \end{equation}
+\end{definition}
+
+\begin{remark} \label{rem:schmidt_probability_analogy}
+    Considering that Theorem \ref{th:nielsen} gives us a LOCC reachability condition in terms of a majorization relation on Schmidt vectors, it is easy to see that any Schur-concave function applied on the Schmidt vector of a state is a valid entanglement monotone. In particular, $H(\lambda_\psi)$ is a valid entanglement monotone, which is quite satisfying considering the information-theoretic interpretation of the Schmidt vector (cf. Section \ref{sec:schmidt}).
+\end{remark}
+
+\begin{figure}[h!]
+    \centering
+    \begin{tikzpicture}[scale=0.9]
+        % draw cone of p
+        \coordinate (A) at (-2,3);
+        \coordinate (B) at (2, -3);
+        \draw [name path=A--B] (A) -- (B);
+        \coordinate (C) at (-2,-3);
+        \coordinate (D) at (2,3);
+        \draw [name path=C--D] (C) -- (D);
+        \path [name intersections={of=A--B and C--D,by=E}];
+        \node [fill=black,inner sep=1pt,label=0:$\lambda_\psi$] at (E) {};
+        % fill draw the future cone of p + notation
+        \fill[fill=red, opacity=0.2] (C) -- (E) -- (B) -- cycle;
+        \node [inner sep=0pt, label=-90:$\mathcal{T}_+ (\lambda_\psi)$] at (0, -2) {};
+        % fill draw the past cone of p + notation
+        \fill[fill=blue, opacity=0.2] (A) -- (E) -- (D) -- cycle;
+        \node [inner sep=0pt, label=90:$\mathcal{T}_- (\lambda_\psi)$] at (0, 2) {};
+        % fill draw the incomparable region of p mais pas hyper clair
+        %\filldraw[draw=black, fill=gray, opacity=0.2] (A) -- (E) -- (C) -- cycle;
+        %\filldraw[draw=black, fill=gray, opacity=0.2] (D) -- (E) -- (B) -- cycle;
+        \node [inner sep=0pt, label=0:$\mathcal{T}_\emptyset (\lambda_\psi)$] at (1, 0) {};
+        % create the entropy arrow
+        \coordinate (F) at (-3, -2);
+        \coordinate (G) at (-3, 2);
+        \draw[->] (F) -- (G);
+        \node [inner sep=0pt, label=0:$F(\ket{\psi})$] at (-3, 0) {};
+        % create the LOCC arrow
+        \coordinate (H) at (3, -2);
+        \coordinate (I) at (3, 2);
+        \draw[->] (I) -- (H);
+        \node [inner sep=0pt, label=0:LOCC] at (3, 0) {};
+        
+    \end{tikzpicture}
+    \caption{Depiction of the entanglement cones of a pure state $\ket{\psi}$ with Schmidt vector $\lambda_\psi \in \mathcal{P}^d$. $F$ is any entanglement monotone. In the LOCC context, the denomination of future cone $\mathcal{T}_+$ and past cone $\mathcal{T}_-$ is clearer, as they are the sets that a state $\lambda$ can become through LOCC or from which it could have been constructed by LOCC, respectively.}
+    \label{fig:nielsen_cones_example}
+\end{figure}
+
+Figure \ref{fig:nielsen_cones_example} shows the geometric illustration of entanglement cones (cf. Section \ref{sec:majorization_cones}). With Theorem \ref{th:nielsen} in mind, it is clearer why we decided to call $\mathcal{T}_+ (\lambda_\psi)$ the future cone of $\lambda_\psi$, as it is exactly the set containing all of the LOCC reachable Schmidt vectors from $\lambda_\psi$. Likewise, $\mathcal{T}_- (\lambda_\psi)$ is the set of states from which $\lambda_\psi$ could have been constructed through LOCC, hence the past cone denomination. Finally, the incomparable region $\mathcal{T}_\emptyset (\lambda_\psi)$ is the set of states that could not have reached $\lambda_\psi$, and can not be reached from $\lambda_\psi$.  As such, holding additional states in $\mathcal{T}_- (\lambda_\psi) \cup \mathcal{T}_\emptyset (\lambda_\psi)$ is interesting, because it allows you to reach states not directly reachable from $\lambda_\psi$. This will be touched on further in Section \ref{sec:strategies}. 
+
+Moreover, the convention of representing the lattice with increasing entropy towards the top makes more sense now that the notion of entanglement monotone has been defined, as more resourceful states are therefore drawn at the top. Separable states are at the very bottom of the lattice and can always be reached from any state of the theory.
+
+As a final remark, it is important to note that from now on, we will mostly work with probability distributions and their entropic properties on the lattice. We will not explicitly remind it each time, however to bring ourselves back to the quantum case, it suffices to plug a Schmidt vector $\lambda$ into distributions $p$ and $q$. This works because a Schmidt vector has a sum of one and can simply be seen as a probability distribution (cf. Remark \ref{rem:schmidt_probability_analogy}), and so entropic properties of the Schmidt vector are of interest to quantify the amount of resource of an entangled state.
+
+We will not use probabilistic transformations very much in this master thesis, however they are also another appearance of (weak) majorization in the theory of entanglement. A quick overview is available in Appendix \ref{app:vidal}.
+
+% ecrire un protocole explicite ?
+
+%jsp si les monotones de vidal sont hyper interessants en vrai
+
+%\noindent The original paper was expressed in terms of a family of entanglement monotones.
+
+%\begin{definition}[Vidal's entanglement monotones]
+%    Let $\lambda_\psi \in \mathcal{P}^d$ be the Schmidt vector of pure state $\ket{\psi}$. We define the family of entanglement monotones
+%    \begin{equation}
+%        E_k(\lambda_\psi) = \sum_{i=k}^{d} \lambda_{\psi, d},
+%    \end{equation}
+%    where the sum runs from $k$ to $d$. As such, $E_{k+1}(\lambda_\psi) \leq E_k(\lambda_\psi) \; \forall \lambda_\psi \in \mathcal{P}^d$. 
+%\end{definition}
