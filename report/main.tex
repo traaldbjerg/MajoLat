@@ -1,4 +1,4 @@
-\documentclass[a4paper, 11pt]{report}
+\documentclass[a4paper, 11pt, openright]{report}
 
 \usepackage{preamble} % contains all of the packages to use + custom theorems + custom environments
 
@@ -14,7 +14,8 @@
 
 \include{PageDeGarde_MFE/PageDeGarde}
 
-\newgeometry{a4paper, margin=2.5cm}
+%\newgeometry{a4paper, margin=2.5cm} % digital version
+\newgeometry{twoside, tmargin=2.5cm, bmargin=2.5cm, inner=3cm, outer=2cm} % paper version
 
 \renewcommand*{\familydefault}{lmr}
 \renewcommand*{\rmdefault}{lmr}
@@ -25,8 +26,9 @@
 
 \include{acknowledgements}
 
-\frontmatter
+\cleardoublepage % paper version
 
+\frontmatter
 
 \setcounter{tocdepth}{2}
 \tableofcontents
