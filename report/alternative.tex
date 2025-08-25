@@ -57,7 +57,7 @@ We will work with concatenated probability vectors. We will need the following d
         A = \text{concat}(p, q) \in \mathbb{R}^{2d}, \\
         B = \text{concat}(r, s) \in \mathbb{R}^{2d},
     \end{gather}
-    where $\text{concat}(\cdot, \cdot)$ is the ordered concatenation of two vectors. We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that $A \succ B$. To do so, we need to show that the majorization inequalities (cf. definition \ref{def:majorization}) are satisfied for each $k \leq 2d$. Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the first entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the first entries of $r$ and $s$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ for any $d$-dimensional probability vector $v$. For each $k \leq 2d$, we have
+    where $\text{concat}(\cdot, \cdot)$ is the ordered concatenation of two vectors. We have $\sum_{i=1}^{2d} A_i = \sum_{i=1}^{2d} B_i = 2$. We will now show that $A \succ B$. To do so, we need to show that the majorization inequalities (cf. Definition \ref{def:majorization}) are satisfied for each $k \leq 2d$. Clearly, the $k^{\text{th}}$ cumulative sum of $A$ is made up of the first entries of $p$ and $q$, and the same goes for cumulative sums of $B$ being made of the first entries of $r$ and $s$. To avoid ill-defined terms, we additionally introduce the convention that $S^\downarrow_k (v) = 1 \; \forall k > d$ for any $d$-dimensional probability vector $v$. For each $k \leq 2d$, we have
     \begin{gather}
         S^\downarrow_k (A) = \max_{0\leq l\leq k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right), \\
         S^\downarrow_k (B) = \max_{0\leq m\leq k} \left(S^\downarrow_{k-m} (r)+ S^\downarrow_m (s)\right). \label{eq:max_supermod}
@@ -67,7 +67,7 @@ We will work with concatenated probability vectors. We will need the following d
         S^\downarrow_i (r) = \min \left\{S^\downarrow_i (p), S^\downarrow_i (q)\right\}, \\
         S^\downarrow_i (s) = \max \left\{S^\downarrow_i (p), S^\downarrow_i (q)\right\}.
     \end{gather} 
-    Let us call the value of $m$ that realizes the maximum of eq. (\ref{eq:max_supermod}) $m'$. There are two possible cases, either $S^\downarrow_{m'} (p) \geq S^\downarrow_{m'} (q)$ or $S^\downarrow_{m'} (p) \leq S^\downarrow_{m'} (q)$. Let us consider the $S^\downarrow_{m'} (p) \geq S^\downarrow_{m'} (q)$ case, which gives us
+    Let us call the value of $m$ that realizes the maximum of Eq. (\ref{eq:max_supermod}) $m'$. There are two possible cases, either $S^\downarrow_{m'} (p) \geq S^\downarrow_{m'} (q)$ or $S^\downarrow_{m'} (p) \leq S^\downarrow_{m'} (q)$. Let us consider the $S^\downarrow_{m'} (p) \geq S^\downarrow_{m'} (q)$ case, which gives us
     \begin{align}
         S^\downarrow_k (B) &= \min \left\{S^\downarrow_{k-m'} (p), S^\downarrow_{k-m'} (q)\right\} + S^\downarrow_{m'} (p) \\
         &\leq S^\downarrow_{m'} (p) + S^\downarrow_{k-m'} (q) \\
@@ -83,7 +83,7 @@ We will work with concatenated probability vectors. We will need the following d
 
 \subsection{Corollaries and main conjecture}
 
-Of course, the corollary we care the most about is the supermodularity of the Shannon entropy. We will not write it here however, because Theorem \ref{th:shannon_supermodularity} is stronger than a corollary we can build from theorem \ref{th:alternative_supermodularity} (because of the limiting $\beta(p, q) = p \vee q$ condition).
+Of course, the corollary we care the most about is the supermodularity of the Shannon entropy. We will not write it here however, because Theorem \ref{th:shannon_supermodularity} is stronger than a corollary we can build from Theorem \ref{th:alternative_supermodularity} (because of the limiting $\beta(p, q) = p \vee q$ condition).
 
 However, the above proof can be reused for a sum-convex function $f$ (because $-f$ is sum-concave) by simply reversing the final Karamata inequality, giving the following corollary.
 
@@ -154,7 +154,7 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = p 
     \begin{equation}
         S^\downarrow_i (r) = \min \left\{S^\downarrow_i (p), S^\downarrow_i (q)\right\}.
     \end{equation}
-    We need to show that the majorization inequalities (cf. definition \ref{def:majorization}) are satisfied for each $k \leq 2d$. First, we directly see that for $k = 1$, we have $S^\downarrow_1(B) = 1 \geq S^\downarrow_1(A) = \max \{p_1, q_1\}$. 
+    We need to show that the majorization inequalities (cf. Definition \ref{def:majorization}) are satisfied for each $k \leq 2d$. First, we directly see that for $k = 1$, we have $S^\downarrow_1(B) = 1 \geq S^\downarrow_1(A) = \max \{p_1, q_1\}$. 
     
     Now, for $k \geq 2$, there are several cases depending on the value of $l$, which ranges from $0$ to $k$. Having no knowledge over $p$ and $q$, we must consider several cases separately.
     \begin{enumerate}
@@ -178,14 +178,14 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = p 
                           S^\downarrow_{k-1}(p) + S^\downarrow_{k-1}(q) &\geq \max_{0 < l < k} \left(S^\downarrow_l (p) + S^\downarrow_{k-l} (q)\right)\\
                                                                         \iff 0 &\geq \max_{0 < l < k} \left(S^\downarrow_l (p) - S^\downarrow_{k-1}(p) + S^\downarrow_{k-l} (q) - S^\downarrow_{k-1}(q)\right), \label{eq:subadditivity_leq}
     \end{align}
-    and so the majorization inequality is satisfied if we show that the RHS of eq. (\ref{eq:subadditivity_leq}) is less than or equal to 0.
+    and so the majorization inequality is satisfied if we show that the RHS of Eq. (\ref{eq:subadditivity_leq}) is less than or equal to 0.
     \begin{enumerate}[resume]
-        \item \underline{$l = 1$}: eq. (\ref{eq:subadditivity_leq}) becomes \label{case:1}
+        \item \underline{$l = 1$}: Eq. (\ref{eq:subadditivity_leq}) becomes \label{case:1}
         \begin{equation}
             S^\downarrow_1(p) - S^\downarrow_{k-1}(p) \leq 0,
         \end{equation}
         which is verified $\forall k \geq 2$.
-        \item \underline{$l = k - 1$}: symmetric to the $l = 1$ case, because eq. (\ref{eq:subadditivity_leq}) becomes \label{case:k-1}
+        \item \underline{$l = k - 1$}: symmetric to the $l = 1$ case, because Eq. (\ref{eq:subadditivity_leq}) becomes \label{case:k-1}
         \begin{equation}
             S^\downarrow_1(q) - S^\downarrow_{k-1}(q) \leq 0,
         \end{equation}
@@ -194,7 +194,7 @@ Thankfully, in the case of subadditivity we are not bound by a $\beta(p, q) = p 
         \begin{equation}
             S^\downarrow_l (p) \leq S^\downarrow_{k-1}(p) \quad \text{and} \quad S^\downarrow_{k-l} (q) \leq S^\downarrow_{k-1}(q),
         \end{equation}
-        which are both true $\forall k \geq 4$, and so eq. (\ref{eq:subadditivity_leq}) is verified. % peut-etre pas turbo clair jsp comment l'expliquer autrement
+        which are both true $\forall k \geq 4$, and so Eq. (\ref{eq:subadditivity_leq}) is verified. % peut-etre pas turbo clair jsp comment l'expliquer autrement
     \end{enumerate}
     Therefore, no matter the value of $l$, the majorization inequalities are satisfied $\forall k \leq 2d$. We have thus shown that $B \succ A$.
     Using Lemma \ref{lem:karamata} on $\varphi$ ($-\varphi$ being convex on the same interval), we get
