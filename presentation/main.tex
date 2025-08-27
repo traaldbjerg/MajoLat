@@ -1,5 +1,5 @@
 \documentclass{beamer}
-\input{FrontMatter/preamble.tex}
+\RequirePackage{preamble}
 \usetheme{ULB}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,7 +72,7 @@
 \end{frame}
 
 
-\AtBeginSection[]
+\AtBeginSection[] % every new section
 {
  \begin{frame}[noframenumbering,plain]{Outline}
     \tableofcontents[currentsection, currentsubsection, hideothersubsections,subsubsectionstyle=show/show/show/hide]
@@ -80,18 +80,22 @@
  \end{frame} 
 }
 
-\input{majorization.tex}
+\input{introduction.tex}
 
 \input{quantum.tex}
 
-\input{alternative.tex}
+\input{majorization.tex}
+
+%\input{alternative.tex}
 
 \input{incomparability.tex}
 
 \input{volume.tex}
 
-\section{Section 1}
-\input{Sec1.tex}
+\input{conclusion.tex}
+
+%\section{Section 1}
+%\input{Sec1.tex}
 
 \nocite{*}
 \begin{frame}[plain, noframenumbering,allowframebreaks]{References}
@@ -101,7 +105,7 @@
 
 \appendix
 
-\input{Appendix.tex}
+\input{appendix.tex}
 
 
 \end{document}
