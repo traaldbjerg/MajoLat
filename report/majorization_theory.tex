@@ -90,9 +90,9 @@ From this theorem, we can see that the effect of a bistochastic matrix on a vect
 
 Because a distribution loses certainty after being applied a bistochastic matrix, we will often say that the vector has gone through a \textit{bistochastic degradation}. One can take Theorem \ref{th:bistochastic_majorization} as a definition of the majorization relation, as the notion of a vector being more disordered is perhaps clearer in the bistochastic matrix picture. Then, the nature of the convex combination % Serge: expliquer ce que c'est
 of entries would have given us the set of inequalities (\ref{eq:majorization}). Let's take the same example as earlier, $p = (0.6, 0.4)$ and $q = (0.9, 0.1)$. Then we can find that $D = \Big(\begin{smallmatrix}
-                                                                                                    5/8 & 3/8 \\
-                                                                                                    3/8 & 5/8
-                                                                                                \end{smallmatrix}\Big)$
+    5/8 & 3/8 \\
+    3/8 & 5/8
+\end{smallmatrix}\Big)$
 gives us $p = Dq$, and therefore $p \prec q$.
 
 Whichever picture one prefers intuitively, the fact that there is a full equivalence between the two is quite powerful when working on proofs, as sometimes one picture is easier to work with than the other depending on the context.
@@ -309,12 +309,12 @@ Figures \ref{fig:maj_cones_example} and \ref{fig:meet_join_example} show example
             \draw [name path=H--I] (H) -- (I);
             \path [name intersections={of=F--G and H--I,by=J}];
             \node [fill=black,inner sep=1pt,label=0:$q$] at (J) {};
-            %intersections of the 2 cones
+            % intersections of the 2 cones
             \path [name intersections={of=F--G and C--D,by=K}];
             \path [name intersections={of=H--I and A--B,by=L}];
             \node [fill=black,inner sep=1pt,label=0:$p \wedge q$] at (K) {};
             \node [fill=black,inner sep=1pt,label=0:$p \vee q$] at (L) {};
-            %fill the two cones
+            % fill the two cones
             \fill[fill=blue, opacity=0.2] (F) -- (K) -- (D) -- cycle;
             \node [inner sep=8pt, label=90:$\mathcal{T}_- (p \wedge q)$] at ($ (F) !.3333! (K) !.3333! (D) $) {};
             \fill[fill=red, opacity=0.2] (H) -- (L) -- (B) -- cycle;
