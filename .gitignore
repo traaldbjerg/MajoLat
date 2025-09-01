@@ -209,7 +209,7 @@ cython_debug/
 scratch.py
 results/
 simu/
-plot.py
+#plot.py
 proofs/
 backup/
 tables/
