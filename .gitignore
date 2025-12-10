@@ -210,7 +210,6 @@ scratch.py
 results/
 simu/
 #plot.py
-proofs/
 backup/
 tables/
 backup.tex

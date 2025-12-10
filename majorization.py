@@ -55,8 +55,14 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
     def __next__(self):
         return next(self.probs)
     
-    def getArray(self):
+    def getArray(self): # for compatibility with BistochMatrix but __getitem__ and __setitem__ are enough to retrieve and manipulate the array otherwise
         return self.probs
+    
+    def __getitem__(self, index):
+        return self.probs[index]
+    
+    def __setitem__(self, index, value):
+        self.probs[index] = value
 
     def majorizes(self, other):
         """Method that handles the majorization relation. Implements Eq. (1.2) from the manuscript.
@@ -71,15 +77,15 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         q = other
         dim_diff = len(self) - len(other)
         if dim_diff > 0: # handle differing input dimensions
-            q = ProbVector(np.append(other.getArray(), [0]*dim_diff))
+            q = ProbVector(np.append(other, [0]*dim_diff))
         elif dim_diff < 0:
-            p = ProbVector(np.append(self.getArray(), [0]*-dim_diff))
+            p = ProbVector(np.append(self, [0]*-dim_diff))
         switch = True
         sum_p = 0
         sum_q = 0
         for i in range(p.dim):
-            sum_p += p.getArray()[i]
-            sum_q += q.getArray()[i]
+            sum_p += p[i]
+            sum_q += q[i]
             #print(sum_p, sum_q) # debug
             if sum_p - sum_q < -ProbVector.tolerance:
                 switch = False
@@ -87,7 +93,7 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         return switch
             
     def __eq__(self, other):
-        return all(self.getArray() == other.getArray())
+        return all(self == other)
     
     def __ne__(self, other):
         return not self == other
@@ -112,15 +118,15 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         q = other
         dim_diff = len(self) - len(other)
         if dim_diff > 0:
-            q = ProbVector(np.append(other.getArray(), [0]*dim_diff))
+            q = ProbVector(np.append(other, [0]*dim_diff))
         elif dim_diff < 0:
-            p = ProbVector(np.append(self.getArray(), [0]*-dim_diff))
+            p = ProbVector(np.append(self, [0]*-dim_diff))
         p_sum = 0
         q_sum = 0
         a_sum = 0
         for i in range(p.dim):
-            p_sum += p.getArray()[i]
-            q_sum += q.getArray()[i]
+            p_sum += p[i]
+            q_sum += q[i]
             a_i = min(p_sum, q_sum) - a_sum # where a_i is the ith element of the meet of p and q
             a = np.append(a, a_i) # not very clean but numpy allocates its arrays in a contiguous block of memory so no real alternative
             a_sum += a_i
@@ -141,15 +147,15 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         q = other
         dim_diff = len(self) - len(other)
         if dim_diff > 0:
-            q = ProbVector(np.append(other.getArray(), [0]*dim_diff))
+            q = ProbVector(np.append(other, [0]*dim_diff))
         elif dim_diff < 0:
-            p = ProbVector(np.append(self.getArray(), [0]*-dim_diff))        
+            p = ProbVector(np.append(self, [0]*-dim_diff))        
         p_sum = 0
         q_sum = 0
         b_sum = 0
         for i in range(p.dim):
-            p_sum += p.getArray()[i]
-            q_sum += q.getArray()[i]
+            p_sum += p[i]
+            q_sum += q[i]
             b_i = max(p_sum, q_sum) - b_sum
             b = np.append(b, b_i)
             b_sum += b_i
@@ -188,10 +194,88 @@ class ProbVector(): # notations from Cicalese and Vaccaro 2002
         """
         return self.entropy() + other.entropy() - 2*(self * other).entropy() # d(x, y) in the paper 
     
+    def __truediv__(self, other):
+        res = []
+        for i in range(self.dim):
+            res.append(self[i]/other)
+        res = ProbVector(res, normalize=False, rearrange=False)
+        return res
     
- 
+
+
+class StochMatrix():
+    """Class for stochastic matrices. Implements several methods for majorization-related applications. Mostly useful 
+       for degrading two different probability vectors and comparing the final result, or checking monotonicity results.    
+
+       Parameters:
+       array (ArrayLike): array of coefficients to convert into a BistochMatrix object. Rows must sum to
+                          1 (with a tolerance). Defaults to None.
+       dims (int): The size of the matrix, i.e. output object will be of dimension dims x dims. Defaults to None. 
+       rand_combs (int):  specifies the number of permutation matrices to randomly generate and mix together to produce
+                          the final bistochastic matrix (cf. Theorem 1.1 in the manuscript). Very important parameter,
+                          allows to control how mixing the final matrix will be. Defaults to None, which leads to dims/2
+                          being selected if left at None.
+    """
     
-class BistochMatrix():
+    __slots__ = ('array', 'dims')
+    
+    def __init__(self, array=None, dims=None):
+        if array is None: # generate random stochastic matrix
+            if dims is None:
+                raise ValueError("Need to specify dimensions")
+            elif isinstance(dims, int):
+                self.array = np.zeros((dims, dims))
+            else:
+                self.array = np.zeros((dims[0], dims[1]))
+            for row in range(dims[0]):
+                self.array[row] = np.random.dirichlet(np.ones(dims[1]))
+            #print(self.array)
+        else:
+            self.array = array
+        self.dims = (len(self.array), len(self.array[0]))
+        
+        #check if stochastic
+        if not self.isStochastic():
+            raise ValueError("Matrix is not stochastic")
+        
+    def __repr__(self):
+        return "StochMatrix({})".format(self.array)
+    
+    def __str__(self):
+        return "StochMatrix({})".format(self.array)
+    
+    def __len__(self):
+        return self.dims
+    
+    def __iter__(self):
+        return iter(self.array)
+    
+    def __next__(self):
+        return next(self.array)
+    
+    def __getitem__(self, index):
+        return self.array[index]
+    
+    def __setitem__(self, index, value):
+        self.array[index] = value
+    
+    def getArray(self):
+        return self.array
+    
+    def isStochastic(self): # checks sum of rows equal 1 with a tolerance for floating point error
+        return np.logical_and(1 - 1e-12 <= np.sum(self.array, axis=1), np.sum(self.array, axis=1) <= 1 + 1e-12).all() # tolerances
+        
+    def __mul__(self, other): # implements matrix multiplication, might be refactored without the getArray() method but not crucial right now
+        if isinstance(other, StochMatrix):
+            return StochMatrix(np.matmul(self.array, other.getArray()))
+        elif isinstance(other, ProbVector):
+            return ProbVector(np.matmul(self.array, other.getArray()))
+        else:
+            print("Warning: non-supported type multiplied with {}".format(str(self)))
+
+    
+    
+class BistochMatrix(StochMatrix):
     """Class for bistochastic matrices. Implements several methods for majorization-related applications. Mostly useful 
        for degrading two different probability vectors and comparing the final result, or checking monotonicity results.    
 
@@ -202,11 +286,11 @@ class BistochMatrix():
        rand_combs (int):  specifies the number of permutation matrices to randomly generate and mix together to produce
                           the final bistochastic matrix (cf. Theorem 1.1 in the manuscript). Very important parameter,
                           allows to control how mixing the final matrix will be. Defaults to None, which leads to dims/2
-                          being selected if left at None.
+                          being selected if left at None. Remark: should be set manually for very low dimensions
     """
     
     __slots__ = ('array', 'dims')
-     
+    
     def __init__(self, array=None, dims=None, rand_combs=None):
         if array is None: # generate random bistochastic matrix using Birkhoff-von Neumann theorem
             if dims is None:
@@ -235,24 +319,14 @@ class BistochMatrix():
     def __str__(self):
         return "BistochMatrix({})".format(self.array)
     
-    def __len__(self):
-        return self.dims
-    
-    def __iter__(self):
-        return iter(self.array)
-    
-    def __next__(self):
-        return next(self.array)
-    
-    def getArray(self):
-        return self.array
-    
     def isBistochastic(self): # checks sum of rows and sum of columns both equal 1 with a tolerance for floating point error
-        return np.all(1 - 1e-12 <= np.sum(self.array, axis=0) <= 1 + 1e-12) and np.all(1 - 1e-12 <= np.sum(self.array, axis=1) <= 1 + 1e-12) # tolerances
+        return np.logical_and(1 - 1e-12 <= np.sum(self.array, axis=0), np.sum(self.array, axis=1) <= 1 + 1e-12).all() and self.isStochastic() # tolerances
         
-    def __mul__(self, other): # implements matrix multiplication
+    def __mul__(self, other): # implements matrix multiplication, might be refactored without the getArray() method but not crucial right now
         if isinstance(other, BistochMatrix):
             return BistochMatrix(np.matmul(self.array, other.getArray()))
+        elif isinstance(other, StochMatrix):
+            return StochMatrix(np.matmul(self.array, other.getArray()))
         elif isinstance(other, ProbVector):
             return ProbVector(np.matmul(self.array, other.getArray()))
         else:
@@ -271,7 +345,7 @@ def entropy(v):
     Returns:
         (float): value of the Shannon entropy of v, in bits
     """
-    return -sum([p*np.log2(p) for p in v.getArray() if p != 0]) # ln instead of log2
+    return -sum([p*np.log2(p) for p in v if p != 0]) # ln instead of log2
 
 def renyi_entropy(v, alpha):
     """Implements the Rényi entropy of arbitrary order (cf. Section 1.2.3).
@@ -288,9 +362,9 @@ def renyi_entropy(v, alpha):
     elif alpha == 1: # shannon entropy
         return entropy(v)
     elif alpha == np.inf: # min-entropy
-        return -np.log2(max(v.getArray()))
+        return -np.log2(max(v))
     else: # general renyi entropy
-        return 1/(1-alpha)*np.log2(sum([p**alpha for p in v.getArray()]))
+        return 1/(1-alpha)*np.log2(sum([p**alpha for p in v]))
 
 def mutual_information(p, q):
     """Implements the lattice-based mutual entropy analogy from Cicalese and Vaccaro 2002 (not in the manuscript).
@@ -318,20 +392,20 @@ def relative_entropy(p, q):
     p_new = p
     q_new = q
     if dim_diff > 0:
-        q_new = ProbVector(np.append(q.getArray(), [0]*dim_diff))
+        q_new = ProbVector(np.append(q, [0]*dim_diff))
     elif dim_diff < 0:
-        p_new = ProbVector(np.append(p.getArray(), [0]*-dim_diff))        
+        p_new = ProbVector(np.append(p, [0]*-dim_diff))        
 
     res = 0
     for i in range(len(p_new)):
-        if p_new.getArray()[i] > 0 and q_new.getArray()[i] == 0:
+        if p_new[i] > 0 and q_new[i] == 0:
             return np.inf
-        elif p_new.getArray()[i] == 0 and q_new.getArray()[i] == 0:
+        elif p_new[i] == 0 and q_new[i] == 0:
             pass
-        elif p_new.getArray()[i] == 0 and q_new.getArray()[i] > 0:
+        elif p_new[i] == 0 and q_new[i] > 0:
             pass
         else:
-            res += p_new.getArray()[i]*np.log2(p_new.getArray()[i]/q_new.getArray()[i])
+            res += p_new[i]*np.log2(p_new[i]/q_new[i])
     return res
 
 
@@ -377,23 +451,22 @@ def construct_concatenated(p, q):
     q_copy = q
     dim_diff = len(p_copy) - len(q_copy)
     if dim_diff > 0:
-        q_copy = ProbVector(np.append(q_copy.getArray(), [0]*dim_diff))
+        q_copy = ProbVector(np.append(q_copy, [0]*dim_diff))
     elif dim_diff < 0:
-        p_copy = ProbVector(np.append(p_copy.getArray(), [0]*-dim_diff))        
+        p_copy = ProbVector(np.append(p_copy, [0]*-dim_diff))        
     p_sum = 0
     q_sum = 0
     b_sum = 0
     for i in range(p_copy.dim):
-        p_sum += p_copy.getArray()[i]
-        q_sum += q_copy.getArray()[i]
+        p_sum += p_copy[i]
+        q_sum += q_copy[i]
         b_i = max(p_sum, q_sum) - b_sum
         b = np.append(b, b_i)
         b_sum += b_i
     print(b)
-    A = ProbVector(np.hstack([p.getArray(), q.getArray()]), normalize=False) # sum is 2
-    B = ProbVector(np.hstack([(p+q).getArray(), b]), normalize=False) # b is already only an array
+    A = ProbVector(np.hstack([p, q]), normalize=False) # sum is 2
+    B = ProbVector(np.hstack([(p+q), b]), normalize=False) # b is already only an array
     return A, B
-
 
 # quantities from Chapter 4
 def E_future(p, q):
@@ -505,7 +578,6 @@ def remove_majorizers(bank):
 
 
 
-
 # miscellaneous functions
 def guessing_entropy(v):
     """Implements the guessing entropy of a probability distribution (see Cicalese, Gargano and Vaccaro 2013),
@@ -517,17 +589,28 @@ def guessing_entropy(v):
     Returns:
         (float): value of the guessing entropy of v.
     """
-    return sum((i+1)* v.getArray()[i] for i in range(len(v))) # + 1 because of 0-indexing
+    return sum((i+1)* v[i] for i in range(len(v))) # + 1 because of 0-indexing
 
 def D(p, q): # as defined in Cicalese and Vaccaro 2013
     n = max(len(p), len(q))
     return 2/n * (2 * guessing_entropy(p + q) - guessing_entropy(p) - guessing_entropy(q))
 
-def S(p, q, alpha = 1): # basically just supermodularity but with renyi entropies
+def S(p, q, alpha = 1): # basically just supermodularity but with renyi entropies, note that using S on concatenations can yield negative values as * and + automatically renormalize their output
     return (- renyi_entropy(p, alpha) - renyi_entropy(q, alpha) + renyi_entropy(p * q, alpha) + renyi_entropy(p + q, alpha))
 
 def d_subadd(p, q, alpha = 1):
     return - renyi_entropy(p + q, alpha) + renyi_entropy(p, alpha) + renyi_entropy(q, alpha)
+
+def concatenate(p, q, rearrange=False, normalize=False):
+    r = ProbVector(np.hstack([p, q]), rearrange=rearrange, normalize=normalize)
+    return r
+
+def TV(p, q): # total variation distance of two distributions
+    res = 1/2*sum([abs(p[i] - q[i]) for i in range(min(len(p), len(q)))]) + sum([p[i] if len(q) < len(p) else q[i] for i in range(min(len(p), len(q)), max(len(p), len(q)))])
+
+def split_resource(d, f, split):
+    res = abs(f(d[:split]) - f(d[split:]))
+    return res
 
 
 
@@ -562,7 +645,7 @@ def plot_lorenz_curves(*prob_vectors, labels=None, colors=None, markers=None, ti
     
     for pv, label, color, marker, linestyle in zip(prob_vectors, labels, colors, markers, linestyles):
         if type(pv) == ProbVector: # in case we want to plot something that is not in non-increasing order
-            p = np.array(pv.getArray())
+            p = np.array(pv)
         else:
             p = pv
         #p_sorted = np.sort(p)[::-1]
