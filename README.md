@@ -1,34 +1,84 @@
-# MajoLat: Python library for majorization-related utilities
+# Majolat: Majorization and Quantum Information Tools
 
-## Installation and dependencies
+A Python library for working with majorization theory, probability vectors, (bi)stochastic matrices, and quantum entanglement transformations (SLOCC protocols).
 
-This project uses [numpy](https://numpy.org/), [matplotlib](https://matplotlib.org/), [QuTip](https://qutip.org/) and [tqdm](https://pypi.org/project/tqdm/2.2.3/), and is built with the [uv](https://docs.astral.sh/uv/) package manager, whose installation procedure is [here](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer).
+## Project Structure
 
-The package information are stored in the pyproject.toml file, once `uv` is installed on your system, you can run the `uv sync` command to retrieve the dependencies.
+```
+majolat/
+├── majolat/              # Main package
+│   ├── __init__.py      # Public API
+│   ├── majorization.py  # Core majorization classes (ProbVector, StochMatrix, BistochMatrix)
+│   ├── quantum.py       # Quantum information tools (SLOCC)
+│   └── utils.py         # Entropy, distances, incomparability measures, plotting
+├── examples/            # Example scripts
+│   ├── slocc_example.py
+│   └── slocc_analysis.py
+├── tests/               # Test files
+│   └── test_slocc.py
+├── docs/                # Documentation
+│   └── SLOCC_README.md
+├── pyproject.toml       # Package configuration
+└── README.md           # This file
+```
 
-Alternatively, you can simply run the installation script provided in this repository (which automatically installs `uv` on your system and runs `uv sync` to retrieve the dependencies):
+## Installation and Dependencies
 
-- Linux/WSL: in the installation directory, run the command
-    ```
-    bash preset.sh
-    ```
-- Windows: in the installation directory, run the command
-    ```
-    .\preset.ps1
-    ```
+This project uses [NumPy](https://numpy.org/), [Matplotlib](https://matplotlib.org/), and [QuTiP](https://qutip.org/).
 
-Once installed, to use the library, the virtual environment built by `uv` must first be activated.
+### For Development
 
-- Linux/WSL: in the installation directory, run the command
-    ```
-    source .venv/bin/activate
-    ```
-- Windows: in the installation directory, run the command
-    ```
-    .\.venv\Scripts\activate.bat
-    ```
+From the project root directory, simply set PYTHONPATH to use the library:
 
-Once this is done, the module is ready to be used in any Python code by using `import majorization` at the top of a Python file.
+```bash
+# Add to PYTHONPATH for the current session
+export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+
+# Or run scripts directly with PYTHONPATH
+PYTHONPATH=. python examples/slocc_example.py
+PYTHONPATH=. python tests/test_slocc.py
+```
+
+### System Installation (Optional)
+
+If you prefer to install the package:
+
+```bash
+pip install .
+```
+
+Then you can import directly without PYTHONPATH:
+
+```python
+from majolat import ProbVector, SLOCC, entropy
+```
+
+## Quick Start
+
+```python
+from majolat import ProbVector, SLOCC, entropy
+
+# Create probability vectors
+p = ProbVector([0.7, 0.2, 0.1])
+q = ProbVector([0.5, 0.3, 0.2])
+
+# Majorization operations
+meet = p + q  # Greatest lower bound (meet)
+join = p * q  # Least upper bound (join)
+majorizes = p > q  # Check if p majorizes q
+
+# Entropy measures
+h = entropy(p)
+print(f"Entropy: {h:.4f} bits")
+
+# SLOCC protocols for quantum entanglement transformations
+initial = ProbVector([0.7, 0.2, 0.1])
+target = ProbVector([0.5, 0.3, 0.2])
+slocc = SLOCC(initial, target)
+
+print(f"Success probability: {slocc.get_success_probability():.4f}")
+print(f"Failure Schmidt coeffs: {slocc.get_failure_schmidt()}")
+```
 
 ## Usage
 

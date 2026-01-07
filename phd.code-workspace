@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../phd/logbook"
+		},
+		{
+			"path": "../phd/proofs"
+		}
+	],
+	"settings": {}
+}

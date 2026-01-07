@@ -1,4 +1,6 @@
-from majorization import *
+from majolat import (
+    ProbVector, concatenate, S, relative_entropy
+)
 import numpy as np
 import matplotlib
 from tqdm import tqdm
