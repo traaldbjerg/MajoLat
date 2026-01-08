@@ -1,4 +1,4 @@
-import majorization as mj
+import majolat as mj
 import numpy as np
 from tqdm import tqdm
 import copy

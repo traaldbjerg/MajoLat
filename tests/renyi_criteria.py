@@ -1,6 +1,6 @@
 import qutip as q
 import numpy as np
-import majorization as mj
+import majolat as mj
 import csv
 from tqdm import tqdm
 import matplotlib.pyplot as plt

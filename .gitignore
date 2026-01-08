@@ -202,12 +202,14 @@ cython_debug/
 *.toc
 *.zip
 *.bbl-SAVE-ERROR
+*.nav
+*.snm
 
 #custom files
 scratch.py
 results/
 simu/
-plot.py
-proofs/
+#plot.py
 backup/
 tables/
+backup.tex
