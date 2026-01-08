@@ -12,45 +12,36 @@ majolat/
 │   ├── quantum.py       # Quantum information tools (SLOCC)
 │   └── utils.py         # Entropy, distances, incomparability measures, plotting
 ├── examples/            # Example scripts
-│   ├── slocc_example.py
-│   └── slocc_analysis.py
 ├── tests/               # Test files
-│   └── test_slocc.py
 ├── docs/                # Documentation
-│   └── SLOCC_README.md
 ├── pyproject.toml       # Package configuration
 └── README.md           # This file
 ```
 
 ## Installation and Dependencies
 
-This project uses [NumPy](https://numpy.org/), [Matplotlib](https://matplotlib.org/), and [QuTiP](https://qutip.org/) [1].
-
-### For Development
-
-From the project root directory, simply set PYTHONPATH to use the library:
+This project uses [NumPy](https://numpy.org/), [Matplotlib](https://matplotlib.org/), and [QuTiP](https://qutip.org/) [1] and [uv](https://docs.astral.sh/uv/) for dependency management. To install the package (in editable mode by default) run:
 
 ```bash
-# Add to PYTHONPATH for the current session
-export PYTHONPATH="${PYTHONPATH}:$(pwd)"
-
-# Or run scripts directly with PYTHONPATH
-PYTHONPATH=. python examples/slocc_example.py
-PYTHONPATH=. python tests/test_slocc.py
+uv sync
 ```
 
-### System Installation (Optional)
+This will:
+- Install Python 3.9 (required for qutip 4.x compatibility)
+- Create a virtual environment in `.venv/`
+- Install the package in editable mode along with all dependencies
 
-If you prefer to install the package:
+To use the library, you then need to activate the environment:
 
 ```bash
-pip install .
-```
+# Activate the virtual environment
+source .venv/bin/activate  # On Unix/macOS
+# or
+.venv\Scripts\activate  # On Windows
 
-Then you can import directly without PYTHONPATH:
-
-```python
-from majolat import ProbVector, SLOCC, entropy
+# Now you can use the library
+python examples/slocc_example.py
+python tests/test_slocc.py
 ```
 
 ## Quick Start
