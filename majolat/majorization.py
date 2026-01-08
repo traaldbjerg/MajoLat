@@ -113,6 +113,28 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
         Returns:
             meet (ProbVector): the meet of self and other.
         """
+        return self.meet(other)
+
+    def __mul__(self, other):
+        """Method that handles the construction of the join of two probability vectors. Notations and algorithm from Cicalese and Vaccaro 2002, which is described in Section 1.3.4 in the manuscript.
+
+        Args:
+            other (ProbVector): the second distribution with which to construct the join.
+
+        Returns:
+            join (ProbVector): the join of self and other.
+        """
+        return self.join(other)
+
+    def meet(self, other):  # alias
+        """Method that handles the construction of the meet of two probability vectors. Notations and algorithm from Cicalese and Vaccaro 2002, which is described in Section 1.3.3 in the manuscript.
+
+        Args:
+            other (ProbVector): the second distribution with which to construct the meet.
+
+        Returns:
+            meet (ProbVector): the meet of self and other.
+        """
         a = np.array([])  # coefficients of alpha(p, q) in the text
         p = self
         q = other
@@ -133,7 +155,7 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
         meet = ProbVector(a)
         return meet  # returns the glb
 
-    def __mul__(self, other):
+    def join(self, other):  # alias
         """Method that handles the construction of the join of two probability vectors. Notations and algorithm from Cicalese and Vaccaro 2002, which is described in Section 1.3.4 in the manuscript.
 
         Args:
@@ -176,12 +198,6 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
                     b[k] = a
         join = ProbVector(b)
         return join  # returns the lub
-
-    def meet(self, other):  # alias
-        return self + other
-
-    def join(self, other):  # alias
-        return self * other
 
     def __sub__(self, other):
         """Method that computes the entropic distance from Cicalese, Gargano and Vaccaro 2013 (cf. Section 1.4.3 in the manuscript).
