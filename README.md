@@ -93,7 +93,7 @@ The usefulness of the `ProbVector` class is in its implementation of methods for
 
 A class `BistochMatrix` is also defined, which is useful to apply bistochastic degradations to `ProbVectors` and check monotonicity results.
 
-Most quantities defined in the MSc Thesis "Majorization lattice in the theory of entanglement" are also defined in the `majorization` module, and can be called. List of functions (non-exhaustive):
+Most quantities defined in the MSc Thesis "Majorization lattice in the theory of entanglement" [5] are also defined in the `majorization` submodule, and can be called. Non-exhaustive list of functions (section and equation numbers from Ref. [5]):
 
 - `entropy(p)`: returns the Shannon entropy of `p`as a float.
 - `renyi_entropy(p, alpha)`: returns the Rényi entropy of `p` of order `alpha` as a float.
@@ -117,3 +117,5 @@ Finally, a couple pre-made scripts are also available in the `examples/` and the
 [3] M. A. Nielsen and G. Vidal, Majorization and the interconversion of bipartite states, Quant. Inf. Comput. 1, 76 (2001).
 
 [4] F. Cicalese, L. Gargano, and U. Vaccaro, Information Theoretic Measures of Distances and Their Econometric Applications, in 2013 IEEE International Symposium on Information Theory (2013), pp. 409–413.
+
+[5] A. Stévins, Majorization lattice in the theory of quantum entanglement, Master thesis, Université libre de Bruxelles, 2025.
