@@ -89,7 +89,7 @@ The usefulness of the `ProbVector` class is in its implementation of methods for
 - `p > q` returns `True` if `p` majorizes `q`, and `False` otherwise.
 - `p + q` returns a new `ProbVector` which is the meet of `p` and `q`.
 - `p * q` returns a new `ProbVector` which is the join of `p` and `q`.
-- `p - q` returns the value of the entropic distance $d(p, q)$ from Cicalese, Gargano and Vaccaro 2013 (cf. Section 1.4.3) as a float.
+- `p - q` returns the value of the entropic distance $d(p, q)$ from Ref. [4] as a float.
 
 A class `BistochMatrix` is also defined, which is useful to apply bistochastic degradations to `ProbVectors` and check monotonicity results.
 
@@ -113,3 +113,4 @@ Finally, a couple pre-made scripts are also available in the `examples/` and the
 [1] J. R. Johansson, P. D. Nation, and F. Nori, QuTiP: An open-source Python framework for the dynamics of open quantum systems, Comput. Phys. Comm. 183, 1760 (2012).
 [2] F. Cicalese and U. Vaccaro, Supermodularity and subadditivity properties of the entropy on the majorization lattice, IEEE Trans. Inform. Theory 48, 933 (2002).
 [3] M. Nielsen and G. Vidal, Majorization and the interconversion of bipartite states, Quant. Inf. Comput. 1, 76 (2001).
+[4] F. Cicalese, L. Gargano, and U. Vaccaro, Information Theoretic Measures of Distances and Their Econometric Applications, in 2013 IEEE International Symposium on Information Theory (2013), pp. 409–413.
