@@ -84,7 +84,7 @@ The usefulness of the `ProbVector` class is in its implementation of methods for
 
 A class `BistochMatrix` is also defined, which is useful to apply bistochastic degradations to `ProbVectors` and check monotonicity results.
 
-Most quantities defined in the MSc Thesis "Majorization lattice in the theory of entanglement" [5] are also defined in the `majorization` submodule, and can be called. Non-exhaustive list of functions (section and equation numbers from Ref. [5]):
+Most quantities defined in the MSc Thesis "Majorization lattice in the theory of entanglement" [5] are also defined in the `utils` submodule, and can be called. Non-exhaustive list of functions (section and equation numbers from Ref. [5]):
 
 - `entropy(p)`: returns the Shannon entropy of `p`as a float.
 - `renyi_entropy(p, alpha)`: returns the Rényi entropy of `p` of order `alpha` as a float.
@@ -93,7 +93,7 @@ Most quantities defined in the MSc Thesis "Majorization lattice in the theory of
 - `unique_entropy(p, bank)`: returns the value of the uniqueness entropy of `p` relative to the `bank` as a float (cf. Definition 5.1) as a float.
 - `construct_concatenated(p, q)`: returns a non-normalized `ProbVector` which is the ordered concatenation of `p` and `q`. Useful to test the postulated majorization precursor from Conjecture 3.1.
 
-Finally, a couple pre-made scripts are also available in the `examples/` and the `tests/` folders. Note that the libraries QuTip, matplotlib and tqdm are only used here. They are thus not necessary to run the `majorization` module itself.
+Finally, a couple pre-made scripts are also available in the `examples/` and the `tests/` folders.
 
 - `hypothesis_test.py`: implements a generic hypothesis test, which seeks a counterexample with statistical sampling. In the default state, the code seeks a counterexample to the bank monotonicity of the uniqueness entropy, but the code should be tweaked manually for another hypothesis test.
 - `renyi_criteria.py`: implements the Rényi criterion test to compare with the meet from Section 4.1.3 by sampling entangled state representations. The parameters can be tweaked at the bottom of the file, after the `if __name__ == "__main__"` test.
