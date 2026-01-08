@@ -111,6 +111,9 @@ Finally, a couple pre-made scripts are also available in the `examples/` and the
 ## References
 
 [1] J. R. Johansson, P. D. Nation, and F. Nori, QuTiP: An open-source Python framework for the dynamics of open quantum systems, Comput. Phys. Comm. 183, 1760 (2012).
+
 [2] F. Cicalese and U. Vaccaro, Supermodularity and subadditivity properties of the entropy on the majorization lattice, IEEE Trans. Inform. Theory 48, 933 (2002).
-[3] M. Nielsen and G. Vidal, Majorization and the interconversion of bipartite states, Quant. Inf. Comput. 1, 76 (2001).
+
+[3] M. A. Nielsen and G. Vidal, Majorization and the interconversion of bipartite states, Quant. Inf. Comput. 1, 76 (2001).
+
 [4] F. Cicalese, L. Gargano, and U. Vaccaro, Information Theoretic Measures of Distances and Their Econometric Applications, in 2013 IEEE International Symposium on Information Theory (2013), pp. 409–413.
