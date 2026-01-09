@@ -58,14 +58,14 @@ def random_strongly_entangled_state(dim1, dim2, entropic=False):
     meet = 1 # just to pass the initial test, then probvectors
     if not entropic: # use majorization criterion
         while meet > ab: # only false if the state is entangled (note that lightly entangled states are not detected here and will never be outputted by this function)
-            state = q.rand_dm(dim1*dim2, dims=[[dim1, dim2], [dim1, dim2]]) # the tensor structure is set at the end so this is actually fine and doesn't create a product state
+            state = q.rand_dm([[dim1, dim2], [dim1, dim2]]) # qutip 5.x: dimensions parameter replaces dims keyword
             ab = mj.ProbVector(state.eigenenergies())
             a = mj.ProbVector(state.ptrace(0).eigenenergies())
             b = mj.ProbVector(state.ptrace(1).eigenenergies())
             meet = a + b
     else: # use entropic criterion:
         while mj.entropy(meet) < mj.entropy(ab): # only false if the state is entangled (note that lightly entangled states are not detected here and will never be outputted by this function)
-            state = q.rand_dm(dim1*dim2, dims=[[dim1, dim2], [dim1, dim2]]) # the tensor structure is set at the end so this is actually fine and doesn't create a product state
+            state = q.rand_dm([[dim1, dim2], [dim1, dim2]]) # qutip 5.x: dimensions parameter replaces dims keyword
             ab = mj.ProbVector(state.eigenenergies())
             a = mj.ProbVector(state.ptrace(0).eigenenergies())
             b = mj.ProbVector(state.ptrace(1).eigenenergies())

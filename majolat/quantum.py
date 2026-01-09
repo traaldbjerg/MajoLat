@@ -65,6 +65,8 @@ class SLOCC():
         # Extract Schmidt coefficients of failure state
         self.failure_schmidt = self._extract_schmidt_coeffs(self.failure_state)
 
+    ### private methods
+
     def _build_density_matrix(self, schmidt_coeffs):
         """Construct density matrix for bipartite pure state from Schmidt coefficients.
 
@@ -104,7 +106,7 @@ class SLOCC():
 
         # Otherwise compute maximum achievable probability
         # Iterate from smallest to largest (reverse order since ProbVectors are sorted descending)
-        max_prob = np.inf
+        max_prob = np.inf # is always going to be replaced by a number <= 1 so should be fine
         sum_initial = 0
         sum_target = 0
 
@@ -196,6 +198,8 @@ class SLOCC():
         schmidt_coeffs = schmidt_coeffs / np.sum(schmidt_coeffs)
 
         return ProbVector(schmidt_coeffs)
+
+    ### public methods
 
     def get_success_schmidt(self):
         """Return Schmidt coefficients of the success state."""

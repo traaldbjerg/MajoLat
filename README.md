@@ -27,7 +27,7 @@ uv sync
 ```
 
 This will:
-- Install Python 3.9 (required for qutip 4.x compatibility)
+- Use Python 3.12 (uses your system Python for better GUI compatibility)
 - Create a virtual environment in `.venv/`
 - Install the package in editable mode along with all dependencies
 
