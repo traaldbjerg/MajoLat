@@ -89,6 +89,28 @@ def relative_entropy(p, q):
     return res
 
 
+
+### SUPERMODULARITY ###
+
+# see A. Américo, M. H. R. Khouzani, and P. Malacaria, Channel-Supermodular Entropies: Order Theory and an Application to Query Anonymization, Entropy 24, 39 (2022)
+
+def cc_entropy(wrap, phi, v): # core-concave entropy
+    return wrap(phi(v))
+
+def ar_entropy(p, alpha): # alpha-Arimoto-Renyi entropy
+    return alpha/(1 - alpha) * np.log2(np.linalg.norm(p, ord=alpha))
+
+def hr_entropy(p, alpha): # alpha-Hayashi-Renyi entropy
+    return 1/(1 - alpha) * np.log2(np.sum([pi**alpha for pi in p]))
+
+def tsallis_entropy(p, alpha): # Tsallis entropy
+    return 1/(alpha - 1) * (1 - np.sum([pi**alpha for pi in p]))
+
+def sm_entropy(p, alpha, beta): # Sharma-Mittal entropy
+    return 1/(beta - 1) * (1 - (np.sum([pi**alpha for pi in p])))**((1 - beta)/(1 - alpha))
+
+
+
 ### DISTANCE MEASURES ###
 
 def d(p, q):
@@ -266,8 +288,8 @@ def construct_concatenated(p, q):
 
 
 def guessing_entropy(v):
-    """Implements the guessing entropy of a probability distribution (see Cicalese, Gargano and Vaccaro 2013),
-       mostly for a Gini index.
+    """Implements the guessing entropy of a probability distribution, models the average number of tries needed for guessing a secret with an optimal strategy
+       (i.e. guessing the most likely possibility first, then the second etc.)
 
     Args:
         v (ProbVector): distribution to compute the guessing entropy of.

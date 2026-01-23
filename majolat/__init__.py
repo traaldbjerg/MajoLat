@@ -32,6 +32,11 @@ from .utils import (
     renyi_entropy,
     mutual_information,
     relative_entropy,
+    ar_entropy,
+    hr_entropy,
+    tsallis_entropy,
+    sm_entropy,
+    cc_entropy,
 )
 
 # Distance measures

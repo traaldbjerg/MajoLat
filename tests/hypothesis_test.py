@@ -1,5 +1,5 @@
 from majolat import (
-    ProbVector, concatenate, S, relative_entropy
+    ProbVector, concatenate, S, relative_entropy, tsallis_entropy
 )
 import numpy as np
 import matplotlib
@@ -24,20 +24,30 @@ def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, bank_size=
     """
     record = 0
     for _ in tqdm(range(tries), desc="Testing hypothesis"):
-        p = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
-        q = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
+        switch = True
+        while switch: # prevent comparability
+            p = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
+            q = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
+            if not (p < q or p > q):
+                switch = False
         # code to tweak depending on hypothesis
-        A = concatenate(p, q, rearrange=True)
-        B = concatenate(p+q, p*q, rearrange=True)
-        if S(p, q) - relative_entropy(A, B) < -1e-12:
-            print(p)
-            print(q)
-            print(A)
-            print(B)
-            print(S(p, q))
-            print(relative_entropy(A, B))
-            hypothesis = False
-            break
+        #for beta in range(1, 1000, 10):
+        #    pass
+        #for alpha in range(1, 1000, 10):
+        #    pass
+        for alpha in range(1001, 2000, 10):
+            alpha /= 1000
+            value = tsallis_entropy(p+q, alpha) + tsallis_entropy(p*q, alpha) - tsallis_entropy(p, alpha) - tsallis_entropy(q, alpha)
+            if value < -1e-12:
+                print(p)
+                print(q)
+                print(tsallis_entropy(p, alpha))
+                print(tsallis_entropy(q, alpha))
+                #print(alpha)
+                #print(beta)
+                print(value)
+                hypothesis = False
+                    
         
     #print(record)
     return hypothesis, comp
@@ -53,7 +63,7 @@ def generate_bank(dims, total, ocr=0, distribution=None):
     return b
 
 if __name__ == "__main__":
-    dimensions = 8
+    dimensions = 5
     tries = 10000
     ratio = 0
     comp = 0
@@ -61,8 +71,4 @@ if __name__ == "__main__":
     hypothesis = True
 
     hypothesis, comp = generate_attempts(dimensions=dimensions, tries=tries, ratio=ratio, comp=comp, bank_size=bank_size, hypothesis=hypothesis)
-    print(hypothesis)
-    
-if __name__ == "__main__":
-    hypothesis, comp = generate_attempts()
     print(hypothesis)
