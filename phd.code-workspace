@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "../phd/proofs"
+		},
+		{
+			"path": "../phd/reports"
 		}
 	],
 	"settings": {}

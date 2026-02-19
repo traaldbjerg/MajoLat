@@ -125,6 +125,16 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
             join (ProbVector): the join of self and other.
         """
         return self.join(other)
+    
+    def zero_pad(self, other, rearrange=True):
+        p = self
+        q = other
+        dim_diff = len(self) - len(other)
+        if dim_diff > 0:
+            q = ProbVector(np.append(other, [0]*dim_diff), rearrange=rearrange)
+        elif dim_diff < 0:
+            p = ProbVector(np.append(self, [0]*-dim_diff), rearrange=rearrange)
+        return p, q
 
     def meet(self, other):  # alias
         """Method that handles the construction of the meet of two probability vectors. Notations and algorithm from Cicalese and Vaccaro 2002, which is described in Section 1.3.3 in the manuscript.
@@ -136,13 +146,7 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
             meet (ProbVector): the meet of self and other.
         """
         a = np.array([])  # coefficients of alpha(p, q) in the text
-        p = self
-        q = other
-        dim_diff = len(self) - len(other)
-        if dim_diff > 0:
-            q = ProbVector(np.append(other, [0]*dim_diff))
-        elif dim_diff < 0:
-            p = ProbVector(np.append(self, [0]*-dim_diff))
+        p, q = self.zero_pad(other)
         p_sum = 0
         q_sum = 0
         a_sum = 0
@@ -165,13 +169,7 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
             join (ProbVector): the join of self and other.
         """
         b = np.array([])  # coefficients of beta(p, q) in the text
-        p = self
-        q = other
-        dim_diff = len(self) - len(other)
-        if dim_diff > 0:
-            q = ProbVector(np.append(other, [0]*dim_diff))
-        elif dim_diff < 0:
-            p = ProbVector(np.append(self, [0]*-dim_diff))
+        p, q = self.zero_pad(other)
         p_sum = 0
         q_sum = 0
         b_sum = 0

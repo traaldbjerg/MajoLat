@@ -327,6 +327,17 @@ def split_resource(d, f, split):
     res = abs(f(d[:split]) - f(d[split:]))
     return res
 
+def vidal_probability(initial, final): # computes the optimal SLOCC success probability according to Vidal's theorem (supermajorization criterion)
+    p, q = initial.zero_pad(final, rearrange=True)
+    proba = 1
+    p_sum = 0
+    q_sum = 0
+    for i in range(len(p)):
+        p_sum += p[-1-i] # reverse order to go through Schmidt coefs in increasing order
+        q_sum += q[-1-i]
+        if p_sum/q_sum <= proba:
+            proba = p_sum/q_sum
+    return proba
 
 ### VISUALIZATION TOOLS ###
 
