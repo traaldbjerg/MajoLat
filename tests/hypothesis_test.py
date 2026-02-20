@@ -1,5 +1,5 @@
 from majolat import (
-    ProbVector, concatenate, S, relative_entropy, tsallis_entropy
+    ProbVector, concatenate, E_future, E_past
 )
 import numpy as np
 import matplotlib
@@ -28,25 +28,43 @@ def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, bank_size=
         while switch: # prevent comparability
             p = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
             q = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
-            if not (p < q or p > q):
+            if (E_future(p, q) >= 0.25 and E_past(p, q) >= 0.25):
                 switch = False
-        # code to tweak depending on hypothesis
-        #for beta in range(1, 1000, 10):
-        #    pass
-        #for alpha in range(1, 1000, 10):
-        #    pass
-        for alpha in range(1001, 2000, 10):
-            alpha /= 1000
-            value = tsallis_entropy(p+q, alpha) + tsallis_entropy(p*q, alpha) - tsallis_entropy(p, alpha) - tsallis_entropy(q, alpha)
-            if value < -1e-12:
+        A = concatenate(p, q, rearrange=True)
+        B = concatenate(p + q, p * q, rearrange=True)
+        print("ok1")
+        
+        for attempt in range(tries):
+            ### generate r and s
+            switch1 = True
+            while switch1:
+                switch2 = True
+                while switch2:
+                    r = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
+                    if (p > r):
+                        switch2 = False
+                switch3 = True
+                while switch3:
+                    s = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
+                    if (q < s):
+                        switch3 = False
+                C = concatenate(r, s, rearrange=True)
+                #print("ok1?")
+                #print("attempt")
+                if (A > C):
+                    switch1 = False
+            print("ok2")
+                    
+            ### test hypothesis
+            
+            if (C > B):
+                print("Hypothesis is false")
                 print(p)
                 print(q)
-                print(tsallis_entropy(p, alpha))
-                print(tsallis_entropy(q, alpha))
-                #print(alpha)
-                #print(beta)
-                print(value)
-                hypothesis = False
+                print(p + q)
+                print(p * q)
+                print(r)
+                print(s)
                     
         
     #print(record)
@@ -63,8 +81,8 @@ def generate_bank(dims, total, ocr=0, distribution=None):
     return b
 
 if __name__ == "__main__":
-    dimensions = 5
-    tries = 10000
+    dimensions = 3
+    tries = 100
     ratio = 0
     comp = 0
     bank_size = 5

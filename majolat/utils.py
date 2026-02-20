@@ -339,6 +339,13 @@ def vidal_probability(initial, final): # computes the optimal SLOCC success prob
             proba = p_sum/q_sum
     return proba
 
+
+
+
+
+
+
+
 ### VISUALIZATION TOOLS ###
 
 def plot_lorenz_curves(*prob_vectors, labels=None, colors=None, markers=None, title="Lorenz Curves",
