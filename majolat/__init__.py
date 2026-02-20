@@ -37,6 +37,7 @@ from .utils import (
     tsallis_entropy,
     sm_entropy,
     cc_entropy,
+    vidal_probability
 )
 
 # Distance measures
