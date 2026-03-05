@@ -124,7 +124,14 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
         Returns:
             join (ProbVector): the join of self and other.
         """
-        return self.join(other)
+        if isinstance(other, ProbVector): # join
+            return self.join(other)
+        elif isinstance(other, float): # element-wise multiplication
+            res = []
+            for i in range(self.dim):
+                res.append(self[i]*other)
+            res = ProbVector(res, normalize=False, rearrange=False)
+            return res
     
     def zero_pad(self, other, rearrange=True):
         p = self
@@ -191,7 +198,7 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
                         i -= 1  # could also do this at the end but then need to change the formula for a
                         a = s/(j-i+1)
                     else:
-                        break  # not super clean but this way the conditions are executed correctly
+                        break  # not super clean but this way the conditions are executed correctly at least
                 for k in range(i, j+1):
                     b[k] = a
         join = ProbVector(b)
@@ -209,7 +216,7 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
         from .utils import entropy
         return entropy(self) + entropy(other) - 2*entropy(self * other)  # d(x, y) in the paper
 
-    def __truediv__(self, other):
+    def __truediv__(self, other): # element-wise division
         res = []
         for i in range(self.dim):
             res.append(self[i]/other)

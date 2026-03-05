@@ -335,7 +335,7 @@ def vidal_probability(initial, final): # computes the optimal SLOCC success prob
     for i in range(len(p)):
         p_sum += p[-1-i] # reverse order to go through Schmidt coefs in increasing order
         q_sum += q[-1-i]
-        if p_sum/q_sum <= proba:
+        if q_sum != 0 and p_sum/q_sum <= proba:
             proba = p_sum/q_sum
     return proba
 

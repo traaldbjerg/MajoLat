@@ -1,5 +1,5 @@
 from majolat import (
-    ProbVector, concatenate, E_future, E_past
+    ProbVector, concatenate, vidal_probability
 )
 import numpy as np
 import matplotlib
@@ -28,44 +28,24 @@ def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, bank_size=
         while switch: # prevent comparability
             p = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
             q = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
-            if (E_future(p, q) >= 0.25 and E_past(p, q) >= 0.25):
+            if not (p < q or p > q):
                 switch = False
-        A = concatenate(p, q, rearrange=True)
-        B = concatenate(p + q, p * q, rearrange=True)
-        print("ok1")
+        A = concatenate(p, p, normalize=True, rearrange=True)
+        B = concatenate(p + q, p * q, normalize=True, rearrange=True) # m + j
+        C = concatenate(p, q, normalize=True, rearrange=True) # p + q
         
-        for attempt in range(tries):
-            ### generate r and s
-            switch1 = True
-            while switch1:
-                switch2 = True
-                while switch2:
-                    r = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
-                    if (p > r):
-                        switch2 = False
-                switch3 = True
-                while switch3:
-                    s = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
-                    if (q < s):
-                        switch3 = False
-                C = concatenate(r, s, rearrange=True)
-                #print("ok1?")
-                #print("attempt")
-                if (A > C):
-                    switch1 = False
-            print("ok2")
-                    
-            ### test hypothesis
-            
-            if (C > B):
-                print("Hypothesis is false")
-                print(p)
-                print(q)
-                print(p + q)
-                print(p * q)
-                print(r)
-                print(s)
-                    
+        if vidal_probability(A, B) < vidal_probability(A, C) - 1e-12:
+            print(f"Obtaining B from A: {vidal_probability(A, B)}; obtaining C from A: {vidal_probability(A, C)}")
+        #print(f"Ratio: {vidal_probability(p, q)/vidal_probability(A, B)}; without EPR: {vidal_probability(p, q)}; with EPR: {vidal_probability(A, B)}")
+        #if vidal_probability(p, q) > vidal_probability(A, B) + 1e-12:
+        #    print(vidal_probability(A, C))
+        #    print(vidal_probability(A, B))
+        #    print(p)
+        #    print(q)
+        #    print(A)
+        #    print(B)
+        #    print(C)
+        #    print("rip")
         
     #print(record)
     return hypothesis, comp
@@ -81,8 +61,8 @@ def generate_bank(dims, total, ocr=0, distribution=None):
     return b
 
 if __name__ == "__main__":
-    dimensions = 3
-    tries = 100
+    dimensions = 4
+    tries = 100000
     ratio = 0
     comp = 0
     bank_size = 5
