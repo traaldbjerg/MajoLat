@@ -123,7 +123,7 @@ def d(p, q):
     Returns:
         (float): value of the entropic distance from p to q.
     """
-    return entropy(p) + entropy(q) - 2*entropy(p * q)
+    return entropy(p) + entropy(q) - 2*entropy(p - q)
 
 
 def d_prime(p, q):
@@ -151,7 +151,7 @@ def E_future(p, q):
     Returns:
         (float): value of the future incomparability of p relative to q
     """
-    return d(p, p * q)  # see Theorem 4.1
+    return d(p, p - q)  # see Theorem 4.1
 
 
 def E_past(p, q):
@@ -222,8 +222,8 @@ def unique_entropy(p, bank, reduce=True):
         for combination in itertools.combinations(b, i + 1):  # generate all the combinations of length i+1 (0-indexing)
             joined_state = combination[0]
             for state in combination:  # generate the joined_state
-                joined_state = joined_state * state
-            entropy_sum += ((-1) ** (i+1)) * entropy(p * joined_state)
+                joined_state = joined_state - state
+            entropy_sum += ((-1) ** (i+1)) * entropy(p - joined_state)
     return entropy_sum
 
 
@@ -306,7 +306,7 @@ def D(p, q):  # as defined in Cicalese and Vaccaro 2013
 
 
 def S(p, q, alpha=1):  # basically just supermodularity but with renyi entropies, note that using S on concatenations can yield negative values as * and + automatically renormalize their output
-    return (- renyi_entropy(p, alpha) - renyi_entropy(q, alpha) + renyi_entropy(p * q, alpha) + renyi_entropy(p + q, alpha))
+    return (- renyi_entropy(p, alpha) - renyi_entropy(q, alpha) + renyi_entropy(p - q, alpha) + renyi_entropy(p + q, alpha))
 
 
 def d_subadd(p, q, alpha=1):

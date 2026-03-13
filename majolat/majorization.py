@@ -65,7 +65,7 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
     def __setitem__(self, index, value):
         self.probs[index] = value
 
-    def majorizes(self, other):
+    def majorizes(self, other, unordered=False):
         """Method that handles the majorization relation. Implements Eq. (1.2) from the manuscript.
 
         Args:
@@ -76,6 +76,9 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
         """
         p = self
         q = other
+        if not unordered: # just in case unordered majorization is required at some point, but makes it easier to deal with unordered vectors in the meantime
+            p = ProbVector(np.sort(p)[::-1])
+            q = ProbVector(np.sort(q)[::-1])
         dim_diff = len(self) - len(other)
         if dim_diff > 0:  # handle differing input dimensions
             q = ProbVector(np.append(other, [0]*dim_diff))
@@ -124,8 +127,8 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
         Returns:
             join (ProbVector): the join of self and other.
         """
-        if isinstance(other, ProbVector): # join
-            return self.join(other)
+        if isinstance(other, ProbVector):
+            return self.tensor(other, normalize=False, rearrange=False)
         elif isinstance(other, float): # element-wise multiplication
             res = []
             for i in range(self.dim):
@@ -154,6 +157,8 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
         """
         a = np.array([])  # coefficients of alpha(p, q) in the text
         p, q = self.zero_pad(other)
+        p = ProbVector(np.sort(p)[::-1], normalize=False)
+        q = ProbVector(np.sort(q)[::-1], normalize=False)
         p_sum = 0
         q_sum = 0
         a_sum = 0
@@ -177,6 +182,8 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
         """
         b = np.array([])  # coefficients of beta(p, q) in the text
         p, q = self.zero_pad(other)
+        p = ProbVector(np.sort(p)[::-1], normalize=False)
+        q = ProbVector(np.sort(q)[::-1], normalize=False)
         p_sum = 0
         q_sum = 0
         b_sum = 0
@@ -203,18 +210,20 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
                     b[k] = a
         join = ProbVector(b)
         return join  # returns the lub
+    
+    def tensor(self, other, rearrange=True, normalize=True):
+        p, q = self.zero_pad(other)
+        r = []
+        for a in p:
+            for b in q:
+                r.append(a*b)
+        return ProbVector(r, rearrange=rearrange, normalize=normalize)
 
     def __sub__(self, other):
-        """Method that computes the entropic distance from Cicalese, Gargano and Vaccaro 2013 (cf. Section 1.4.3 in the manuscript).
-
-        Args:
-            other (ProbVector): the endpoint distribution of the segment to measure.
-
-        Returns:
-            (float): computed distance.
-        """
-        from .utils import entropy
-        return entropy(self) + entropy(other) - 2*entropy(self * other)  # d(x, y) in the paper
+        if isinstance(other, ProbVector): # join
+            return self.join(other)
+        elif isinstance(other, float):
+            return ProbVector([self.probs[i] - other for i in range(len(self))], normalize=False, rearrange=False)
 
     def __truediv__(self, other): # element-wise division
         res = []

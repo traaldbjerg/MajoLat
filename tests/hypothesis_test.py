@@ -1,5 +1,5 @@
 from majolat import (
-    ProbVector, concatenate, vidal_probability
+    ProbVector, renyi_entropy, vidal_probability
 )
 import numpy as np
 import matplotlib
@@ -30,22 +30,8 @@ def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, bank_size=
             q = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
             if not (p < q or p > q):
                 switch = False
-        A = concatenate(p, p, normalize=True, rearrange=True)
-        B = concatenate(p + q, p * q, normalize=True, rearrange=True) # m + j
-        C = concatenate(p, q, normalize=True, rearrange=True) # p + q
-        
-        if vidal_probability(A, B) < vidal_probability(A, C) - 1e-12:
-            print(f"Obtaining B from A: {vidal_probability(A, B)}; obtaining C from A: {vidal_probability(A, C)}")
-        #print(f"Ratio: {vidal_probability(p, q)/vidal_probability(A, B)}; without EPR: {vidal_probability(p, q)}; with EPR: {vidal_probability(A, B)}")
-        #if vidal_probability(p, q) > vidal_probability(A, B) + 1e-12:
-        #    print(vidal_probability(A, C))
-        #    print(vidal_probability(A, B))
-        #    print(p)
-        #    print(q)
-        #    print(A)
-        #    print(B)
-        #    print(C)
-        #    print("rip")
+        print(vidal_probability(p * p, p * q))
+        print(vidal_probability(p * p, (p + q) * (p - q)))
         
     #print(record)
     return hypothesis, comp
@@ -61,8 +47,8 @@ def generate_bank(dims, total, ocr=0, distribution=None):
     return b
 
 if __name__ == "__main__":
-    dimensions = 4
-    tries = 100000
+    dimensions = 7
+    tries = 1
     ratio = 0
     comp = 0
     bank_size = 5
