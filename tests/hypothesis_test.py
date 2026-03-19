@@ -8,7 +8,7 @@ import itertools
 
 
 
-def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, bank_size=4, hypothesis=True):
+def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, n=3, hypothesis=True):
     """Implements a generic hypothesis test through statistical sampling. The code should be tweaked manually to change the hypothesis.
 
     Args:
@@ -28,10 +28,17 @@ def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, bank_size=
         while switch: # prevent comparability
             p = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
             q = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
-            if not (p < q or p > q):
+            if not (p < q or p > q) and p[-1] > q[-1]: # tensoring can only help if last proba is not the bottleneck
                 switch = False
-        print(vidal_probability(p * p, p * q))
-        print(vidal_probability(p * p, (p + q) * (p - q)))
+        res_direct = vidal_probability(p, q)
+        res_multi = vidal_probability(p**n, (p+q) * p**(n-1))
+        #print(vidal_probability(p * p, (p + q) * (p - q)) * vidal_probability((p + q) * (p - q), q * q))
+        res_supermod = vidal_probability(p**n, (p + q) * (p - q) * p**(n-2))
+        #vidal_probability(p**n, (p + q) * p**(n-1))
+        if res_multi < res_supermod - 1e-12:
+            print(res_direct)
+            print(res_multi)
+            print(res_supermod)
         
     #print(record)
     return hypothesis, comp
@@ -47,12 +54,12 @@ def generate_bank(dims, total, ocr=0, distribution=None):
     return b
 
 if __name__ == "__main__":
-    dimensions = 7
+    dimensions = 4
     tries = 1
     ratio = 0
     comp = 0
-    bank_size = 5
+    n = 2
     hypothesis = True
 
-    hypothesis, comp = generate_attempts(dimensions=dimensions, tries=tries, ratio=ratio, comp=comp, bank_size=bank_size, hypothesis=hypothesis)
+    hypothesis, comp = generate_attempts(dimensions=dimensions, tries=tries, ratio=ratio, comp=comp, n=n, hypothesis=hypothesis)
     print(hypothesis)

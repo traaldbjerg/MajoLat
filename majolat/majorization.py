@@ -10,8 +10,8 @@ import numpy as np
 
 class ProbVector():  # notations from Cicalese and Vaccaro 2002
     """Class for probability vectors. Implements several methods for majorization-related applications. Most notably,
-       < and > are overriden to mean 'is majorized by' and 'majorizes', respectively., and + and * are overriden to mean
-       'meet' and 'join', respectively. Other useful functions can be used on them, such as monotones.
+       < and > are overriden to mean 'is majorized by' and 'majorizes', respectively., and + and - are overriden to mean
+       'meet' and 'join', respectively. Other useful functions can be used on them, such as monotones or tensor products (*).
 
        Parameters:
        probs (ArrayLike): array of probabilites to convert into a ProbVector object. Must sum to 1
@@ -35,8 +35,11 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
         self.dim = len(probs)
         # normalize and rearrange probabilities
         if rearrange:
+            #print(probs)
             probs = np.sort(probs)[::-1]
+            #print(probs)
         self.probs = np.array(probs)
+        #print(self.probs)
         if normalize:
             self.probs = self.probs/norm_1
 
@@ -128,22 +131,53 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
             join (ProbVector): the join of self and other.
         """
         if isinstance(other, ProbVector):
-            return self.tensor(other, normalize=False, rearrange=False)
+            return self.tensor(other, normalize=False, rearrange=True) # do not keep track of the tensor structure
         elif isinstance(other, float): # element-wise multiplication
             res = []
             for i in range(self.dim):
                 res.append(self[i]*other)
             res = ProbVector(res, normalize=False, rearrange=False)
             return res
+        
+    def __pow__(self, power): # we assume power >= 1, power 0 probably does not really make sense
+        if isinstance(power, int): # does fractional exponentiation exist for tensor products ? probably irrelevant
+            if power >=1:
+                res = self
+                for _ in range(power - 1):
+                    res = res * self
+            elif power == 0:
+                res = ProbVector([1])
+            else:
+                raise ValueError("Tensor exponentiation requires positive integer exponent")
+            return res
+        else:
+                raise ValueError("Tensor exponentiation requires positive integer exponent")
+        
+        
+    def zero_shave(self, rearrange=True):
+        ind = 0
+        for i in range(0, len(self), -1):
+            if self[i] != 0:
+                ind = i
+                break
+        if ind == len(self) - 1: # no zeroes found
+            res = self
+        else:
+            res = ProbVector(self.probs[:ind])
+        return res
     
     def zero_pad(self, other, rearrange=True):
         p = self
         q = other
         dim_diff = len(self) - len(other)
         if dim_diff > 0:
-            q = ProbVector(np.append(other, [0]*dim_diff), rearrange=rearrange)
+            q = ProbVector(np.append(other, [0]*dim_diff), rearrange=rearrange, normalize=False)
+            p = ProbVector(p, rearrange=rearrange)
         elif dim_diff < 0:
-            p = ProbVector(np.append(self, [0]*-dim_diff), rearrange=rearrange)
+            p = ProbVector(np.append(self, [0]*-dim_diff), rearrange=rearrange, normalize=False)
+            q = ProbVector(q, rearrange=rearrange)
+        #print(p)
+        #print(q)
         return p, q
 
     def meet(self, other):  # alias
@@ -211,11 +245,12 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
         join = ProbVector(b)
         return join  # returns the lub
     
-    def tensor(self, other, rearrange=True, normalize=True):
-        p, q = self.zero_pad(other)
+    def tensor(self, other, rearrange=True, normalize=False): # rearrange = True by default because no need to keep track of the tensor structure in our setting
         r = []
-        for a in p:
-            for b in q:
+        for a in self: # row i = p_i * q
+            #print(a)
+            for b in other: # column j = p * q_j
+                #print(b)
                 r.append(a*b)
         return ProbVector(r, rearrange=rearrange, normalize=normalize)
 
@@ -232,6 +267,8 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
         res = ProbVector(res, normalize=False, rearrange=False)
         return res
 
+    def rearrange(self):
+        self.probs = np.sort(self.probs)[::-1] # rearranges vector
 
 
 class StochMatrix():

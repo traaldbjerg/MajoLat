@@ -329,6 +329,8 @@ def split_resource(d, f, split):
 
 def vidal_probability(initial, final): # computes the optimal SLOCC success probability according to Vidal's theorem (supermajorization criterion)
     p, q = initial.zero_pad(final, rearrange=True)
+    #print(p)
+    #print(q)
     proba = 1
     p_sum = 0
     q_sum = 0

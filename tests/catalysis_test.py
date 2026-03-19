@@ -8,7 +8,7 @@ import itertools
 
 
 
-def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, bank_size=4, hypothesis=True):
+def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, n=4, hypothesis=True):
     """Implements a generic hypothesis test through statistical sampling. The code should be tweaked manually to change the hypothesis.
 
     Args:
@@ -39,12 +39,10 @@ def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, bank_size=
             q = ProbVector(np.random.dirichlet(np.ones(dimensions))) # uniform over k-1 simplex
             if not (p < q or p > q):
                 switch = False
-            
-        #for alpha in range(1, 9999):
-        #    alpha = alpha / 10000
+                
         direct_proba = vidal_probability(p, q)
-        double_proba = vidal_probability(p * p, p * q)
-        supermod_proba = vidal_probability(p * p, (p + q) * (p - q))
+        double_proba = vidal_probability(p ** n , p ** (n-1) * q)
+        supermod_proba = vidal_probability(p ** n, (p + q) * (p - q) * p ** (n-2))
         vidal_direct_average += direct_proba
         vidal_double_average += double_proba
         vidal_supermod_average += supermod_proba
@@ -79,40 +77,16 @@ def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, bank_size=
     print(double_worse)
     print(supermod_better)
     print(supermod_worse)
-            #print("Counterexample found:")
-            #print(p)
-            #print(q)
-            #print(p + q)
-            #print(p - q)
-            #print(vidal_probability(p * p, p * q))
-            #print(vidal_probability(p * p, (p + q) * (p - q)))
-        #        print(alpha)
-        #        switch = True
-        #if switch:
-    #record += 1
-        #    switch = False
-    #print(record)
-        
-    #print(record)
+    
     return hypothesis, comp
 
-def generate_bank(dims, total, ocr=0, distribution=None):
-    if distribution == None:
-        distribution = np.ones(dims) # sample uniformly
-    b = []
-    for i in range(total - ocr): # number of normal states
-        b.append(ProbVector(np.random.dirichlet(distribution)))
-    for _ in range(ocr): # number of jokers
-        b.append(ProbVector([1/dims for _ in range(dims)]))
-    return b
-
 if __name__ == "__main__":
-    dimensions = 3
-    tries = 10000
+    dimensions = 7
+    tries = 1000
     ratio = 0
     comp = 0
-    bank_size = 5
+    n = 4
     hypothesis = True
 
-    hypothesis, comp = generate_attempts(dimensions=dimensions, tries=tries, ratio=ratio, comp=comp, bank_size=bank_size, hypothesis=hypothesis)
+    hypothesis, comp = generate_attempts(dimensions=dimensions, tries=tries, ratio=ratio, comp=comp, n=n, hypothesis=hypothesis)
     print(hypothesis)
