@@ -39,8 +39,9 @@ def generate_attempts(dimensions = 5, tries = 10000, ratio=0, comp=0, n=3, hypot
             print(res_direct)
             print(res_multi)
             print(res_supermod)
+            record += 1
         
-    #print(record)
+    print(record)
     return hypothesis, comp
 
 def generate_bank(dims, total, ocr=0, distribution=None):
@@ -55,10 +56,10 @@ def generate_bank(dims, total, ocr=0, distribution=None):
 
 if __name__ == "__main__":
     dimensions = 4
-    tries = 1
+    tries = 10000
     ratio = 0
     comp = 0
-    n = 2
+    n = 7
     hypothesis = True
 
     hypothesis, comp = generate_attempts(dimensions=dimensions, tries=tries, ratio=ratio, comp=comp, n=n, hypothesis=hypothesis)
