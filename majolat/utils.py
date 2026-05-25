@@ -82,12 +82,25 @@ def relative_entropy(p, q):
             return np.inf
         elif p_new[i] == 0 and q_new[i] == 0:
             pass
-        elif p_new[i] == 0 and q_new[i] > 0:
-            pass
+        #elif p_new[i] == 0 and q_new[i] > 0:
+        #    pass
         else:
             res += p_new[i]*np.log2(p_new[i]/q_new[i])
     return res
 
+def W_divergence(p, q, alpha): # Ho and Verdu's W function
+    def phi(x):
+        return (x ** alpha - x)/(1 - alpha)
+    def phi_prime(x):
+        return (alpha * x ** (alpha-1) - 1)/(1 - alpha)
+    def delta(x, y):
+        return (x - y) * phi_prime(y) + phi(y) - phi(x)
+    res = 0
+    p, q = p.zero_pad(q)
+    for i in range(len(p)):
+        res += delta(p[i], q[i])
+    return res
+    
 
 
 ### SUPERMODULARITY ###
@@ -104,7 +117,10 @@ def hr_entropy(p, alpha): # alpha-Hayashi-Renyi entropy
     return 1/(1 - alpha) * np.log2(np.sum([pi**alpha for pi in p]))
 
 def tsallis_entropy(p, alpha): # Tsallis entropy
-    return 1/(alpha - 1) * (1 - np.sum([pi**alpha for pi in p]))
+    if alpha == 1:
+        return entropy(p)
+    else:
+        return 1/(1 - alpha) * (np.sum([pi**alpha for pi in p]) - 1)
 
 def sm_entropy(p, alpha, beta): # Sharma-Mittal entropy
     return 1/(beta - 1) * (1 - (np.sum([pi**alpha for pi in p])))**((1 - beta)/(1 - alpha))

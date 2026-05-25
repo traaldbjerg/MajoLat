@@ -140,7 +140,7 @@ class ProbVector():  # notations from Cicalese and Vaccaro 2002
             return res
         
     def __pow__(self, power): # we assume power >= 1, power 0 probably does not really make sense
-        if isinstance(power, int): # does fractional exponentiation exist for tensor products ? probably irrelevant
+        if isinstance(power, int): # does fractional exponentiation exist for tensor products ?
             if power >=1:
                 res = self
                 for _ in range(power - 1):
