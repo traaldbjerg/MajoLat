@@ -88,11 +88,12 @@ def relative_entropy(p, q):
             res += p_new[i]*np.log2(p_new[i]/q_new[i])
     return res
 
-def W_divergence(p, q, alpha): # Ho and Verdu's W function
-    def phi(x):
-        return (x ** alpha - x)/(1 - alpha)
-    def phi_prime(x):
-        return (alpha * x ** (alpha-1) - 1)/(1 - alpha)
+def W_divergence(p, q, alpha=0, phi=None, phi_prime=None): # Ho and Verdu's W function
+    if phi == None:
+        def phi(x):
+            return (x ** alpha - x)/(1 - alpha)
+        def phi_prime(x):
+            return (alpha * x ** (alpha-1) - 1)/(1 - alpha)
     def delta(x, y):
         return (x - y) * phi_prime(y) + phi(y) - phi(x)
     res = 0
